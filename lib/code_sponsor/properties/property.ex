@@ -7,6 +7,7 @@ defmodule CodeSponsor.Properties.Property do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "properties" do
+    has_many :impressions, CodeSponsor.Impressions.Impression
     belongs_to :user, CodeSponsor.Coherence.User
 
     field :description, :string

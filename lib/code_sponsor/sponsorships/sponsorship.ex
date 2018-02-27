@@ -7,6 +7,7 @@ defmodule CodeSponsor.Sponsorships.Sponsorship do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "sponsorships" do
+    has_many :impressions, CodeSponsor.Impressions.Impression
     belongs_to :property, CodeSponsor.Properties.Property
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 

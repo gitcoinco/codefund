@@ -7,6 +7,7 @@ defmodule CodeSponsor.Campaigns.Campaign do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do
+    has_many :impressions, CodeSponsor.Impressions.Impression
     belongs_to :user, CodeSponsor.Coherence.User
     
     field :name, :string

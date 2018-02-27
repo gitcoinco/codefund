@@ -1,0 +1,98 @@
+<h2>Show Impression</h2>
+
+<ul>
+
+  <li>
+    <strong>Ip:</strong>
+    <%= @impression.ip %>
+  </li>
+
+  <li>
+    <strong>User agent:</strong>
+    <%= @impression.user_agent %>
+  </li>
+
+  <li>
+    <strong>Browser:</strong>
+    <%= @impression.browser %>
+  </li>
+
+  <li>
+    <strong>Os:</strong>
+    <%= @impression.os %>
+  </li>
+
+  <li>
+    <strong>Device type:</strong>
+    <%= @impression.device_type %>
+  </li>
+
+  <li>
+    <strong>Screen height:</strong>
+    <%= @impression.screen_height %>
+  </li>
+
+  <li>
+    <strong>Screen width:</strong>
+    <%= @impression.screen_width %>
+  </li>
+
+  <li>
+    <strong>Country:</strong>
+    <%= @impression.country %>
+  </li>
+
+  <li>
+    <strong>Region:</strong>
+    <%= @impression.region %>
+  </li>
+
+  <li>
+    <strong>City:</strong>
+    <%= @impression.city %>
+  </li>
+
+  <li>
+    <strong>Postal code:</strong>
+    <%= @impression.postal_code %>
+  </li>
+
+  <li>
+    <strong>Latitude:</strong>
+    <%= @impression.latitude %>
+  </li>
+
+  <li>
+    <strong>Longitude:</strong>
+    <%= @impression.longitude %>
+  </li>
+
+  <li>
+    <strong>Utm source:</strong>
+    <%= @impression.utm_source %>
+  </li>
+
+  <li>
+    <strong>Utm medium:</strong>
+    <%= @impression.utm_medium %>
+  </li>
+
+  <li>
+    <strong>Utm term:</strong>
+    <%= @impression.utm_term %>
+  </li>
+
+  <li>
+    <strong>Utm content:</strong>
+    <%= @impression.utm_content %>
+  </li>
+
+  <li>
+    <strong>Utm campaign:</strong>
+    <%= @impression.utm_campaign %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: impression_path(@conn, :edit, @impression) %></span>
+<span><%= link "Back", to: impression_path(@conn, :index) %></span>

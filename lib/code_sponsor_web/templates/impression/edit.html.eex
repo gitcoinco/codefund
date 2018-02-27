@@ -1,0 +1,5 @@
+<h2>Edit Impression</h2>
+
+<%= render "form.html", Map.put(assigns, :action, impression_path(@conn, :update, @impression)) %>
+
+<span><%= link "Back", to: impression_path(@conn, :index) %></span>

@@ -47,7 +47,7 @@ defmodule CodeSponsorWeb.Router do
     resources "/campaigns", CampaignController
     resources "/sponsorships", SponsorshipController
     # resources "/clicks", ClickController
-    # resources "/impressions", ImpressionController
+    resources "/impressions", ImpressionController
   end
 
   # Other scopes may use custom stacks.
