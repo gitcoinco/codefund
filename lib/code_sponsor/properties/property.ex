@@ -12,6 +12,9 @@ defmodule CodeSponsor.Properties.Property do
     belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
     belongs_to :user, CodeSponsor.Coherence.User
 
+    # This is used to tranfer legacy sponsored projects to the new system
+    field :legacy_id, :string
+    
     field :description, :string
     field :name, :string
     field :property_type, :integer

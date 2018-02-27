@@ -4,6 +4,7 @@ defmodule CodeSponsor.Repo.Migrations.CreateProperties do
   def change do
     create table(:properties, primary_key: false) do
       add :id, :binary_id, primary_key: true
+      add :legacy_id, :string
       add :name, :string, null: false
       add :url, :text, null: false
       add :description, :text
