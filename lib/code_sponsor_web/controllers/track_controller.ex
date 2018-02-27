@@ -23,15 +23,20 @@ defmodule CodeSponsorWeb.TrackController do
   end
 
   defp track_impression(conn, sponsorship, params) do
+    ip_address  = conn.remote_ip |> Tuple.to_list |> Enum.join(".")
+    user_agent  = conn |> get_req_header("user-agent") |> Enum.at(0)
+    is_bot      = Browser.bot?(conn)
+    browser     = Browser.name(user_agent)
+    os          = Atom.to_string(Browser.platform(user_agent))
 
-    IO.puts(params["utm_foo"])
-    IO.puts(inspect(params))
-
-    ip_address = conn.remote_ip |> Tuple.to_list |> Enum.join(".")
-    user_agent = conn |> get_req_header("user-agent") |> Enum.at(0)
-    is_bot     = Browser.bot?(conn)
-    browser    = Browser.name(user_agent)
-    os         = Atom.to_string(Browser.platform(user_agent))
+    # Override of Browser method `device_type` because it wasn't working
+    device_type = cond do
+                    Browser.mobile?(user_agent)  -> "mobile"
+                    Browser.tablet?(user_agent)  -> "tablet"
+                    Browser.console?(user_agent) -> "console"
+                    Browser.known?(user_agent)   -> "desktop"
+                    true                         -> "unknown"
+                  end
 
     impression_params = %{
       property_id:    sponsorship.property_id,
@@ -40,7 +45,7 @@ defmodule CodeSponsorWeb.TrackController do
       ip:             ip_address,
       browser:        browser,
       os:             os,
-      device_type:    nil, # Browser.device_type(user_agent),
+      device_type:    device_type,
       city:           nil,
       region:         nil,
       postal_code:    nil,

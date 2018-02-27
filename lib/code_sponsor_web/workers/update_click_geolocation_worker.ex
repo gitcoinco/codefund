@@ -1,4 +1,4 @@
-defmodule CodeSponsorWeb.UpdateImpressionGeolocationWorker do
+defmodule CodeSponsorWeb.UpdateClickGeolocationWorker do
   alias CodeSponsor.Clicks
 
   def perform(click_id) do
