@@ -23,6 +23,29 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :money,
+  default_currency: :USD,
+  separator: ",",
+  delimeter: ".",
+  symbol: true,
+  symbol_on_right: false,
+  symbol_space: false
+
+config :exq,
+  name: Exq,
+  # password: "optional_redis_auth",
+  namespace: "exq",
+  concurrency: :infinite,
+  queues: ["cs_low", "cs_default", "cs_high"],
+  poll_timeout: 50,
+  scheduler_poll_timeout: 200,
+  scheduler_enable: true,
+  max_retries: 25,
+  shutdown_timeout: 5000
+
+config :exq_ui,
+  server: true
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

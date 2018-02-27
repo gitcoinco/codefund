@@ -23,6 +23,19 @@ defmodule CodeSponsorWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
+  
+  pipeline :exq do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :put_secure_browser_headers
+    plug ExqUi.RouterPlug, namespace: "exq"
+  end
+
+  scope "/exq", ExqUi do
+    pipe_through :exq
+    forward "/", RouterPlug.Router, :index
+  end
 
   scope "/" do
     pipe_through :browser
@@ -34,10 +47,15 @@ defmodule CodeSponsorWeb.Router do
     coherence_routes :protected
   end
 
+  # LEGACY IMPRESSION LINK: https://codesponsor.io/t/l/653d56e083fec2a9ae1b6c7cde4e5f5f/pixel.png
+  # LEGACY CLICK LINK: https://codesponsor.io/t/c/653d56e083fec2a9ae1b6c7cde4e5f5f/
+
   scope "/", CodeSponsorWeb do
     pipe_through :browser
     
     get "/", PageController, :index
+    get "/t/l/:property_id/pixel.png", TrackController, :pixel
+    get "/t/l/:property_id/logo.png", TrackController, :logo
   end
 
   scope "/", CodeSponsorWeb do

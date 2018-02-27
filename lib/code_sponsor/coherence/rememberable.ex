@@ -16,7 +16,7 @@ defmodule CodeSponsor.Coherence.Rememberable do
     field :series_hash, :string
     field :token_hash, :string
     field :token_created_at, Timex.Ecto.DateTime
-    belongs_to :user, Module.concat(Config.module, Config.user_schema), type: :binary_id
+    belongs_to :user, CodeSponsor.Coherence.User, type: :binary_id
 
     timestamps()
   end

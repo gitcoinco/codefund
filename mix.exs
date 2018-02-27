@@ -20,7 +20,15 @@ defmodule CodeSponsor.Mixfile do
   def application do
     [
       mod: {CodeSponsor.Application, []},
-      extra_applications: [:logger, :runtime_tools, :coherence]
+      extra_applications: [
+        :ex_machina,
+        :logger,
+        :runtime_tools,
+        :coherence,
+        :exq,
+        :exq_ui,
+        :geoip
+      ]
     ]
   end
 
@@ -43,7 +51,12 @@ defmodule CodeSponsor.Mixfile do
       {:cowboy, "~> 1.0"},
       {:money, "~> 1.2.1"},
       {:number, "~> 0.5.4"},
-      {:coherence, "~> 0.5"}
+      {:coherence, "~> 0.5"},
+      {:ex_machina, "~> 2.1"},
+      {:browser, "~> 0.1.0"},
+      {:exq, "~> 0.10.1"},
+      {:exq_ui, "~> 0.9.0"},
+      {:geoip, "~> 0.1"}
     ]
   end
 
@@ -55,7 +68,7 @@ defmodule CodeSponsor.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "code_sponsor.seed"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
