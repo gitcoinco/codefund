@@ -1,0 +1,5 @@
+<h2>New Property</h2>
+
+<%= render "form.html", Map.put(assigns, :action, property_path(@conn, :create)) %>
+
+<span><%= link "Back", to: property_path(@conn, :index) %></span>

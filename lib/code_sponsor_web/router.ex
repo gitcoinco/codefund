@@ -43,7 +43,7 @@ defmodule CodeSponsorWeb.Router do
   scope "/", CodeSponsorWeb do
     pipe_through :protected
     
-    # resources "/properties", PropertyController
+    resources "/properties", PropertyController
     # resources "/campaigns", CampaignController
     # resources "/sponsorships", SponsorshipController
     # resources "/clicks", ClickController
