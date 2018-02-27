@@ -1,0 +1,118 @@
+<h2>Show Click</h2>
+
+<ul>
+
+  <li>
+    <strong>Ip:</strong>
+    <%= @click.ip %>
+  </li>
+
+  <li>
+    <strong>User agent:</strong>
+    <%= @click.user_agent %>
+  </li>
+
+  <li>
+    <strong>Referrer:</strong>
+    <%= @click.referrer %>
+  </li>
+
+  <li>
+    <strong>Landing page:</strong>
+    <%= @click.landing_page %>
+  </li>
+
+  <li>
+    <strong>Referring domain:</strong>
+    <%= @click.referring_domain %>
+  </li>
+
+  <li>
+    <strong>Search keyword:</strong>
+    <%= @click.search_keyword %>
+  </li>
+
+  <li>
+    <strong>Browser:</strong>
+    <%= @click.browser %>
+  </li>
+
+  <li>
+    <strong>Os:</strong>
+    <%= @click.os %>
+  </li>
+
+  <li>
+    <strong>Device type:</strong>
+    <%= @click.device_type %>
+  </li>
+
+  <li>
+    <strong>Screen height:</strong>
+    <%= @click.screen_height %>
+  </li>
+
+  <li>
+    <strong>Screen width:</strong>
+    <%= @click.screen_width %>
+  </li>
+
+  <li>
+    <strong>Country:</strong>
+    <%= @click.country %>
+  </li>
+
+  <li>
+    <strong>Region:</strong>
+    <%= @click.region %>
+  </li>
+
+  <li>
+    <strong>City:</strong>
+    <%= @click.city %>
+  </li>
+
+  <li>
+    <strong>Postal code:</strong>
+    <%= @click.postal_code %>
+  </li>
+
+  <li>
+    <strong>Latitude:</strong>
+    <%= @click.latitude %>
+  </li>
+
+  <li>
+    <strong>Longitude:</strong>
+    <%= @click.longitude %>
+  </li>
+
+  <li>
+    <strong>Utm source:</strong>
+    <%= @click.utm_source %>
+  </li>
+
+  <li>
+    <strong>Utm medium:</strong>
+    <%= @click.utm_medium %>
+  </li>
+
+  <li>
+    <strong>Utm term:</strong>
+    <%= @click.utm_term %>
+  </li>
+
+  <li>
+    <strong>Utm content:</strong>
+    <%= @click.utm_content %>
+  </li>
+
+  <li>
+    <strong>Utm campaign:</strong>
+    <%= @click.utm_campaign %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: click_path(@conn, :edit, @click) %></span>
+<span><%= link "Back", to: click_path(@conn, :index) %></span>

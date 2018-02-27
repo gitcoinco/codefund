@@ -1,11 +1,15 @@
-defmodule CodeSponsor.Repo.Migrations.CreateImpressions do
+defmodule CodeSponsor.Repo.Migrations.CreateClicks do
   use Ecto.Migration
 
   def change do
-    create table(:impressions, primary_key: false) do
+    create table(:clicks, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :ip, :string, null: false
       add :user_agent, :text
+      add :referrer, :text
+      add :landing_page, :text
+      add :referring_domain, :string
+      add :search_keyword, :string
       add :browser, :string
       add :os, :string
       add :device_type, :string
@@ -29,9 +33,9 @@ defmodule CodeSponsor.Repo.Migrations.CreateImpressions do
       timestamps()
     end
 
-    create index(:impressions, [:ip])
-    create index(:impressions, [:sponsorship_id])
-    create index(:impressions, [:property_id])
-    create index(:impressions, [:campaign_id])
+    create index(:clicks, [:ip])
+    create index(:clicks, [:sponsorship_id])
+    create index(:clicks, [:property_id])
+    create index(:clicks, [:campaign_id])
   end
 end

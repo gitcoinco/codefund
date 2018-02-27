@@ -8,6 +8,7 @@ defmodule CodeSponsor.Properties.Property do
   @foreign_key_type :binary_id
   schema "properties" do
     has_many :impressions, CodeSponsor.Impressions.Impression
+    has_many :clicks, CodeSponsor.Clicks.Click
     belongs_to :user, CodeSponsor.Coherence.User
 
     field :description, :string

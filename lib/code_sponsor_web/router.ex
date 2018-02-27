@@ -46,7 +46,7 @@ defmodule CodeSponsorWeb.Router do
     resources "/properties", PropertyController
     resources "/campaigns", CampaignController
     resources "/sponsorships", SponsorshipController
-    # resources "/clicks", ClickController
+    resources "/clicks", ClickController
     resources "/impressions", ImpressionController
   end
 

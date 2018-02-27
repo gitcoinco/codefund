@@ -8,6 +8,7 @@ defmodule CodeSponsor.Campaigns.Campaign do
   @foreign_key_type :binary_id
   schema "campaigns" do
     has_many :impressions, CodeSponsor.Impressions.Impression
+    has_many :clicks, CodeSponsor.Clicks.Click
     belongs_to :user, CodeSponsor.Coherence.User
     
     field :name, :string
