@@ -7,11 +7,12 @@ defmodule CodeSponsor.Properties.Property do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "properties" do
+    belongs_to :user, CodeSponsor.Coherence.User
+
     field :description, :string
     field :name, :string
     field :property_type, :integer
     field :url, :string
-    field :user_id, :binary_id
 
     timestamps()
   end
