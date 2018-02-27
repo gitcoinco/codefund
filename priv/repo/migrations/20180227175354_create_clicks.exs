@@ -5,6 +5,7 @@ defmodule CodeSponsor.Repo.Migrations.CreateClicks do
     create table(:clicks, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :ip, :string, null: false
+      add :bot, :boolean, default: false
       add :user_agent, :text
       add :referrer, :text
       add :landing_page, :text

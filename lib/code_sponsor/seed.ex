@@ -13,7 +13,7 @@ defmodule Mix.Tasks.CodeSponsor.Seed do
     developer   = insert(:user, %{email: "developer@example.com", first_name: "Alberta", last_name: "Lemon"})
     campaign    = insert(:campaign, %{user: sponsor})
     property    = insert(:property, %{user: developer})
-    sponsorship = insert(:sponsorship, %{campaign: campaign, property: property})
+    sponsorship = insert(:sponsorship, %{campaign: campaign, property: property, redirect_url: campaign.redirect_url})
 
     # Assign sponsorship to property
     case Properties.update_property(property, %{"sponsorship_id" => sponsorship.id}) do

@@ -1,8 +1,8 @@
-defmodule CodeSponsor.Repo.Migrations.AddCurrentSponsorshipIdToProperties do
+defmodule CodeSponsor.Repo.Migrations.AddSponsorshipToProperties do
   use Ecto.Migration
 
   def change do
-    alter table(:properties) do
+    alter table("properties") do
       add :sponsorship_id, references(:sponsorships, on_delete: :nothing, type: :binary_id)
     end
 

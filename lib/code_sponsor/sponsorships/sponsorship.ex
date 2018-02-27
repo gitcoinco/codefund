@@ -13,6 +13,7 @@ defmodule CodeSponsor.Sponsorships.Sponsorship do
     belongs_to :property, CodeSponsor.Properties.Property
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
+    field :redirect_url, :string
     field :bid_amount_cents, Money.Ecto.Type
     
     timestamps()

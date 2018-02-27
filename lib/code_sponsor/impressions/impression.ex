@@ -11,6 +11,7 @@ defmodule CodeSponsor.Impressions.Impression do
     belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
+    field :bot, :boolean
     field :browser, :string
     field :city, :string
     field :country, :string

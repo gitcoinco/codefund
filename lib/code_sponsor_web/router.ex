@@ -56,6 +56,7 @@ defmodule CodeSponsorWeb.Router do
     get "/", PageController, :index
     get "/t/l/:property_id/pixel.png", TrackController, :pixel
     get "/t/l/:property_id/logo.png", TrackController, :logo
+    get "/t/c/:property_id/", TrackController, :click
   end
 
   scope "/", CodeSponsorWeb do

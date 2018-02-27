@@ -5,6 +5,7 @@ defmodule CodeSponsor.Repo.Migrations.CreateImpressions do
     create table(:impressions, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :ip, :string, null: false
+      add :bot, :boolean, default: false
       add :user_agent, :text
       add :browser, :string
       add :os, :string
