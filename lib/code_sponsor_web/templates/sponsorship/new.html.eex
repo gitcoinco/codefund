@@ -1,0 +1,5 @@
+<h2>New Sponsorship</h2>
+
+<%= render "form.html", Map.put(assigns, :action, sponsorship_path(@conn, :create)) %>
+
+<span><%= link "Back", to: sponsorship_path(@conn, :index) %></span>

@@ -1,0 +1,26 @@
+<h2>Listing Sponsorships</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Bid amount cents</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for sponsorship <- @sponsorships do %>
+    <tr>
+      <td><%= sponsorship.bid_amount_cents %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: sponsorship_path(@conn, :show, sponsorship), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: sponsorship_path(@conn, :edit, sponsorship), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: sponsorship_path(@conn, :delete, sponsorship), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Sponsorship", to: sponsorship_path(@conn, :new) %></span>

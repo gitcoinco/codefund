@@ -1,0 +1,13 @@
+<h2>Show Sponsorship</h2>
+
+<ul>
+
+  <li>
+    <strong>Bid amount cents:</strong>
+    <%= @sponsorship.bid_amount_cents %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: sponsorship_path(@conn, :edit, @sponsorship) %></span>
+<span><%= link "Back", to: sponsorship_path(@conn, :index) %></span>
