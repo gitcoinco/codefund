@@ -9,7 +9,7 @@ defmodule CodeSponsor.Coherence.User do
   schema "users" do
     # has_many :developer_sponsorships, CodeSponsor.Sponsorships.Sponsorship, foreign_key: :developer_id
     # has_many :sponsor_sponsorships, CodeSponsor.Sponsorships.Sponsorship, foreign_key: :sponsor_id
-    # has_many :campaigns, CodeSponsor.Campaigns.Campaign
+    has_many :campaigns, CodeSponsor.Campaigns.Campaign
     has_many :properties, CodeSponsor.Properties.Property
 
     field :first_name, :string

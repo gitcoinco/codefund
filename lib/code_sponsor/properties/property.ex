@@ -21,6 +21,6 @@ defmodule CodeSponsor.Properties.Property do
   def changeset(%Property{} = property, attrs) do
     property
     |> cast(attrs, [:name, :url, :description, :property_type])
-    |> validate_required([:name, :url, :description, :property_type])
+    |> validate_required([:name, :url, :property_type])
   end
 end

@@ -1,0 +1,43 @@
+<h2>Show Campaign</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @campaign.name %>
+  </li>
+
+  <li>
+    <strong>Redirect url:</strong>
+    <%= @campaign.redirect_url %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @campaign.status %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @campaign.description %>
+  </li>
+
+  <li>
+    <strong>Daily budget cents:</strong>
+    <%= @campaign.daily_budget_cents %>
+  </li>
+
+  <li>
+    <strong>Monthly budget cents:</strong>
+    <%= @campaign.monthly_budget_cents %>
+  </li>
+
+  <li>
+    <strong>Bid amount cents:</strong>
+    <%= @campaign.bid_amount_cents %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: campaign_path(@conn, :edit, @campaign) %></span>
+<span><%= link "Back", to: campaign_path(@conn, :index) %></span>

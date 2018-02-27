@@ -1,0 +1,38 @@
+<h2>Listing Campaigns</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Redirect url</th>
+      <th>Status</th>
+      <th>Description</th>
+      <th>Daily budget cents</th>
+      <th>Monthly budget cents</th>
+      <th>Bid amount cents</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for campaign <- @campaigns do %>
+    <tr>
+      <td><%= campaign.name %></td>
+      <td><%= campaign.redirect_url %></td>
+      <td><%= campaign.status %></td>
+      <td><%= campaign.description %></td>
+      <td><%= campaign.daily_budget_cents %></td>
+      <td><%= campaign.monthly_budget_cents %></td>
+      <td><%= campaign.bid_amount_cents %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: campaign_path(@conn, :show, campaign), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: campaign_path(@conn, :edit, campaign), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: campaign_path(@conn, :delete, campaign), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Campaign", to: campaign_path(@conn, :new) %></span>
