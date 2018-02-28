@@ -1,0 +1,48 @@
+run.config:
+  # elixir runtime
+  engine: elixir
+
+  # we need nodejs in development
+  # ensure inotify exists for hot-code reloading
+  dev_packages:
+    - nodejs
+    - inotify-tools
+
+  # cache node_modules
+  cache_dirs:
+    - node_modules
+
+  # add node_module bins to the $PATH
+  extra_path_dirs:
+    - node_modules/.bin
+
+  # changes to these files will trigger a new build
+  # build_triggers:
+  #   - config.exs
+  #   - mix.exs
+  #   - package.json
+
+  # enable the filesystem watcher
+  fs_watch: true
+
+deploy.config:
+  # generate the static assets digest
+  extra_steps:
+    - mix phx.digest
+
+  # just before the new process comes online,
+  # let's migrate the database
+  before_live:
+    web.main:
+      - mix ecto.create --quiet
+      - mix ecto.migrate
+
+# add postgres as a data component
+data.db:
+  image: nanobox/postgresql:9.6
+
+data.redis:
+  image: nanobox/redis:3.0
+
+web.main:
+  start: node-start mix phx.server

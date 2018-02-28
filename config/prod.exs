@@ -59,6 +59,20 @@ config :logger, level: :info
 #     config :code_sponsor, CodeSponsorWeb.Endpoint, server: true
 #
 
+config :code_sponsor, CodeSponsorWeb.Endpoint,
+  http: [port: 8080],
+  url: [host: "codesponsor.io", port: 80],
+  cache_static_manifest: "priv/static/manifest.json",
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
+
+config :code_sponsor, CodeSponsor.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: System.get_env("DATA_DB_USER"),
+  password: System.get_env("DATA_DB_PASS"),
+  hostname: System.get_env("DATA_DB_HOST"),
+  database: "gonano",
+  pool_size: 20
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"

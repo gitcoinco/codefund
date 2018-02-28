@@ -13,7 +13,7 @@ config :code_sponsor,
 # Configures the endpoint
 config :code_sponsor, CodeSponsorWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "5OeHSXuD397XqYb8L30rE4azRbXr3gU2hD4Yq/RXizSz/ewa1MxlgSs4/gvgpwVm",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: CodeSponsorWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: CodeSponsor.PubSub,
            adapter: Phoenix.PubSub.PG2]
@@ -33,14 +33,20 @@ config :money,
 
 config :exq,
   name: Exq,
-  # password: "optional_redis_auth",
+  host: System.get_env("DATA_REDIS_HOST"),
+  port: 6379,
+  # password: System.get_env("DATA_REDIS_PASSWORD"),
   namespace: "exq",
   concurrency: :infinite,
-  queues: ["cs_low", "cs_default", "cs_high"],
+  queues: [
+    {"cs_high", 50},
+    {"cs_default", 10},
+    {"cs_low", 1}
+  ],
   poll_timeout: 50,
   scheduler_poll_timeout: 200,
   scheduler_enable: true,
-  max_retries: 25,
+  max_retries: 5,
   shutdown_timeout: 5000
 
 config :exq_ui,
@@ -59,11 +65,12 @@ config :coherence,
   router: CodeSponsorWeb.Router,
   messages_backend: CodeSponsorWeb.Coherence.Messages,
   logged_out_url: "/",
-  email_from_name: "Your Name",
-  email_from_email: "yourname@example.com",
+  email_from_name: "Code Sponsor Team",
+  email_from_email: "team@codesponsor.io",
   opts: [:authenticatable, :recoverable, :lockable, :trackable, :unlockable_with_token, :invitable, :registerable, :rememberable]
 
 config :coherence, CodeSponsorWeb.Coherence.Mailer,
-  adapter: Swoosh.Adapters.Sendgrid,
-  api_key: "your api key here"
+  adapter: Swoosh.Adapters.Mailgun,
+  api_key: System.get_env("MAILGUN_API_KEY"),
+  domain: System.get_env("MAILGUN_DOMAIN")
 # %% End Coherence Configuration %%
