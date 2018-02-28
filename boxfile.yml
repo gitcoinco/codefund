@@ -1,6 +1,9 @@
 run.config:
   # elixir runtime
   engine: elixir
+  engine.config:
+    runtime: elixir-1.6.1
+    erlang_runtime: erlang-20
 
   # we need nodejs in development
   # ensure inotify exists for hot-code reloading
@@ -10,17 +13,20 @@ run.config:
 
   # cache node_modules
   cache_dirs:
-    - node_modules
+    - assets/node_modules
 
   # add node_module bins to the $PATH
   extra_path_dirs:
-    - node_modules/.bin
+    - assets/node_modules/.bin
 
   # changes to these files will trigger a new build
   # build_triggers:
   #   - config.exs
   #   - mix.exs
   #   - package.json
+
+  extra_steps:
+    - cd assets && npm install
 
   # enable the filesystem watcher
   fs_watch: true

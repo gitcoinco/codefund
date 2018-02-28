@@ -50,7 +50,7 @@ Code Sponsor uses [Nanobox](https://nanobox.io) for development and deployment.
 #### Run the app
 
     # Add a convenient way to access your app from the browser
-    nanobox dns add local phoenix.dev
+    nanobox dns add local codesponsor.local
     
     # Set up environment variables
     nanobox evar add local \
@@ -63,7 +63,7 @@ Code Sponsor uses [Nanobox](https://nanobox.io) for development and deployment.
     
 #### Open in browser
 
-Visit your app at [http://phoenix.dev](http://phoenix.dev)
+Visit your app at [http://codesponsor.local:4000](http://codesponsor.local:4000)
 
 #### Explore
 
