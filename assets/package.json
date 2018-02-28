@@ -3,7 +3,9 @@
   "license": "MIT",
   "scripts": {
     "deploy": "brunch build --production",
-    "watch": "brunch watch --stdin"
+    "watch": "brunch watch --stdin",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
   },
   "dependencies": {
     "autoprefixer": "^8.0.0",
@@ -19,5 +21,8 @@
     "postcss-brunch": "^2.1.0",
     "sass-brunch": "^2.10.4",
     "uglify-js-brunch": "2.10.0"
+  },
+  "devDependencies": {
+    "all-contributors-cli": "^4.11.0"
   }
 }
