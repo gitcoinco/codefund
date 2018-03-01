@@ -18,6 +18,7 @@ defmodule CodeSponsorWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug Coherence.Authentication.Session, protected: true
+    plug :put_layout, {CodeSponsorWeb.LayoutView, :admin}
   end
 
   pipeline :api do
@@ -61,7 +62,8 @@ defmodule CodeSponsorWeb.Router do
 
   scope "/", CodeSponsorWeb do
     pipe_through :protected
-    
+
+    get "/dashboard", DashboardController, :index
     resources "/properties", PropertyController
     resources "/campaigns", CampaignController
     resources "/sponsorships", SponsorshipController

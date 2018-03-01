@@ -1,37 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="<%= static_path(@conn, "/images/code-sponsor-logo-square.png") %>">
+  <title>Code Sponsor</title>
 
-    <title>Hello CodeSponsor!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-  </head>
+  <!-- Icons -->
+  <link href="<%= static_path(@conn, "/theme/css/flag-icon.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/font-awesome.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/simple-line-icons.min.css") %>" rel="stylesheet">
 
-  <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+  <!-- Main styles for this application -->
+  <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
 
-      <%= CodeSponsorWeb.Coherence.ViewHelpers.coherence_links(@conn, :layout) %>
+  <!-- Styles required by this views -->
+  <link href="<%= static_path(@conn, "/theme/css/daterangepicker.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/gauge.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/toastr.min.css") %>" rel="stylesheet">
+</head>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+<body class="app mt-5">
+  <div class="text-center">
+    <img src="<%= static_path(@conn, "/images/code-sponsor-logo-square.png") %>" />
+    <%= CodeSponsorWeb.Coherence.ViewHelpers.coherence_links(@conn, :layout) %>
+    <%= render @view_module, @view_template, assigns %>
+  </div>
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
+  <!-- Bootstrap and necessary plugins -->
+  <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/popper.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/bootstrap.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/pace.min.js") %>"></script>
 
-    </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-  </body>
+  <!-- Prime main scripts -->
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+  <!-- Plugins and scripts required by this views -->
+  <script src="<%= static_path(@conn, "/theme/js/toastr.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/gauge.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/moment.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/daterangepicker.min.js") %>"></script>
+
+</body>
 </html>

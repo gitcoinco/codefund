@@ -40,6 +40,8 @@ defmodule CodeSponsorWeb do
       import CodeSponsorWeb.Router.Helpers
       import CodeSponsorWeb.ErrorHelpers
       import CodeSponsorWeb.Gettext
+
+      import PhoenixActiveLink
     end
   end
 

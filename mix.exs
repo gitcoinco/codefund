@@ -56,7 +56,8 @@ defmodule CodeSponsor.Mixfile do
       {:browser, "~> 0.1.0"},
       {:exq, "~> 0.10.1"},
       {:exq_ui, "~> 0.9.0"},
-      {:geoip, "~> 0.1"}
+      {:geoip, "~> 0.1"},
+      {:phoenix_active_link, "~> 0.1.1"}
     ]
   end
 
