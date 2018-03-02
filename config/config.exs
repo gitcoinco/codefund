@@ -52,10 +52,6 @@ config :exq,
 config :exq_ui,
   server: true
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
-
 # %% Coherence Configuration %%   Don't remove this line
 config :coherence,
   user_schema: CodeSponsor.Coherence.User,
@@ -74,3 +70,12 @@ config :coherence, CodeSponsorWeb.Coherence.Mailer,
   api_key: System.get_env("MAILGUN_API_KEY"),
   domain: System.get_env("MAILGUN_DOMAIN")
 # %% End Coherence Configuration %%
+
+config :formulator,
+  translate_error_module: CodeSponsorWeb.ErrorHelpers,
+  validate: true,
+  validate_regex: true
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"

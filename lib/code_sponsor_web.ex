@@ -42,6 +42,7 @@ defmodule CodeSponsorWeb do
       import CodeSponsorWeb.Gettext
 
       import PhoenixActiveLink
+      import Formulator
     end
   end
 

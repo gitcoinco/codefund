@@ -16,7 +16,7 @@ defmodule CodeSponsorWeb.Coherence.UserEmail do
     |> to(user_email(user))
     |> add_reply_to()
     |> subject(dgettext("coherence", "%{site_name} - Reset password instructions", site_name: site_name()))
-    |> render_body("password.html", %{url: url, name: first_name(user.name)})
+    |> render_body("password.html", %{url: url, name: user.first_name})
   end
 
   def confirmation(user, url) do
@@ -25,7 +25,7 @@ defmodule CodeSponsorWeb.Coherence.UserEmail do
     |> to(user_email(user))
     |> add_reply_to()
     |> subject(dgettext("coherence", "%{site_name} - Confirm your new account", site_name: site_name()))
-    |> render_body("confirmation.html", %{url: url, name: first_name(user.name)})
+    |> render_body("confirmation.html", %{url: url, name: user.first_name})
   end
 
   def invitation(invitation, url) do
@@ -34,7 +34,7 @@ defmodule CodeSponsorWeb.Coherence.UserEmail do
     |> to(user_email(invitation))
     |> add_reply_to()
     |> subject(dgettext("coherence", "%{site_name} - Invitation to create a new account", site_name: site_name()))
-    |> render_body("invitation.html", %{url: url, name: first_name(invitation.name)})
+    |> render_body("invitation.html", %{url: url, name: invitation.first_name})
   end
 
   def unlock(user, url) do
@@ -43,7 +43,7 @@ defmodule CodeSponsorWeb.Coherence.UserEmail do
     |> to(user_email(user))
     |> add_reply_to()
     |> subject(dgettext("coherence", "%{site_name} - Unlock Instructions", site_name: site_name()))
-    |> render_body("unlock.html", %{url: url, name: first_name(user.name)})
+    |> render_body("unlock.html", %{url: url, name: user.first_name})
   end
 
   defp add_reply_to(mail) do
@@ -54,15 +54,8 @@ defmodule CodeSponsorWeb.Coherence.UserEmail do
     end
   end
 
-  defp first_name(name) do
-    case String.split(name, " ") do
-      [first_name | _] -> first_name
-      _ -> name
-    end
-  end
-
   defp user_email(user) do
-    {user.name, user.email}
+    {user.first_name, user.email}
   end
 
   defp from_email do

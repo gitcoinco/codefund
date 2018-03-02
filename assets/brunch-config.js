@@ -61,6 +61,8 @@ exports.config = {
           "node_modules/font-awesome/scss"
         ]
       }
+    },
+    postcss: {
     }
   },
 

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="<%= static_path(@conn, "/images/code-sponsor-logo-square.png") %>">
-  <title>Code Sponsor</title>
+  <title><%= title @conn, "Code Sponsor" %></title>
 
   <!-- Icons -->
   <link href="<%= static_path(@conn, "/theme/css/flag-icon.min.css") %>" rel="stylesheet">
@@ -21,12 +21,8 @@
   <link href="<%= static_path(@conn, "/theme/css/toastr.min.css") %>" rel="stylesheet">
 </head>
 
-<body class="app mt-5">
-  <div class="text-center">
-    <img src="<%= static_path(@conn, "/images/code-sponsor-logo-square.png") %>" />
-    <%= CodeSponsorWeb.Coherence.ViewHelpers.coherence_links(@conn, :layout) %>
-    <%= render @view_module, @view_template, assigns %>
-  </div>
+<body class="<%= body_class @conn, "app mt-5" %>">
+  <%= render @view_module, @view_template, assigns %>
 
   <!-- Bootstrap and necessary plugins -->
   <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
