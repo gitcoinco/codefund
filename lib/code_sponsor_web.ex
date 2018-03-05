@@ -20,6 +20,8 @@ defmodule CodeSponsorWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: CodeSponsorWeb
+      use Formex.Controller
+      use Formex.Ecto.Controller
       import Plug.Conn
       import CodeSponsorWeb.Router.Helpers
       import CodeSponsorWeb.Gettext
@@ -37,12 +39,15 @@ defmodule CodeSponsorWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
+      use Formex.View
+
       import CodeSponsorWeb.Router.Helpers
       import CodeSponsorWeb.ErrorHelpers
       import CodeSponsorWeb.Gettext
 
       import PhoenixActiveLink
-      import Formulator
+      import Scrivener.HTML
+      import CodeSponsorWeb.ViewHelpers
     end
   end
 

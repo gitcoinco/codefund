@@ -1,38 +1,73 @@
-<h2>Listing Campaigns</h2>
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Campaigns</li>
+  
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: campaign_path(@conn, :new), class: "btn" do %>
+        <i class="fa fa-plus"></i> Add Campaign
+      <% end %>
+    </div>
+  </li>
+</ol>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Redirect url</th>
-      <th>Status</th>
-      <th>Description</th>
-      <th>Daily budget cents</th>
-      <th>Monthly budget cents</th>
-      <th>Bid amount cents</th>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+    
+      <!-- This is left here for reference -->
+      <section style="display: none;">
+        <h3>Find Campaigns</h3>
+        <%= form_tag @conn.request_path, method: :get do %>
+          <div class="field">
+            <label>Name</label>
+            <%= filter_select(:property, :name, @conn.params) %>
+            <%= filter_string_input(:property, :name, @conn.params) %>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Search</button>
+          <%= link "Clear Filters", to: campaign_path(@conn, :index) %>
+        <% end %>
+      </section>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for campaign <- @campaigns do %>
-    <tr>
-      <td><%= campaign.name %></td>
-      <td><%= campaign.redirect_url %></td>
-      <td><%= campaign.status %></td>
-      <td><%= campaign.description %></td>
-      <td><%= campaign.daily_budget_cents %></td>
-      <td><%= campaign.monthly_budget_cents %></td>
-      <td><%= campaign.bid_amount_cents %></td>
-
-      <td class="text-right">
-        <span><%= link "Show", to: campaign_path(@conn, :show, campaign), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: campaign_path(@conn, :edit, campaign), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: campaign_path(@conn, :delete, campaign), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Campaign", to: campaign_path(@conn, :new) %></span>
+      <section>
+        <%= if length(@campaigns) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th><%= table_link(@conn, "Name", :name) %></th>
+                <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
+                <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid) %></th>
+                <th class="text-center"><%= table_link(@conn, "Daily Budget", :budget_daily) %></th>
+                <th class="text-center"><%= table_link(@conn, "Monthly Budget", :budget_monthly) %></th>
+                <th class="text-center"><%= table_link(@conn, "Total Budget", :budget_total) %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for campaign <- @campaigns do %>
+                <tr>
+                  <td><%= campaign.name %></td>
+                  <td class="text-center"><%= campaign_status campaign.status %></td>
+                  <td class="text-center"><%= pretty_money campaign.bid %></td>
+                  <td class="text-center"><%= pretty_money campaign.budget_daily %></td>
+                  <td class="text-center"><%= pretty_money campaign.budget_monthly %></td>
+                  <td class="text-center"><%= pretty_money campaign.budget_total %></td>
+                  <td class="text-right p-2">
+                    <%= link 'Show', to: campaign_path(@conn, :show, campaign), class: "btn btn-outline-info btn-sm" %>
+                    <%= link 'Edit', to: campaign_path(@conn, :edit, campaign), class: "btn btn-outline-primary btn-sm" %>
+                    <%= link 'Delete', to: campaign_path(@conn, :delete, campaign), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= render CodeSponsorWeb.PaginationView, "_pagination.html", assigns %>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

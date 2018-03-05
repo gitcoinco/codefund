@@ -1,53 +1,8 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<%= formex_form_for @form, @action, [method: @method, class: "form-horizontal"], fn f -> %>
+  <%= if @form.submitted? do %>
+    <div class="alert alert-danger" role="alert">
+      Oops, something went wrong! Please check the errors below.
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= label f, :name, class: "control-label" %>
-    <%= text_input f, :name, class: "form-control" %>
-    <%= error_tag f, :name %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :redirect_url, class: "control-label" %>
-    <%= textarea f, :redirect_url, class: "form-control" %>
-    <%= error_tag f, :redirect_url %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :status, class: "control-label" %>
-    <%= number_input f, :status, class: "form-control" %>
-    <%= error_tag f, :status %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :description, class: "control-label" %>
-    <%= textarea f, :description, class: "form-control" %>
-    <%= error_tag f, :description %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :daily_budget_cents, class: "control-label" %>
-    <%= number_input f, :daily_budget_cents, class: "form-control" %>
-    <%= error_tag f, :daily_budget_cents %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :monthly_budget_cents, class: "control-label" %>
-    <%= number_input f, :monthly_budget_cents, class: "form-control" %>
-    <%= error_tag f, :monthly_budget_cents %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :bid_amount_cents, class: "control-label" %>
-    <%= number_input f, :bid_amount_cents, class: "form-control" %>
-    <%= error_tag f, :bid_amount_cents %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
+  <%= formex_rows f %>
 <% end %>

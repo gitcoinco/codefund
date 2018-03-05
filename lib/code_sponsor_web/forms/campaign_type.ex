@@ -1,0 +1,47 @@
+defmodule CodeSponsorWeb.CampaignType do
+  use Formex.Type
+  alias Formex.Ecto.CustomField.SelectAssoc
+
+  def build_form(form) do
+    form
+    |> add(:name, :text_input, label: "Name", validation: [presence: true])
+    |> add(:redirect_url, :text_input, label: "Redirect URL", validation: [presence: true])
+    |> add(:status, :select, label: "Status", choices: ["Pending": 1, "Active": 2, "Archived": 3])
+    |> add(:description, :textarea, label: "Description", phoenix_opts: [ rows: 4 ], required: false)
+    |> add(:bid, :number_input,
+              label: "Bid Amount",
+              validation: [presence: true],
+              addon: "$",
+              phoenix_opts: [
+                step: "0.01",
+                min: "0"
+              ])
+    |> add(:budget_daily, :number_input,
+              label: "Daily Budget",
+              validation: [presence: true],
+              addon: "$",
+              phoenix_opts: [
+                step: "0.01",
+                min: "0"
+              ])
+    |> add(:budget_monthly, :number_input,
+              label: "Monthly Budget",
+              validation: [presence: true],
+              addon: "$",
+              phoenix_opts: [
+                step: "0.01",
+                min: "0"
+              ])
+    |> add(:budget_total, :number_input,
+              label: "Total Budget",
+              validation: [presence: true],
+              addon: "$",
+              phoenix_opts: [
+                step: "0.01",
+                min: "0"
+              ])
+    |> add(:save, :submit, label: "Submit", phoenix_opts: [
+      class: "btn-primary"
+    ])
+  end
+end

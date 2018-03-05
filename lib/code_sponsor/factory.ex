@@ -24,10 +24,10 @@ defmodule CodeSponsor.Factory do
       name: "Test Campaign",
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
       status: 1,
-      daily_budget_cents: 2500,
-      monthly_budget_cents: 50000,
-      total_budget_cents: 250000,
-      bid_amount_cents: 200,
+      budget_daily: 25.00,
+      budget_monthly: 500.00,
+      budget_total: 2500.00,
+      bid: 2.00,
       user: build(:user)
     }
   end
@@ -36,7 +36,7 @@ defmodule CodeSponsor.Factory do
     %CodeSponsor.Sponsorships.Sponsorship{
       property: build(:property),
       campaign: build(:campaign),
-      bid_amount_cents: 250
+      bid: 250.00
     }
   end
 end

@@ -32,7 +32,29 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="nav navbar-nav d-md-down-none mr-auto">
+      <li class="nav-item px-3">
+        <%= link "Dashboard", to: dashboard_path(@conn, :index), class: "nav-link" %>
+      </li>
+    </ul>
 
+    <ul class="nav navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <img src="<%= current_user_gravatar_url(@conn) %>" class="img-avatar" alt="<%= current_user_email(@conn) %>">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-header text-center">
+            <strong>Account</strong>
+          </div>
+          <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
+          <%= link to: session_path(@conn, :delete), method: :delete, class: "dropdown-item" do %>
+            <i class="fa fa-lock"></i> Logout
+          <% end %>
+        </div>
+      </li>
+      <button class="navbar-toggler aside-menu-toggler" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </ul>
   </header>
   <div class="app-body">
@@ -40,40 +62,40 @@
       <nav class="sidebar-nav">
         <ul class="nav">
           <li class="nav-item">
-            <%= active_link(@conn, to: "/dashboard", class: "nav-link") do %>
-              <span class="fa-wrapper"><i class="fas fa-tachometer-alt"></i></span>
+            <%= active_link(@conn, to: dashboard_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-speedometer"></i>
               Dashboard
             <% end %>
           </li>
           <li class="nav-item">
-            <%= active_link(@conn, to: "/properties", class: "nav-link") do %>
-              <span class="fa-wrapper"><i class="fas fa-globe"></i></span>
+            <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-layers"></i>
               Properties
             <% end %>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <span class="fa-wrapper"><i class="fas fa-handshake"></i></span>
+            <%= active_link(@conn, to: "#", class: "nav-link") do %>
+              <i class="icon-heart"></i>
               Sponsors
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <span class="fa-wrapper"><i class="fas fa-bullhorn"></i></span>
+            <%= active_link(@conn, to: campaign_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-rocket"></i>
               Campaigns
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <a class="nav-link">
-              <span class="fa-wrapper"><i class="fas fa-money-bill-alt"></i></span>
+              <i class="icon-cup"></i>
               Distributions
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <span class="fa-wrapper"><i class="fas fa-user"></i></span>
+            <%= active_link(@conn, to: registration_path(@conn, :show), class: "nav-link") do %>
+              <i class="icon-user"></i>
               Profile
-            </a>
+            <% end %>
           </li>
         </ul>
       </nav>
@@ -82,10 +104,12 @@
 
     <!-- Main content -->
     <main class="main">
-      <%= CodeSponsorWeb.Coherence.ViewHelpers.coherence_links(@conn, :layout) %>
       <%= render @view_module, @view_template, assigns %>
     </main>
 
+    <aside class="aside-menu">
+      REAL-TIME CONTENT GOES HERE
+    </aside>
   </div>
   <footer class="app-footer">
     <span>&copy; 2018 <a href="https://consensys.net">ConsenSys</a>. All Rights Reserved</span>

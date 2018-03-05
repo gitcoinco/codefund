@@ -3,10 +3,16 @@ defmodule CodeSponsor.Campaigns do
   The Campaigns context.
   """
 
+  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
+  import Filtrex.Type.Config
   import Ecto.Query, warn: false
-  alias CodeSponsor.Repo
 
+  alias CodeSponsor.Repo
   alias CodeSponsor.Campaigns.Campaign
+  alias CodeSponsor.Coherence.User
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
 
   @doc """
   Returns the list of campaigns.
@@ -17,8 +23,41 @@ defmodule CodeSponsor.Campaigns do
       [%Campaign{}, ...]
 
   """
-  def list_campaigns do
-    Repo.all(Campaign)
+  def paginate_campaigns(%User{} = user, params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:campaigns), params["campaign"] || %{}),
+        %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params) do
+      {:ok,
+        %{
+          campaigns: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_campaigns(%User{} = user, filter, params) do
+    Campaign
+    |> where([p], p.user_id == ^user.id)
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
   end
 
   @doc """
@@ -100,5 +139,18 @@ defmodule CodeSponsor.Campaigns do
   """
   def change_campaign(%Campaign{} = campaign) do
     Campaign.changeset(campaign, %{})
+  end
+  
+  defp filter_config(:campaigns) do
+    defconfig do
+      text :name
+      text :redirect_url
+      number :status
+      text :description
+      number :bid_amount_cents
+      number :daily_budget_cents
+      number :monthly_budget_cents
+      number :total_budget_cents
+    end
   end
 end

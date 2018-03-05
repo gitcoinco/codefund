@@ -23,13 +23,15 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :money,
-  default_currency: :USD,
-  separator: ",",
-  delimeter: ".",
-  symbol: true,
-  symbol_on_right: false,
-  symbol_space: false
+config :formex,
+  repo: CodeSponsor.Repo,
+  validator: Formex.Validator.Vex,
+  translate_error: &CodeSponsorWeb.ErrorHelpers.translate_error/1,  # optional, from /lib/app_web/views/error_helpers.ex
+  template: CodeSponsorWeb.Formex.BootstrapHorizontal,              # optional, can be overridden in a template
+  template_options: [                                               # optional, can be overridden in a template
+    left_column: "col-sm-2",
+    right_column: "col-sm-10"
+  ]
 
 config :exq,
   name: Exq,
@@ -71,10 +73,9 @@ config :coherence, CodeSponsorWeb.Coherence.Mailer,
   domain: System.get_env("MAILGUN_DOMAIN")
 # %% End Coherence Configuration %%
 
-config :formulator,
-  translate_error_module: CodeSponsorWeb.ErrorHelpers,
-  validate: true,
-  validate_regex: true
+# config :scrivener_html,
+#   routes_helper: CodeSponsor.Router.Helpers,
+#   view_style: :bootstrap
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

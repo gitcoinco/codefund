@@ -199,7 +199,6 @@ defmodule CodeSponsorWeb.Coherence.ViewHelpers do
     Coherence.logged_in?(conn)
   end
 
-
   defp profile_link(current_user, conn) do
     if Config.user_schema.registerable? do
       link current_user.email, to: coherence_path(@helpers, :registration_path, conn, :show)

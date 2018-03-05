@@ -1,5 +1,6 @@
 defmodule CodeSponsor.Sponsorships.Sponsorship do
   use Ecto.Schema
+  use Formex.Ecto.Schema
   import Ecto.Changeset
   alias CodeSponsor.Sponsorships.Sponsorship
 
@@ -14,7 +15,7 @@ defmodule CodeSponsor.Sponsorships.Sponsorship do
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
     field :redirect_url, :string
-    field :bid_amount_cents, Money.Ecto.Type
+    field :bid, :decimal
     
     timestamps()
   end

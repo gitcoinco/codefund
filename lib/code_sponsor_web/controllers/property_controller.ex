@@ -3,26 +3,38 @@ defmodule CodeSponsorWeb.PropertyController do
 
   alias CodeSponsor.Properties
   alias CodeSponsor.Properties.Property
+  alias CodeSponsorWeb.PropertyType
 
-  def index(conn, _params) do
-    properties = Properties.list_properties()
-    render(conn, "index.html", properties: properties)
+  def index(conn, params) do
+    current_user = conn.assigns.current_user
+    case Properties.paginate_properties(current_user, params) do
+      {:ok, assigns} ->
+        render(conn, "index.html", assigns)
+      error ->
+        conn
+        |> put_flash(:error, "There was an error rendering Properties. #{inspect(error)}")
+        |> redirect(to: property_path(conn, :index))
+    end
   end
 
   def new(conn, _params) do
-    changeset = Properties.change_property(%Property{})
-    render(conn, "new.html", changeset: changeset)
+    form = create_form(PropertyType, %Property{})
+    render(conn, "new.html", form: form)
   end
 
   def create(conn, %{"property" => property_params}) do
-    case Properties.create_property(property_params) do
-      {:ok, property} ->
-        conn
-        |> put_flash(:info, "Property created successfully.")
-        |> redirect(to: property_path(conn, :show, property))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+    current_user = conn.assigns.current_user
+    PropertyType
+      |> create_form(%Property{}, property_params, user: current_user)
+      |> handle_form
+      |> case do
+        {:ok, property} ->
+          conn
+          |> put_flash(:info, "Property created successfully.")
+          |> redirect(to: property_path(conn, :show, property))
+        {:error, form} ->
+          render(conn, "new.html", form: form)
+      end
   end
 
   def show(conn, %{"id" => id}) do
@@ -32,21 +44,25 @@ defmodule CodeSponsorWeb.PropertyController do
 
   def edit(conn, %{"id" => id}) do
     property = Properties.get_property!(id)
-    changeset = Properties.change_property(property)
-    render(conn, "edit.html", property: property, changeset: changeset)
+    form = create_form(PropertyType, property)
+    render(conn, "edit.html", form: form, property: property)
   end
 
   def update(conn, %{"id" => id, "property" => property_params}) do
+    current_user = conn.assigns.current_user
     property = Properties.get_property!(id)
 
-    case Properties.update_property(property, property_params) do
-      {:ok, property} ->
-        conn
-        |> put_flash(:info, "Property updated successfully.")
-        |> redirect(to: property_path(conn, :show, property))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", property: property, changeset: changeset)
-    end
+    PropertyType
+      |> create_form(property, property_params, user: current_user)
+      |> handle_form
+      |> case do
+        {:ok, property} ->
+          conn
+          |> put_flash(:info, "Property updated successfully.")
+          |> redirect(to: property_path(conn, :show, property))
+        {:error, form} ->
+          render(conn, "edit.html", property: property, form: form)
+      end
   end
 
   def delete(conn, %{"id" => id}) do
