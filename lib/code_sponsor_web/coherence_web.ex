@@ -3,8 +3,6 @@ defmodule CodeSponsorWeb.Coherence do
 
   def view do
     quote do
-      # use Phoenix.View, root: "./lib/code_sponsor_web/templates"
-
       use Phoenix.View, root: "lib/code_sponsor_web/templates",
                         namespace: CodeSponsorWeb
 

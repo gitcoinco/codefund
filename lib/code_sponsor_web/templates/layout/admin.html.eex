@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/images/code-sponsor-logo-square.png">
+  <title>Code Sponsor</title>
+
+  <!-- Icons -->
+  <link href="<%= static_path(@conn, "/theme/css/flag-icon.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/font-awesome.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/simple-line-icons.min.css") %>" rel="stylesheet">
+
+  <!-- Main styles for this application -->
+  <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
+
+  <!-- Styles required by this views -->
+  <link href="<%= static_path(@conn, "/theme/css/daterangepicker.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/gauge.min.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/theme/css/toastr.min.css") %>" rel="stylesheet">
+
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="nav navbar-nav d-md-down-none mr-auto">
+      <li class="nav-item px-3">
+        <%= link "Dashboard", to: dashboard_path(@conn, :index), class: "nav-link" %>
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <img src="<%= current_user_gravatar_url(@conn) %>" class="img-avatar" alt="<%= current_user_email(@conn) %>">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-header text-center">
+            <strong>Account</strong>
+          </div>
+          <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
+          <%= link to: session_path(@conn, :delete), method: :delete, class: "dropdown-item" do %>
+            <i class="fa fa-lock"></i> Logout
+          <% end %>
+        </div>
+      </li>
+      <button class="navbar-toggler aside-menu-toggler" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </ul>
+  </header>
+  <div class="app-body">
+    <div class="sidebar">
+      <nav class="sidebar-nav">
+        <ul class="nav">
+          <li class="nav-item">
+            <%= active_link(@conn, to: dashboard_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-speedometer"></i>
+              Dashboard
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-layers"></i>
+              Properties
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= active_link(@conn, to: "#", class: "nav-link") do %>
+              <i class="icon-heart"></i>
+              Sponsors
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= active_link(@conn, to: campaign_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-rocket"></i>
+              Campaigns
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="icon-cup"></i>
+              Distributions
+            </a>
+          </li>
+          <li class="nav-item">
+            <%= active_link(@conn, to: registration_path(@conn, :show), class: "nav-link") do %>
+              <i class="icon-user"></i>
+              Profile
+            <% end %>
+          </li>
+        </ul>
+      </nav>
+      <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div>
+
+    <!-- Main content -->
+    <main class="main">
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+
+    <aside class="aside-menu">
+      REAL-TIME CONTENT GOES HERE
+    </aside>
+  </div>
+  <footer class="app-footer">
+    <span>&copy; 2018 <a href="https://consensys.net">ConsenSys</a>. All Rights Reserved</span>
+    <span class="ml-auto">Powered by <a href="https://github.com/codesponsor/web">Open Source</a></span>
+  </footer>
+
+  <!-- Bootstrap and necessary plugins -->
+  <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/popper.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/bootstrap.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/pace.min.js") %>"></script>
+
+  <!-- Prime main scripts -->
+
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+  <!-- Plugins and scripts required by this views -->
+  <script src="<%= static_path(@conn, "/theme/js/toastr.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/gauge.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/moment.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/daterangepicker.min.js") %>"></script>
+
+</body>
+</html>
