@@ -1,25 +1,37 @@
-<br \>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card mx-4">
+        <div class="card-body p-4">
+          <h1><%= dgettext "coherence", "Create a New Password" %></h1>
+          <p class="text-muted">Enter your new password below</p>
 
-<h3><%= dgettext "coherence", "Create a New Password" %></h3>
+          <%= form_for @changeset, password_path(@conn, :update, @changeset.data), [as: :password], fn f  -> %>
+            <%= hidden_input f, :reset_password_token %>
 
-<%= form_for @changeset, password_path(@conn, :update, @changeset.data), [as: :password], fn f  -> %>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-lock"></i></span>
+              </div>
+              <%= password_input f, :password, [class: "form-control", placeholder: "Password"] %>
+              <%= error_tag f, :password %>
+            </div>
 
-  <%= hidden_input f, :reset_password_token %>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-lock"></i></span>
+              </div>
+              <%= password_input f, :password_confirmation, [class: "form-control", placeholder: "Password Confirmation"] %>
+              <%= error_tag f, :password_confirmation %>
+            </div>
 
-  <div class="form-group">
-    <%= required_label f, dgettext("coherence", "Password"), class: "control-label" %>
-    <%= password_input f, :password, class: "form-control", required: "" %>
-    <%= error_tag f, :password %>
+            <div class="form-group">
+              <%= submit dgettext("coherence", "Update Password"), class: "btn btn-primary" %>
+              <%= link dgettext("coherence", "Cancel"), to: Coherence.Config.logged_out_url("/"), class: "btn" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= required_label f, dgettext("coherence", "Password Confirmation"), class: "control-label" %>
-    <%= password_input f, :password_confirmation, class: "form-control", required: "" %>
-    <%= error_tag f, :password_confirmation %>
-  </div>
-
-  <div class="form-group">
-    <%= submit dgettext("coherence", "Update Password"), class: "btn btn-primary" %>
-    <%= link dgettext("coherence", "Cancel"), to: Coherence.Config.logged_out_url("/"), class: "btn" %>
-  </div>
-<% end %>
+</div>

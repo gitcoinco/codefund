@@ -18,39 +18,7 @@ config :code_sponsor, CodeSponsorWeb.Endpoint,
   pubsub: [name: CodeSponsor.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
-# Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
-
-config :money,
-  default_currency: :USD,
-  separator: ",",
-  delimeter: ".",
-  symbol: true,
-  symbol_on_right: false,
-  symbol_space: false
-
-config :exq,
-  name: Exq,
-  host: System.get_env("DATA_REDIS_HOST"),
-  port: 6379,
-  # password: System.get_env("DATA_REDIS_PASSWORD"),
-  namespace: "exq",
-  concurrency: :infinite,
-  queues: [
-    {"cs_high", 50},
-    {"cs_default", 10},
-    {"cs_low", 1}
-  ],
-  poll_timeout: 50,
-  scheduler_poll_timeout: 200,
-  scheduler_enable: true,
-  max_retries: 5,
-  shutdown_timeout: 5000
-
-config :exq_ui,
-  server: true
+import_config "./configs/*.exs"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
@@ -65,12 +33,5 @@ config :coherence,
   router: CodeSponsorWeb.Router,
   messages_backend: CodeSponsorWeb.Coherence.Messages,
   logged_out_url: "/",
-  email_from_name: "Code Sponsor Team",
-  email_from_email: "team@codesponsor.io",
-  opts: [:authenticatable, :recoverable, :lockable, :trackable, :unlockable_with_token, :invitable, :registerable, :rememberable]
-
-config :coherence, CodeSponsorWeb.Coherence.Mailer,
-  adapter: Swoosh.Adapters.Mailgun,
-  api_key: System.get_env("MAILGUN_API_KEY"),
-  domain: System.get_env("MAILGUN_DOMAIN")
+  opts: [:authenticatable]
 # %% End Coherence Configuration %%

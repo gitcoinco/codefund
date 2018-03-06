@@ -61,7 +61,8 @@ defmodule CodeSponsorWeb.Router do
 
   scope "/", CodeSponsorWeb do
     pipe_through :protected
-    
+
+    get "/dashboard", DashboardController, :index
     resources "/properties", PropertyController
     resources "/campaigns", CampaignController
     resources "/sponsorships", SponsorshipController

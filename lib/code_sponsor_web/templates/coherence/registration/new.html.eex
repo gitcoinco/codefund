@@ -1,5 +1,16 @@
-<h3><%= dgettext "coherence", "Register Account" %></h3>
-
-<%= render "form.html", changeset: @changeset,
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card mx-4">
+        <div class="card-body p-4">
+          <h1><%= dgettext "coherence", "Register Account" %></h1>
+          <p class="text-muted">Create your account</p>
+          <%= render "form.html", changeset: @changeset,
                         label: dgettext("coherence", "Register"), required: [required: ""],
                         action: registration_path(@conn, :create) %>
+          <%= coherence_links(@conn, :new_session) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

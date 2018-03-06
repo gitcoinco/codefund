@@ -2,11 +2,57 @@ defmodule CodeSponsor.Properties do
   @moduledoc """
   The Properties context.
   """
-
+  
+  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
+  import Filtrex.Type.Config
   import Ecto.Query, warn: false
-  alias CodeSponsor.Repo
 
+  alias CodeSponsor.Repo
   alias CodeSponsor.Properties.Property
+  alias CodeSponsor.Coherence.User
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of properties using filtrex filters.
+  """
+  def paginate_properties(%User{} = user, params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:properties), params["property"] || %{}),
+        %Scrivener.Page{} = page <- do_paginate_properties(user, filter, params) do
+      {:ok,
+        %{
+          properties: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_properties(%User{} = user, filter, params) do
+    Property
+    |> where([p], p.user_id == ^user.id)
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
 
   @doc """
   Returns the list of properties.
@@ -49,7 +95,8 @@ defmodule CodeSponsor.Properties do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_property(attrs \\ %{}) do
+  def create_property(user, attrs \\ %{}) do
+    attrs = attrs |> Map.put_new("user_id", user.id)
     %Property{}
     |> Property.changeset(attrs)
     |> Repo.insert()
@@ -100,5 +147,13 @@ defmodule CodeSponsor.Properties do
   """
   def change_property(%Property{} = property) do
     Property.changeset(property, %{})
+  end
+
+  defp filter_config(:properties) do
+    defconfig do
+      text :name
+      text :url
+      text :description
+    end
   end
 end

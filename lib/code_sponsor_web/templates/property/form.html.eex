@@ -1,35 +1,8 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<%= formex_form_for @form, @action, [method: @method, class: "form-horizontal"], fn f -> %>
+  <%= if @form.submitted? do %>
+    <div class="alert alert-danger" role="alert">
+      Oops, something went wrong! Please check the errors below.
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= label f, :name, class: "control-label" %>
-    <%= text_input f, :name, class: "form-control" %>
-    <%= error_tag f, :name %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :url, class: "control-label" %>
-    <%= textarea f, :url, class: "form-control" %>
-    <%= error_tag f, :url %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :description, class: "control-label" %>
-    <%= textarea f, :description, class: "form-control" %>
-    <%= error_tag f, :description %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :property_type, class: "control-label" %>
-    <%= number_input f, :property_type, class: "form-control" %>
-    <%= error_tag f, :property_type %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
+  <%= formex_rows f %>
 <% end %>

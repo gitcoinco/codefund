@@ -1,28 +1,69 @@
-<h2>Show Property</h2>
-
-<ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @property.name %>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Properties", to: property_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active"><%= @property.name %></li>
+  
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: property_path(@conn, :edit, @property), class: "btn" do %>
+        <i class="fa fa-edit"></i> Edit Property
+      <% end %>
+    </div>
   </li>
+</ol>
 
-  <li>
-    <strong>Url:</strong>
-    <%= @property.url %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @property.description %>
-  </li>
-
-  <li>
-    <strong>Property type:</strong>
-    <%= @property.property_type %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: property_path(@conn, :edit, @property) %></span>
-<span><%= link "Back", to: property_path(@conn, :index) %></span>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          Details
+        </div>
+        <div class="card-body">
+          <div class="details-table">
+            <table class="table table-responsive-sm">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ID</strong></td>
+                  <td><%= @property.id %></td>
+                </tr>
+                <tr>
+                  <td><strong>Developer</strong></td>
+                  <td><%= @property.user_id %></td>
+                </tr>
+                <tr>
+                  <td><strong>Name</strong></td>
+                  <td><%= @property.name %></td>
+                </tr>
+                <tr>
+                  <td><strong>URL</strong></td>
+                  <td><%= link @property.url, to: @property.url, target: "_blank" %></td>
+                </tr>
+                <tr>
+                  <td><strong>Description</strong></td>
+                  <td><%= @property.description %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          Embed Instructions
+        </div>
+        <div class="card-body">
+          See https://badge.fury.io/for/rb/dotenv
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 defmodule CodeSponsor.Coherence.User do
   @moduledoc false
   use Ecto.Schema
+  use Formex.Ecto.Schema
   use Coherence.Schema
   
   @primary_key {:id, :binary_id, autogenerate: true}

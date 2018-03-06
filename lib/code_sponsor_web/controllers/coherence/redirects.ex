@@ -43,12 +43,15 @@ defmodule Coherence.Redirects do
   """
   use Redirects
   # Uncomment the import below if adding overrides
-  # import CodeSponsorWeb.Router.Helpers
+  
+  import CodeSponsorWeb.Router.Helpers
 
   # Add function overrides below
 
   # Example usage
   # Uncomment the following line to return the user to the login form after logging out
   # def session_delete(conn, _), do: redirect(conn, to: session_path(conn, :new))
+
+  def session_create(conn, _), do: redirect(conn, to: dashboard_path(conn, :index))
 
 end

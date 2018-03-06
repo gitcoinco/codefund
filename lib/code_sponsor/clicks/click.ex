@@ -1,5 +1,6 @@
 defmodule CodeSponsor.Clicks.Click do
   use Ecto.Schema
+  use Formex.Ecto.Schema
   import Ecto.Changeset
   alias CodeSponsor.Clicks.Click
 

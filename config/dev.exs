@@ -56,3 +56,5 @@ config :code_sponsor, CodeSponsor.Repo,
   hostname: System.get_env("DATA_DB_HOST"),
   database: "gonano",
   pool_size: 10
+
+import_config "dev.secret.exs"

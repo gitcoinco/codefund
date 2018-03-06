@@ -1,5 +1,6 @@
 defmodule CodeSponsor.Impressions.Impression do
   use Ecto.Schema
+  use Formex.Ecto.Schema
   import Ecto.Changeset
   alias CodeSponsor.Impressions.Impression
 

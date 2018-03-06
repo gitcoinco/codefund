@@ -1,9 +1,10 @@
 defmodule CodeSponsor.Campaigns.Campaign do
   use Ecto.Schema
+  use Formex.Ecto.Schema
   import Ecto.Changeset
   alias CodeSponsor.Campaigns.Campaign
 
-
+  
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do
@@ -15,18 +16,41 @@ defmodule CodeSponsor.Campaigns.Campaign do
     field :redirect_url, :string
     field :status, :integer
     field :description, :string
-    field :bid_amount_cents, Money.Ecto.Type
-    field :daily_budget_cents, Money.Ecto.Type
-    field :monthly_budget_cents, Money.Ecto.Type
-    field :total_budget_cents, Money.Ecto.Type
+    field :bid, :decimal
+    field :budget_daily, :decimal
+    field :budget_monthly, :decimal
+    field :budget_total, :decimal
 
     timestamps()
   end
 
+  @attrs [
+    :user_id,
+    :name,
+    :redirect_url,
+    :status,
+    :description,
+    :bid,
+    :budget_daily,
+    :budget_monthly,
+    :budget_total
+  ]
+
+  @required [
+    :user_id,
+    :name,
+    :redirect_url,
+    :status,
+    :bid,
+    :budget_daily,
+    :budget_monthly,
+    :budget_total
+  ]
+
   @doc false
   def changeset(%Campaign{} = campaign, attrs) do
     campaign
-    |> cast(attrs, [:name, :redirect_url, :status, :description, :daily_budget_cents, :monthly_budget_cents, :total_budget_cents, :bid_amount_cents])
-    |> validate_required([:name, :redirect_url, :status, :daily_budget_cents, :monthly_budget_cents, :total_budget_cents, :bid_amount_cents])
+    |> cast(attrs, @attrs)
+    |> validate_required(@required)
   end
 end

@@ -1,43 +1,75 @@
-<h2>Show Campaign</h2>
-
-<ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @campaign.name %>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Campaigns", to: campaign_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active"><%= @campaign.name %></li>
+  
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: campaign_path(@conn, :edit, @campaign), class: "btn" do %>
+        <i class="fa fa-edit"></i> Edit Campaign
+      <% end %>
+    </div>
   </li>
+</ol>
 
-  <li>
-    <strong>Redirect url:</strong>
-    <%= @campaign.redirect_url %>
-  </li>
-
-  <li>
-    <strong>Status:</strong>
-    <%= @campaign.status %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @campaign.description %>
-  </li>
-
-  <li>
-    <strong>Daily budget cents:</strong>
-    <%= @campaign.daily_budget_cents %>
-  </li>
-
-  <li>
-    <strong>Monthly budget cents:</strong>
-    <%= @campaign.monthly_budget_cents %>
-  </li>
-
-  <li>
-    <strong>Bid amount cents:</strong>
-    <%= @campaign.bid_amount_cents %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: campaign_path(@conn, :edit, @campaign) %></span>
-<span><%= link "Back", to: campaign_path(@conn, :index) %></span>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      Details
+    </div>
+    <div class="card-body">
+      <div class="details-table">
+        <table class="table table-responsive-sm">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ID</strong></td>
+              <td><%= @campaign.id %></td>
+            </tr>
+            <tr>
+              <td><strong>Sponsor</strong></td>
+              <td><%= @campaign.user_id %></td>
+            </tr>
+            <tr>
+              <td><strong>Name</strong></td>
+              <td><%= @campaign.name %></td>
+            </tr>
+            <tr>
+              <td><strong>Status</strong></td>
+              <td><%= campaign_status @campaign.status %></td>
+            </tr>
+            <tr>
+              <td><strong>Description</strong></td>
+              <td><%= @campaign.description %></td>
+            </tr>
+            <tr>
+              <td><strong>Redirect URL</strong></td>
+              <td><%= @campaign.redirect_url %></td>
+            </tr>
+            <tr>
+              <td><strong>Bid Amount</strong></td>
+              <td><%= pretty_money @campaign.bid %></td>
+            </tr>
+            <tr>
+              <td><strong>Daily Budget</strong></td>
+              <td><%= pretty_money @campaign.budget_daily %></td>
+            </tr>
+            <tr>
+              <td><strong>Monthly Budget</strong></td>
+              <td><%= pretty_money @campaign.budget_monthly %></td>
+            </tr>
+            <tr>
+              <td><strong>Total Budget</strong></td>
+              <td><%= pretty_money @campaign.budget_total %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

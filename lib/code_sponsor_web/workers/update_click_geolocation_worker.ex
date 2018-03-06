@@ -16,7 +16,7 @@ defmodule CodeSponsorWeb.UpdateClickGeolocationWorker do
         }
         Clicks.update_click(click, location_data)
 
-      {:error, %GeoIP.Error{reason: reason}} ->
+      {:error, %GeoIP.Error{reason: _reason}} ->
         IO.puts("Unable to find geolocation for IP: #{click.ip}")
     end
 

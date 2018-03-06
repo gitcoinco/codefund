@@ -1,5 +1,6 @@
 defmodule CodeSponsor.Properties.Property do
   use Ecto.Schema
+  use Formex.Ecto.Schema
   import Ecto.Changeset
   alias CodeSponsor.Properties.Property
 
@@ -26,7 +27,7 @@ defmodule CodeSponsor.Properties.Property do
   @doc false
   def changeset(%Property{} = property, attrs) do
     property
-    |> cast(attrs, [:name, :url, :description, :property_type, :sponsorship_id])
-    |> validate_required([:name, :url, :property_type])
+    |> cast(attrs, [:user_id, :name, :url, :description, :property_type, :sponsorship_id])
+    |> validate_required([:user_id, :name, :url, :property_type])
   end
 end

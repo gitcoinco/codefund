@@ -27,7 +27,10 @@ defmodule CodeSponsor.Mixfile do
         :coherence,
         :exq,
         :exq_ui,
-        :geoip
+        :geoip,
+        :scrivener_ecto,
+        :scrivener_html,
+        :formex
       ]
     ]
   end
@@ -49,14 +52,21 @@ defmodule CodeSponsor.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:money, "~> 1.2.1"},
+      {:ex_money, "~> 1.0"},
       {:number, "~> 0.5.4"},
       {:coherence, "~> 0.5"},
       {:ex_machina, "~> 2.1"},
       {:browser, "~> 0.1.0"},
       {:exq, "~> 0.10.1"},
       {:exq_ui, "~> 0.9.0"},
-      {:geoip, "~> 0.1"}
+      {:geoip, "~> 0.1"},
+      {:phoenix_active_link, "~> 0.1.1"},
+      {:scrivener, "~> 2.0"},
+      {:scrivener_ecto, "~> 1.0"},
+      {:scrivener_html, "~> 1.7"},
+      {:filtrex, "~> 0.4.1"},
+      {:formex, "~> 0.6.0"},
+      {:formex_ecto, "~> 0.1.0"}
     ]
   end
 

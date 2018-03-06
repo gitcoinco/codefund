@@ -3,26 +3,39 @@ defmodule CodeSponsorWeb.CampaignController do
 
   alias CodeSponsor.Campaigns
   alias CodeSponsor.Campaigns.Campaign
+  alias CodeSponsorWeb.CampaignType
 
-  def index(conn, _params) do
-    campaigns = Campaigns.list_campaigns()
-    render(conn, "index.html", campaigns: campaigns)
+  def index(conn, params) do
+    current_user = conn.assigns.current_user
+    case Campaigns.paginate_campaigns(current_user, params) do
+      {:ok, assigns} ->
+        render(conn, "index.html", assigns)
+      error ->
+        conn
+        |> put_flash(:error, "There was an error rendering Campaigns. #{inspect(error)}")
+        |> redirect(to: campaign_path(conn, :index))
+    end
   end
 
   def new(conn, _params) do
-    changeset = Campaigns.change_campaign(%Campaign{})
-    render(conn, "new.html", changeset: changeset)
+    form = create_form(CampaignType, %Campaign{})
+    render(conn, "new.html", form: form)
   end
 
   def create(conn, %{"campaign" => campaign_params}) do
-    case Campaigns.create_campaign(campaign_params) do
-      {:ok, campaign} ->
-        conn
-        |> put_flash(:info, "Campaign created successfully.")
-        |> redirect(to: campaign_path(conn, :show, campaign))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+    current_user = conn.assigns.current_user
+
+    CampaignType
+      |> create_form(%Campaign{}, campaign_params, user: current_user)
+      |> insert_form_data
+      |> case do
+        {:ok, campaign} ->
+          conn
+          |> put_flash(:info, "Campaign created successfully.")
+          |> redirect(to: campaign_path(conn, :index))
+        {:error, form} ->
+          render(conn, "new.html", form: form)
+      end
   end
 
   def show(conn, %{"id" => id}) do
@@ -32,21 +45,25 @@ defmodule CodeSponsorWeb.CampaignController do
 
   def edit(conn, %{"id" => id}) do
     campaign = Campaigns.get_campaign!(id)
-    changeset = Campaigns.change_campaign(campaign)
-    render(conn, "edit.html", campaign: campaign, changeset: changeset)
+    form = create_form(CampaignType, campaign)
+    render(conn, "edit.html", form: form, campaign: campaign)
   end
 
   def update(conn, %{"id" => id, "campaign" => campaign_params}) do
+    current_user = conn.assigns.current_user
     campaign = Campaigns.get_campaign!(id)
 
-    case Campaigns.update_campaign(campaign, campaign_params) do
-      {:ok, campaign} ->
-        conn
-        |> put_flash(:info, "Campaign updated successfully.")
-        |> redirect(to: campaign_path(conn, :show, campaign))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", campaign: campaign, changeset: changeset)
-    end
+    CampaignType
+      |> create_form(campaign, campaign_params, user: current_user)
+      |> update_form_data
+      |> case do
+        {:ok, campaign} ->
+          conn
+          |> put_flash(:info, "Campaign updated successfully.")
+          |> redirect(to: campaign_path(conn, :show, campaign))
+        {:error, form} ->
+          render(conn, "edit.html", campaign: campaign, form: form)
+      end
   end
 
   def delete(conn, %{"id" => id}) do
