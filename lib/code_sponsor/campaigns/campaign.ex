@@ -4,7 +4,7 @@ defmodule CodeSponsor.Campaigns.Campaign do
   import Ecto.Changeset
   alias CodeSponsor.Campaigns.Campaign
 
-
+  
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do
@@ -36,7 +36,7 @@ defmodule CodeSponsor.Campaigns.Campaign do
     :budget_total
   ]
 
-  @required_fields [
+  @required [
     :user_id,
     :name,
     :redirect_url,

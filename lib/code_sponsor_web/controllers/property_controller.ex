@@ -26,7 +26,7 @@ defmodule CodeSponsorWeb.PropertyController do
     current_user = conn.assigns.current_user
     PropertyType
       |> create_form(%Property{}, property_params, user: current_user)
-      |> handle_form
+      |> insert_form_data
       |> case do
         {:ok, property} ->
           conn
@@ -54,7 +54,7 @@ defmodule CodeSponsorWeb.PropertyController do
 
     PropertyType
       |> create_form(property, property_params, user: current_user)
-      |> handle_form
+      |> update_form_data
       |> case do
         {:ok, property} ->
           conn

@@ -25,8 +25,6 @@ defmodule CodeSponsorWeb.CampaignController do
   def create(conn, %{"campaign" => campaign_params}) do
     current_user = conn.assigns.current_user
 
-    require IEx; IEx.pry
-
     CampaignType
       |> create_form(%Campaign{}, campaign_params, user: current_user)
       |> insert_form_data

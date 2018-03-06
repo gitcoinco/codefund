@@ -18,7 +18,6 @@ defmodule CodeSponsorWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug Coherence.Authentication.Session, protected: true
-    plug :put_layout, {CodeSponsorWeb.LayoutView, :admin}
   end
 
   pipeline :api do
