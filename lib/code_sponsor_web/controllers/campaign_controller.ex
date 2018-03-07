@@ -5,6 +5,8 @@ defmodule CodeSponsorWeb.CampaignController do
   alias CodeSponsor.Campaigns.Campaign
   alias CodeSponsorWeb.CampaignType
 
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "sponsor"], to: "/dashboard"}
+
   def index(conn, params) do
     current_user = conn.assigns.current_user
     case Campaigns.paginate_campaigns(current_user, params) do
@@ -32,7 +34,7 @@ defmodule CodeSponsorWeb.CampaignController do
         {:ok, campaign} ->
           conn
           |> put_flash(:info, "Campaign created successfully.")
-          |> redirect(to: campaign_path(conn, :index))
+          |> redirect(to: campaign_path(conn, :show, campaign))
         {:error, form} ->
           render(conn, "new.html", form: form)
       end

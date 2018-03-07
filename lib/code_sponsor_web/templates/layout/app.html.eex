@@ -19,10 +19,6 @@
   <link href="<%= static_path(@conn, "/theme/css/daterangepicker.min.css") %>" rel="stylesheet">
   <link href="<%= static_path(@conn, "/theme/css/gauge.min.css") %>" rel="stylesheet">
   <link href="<%= static_path(@conn, "/theme/css/toastr.min.css") %>" rel="stylesheet">
-</head>
-
-<body class="<%= body_class @conn, "app mt-5" %>">
-  <%= render @view_module, @view_template, assigns %>
 
   <!-- Bootstrap and necessary plugins -->
   <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
@@ -38,6 +34,9 @@
   <script src="<%= static_path(@conn, "/theme/js/gauge.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/moment.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/daterangepicker.min.js") %>"></script>
+</head>
 
+<body class="<%= body_class @conn, "app mt-5" %>">
+  <%= render @view_module, @view_template, assigns %>
 </body>
 </html>

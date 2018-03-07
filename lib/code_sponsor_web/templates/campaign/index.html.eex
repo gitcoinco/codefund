@@ -38,10 +38,10 @@
               <tr>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
-                <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid) %></th>
-                <th class="text-center"><%= table_link(@conn, "Daily Budget", :budget_daily) %></th>
-                <th class="text-center"><%= table_link(@conn, "Monthly Budget", :budget_monthly) %></th>
-                <th class="text-center"><%= table_link(@conn, "Total Budget", :budget_total) %></th>
+                <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid_amount) %></th>
+                <th class="text-center"><%= table_link(@conn, "Daily Budget", :budget_daily_amount) %></th>
+                <th class="text-center"><%= table_link(@conn, "Monthly Budget", :budget_monthly_amount) %></th>
+                <th class="text-center"><%= table_link(@conn, "Total Budget", :budget_total_amount) %></th>
                 <th></th>
               </tr>
             </thead>
@@ -50,10 +50,10 @@
                 <tr>
                   <td><%= campaign.name %></td>
                   <td class="text-center"><%= campaign_status campaign.status %></td>
-                  <td class="text-center"><%= pretty_money campaign.bid %></td>
-                  <td class="text-center"><%= pretty_money campaign.budget_daily %></td>
-                  <td class="text-center"><%= pretty_money campaign.budget_monthly %></td>
-                  <td class="text-center"><%= pretty_money campaign.budget_total %></td>
+                  <td class="text-center"><%= pretty_money campaign.bid_amount %></td>
+                  <td class="text-center"><%= pretty_money campaign.budget_daily_amount %></td>
+                  <td class="text-center"><%= pretty_money campaign.budget_monthly_amount %></td>
+                  <td class="text-center"><%= pretty_money campaign.budget_total_amount %></td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: campaign_path(@conn, :show, campaign), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: campaign_path(@conn, :edit, campaign), class: "btn btn-outline-primary btn-sm" %>

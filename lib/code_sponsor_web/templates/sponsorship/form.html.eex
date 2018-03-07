@@ -1,17 +1,8 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<%= formex_form_for @form, @action, [method: @method, class: "form-horizontal"], fn f -> %>
+  <%= if @form.submitted? do %>
+    <div class="alert alert-danger" role="alert">
+      Oops, something went wrong! Please check the errors below.
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= label f, :bid_amount_cents, class: "control-label" %>
-    <%= number_input f, :bid_amount_cents, class: "form-control" %>
-    <%= error_tag f, :bid_amount_cents %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
+  <%= formex_rows f %>
 <% end %>

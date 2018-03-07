@@ -16,6 +16,7 @@ defmodule CodeSponsor.Coherence.User do
     field :first_name, :string
     field :last_name, :string
     field :email, :string
+    field :roles, {:array, :string}
     coherence_schema()
 
     timestamps()

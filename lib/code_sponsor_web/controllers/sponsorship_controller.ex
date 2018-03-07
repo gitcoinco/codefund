@@ -3,26 +3,38 @@ defmodule CodeSponsorWeb.SponsorshipController do
 
   alias CodeSponsor.Sponsorships
   alias CodeSponsor.Sponsorships.Sponsorship
+  alias CodeSponsorWeb.SponsorshipType
 
-  def index(conn, _params) do
-    sponsorships = Sponsorships.list_sponsorships()
-    render(conn, "index.html", sponsorships: sponsorships)
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "sponsor"], to: "/dashboard"}
+
+  def index(conn, params) do
+    case Sponsorships.paginate_sponsorships(params) do
+      {:ok, assigns} ->
+        render(conn, "index.html", assigns)
+      error ->
+        conn
+        |> put_flash(:error, "There was an error rendering sponsorships. #{inspect(error)}")
+        |> redirect(to: sponsorship_path(conn, :index))
+    end
   end
 
   def new(conn, _params) do
-    changeset = Sponsorships.change_sponsorship(%Sponsorship{})
-    render(conn, "new.html", changeset: changeset)
+    form = create_form(SponsorshipType, %Sponsorship{})
+    render(conn, "new.html", form: form)
   end
 
   def create(conn, %{"sponsorship" => sponsorship_params}) do
-    case Sponsorships.create_sponsorship(sponsorship_params) do
-      {:ok, sponsorship} ->
-        conn
-        |> put_flash(:info, "Sponsorship created successfully.")
-        |> redirect(to: sponsorship_path(conn, :show, sponsorship))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+    SponsorshipType
+      |> create_form(%Sponsorship{}, sponsorship_params)
+      |> insert_form_data
+      |> case do
+        {:ok, sponsorship} ->
+          conn
+          |> put_flash(:info, "Sponsorship created successfully.")
+          |> redirect(to: sponsorship_path(conn, :show, sponsorship))
+        {:error, form} ->
+          render(conn, "new.html", form: form)
+      end
   end
 
   def show(conn, %{"id" => id}) do
@@ -30,23 +42,26 @@ defmodule CodeSponsorWeb.SponsorshipController do
     render(conn, "show.html", sponsorship: sponsorship)
   end
 
-  def edit(conn, %{"id" => id}) do
+    def edit(conn, %{"id" => id}) do
     sponsorship = Sponsorships.get_sponsorship!(id)
-    changeset = Sponsorships.change_sponsorship(sponsorship)
-    render(conn, "edit.html", sponsorship: sponsorship, changeset: changeset)
+    form = create_form(SponsorshipType, sponsorship)
+    render(conn, "edit.html", form: form, sponsorship: sponsorship)
   end
 
   def update(conn, %{"id" => id, "sponsorship" => sponsorship_params}) do
     sponsorship = Sponsorships.get_sponsorship!(id)
 
-    case Sponsorships.update_sponsorship(sponsorship, sponsorship_params) do
-      {:ok, sponsorship} ->
-        conn
-        |> put_flash(:info, "Sponsorship updated successfully.")
-        |> redirect(to: sponsorship_path(conn, :show, sponsorship))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", sponsorship: sponsorship, changeset: changeset)
-    end
+    SponsorshipType
+      |> create_form(sponsorship, sponsorship_params)
+      |> update_form_data
+      |> case do
+        {:ok, sponsorship} ->
+          conn
+          |> put_flash(:info, "Sponsorship updated successfully.")
+          |> redirect(to: sponsorship_path(conn, :show, sponsorship))
+        {:error, form} ->
+          render(conn, "edit.html", sponsorship: sponsorship, form: form)
+      end
   end
 
   def delete(conn, %{"id" => id}) do

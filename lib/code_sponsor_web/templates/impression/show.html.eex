@@ -1,98 +1,128 @@
-<h2>Show Impression</h2>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</tr>
+  <li class="breadcrumb-item"><%= link "Impressions", to: impression_path(@conn, :index) %></tr>
+  <li class="breadcrumb-item active">Impression</tr>
+</ol>
 
-<ul>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      Details
+    </div>
+    <div class="card-body">
+      <div class="details-table">
+        <table class="table table-responsive-sm">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Property:</strong></td>
+              <td><%= @impression.property_id %></td>
+            </tr>
+            <tr>
+              <td><strong>Sponsorship:</strong></td>
+              <td><%= @impression.sponsorship_id %></td>
+            </tr>
+            <tr>
+              <td><strong>Campaign:</strong></td>
+              <td><%= @impression.campaign_id %></td>
+            </tr>
+            <tr>
+              <td><strong>Ip:</strong></td>
+              <td><%= @impression.ip %></td>
+            </tr>
 
-  <li>
-    <strong>Ip:</strong>
-    <%= @impression.ip %>
-  </li>
+            <tr>
+              <td><strong>User agent:</strong></td>
+              <td><%= @impression.user_agent %></td>
+            </tr>
 
-  <li>
-    <strong>User agent:</strong>
-    <%= @impression.user_agent %>
-  </li>
+            <tr>
+              <td><strong>Browser:</strong></td>
+              <td><%= @impression.browser %></td>
+            </tr>
 
-  <li>
-    <strong>Browser:</strong>
-    <%= @impression.browser %>
-  </li>
+            <tr>
+              <td><strong>Os:</strong></td>
+              <td><%= @impression.os %></td>
+            </tr>
 
-  <li>
-    <strong>Os:</strong>
-    <%= @impression.os %>
-  </li>
+            <tr>
+              <td><strong>Device type:</strong></td>
+              <td><%= @impression.device_type %></td>
+            </tr>
 
-  <li>
-    <strong>Device type:</strong>
-    <%= @impression.device_type %>
-  </li>
+            <tr>
+              <td><strong>Screen height:</strong></td>
+              <td><%= @impression.screen_height %></td>
+            </tr>
 
-  <li>
-    <strong>Screen height:</strong>
-    <%= @impression.screen_height %>
-  </li>
+            <tr>
+              <td><strong>Screen width:</strong></td>
+              <td><%= @impression.screen_width %></td>
+            </tr>
 
-  <li>
-    <strong>Screen width:</strong>
-    <%= @impression.screen_width %>
-  </li>
+            <tr>
+              <td><strong>Country:</strong></td>
+              <td><%= @impression.country %></td>
+            </tr>
 
-  <li>
-    <strong>Country:</strong>
-    <%= @impression.country %>
-  </li>
+            <tr>
+              <td><strong>Region:</strong></td>
+              <td><%= @impression.region %></td>
+            </tr>
 
-  <li>
-    <strong>Region:</strong>
-    <%= @impression.region %>
-  </li>
+            <tr>
+              <td><strong>City:</strong></td>
+              <td><%= @impression.city %></td>
+            </tr>
 
-  <li>
-    <strong>City:</strong>
-    <%= @impression.city %>
-  </li>
+            <tr>
+              <td><strong>Postal code:</strong></td>
+              <td><%= @impression.postal_code %></td>
+            </tr>
 
-  <li>
-    <strong>Postal code:</strong>
-    <%= @impression.postal_code %>
-  </li>
+            <tr>
+              <td><strong>Latitude:</strong></td>
+              <td><%= @impression.latitude %></td>
+            </tr>
 
-  <li>
-    <strong>Latitude:</strong>
-    <%= @impression.latitude %>
-  </li>
+            <tr>
+              <td><strong>Longitude:</strong></td>
+              <td><%= @impression.longitude %></td>
+            </tr>
 
-  <li>
-    <strong>Longitude:</strong>
-    <%= @impression.longitude %>
-  </li>
+            <tr>
+              <td><strong>Utm source:</strong></td>
+              <td><%= @impression.utm_source %></td>
+            </tr>
 
-  <li>
-    <strong>Utm source:</strong>
-    <%= @impression.utm_source %>
-  </li>
+            <tr>
+              <td><strong>Utm medium:</strong></td>
+              <td><%= @impression.utm_medium %></td>
+            </tr>
 
-  <li>
-    <strong>Utm medium:</strong>
-    <%= @impression.utm_medium %>
-  </li>
+            <tr>
+              <td><strong>Utm term:</strong></td>
+              <td><%= @impression.utm_term %></td>
+            </tr>
 
-  <li>
-    <strong>Utm term:</strong>
-    <%= @impression.utm_term %>
-  </li>
+            <tr>
+              <td><strong>Utm content:</strong></td>
+              <td><%= @impression.utm_content %></td>
+            </tr>
 
-  <li>
-    <strong>Utm content:</strong>
-    <%= @impression.utm_content %>
-  </li>
-
-  <li>
-    <strong>Utm campaign:</strong>
-    <%= @impression.utm_campaign %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: impression_path(@conn, :edit, @impression) %></span>
-<span><%= link "Back", to: impression_path(@conn, :index) %></span>
+            <tr>
+              <td><strong>Utm campaign:</strong></td>
+              <td><%= @impression.utm_campaign %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

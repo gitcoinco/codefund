@@ -1,5 +1,17 @@
-<h2>Edit Sponsorship</h2>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Sponsorships", to: sponsorship_path(@conn, :index) %></li>
+  <li class="breadcrumb-item"><%= link "Show", to: sponsorship_path(@conn, :show, @sponsorship) %></li>
+  <li class="breadcrumb-item active">Edit Sponsorship</li>
+</ol>
 
-<%= render "form.html", Map.put(assigns, :action, sponsorship_path(@conn, :update, @sponsorship)) %>
-
-<span><%= link "Back", to: sponsorship_path(@conn, :index) %></span>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form.html",
+        assigns
+        |> Map.put(:action, sponsorship_path(@conn, :update, @sponsorship))
+        |> Map.put(:method, :put) %>
+    </div>
+  </div>
+</div>

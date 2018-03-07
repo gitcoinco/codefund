@@ -12,7 +12,7 @@ defmodule CodeSponsor.Impressions.Impression do
     belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
-    field :bot, :boolean
+    field :is_bot, :boolean, default: false
     field :browser, :string
     field :city, :string
     field :country, :string
@@ -35,10 +35,39 @@ defmodule CodeSponsor.Impressions.Impression do
     timestamps()
   end
 
+  @attrs [
+    :property_id,
+    :sponsorship_id,
+    :campaign_id,
+    :ip,
+    :user_agent,
+    :browser,
+    :os,
+    :device_type,
+    :screen_height,
+    :screen_width,
+    :country,
+    :region,
+    :city,
+    :postal_code,
+    :latitude,
+    :longitude,
+    :utm_source,
+    :utm_medium,
+    :utm_term,
+    :utm_content,
+    :utm_campaign
+  ]
+
+  @required [
+    :property_id,
+    :ip
+  ]
+
   @doc false
   def changeset(%Impression{} = impression, attrs) do
     impression
-    |> cast(attrs, [:ip, :user_agent, :browser, :os, :device_type, :screen_height, :screen_width, :country, :region, :city, :postal_code, :latitude, :longitude, :utm_source, :utm_medium, :utm_term, :utm_content, :utm_campaign])
-    |> validate_required([:ip])
+    |> cast(attrs, @attrs)
+    |> validate_required(@required)
   end
 end

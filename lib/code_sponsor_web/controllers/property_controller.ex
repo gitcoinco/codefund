@@ -3,7 +3,10 @@ defmodule CodeSponsorWeb.PropertyController do
 
   alias CodeSponsor.Properties
   alias CodeSponsor.Properties.Property
+  alias CodeSponsor.Sponsorships
   alias CodeSponsorWeb.PropertyType
+  
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "developer"], to: "/dashboard"}
 
   def index(conn, params) do
     current_user = conn.assigns.current_user
@@ -39,7 +42,11 @@ defmodule CodeSponsorWeb.PropertyController do
 
   def show(conn, %{"id" => id}) do
     property = Properties.get_property!(id)
-    render(conn, "show.html", property: property)
+    sponsorship = case property.sponsorship_id do
+      nil -> nil
+      _ -> Sponsorships.get_sponsorship!(property.sponsorship_id)
+    end
+    render(conn, "show.html", property: property, sponsorship: sponsorship)
   end
 
   def edit(conn, %{"id" => id}) do

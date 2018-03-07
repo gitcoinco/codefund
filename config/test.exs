@@ -17,3 +17,5 @@ config :code_sponsor, CodeSponsor.Repo,
   hostname: System.get_env("DATA_DB_HOST"),
   database: "gonano",
   pool: Ecto.Adapters.SQL.Sandbox
+
+import_config "test.secret.exs"

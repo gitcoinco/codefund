@@ -1,26 +1,54 @@
-<h2>Listing Sponsorships</h2>
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Sponsorships</li>
+  
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: sponsorship_path(@conn, :new), class: "btn" do %>
+        <i class="fa fa-plus"></i> Add Sponsorship
+      <% end %>
+    </div>
+  </li>
+</ol>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Bid amount cents</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for sponsorship <- @sponsorships do %>
-    <tr>
-      <td><%= sponsorship.bid_amount_cents %></td>
-
-      <td class="text-right">
-        <span><%= link "Show", to: sponsorship_path(@conn, :show, sponsorship), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: sponsorship_path(@conn, :edit, sponsorship), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: sponsorship_path(@conn, :delete, sponsorship), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Sponsorship", to: sponsorship_path(@conn, :new) %></span>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+    
+      <section>
+        <%= if length(@sponsorships) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th>Campaign</th>
+                <th>Property</th>
+                <th><%= table_link(@conn, "CPC", :bid_amount) %></th>
+                <th>Redirect URL</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for sponsorship <- @sponsorships do %>
+                <tr>
+                  <td><%= link sponsorship.campaign.name, to: campaign_path(@conn, :show, sponsorship.campaign) %></td>
+                  <td><%= link sponsorship.property.name, to: property_path(@conn, :show, sponsorship.property) %></td>
+                  <td><%= pretty_money sponsorship.bid_amount %></td>
+                  <td><%= sponsorship.redirect_url %></td>
+                  <td class="text-right p-2">
+                    <%= link 'Show', to: sponsorship_path(@conn, :show, sponsorship), class: "btn btn-outline-info btn-sm" %>
+                    <%= link 'Edit', to: sponsorship_path(@conn, :edit, sponsorship), class: "btn btn-outline-primary btn-sm" %>
+                    <%= link 'Delete', to: sponsorship_path(@conn, :delete, sponsorship), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= render CodeSponsorWeb.PaginationView, "_pagination.html", assigns %>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

@@ -15,15 +15,18 @@ defmodule CodeSponsor.Sponsorships.Sponsorship do
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
     field :redirect_url, :string
-    field :bid, :decimal
+    field :bid_amount, :decimal
     
     timestamps()
   end
 
+  @attrs [:bid_amount, :redirect_url]
+  @required [:bid_amount]
+
   @doc false
   def changeset(%Sponsorship{} = sponsorship, attrs) do
     sponsorship
-    |> cast(attrs, [:bid_amount_cents])
-    |> validate_required([:bid_amount_cents])
+    |> cast(attrs, @attrs)
+    |> validate_required(@required)
   end
 end
