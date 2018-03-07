@@ -4,9 +4,17 @@ defmodule CodeSponsorWeb.ImpressionController do
   alias CodeSponsor.Impressions
   alias CodeSponsor.Impressions.Impression
 
-  def index(conn, _params) do
-    impressions = Impressions.list_impressions()
-    render(conn, "index.html", impressions: impressions)
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin"], to: "/dashboard"}
+
+  def index(conn, params) do
+    case Impressions.paginate_impressions(params) do
+      {:ok, assigns} ->
+        render(conn, "index.html", assigns)
+      error ->
+        conn
+        |> put_flash(:error, "There was an error rendering Impressions. #{inspect(error)}")
+        |> redirect(to: impression_path(conn, :index))
+    end
   end
 
   def new(conn, _params) do

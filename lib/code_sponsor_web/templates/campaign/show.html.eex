@@ -53,19 +53,19 @@
             </tr>
             <tr>
               <td><strong>Bid Amount</strong></td>
-              <td><%= pretty_money @campaign.bid %></td>
+              <td><%= pretty_money @campaign.bid_amount %></td>
             </tr>
             <tr>
               <td><strong>Daily Budget</strong></td>
-              <td><%= pretty_money @campaign.budget_daily %></td>
+              <td><%= pretty_money @campaign.budget_daily_amount %></td>
             </tr>
             <tr>
               <td><strong>Monthly Budget</strong></td>
-              <td><%= pretty_money @campaign.budget_monthly %></td>
+              <td><%= pretty_money @campaign.budget_monthly_amount %></td>
             </tr>
             <tr>
               <td><strong>Total Budget</strong></td>
-              <td><%= pretty_money @campaign.budget_total %></td>
+              <td><%= pretty_money @campaign.budget_total_amount %></td>
             </tr>
           </tbody>
         </table>

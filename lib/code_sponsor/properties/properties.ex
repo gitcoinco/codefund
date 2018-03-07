@@ -81,7 +81,17 @@ defmodule CodeSponsor.Properties do
       ** (Ecto.NoResultsError)
 
   """
-  def get_property!(id), do: Repo.get!(Property, id)
+  def get_property!(id) do
+    try do
+      case Ecto.UUID.cast(id) do
+        {:ok, _} -> Repo.get!(Property, id)
+        :error   -> Repo.get_by!(Property, legacy_id: id)
+      end
+    rescue
+      Ecto.NoResultsError ->
+        Repo.get_by!(Property, legacy_id: id)
+    end
+  end
 
   @doc """
   Creates a property.

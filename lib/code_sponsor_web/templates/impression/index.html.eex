@@ -1,60 +1,48 @@
-<h2>Listing Impressions</h2>
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Impressions</li>
+</ol>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Ip</th>
-      <th>User agent</th>
-      <th>Browser</th>
-      <th>Os</th>
-      <th>Device type</th>
-      <th>Screen height</th>
-      <th>Screen width</th>
-      <th>Country</th>
-      <th>Region</th>
-      <th>City</th>
-      <th>Postal code</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Utm source</th>
-      <th>Utm medium</th>
-      <th>Utm term</th>
-      <th>Utm content</th>
-      <th>Utm campaign</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for impression <- @impressions do %>
-    <tr>
-      <td><%= impression.ip %></td>
-      <td><%= impression.user_agent %></td>
-      <td><%= impression.browser %></td>
-      <td><%= impression.os %></td>
-      <td><%= impression.device_type %></td>
-      <td><%= impression.screen_height %></td>
-      <td><%= impression.screen_width %></td>
-      <td><%= impression.country %></td>
-      <td><%= impression.region %></td>
-      <td><%= impression.city %></td>
-      <td><%= impression.postal_code %></td>
-      <td><%= impression.latitude %></td>
-      <td><%= impression.longitude %></td>
-      <td><%= impression.utm_source %></td>
-      <td><%= impression.utm_medium %></td>
-      <td><%= impression.utm_term %></td>
-      <td><%= impression.utm_content %></td>
-      <td><%= impression.utm_campaign %></td>
-
-      <td class="text-right">
-        <span><%= link "Show", to: impression_path(@conn, :show, impression), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: impression_path(@conn, :edit, impression), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: impression_path(@conn, :delete, impression), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Impression", to: impression_path(@conn, :new) %></span>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+    
+      <section>
+        <%= if length(@impressions) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Sponsorship</th>
+                <th>Campaign</th>
+                <th>Property</th>
+                <th>IP Address</th>
+                <th>Bot?</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for impression <- @impressions do %>
+                <tr>
+                  <td><%= impression.inserted_at %></td>
+                  <td><%= impression.sponsorship_id %></td>
+                  <td><%= impression.campaign_id %></td>
+                  <td><%= impression.property_id %></td>
+                  <td><%= impression.ip %></td>
+                  <td><%= impression.is_bot %></td>
+                  <td class="text-right p-2">
+                    <%= link 'Show', to: impression_path(@conn, :show, impression), class: "btn btn-outline-info btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= render CodeSponsorWeb.PaginationView, "_pagination.html", assigns %>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

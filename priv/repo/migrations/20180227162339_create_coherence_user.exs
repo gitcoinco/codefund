@@ -12,6 +12,8 @@ defmodule CodeSponsor.Repo.Migrations.CreateCoherenceUser do
       add :region, :string
       add :postal_code, :string
       add :country, :string
+
+      add :roles, {:array, :string}
       
       # authenticatable
       add :password_hash, :string

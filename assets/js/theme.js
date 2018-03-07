@@ -26,7 +26,8 @@
 * MAIN NAVIGATION
 */
 
-$(document).ready(function($){
+// $(document).ready(function($){
+document.addEventListener("turbolinks:load", function () {
 
   // Add class .active to current link
   $.navigation.find('a').each(function(){

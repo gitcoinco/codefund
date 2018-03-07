@@ -14,12 +14,12 @@ defmodule CodeSponsor.Campaigns.Campaign do
     
     field :name, :string
     field :redirect_url, :string
-    field :status, :integer
+    field :status, :integer, default: 1
     field :description, :string
-    field :bid, :decimal
-    field :budget_daily, :decimal
-    field :budget_monthly, :decimal
-    field :budget_total, :decimal
+    field :bid_amount, :decimal, default: Decimal.new(0.0)
+    field :budget_daily_amount, :decimal, default: Decimal.new(0.0)
+    field :budget_monthly_amount, :decimal, default: Decimal.new(0.0)
+    field :budget_total_amount, :decimal, default: Decimal.new(0.0)
 
     timestamps()
   end
@@ -30,10 +30,10 @@ defmodule CodeSponsor.Campaigns.Campaign do
     :redirect_url,
     :status,
     :description,
-    :bid,
-    :budget_daily,
-    :budget_monthly,
-    :budget_total
+    :bid_amount,
+    :budget_daily_amount,
+    :budget_monthly_amount,
+    :budget_total_amount
   ]
 
   @required [
@@ -41,10 +41,10 @@ defmodule CodeSponsor.Campaigns.Campaign do
     :name,
     :redirect_url,
     :status,
-    :bid,
-    :budget_daily,
-    :budget_monthly,
-    :budget_total
+    :bid_amount,
+    :budget_daily_amount,
+    :budget_monthly_amount,
+    :budget_total_amount
   ]
 
   @doc false

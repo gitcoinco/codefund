@@ -49,6 +49,14 @@
                   <td><strong>Description</strong></td>
                   <td><%= @property.description %></td>
                 </tr>
+                <tr>
+                  <td><strong>Legacy ID</strong></td>
+                  <td><%= @property.legacy_id %></td>
+                </tr>
+                <tr>
+                  <td><strong>Current Sponsorship</strong></td>
+                  <td><%= if (@sponsorship), do: @sponsorship.id, else: "None" %></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -61,7 +69,16 @@
           Embed Instructions
         </div>
         <div class="card-body">
-          See https://badge.fury.io/for/rb/dotenv
+          <p>See https://badge.fury.io/for/rb/dotenv</p>
+
+          <h5>Pixel Code</h5>
+          <pre><code><%= track_url @conn, :pixel, @property %></code></pre>
+
+          <h5>Logo Code</h5>
+          <pre><code><%= track_url @conn, :logo, @property %></code></pre>
+
+          <h5>Click Link</h5>
+          <pre><code><%= track_url @conn, :click, @property %></code></pre>
         </div>
       </div>
     </div>

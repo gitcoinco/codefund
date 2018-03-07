@@ -1,5 +1,16 @@
-<h2>New Sponsorship</h2>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Sponsorships", to: sponsorship_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active">Add Sponsorship</li>
+</ol>
 
-<%= render "form.html", Map.put(assigns, :action, sponsorship_path(@conn, :create)) %>
-
-<span><%= link "Back", to: sponsorship_path(@conn, :index) %></span>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form.html",
+        assigns
+        |> Map.put(:action, sponsorship_path(@conn, :create))
+        |> Map.put(:method, :post) %>
+    </div>
+  </div>
+</div>

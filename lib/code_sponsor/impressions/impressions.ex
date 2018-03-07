@@ -3,10 +3,55 @@ defmodule CodeSponsor.Impressions do
   The Impressions context.
   """
 
+  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
+  import Filtrex.Type.Config
   import Ecto.Query, warn: false
-  alias CodeSponsor.Repo
 
+  alias CodeSponsor.Repo
   alias CodeSponsor.Impressions.Impression
+  alias CodeSponsor.Coherence.User
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of impressions using filtrex filters.
+  """
+  def paginate_impressions(params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:impressions), params["impression"] || %{}),
+        %Scrivener.Page{} = page <- do_paginate_impressions(filter, params) do
+      {:ok,
+        %{
+          impressions: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_impressions(filter, params) do
+    Impression
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
 
   @doc """
   Returns the list of impressions.
@@ -100,5 +145,11 @@ defmodule CodeSponsor.Impressions do
   """
   def change_impression(%Impression{} = impression) do
     Impression.changeset(impression, %{})
+  end
+  
+  defp filter_config(:impressions) do
+    defconfig do
+      text :ip_address
+    end
   end
 end

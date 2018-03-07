@@ -12,7 +12,9 @@ defmodule CodeSponsor.Clicks.Click do
     belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
-    field :bot, :boolean
+    field :is_bot, :boolean, default: false
+    field :is_duplicate, :boolean, default: false
+    field :is_fraud, :boolean, default: false
     field :browser, :string
     field :city, :string
     field :country, :string

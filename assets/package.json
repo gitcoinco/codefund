@@ -24,6 +24,7 @@
     "popper.js": "^1.12.9",
     "postcss-brunch": "^2.1.0",
     "tether": "^1.4.3",
+    "turbolinks": "^5.1.1",
     "uglify-js-brunch": "2.10.0"
   },
   "devDependencies": {

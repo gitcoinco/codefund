@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/images/code-sponsor-logo-square.png">
-  <title>Code Sponsor</title>
+  <title><%= title @conn, "Code Sponsor" %></title>
 
   <!-- Icons -->
   <link href="<%= static_path(@conn, "/theme/css/flag-icon.min.css") %>" rel="stylesheet">
@@ -19,6 +19,21 @@
   <link href="<%= static_path(@conn, "/theme/css/daterangepicker.min.css") %>" rel="stylesheet">
   <link href="<%= static_path(@conn, "/theme/css/gauge.min.css") %>" rel="stylesheet">
   <link href="<%= static_path(@conn, "/theme/css/toastr.min.css") %>" rel="stylesheet">
+
+  <!-- Bootstrap and necessary plugins -->
+  <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/popper.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/bootstrap.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/pace.min.js") %>"></script>
+
+  <!-- Prime main scripts -->
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+  <!-- Plugins and scripts required by this views -->
+  <script src="<%= static_path(@conn, "/theme/js/toastr.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/gauge.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/moment.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/daterangepicker.min.js") %>"></script>
 
 </head>
 
@@ -67,30 +82,38 @@
               Dashboard
             <% end %>
           </li>
-          <li class="nav-item">
-            <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
-              <i class="icon-layers"></i>
-              Properties
-            <% end %>
+          <%= if has_any_role? @conn, ["admin", "developer"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-layers"></i>
+                Properties
+              <% end %>
+            </li>
+          <% end %>
+          <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: campaign_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-rocket"></i>
+                Campaigns
+              <% end %>
           </li>
-          <li class="nav-item">
-            <%= active_link(@conn, to: "#", class: "nav-link") do %>
-              <i class="icon-heart"></i>
-              Sponsors
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <%= active_link(@conn, to: campaign_path(@conn, :index), class: "nav-link") do %>
-              <i class="icon-rocket"></i>
-              Campaigns
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">
-              <i class="icon-cup"></i>
-              Distributions
-            </a>
-          </li>
+          <% end %>
+          <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: sponsorship_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-energy"></i>
+                Sponsorships
+              <% end %>
+            </li>
+          <% end %>
+          <%= if has_any_role? @conn, ["admin"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: impression_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-eye"></i>
+                Impressions
+              <% end %>
+            </li>
+          <% end %>
           <li class="nav-item">
             <%= active_link(@conn, to: registration_path(@conn, :show), class: "nav-link") do %>
               <i class="icon-user"></i>
@@ -115,22 +138,5 @@
     <span>&copy; 2018 <a href="https://consensys.net">ConsenSys</a>. All Rights Reserved</span>
     <span class="ml-auto">Powered by <a href="https://github.com/codesponsor/web">Open Source</a></span>
   </footer>
-
-  <!-- Bootstrap and necessary plugins -->
-  <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/popper.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/bootstrap.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/pace.min.js") %>"></script>
-
-  <!-- Prime main scripts -->
-
-  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-
-  <!-- Plugins and scripts required by this views -->
-  <script src="<%= static_path(@conn, "/theme/js/toastr.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/gauge.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/moment.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/daterangepicker.min.js") %>"></script>
-
 </body>
 </html>
