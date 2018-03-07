@@ -7,9 +7,9 @@ defmodule CodeSponsor.SponsorshipsTest do
   import CodeSponsor.Factory
 
   describe "sponsorships" do
-    @valid_attrs %{bid_amount: 1.50}
-    @update_attrs %{bid_amount: 2.25}
-    @invalid_attrs %{bid_amount: nil}
+    @valid_attrs %{bid_amount: 1.50, redirect_url: "https://gitcoin.co"}
+    @update_attrs %{bid_amount: 2.25, redirect_url: "https://codesponsor.io"}
+    @invalid_attrs %{bid_amount: nil, redirect_url: "consensys.net"}
 
     test "paginate_sponsorships/1 returns paginated results" do
       insert_list(25, :sponsorship)

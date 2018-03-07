@@ -16,17 +16,19 @@ defmodule CodeSponsor.Sponsorships.Sponsorship do
 
     field :redirect_url, :string
     field :bid_amount, :decimal
+    field :override_revenue_rate, :decimal
     
     timestamps()
   end
 
-  @attrs [:bid_amount, :redirect_url]
-  @required [:bid_amount]
+  @attrs [:bid_amount, :redirect_url, :override_revenue_rate]
+  @required [:bid_amount, :redirect_url]
 
   @doc false
   def changeset(%Sponsorship{} = sponsorship, attrs) do
     sponsorship
     |> cast(attrs, @attrs)
     |> validate_required(@required)
+    |> validate_format(:redirect_url, ~r/https?\:\/\/.*/)
   end
 end

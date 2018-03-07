@@ -9,7 +9,6 @@ defmodule CodeSponsor.Impressions do
 
   alias CodeSponsor.Repo
   alias CodeSponsor.Impressions.Impression
-  alias CodeSponsor.Coherence.User
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -149,7 +148,7 @@ defmodule CodeSponsor.Impressions do
   
   defp filter_config(:impressions) do
     defconfig do
-      text :ip_address
+      text :ip
     end
   end
 end
