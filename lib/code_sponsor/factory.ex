@@ -7,7 +7,8 @@ defmodule CodeSponsor.Factory do
       last_name: "Greene",
       email: sequence(:email, &"user-#{&1}@example.com"),
       password_hash: "$2b$12$XgUXHTx3ipopQvWHvjkwPu0khqOmZTYWtT5TMv/PIgbiadFtwBdzi", # 'secret'
-      roles: ["sponsor"]
+      roles: ["sponsor"],
+      revenue_rate: Decimal.new(0.6)
     }
   end
 
@@ -37,7 +38,30 @@ defmodule CodeSponsor.Factory do
     %CodeSponsor.Sponsorships.Sponsorship{
       property: build(:property),
       campaign: build(:campaign),
-      bid_amount: Decimal.new(250.00)
+      bid_amount: Decimal.new(250.00),
+      redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
+    }
+  end
+
+  def impression_factory do
+    %CodeSponsor.Impressions.Impression{
+      sponsorship: build(:sponsorship),
+      property: build(:property),
+      campaign: build(:campaign),
+      ip: "51.52.53.54",
+      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
+    }
+  end
+
+  def click_factory do
+    %CodeSponsor.Clicks.Click{
+      sponsorship: build(:sponsorship),
+      property: build(:property),
+      campaign: build(:campaign),
+      ip: "51.52.53.54",
+      revenue_amount: Decimal.new(0),
+      distribution_amount: Decimal.new(0),
+      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
     }
   end
 end

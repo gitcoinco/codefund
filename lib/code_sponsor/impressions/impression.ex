@@ -12,12 +12,12 @@ defmodule CodeSponsor.Impressions.Impression do
     belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
+    field :ip, :string
     field :is_bot, :boolean, default: false
     field :browser, :string
     field :city, :string
     field :country, :string
     field :device_type, :string
-    field :ip, :string
     field :latitude, :decimal
     field :longitude, :decimal
     field :os, :string
@@ -40,6 +40,7 @@ defmodule CodeSponsor.Impressions.Impression do
     :sponsorship_id,
     :campaign_id,
     :ip,
+    :is_bot,
     :user_agent,
     :browser,
     :os,

@@ -3,10 +3,54 @@ defmodule CodeSponsor.Clicks do
   The Clicks context.
   """
 
+  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
+  import Filtrex.Type.Config
   import Ecto.Query, warn: false
-  alias CodeSponsor.Repo
 
+  alias CodeSponsor.Repo
   alias CodeSponsor.Clicks.Click
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of clicks using filtrex filters.
+  """
+  def paginate_clicks(params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:clicks), params["click"] || %{}),
+        %Scrivener.Page{} = page <- do_paginate_clicks(filter, params) do
+      {:ok,
+        %{
+          clicks: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_clicks(filter, params) do
+    Click
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
 
   @doc """
   Returns the list of clicks.
@@ -73,6 +117,39 @@ defmodule CodeSponsor.Clicks do
     |> Repo.update()
   end
 
+  def set_status(%Click{} = click, status, attrs \\ %{}) do
+    status_int = Click.statuses[status]
+    attrs = Map.merge(attrs, %{status: status_int})
+    click
+    |> Click.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Determine if a click is a duplicate
+
+  ## Examples
+
+      iex> is_duplicate(click, %{field: new_value})
+      {:ok, %Click{}}
+
+      iex> update_click(click, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def is_duplicate?(sponsorship_id, ip_address) do
+    query = from c in Click,
+              select: count(c.id),
+              where: [
+                sponsorship_id: ^sponsorship_id,
+                ip: ^ip_address,
+                status: ^Click.statuses[:redirected]
+              ],
+              where: c.inserted_at >= ^Timex.shift(Timex.now, days: -7)
+    matches = query |> Repo.one
+    matches > 0
+  end
+
   @doc """
   Deletes a Click.
 
@@ -100,5 +177,11 @@ defmodule CodeSponsor.Clicks do
   """
   def change_click(%Click{} = click) do
     Click.changeset(click, %{})
+  end
+
+  defp filter_config(:clicks) do
+    defconfig do
+      text :ip
+    end
   end
 end

@@ -24,7 +24,6 @@
   <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/popper.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/bootstrap.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/pace.min.js") %>"></script>
 
   <!-- Prime main scripts -->
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

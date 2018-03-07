@@ -14,6 +14,8 @@ defmodule CodeSponsor.Repo.Migrations.CreateCoherenceUser do
       add :country, :string
 
       add :roles, {:array, :string}
+
+      add :revenue_rate, :decimal, precision: 3, scale: 3, null: false, default: 0.5
       
       # authenticatable
       add :password_hash, :string

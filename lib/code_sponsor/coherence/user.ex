@@ -16,16 +16,45 @@ defmodule CodeSponsor.Coherence.User do
     field :first_name, :string
     field :last_name, :string
     field :email, :string
+    field :address_1, :string
+    field :address_2, :string
+    field :city, :string
+    field :region, :string
+    field :postal_code, :string
+    field :country, :string
     field :roles, {:array, :string}
+    field :revenue_rate, :decimal
+
     coherence_schema()
 
     timestamps()
   end
 
+  @attrs [
+    :email,
+    :first_name,
+    :last_name,
+    :address_1,
+    :address_2,
+    :city,
+    :region,
+    :postal_code,
+    :country,
+    :roles,
+    :revenue_rate
+  ]
+
+  @required [
+    :email,
+    :first_name,
+    :last_name,
+    :revenue_rate
+  ]
+
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, [:first_name, :last_name, :email] ++ coherence_fields())
-    |> validate_required([:first_name, :last_name, :email])
+    |> cast(params, @attrs ++ coherence_fields())
+    |> validate_required(@required)
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> validate_coherence(params)

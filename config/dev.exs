@@ -37,7 +37,9 @@ config :code_sponsor, CodeSponsorWeb.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/code_sponsor_web/views/.*(ex)$},
-      ~r{lib/code_sponsor_web/templates/.*(eex)$}
+      ~r{lib/code_sponsor_web/templates/.*(eex)$},
+      ~r{lib/code_sponsor_web/forms/.*(ex)$},
+      ~r{lib/code_sponsor_web/plugs/.*(ex)$}
     ]
   ]
 

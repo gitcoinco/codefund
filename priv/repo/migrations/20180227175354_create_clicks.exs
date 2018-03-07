@@ -4,6 +4,7 @@ defmodule CodeSponsor.Repo.Migrations.CreateClicks do
   def change do
     create table(:clicks, primary_key: false) do
       add :id, :binary_id, primary_key: true
+      add :status, :integer, null: false, default: 0
       add :ip, :string, null: false
       add :is_bot, :boolean, default: false
       add :is_duplicate, :boolean, default: false

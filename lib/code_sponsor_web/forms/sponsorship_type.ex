@@ -19,6 +19,13 @@ defmodule CodeSponsorWeb.SponsorshipType do
           :required,
           format: [arg: ~r/^https?:\/\/.+$/]
         ])
+      |> add(:override_revenue_rate, :number_input,
+        label: "Revenue Rate (override)",
+        validation: [:required],
+        phoenix_opts: [
+          step: "0.001",
+          min: "0"
+        ])
       |> add(:save, :submit, label: "Submit", phoenix_opts: [
         class: "btn-primary"
       ])

@@ -30,7 +30,9 @@ defmodule CodeSponsor.Mixfile do
         :geoip,
         :scrivener_ecto,
         :scrivener_html,
-        :formex
+        :formex,
+        :timex,
+        :timex_ecto
       ]
     ]
   end
@@ -66,7 +68,10 @@ defmodule CodeSponsor.Mixfile do
       {:scrivener_html, "~> 1.7"},
       {:filtrex, "~> 0.4.1"},
       {:formex, "~> 0.6.0"},
-      {:formex_ecto, "~> 0.1.0"}
+      {:formex_ecto, "~> 0.1.0"},
+      {:timex, "~> 3.1"},
+      {:timex_ecto, "~> 3.0"},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 

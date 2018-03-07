@@ -5,6 +5,7 @@ defmodule CodeSponsor.Repo.Migrations.CreateSponsorships do
     create table(:sponsorships, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :bid_amount, :decimal, precision: 10, scale: 2, null: false
+      add :override_revenue_rate, :decimal, precision: 3, scale: 3
       add :redirect_url, :text
       add :property_id, references(:properties, on_delete: :nothing, type: :binary_id)
       add :campaign_id, references(:campaigns, on_delete: :nothing, type: :binary_id)

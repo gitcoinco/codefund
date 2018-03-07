@@ -1,48 +1,104 @@
 defmodule CodeSponsorWeb.TrackController do
   use CodeSponsorWeb, :controller
-
-  alias CodeSponsor.Repo
+  import CodeSponsor.Constants
   alias CodeSponsor.Impressions
   alias CodeSponsor.Clicks
   alias CodeSponsor.Properties
   alias CodeSponsor.Sponsorships
-
-  @transparent_png <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
+  
+  const :transparent_png, <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
 
   def pixel(conn, %{"property_id" => property_id} = params) do
     try do
       property = Properties.get_property!(property_id)
       sponsorship = Sponsorships.get_sponsorship_for_property(property)
-      track_impression(conn, property, sponsorship, params)
+      
+      impression_id =
+        case track_impression(conn, property, sponsorship, params) do
+          {:ok, impression} ->
+            impression.id
+          {:error, _} -> nil
+        end
+
+      if impression_id !== nil do
+        enqueue_worker(CodeSponsorWeb.UpdateImpressionGeolocationWorker, [impression_id])
+      end
+
+      conn
+      |> put_resp_content_type("image/png")
+      |> put_private(:impression_id, impression_id)
+      |> send_resp(200, transparent_png())
+
     rescue
-      Ecto.NoResultsError -> IO.puts("Property is missing with ID [#{property_id}]")
+      Ecto.NoResultsError -> :ok
+
+      conn
+      |> put_resp_content_type("image/png")
+      |> put_private(:impression_id, "")
+      |> send_resp(200, transparent_png())
     end
-    
-    conn
-    |> put_resp_content_type("image/png")
-    |> send_resp(200, @transparent_png)
   end
 
   def click(conn, %{"property_id" => property_id} = params) do
     try do
       property = Properties.get_property!(property_id)
-      sponsorship = Repo.preload(property, :sponsorship).sponsorship
+      sponsorship = Sponsorships.get_sponsorship_for_property(property)
       
-      track_click(conn, property, sponsorship, params)
-    
-      redirect conn, external: sponsorship.redirect_url
-      
+      case track_click(conn, property, sponsorship, params) do
+        {:ok, click} ->
+          enqueue_worker(CodeSponsorWeb.UpdateClickGeolocationWorker, [click.id])
+
+          no_rev_dist = %{
+            revenue_amount: Decimal.new(0),
+            distribution_amount: Decimal.new(0)
+          }
+
+          cond do
+            sponsorship == nil ->
+              Clicks.set_status(click, :no_sponsor, no_rev_dist)
+            click.is_bot ->
+              Clicks.set_status(click, :bot, no_rev_dist)
+            click.is_duplicate ->
+              Clicks.set_status(click, :duplicate, no_rev_dist)
+            true ->
+              revenue = Money.new(sponsorship.bid_amount, :USD)
+
+              revenue_rate = cond do
+                sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
+                true -> sponsorship.property.user.revenue_rate
+              end
+
+              distribution = case Money.mult(revenue, revenue_rate) do
+                {:ok, amount} -> Money.round(amount).amount
+                {:error, _}   -> 0
+              end
+
+              Clicks.set_status(click, :redirected, %{
+                revenue_amount: revenue.amount,
+                distribution_amount: distribution
+              })
+          end
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          IO.puts("Unable to save click: #{inspect(changeset)}")
+      end
+
+      if sponsorship do
+        redirect conn, external: sponsorship.redirect_url
+      else
+        redirect conn, external: "/?utm_content=no-sponsor&utm_term=#{property.id}"
+      end
     rescue
       Ecto.NoResultsError ->
         IO.puts("Property is missing with ID [#{property_id}]")
-        redirect conn, external: "/"
+        redirect conn, external: "/?utm_content=no-property"
     end
   end
 
   defp track_impression(conn, property, sponsorship, params) do
     ip_address  = conn.remote_ip |> Tuple.to_list |> Enum.join(".")
     user_agent  = conn |> get_req_header("user-agent") |> Enum.at(0)
-    is_bot      = Browser.bot?(conn)
+    is_bot      = Browser.bot?(user_agent)
     browser     = Browser.name(user_agent)
     os          = Atom.to_string(Browser.platform(user_agent))
     device_type = parse_device_type(user_agent)
@@ -75,14 +131,9 @@ defmodule CodeSponsorWeb.TrackController do
         campaign_id:    sponsorship.campaign_id,
         sponsorship_id: sponsorship.id,
       })
-    end
-
-    case Impressions.create_impression(impression_params) do
-      {:ok, impression} ->
-        Exq.enqueue(Exq, "cs_low", CodeSponsorWeb.UpdateImpressionGeolocationWorker, [impression.id])
-        IO.puts("Saved impression")
-      {:error, %Ecto.Changeset{} = changeset} ->
-        IO.puts("Unable to save impression: #{inspect(changeset)}")
+      Impressions.create_impression(impression_params)
+    else
+      Impressions.create_impression(impression_params)
     end
   end
 
@@ -93,50 +144,64 @@ defmodule CodeSponsorWeb.TrackController do
     is_bot           = Browser.bot?(conn)
     browser          = Browser.name(user_agent)
     os               = Atom.to_string(Browser.platform(user_agent))
-    referring_domain = URI.parse(referrer).host
     device_type      = parse_device_type(user_agent)
 
-    # Override of Browser method `device_type` because it wasn't working
+    referring_domain =
+      if referrer do
+        URI.parse(referrer).host
+      else
+        nil
+      end
+
+    is_duplicate =
+      if sponsorship do
+        Clicks.is_duplicate?(sponsorship.id, ip_address)
+      else
+        false
+      end
 
     click_params = %{
-      property_id:      property.id,
-      ip:               ip_address,
-      is_bot:           is_bot,
-      landing_page:     conn.request_path,
-      referrer:         referrer,
-      referring_domain: referring_domain,
-      browser:          browser,
-      os:               os,
-      device_type:      device_type,
-      city:             nil,
-      region:           nil,
-      postal_code:      nil,
-      country:          nil,
-      latitude:         nil,
-      longitude:        nil,
-      screen_height:    nil,
-      screen_width:     nil,
-      user_agent:       user_agent,
-      utm_campaign:     params["utm_campaign"],
-      utm_content:      params["utm_content"],
-      utm_medium:       params["utm_medium"],
-      utm_source:       params["utm_source"],
-      utm_term:         params["utm_term"]
+      property_id:         property.id,
+      ip:                  ip_address,
+      is_bot:              is_bot,
+      is_duplicate:        is_duplicate,
+      landing_page:        conn.request_path,
+      referrer:            referrer,
+      referring_domain:    referring_domain,
+      browser:             browser,
+      os:                  os,
+      device_type:         device_type,
+      city:                nil,
+      region:              nil,
+      postal_code:         nil,
+      country:             nil,
+      latitude:            nil,
+      longitude:           nil,
+      screen_height:       nil,
+      screen_width:        nil,
+      user_agent:          user_agent,
+      utm_campaign:        params["utm_campaign"],
+      utm_content:         params["utm_content"],
+      utm_medium:          params["utm_medium"],
+      utm_source:          params["utm_source"],
+      utm_term:            params["utm_term"],
+      revenue_amount:      0,
+      distribution_amount: 0
     }
 
+    
     if sponsorship do
       click_params = Map.merge(click_params, %{
         campaign_id:    sponsorship.campaign_id,
         sponsorship_id: sponsorship.id,
-      })
-    end
-
+        })
+      end
+      
     case Clicks.create_click(click_params) do
       {:ok, click} ->
-        Exq.enqueue(Exq, "cs_low", CodeSponsorWeb.UpdateClickGeolocationWorker, [click.id])
-        IO.puts("Saved click")
+        {:ok, click}
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.puts("Unable to save click: #{inspect(changeset)}")
+        {:error, nil}
     end
   end
 
@@ -147,6 +212,15 @@ defmodule CodeSponsorWeb.TrackController do
       Browser.console?(user_agent) -> "console"
       Browser.known?(user_agent)   -> "desktop"
       true                         -> "unknown"
+    end
+  end
+
+  # See https://github.com/akira/exq/issues/199
+  defp enqueue_worker(worker, args) do
+    if Mix.env == :test do
+      apply(worker, :perform, args)
+    else
+      Exq.enqueue(Exq, "cs_low", worker, args)
     end
   end
 

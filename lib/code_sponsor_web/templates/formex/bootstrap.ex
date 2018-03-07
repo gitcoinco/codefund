@@ -15,11 +15,6 @@ defmodule CodeSponsorWeb.Formex.Bootstrap do
         data = field.data
         phoenix_opts = field.phoenix_opts
 
-
-        IO.puts("-----------------------------------------------------------------")
-        IO.puts(inspect(form.new_struct))
-        IO.puts("-----------------------------------------------------------------")
-
         args = [form.phoenix_form, field.name]
 
         args = args ++ cond do

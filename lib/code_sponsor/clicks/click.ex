@@ -3,7 +3,16 @@ defmodule CodeSponsor.Clicks.Click do
   use Formex.Ecto.Schema
   import Ecto.Changeset
   alias CodeSponsor.Clicks.Click
+  import CodeSponsor.Constants
 
+  const :statuses, %{
+    pending:    0,
+    redirected: 1,
+    bot:        100,
+    duplicate:  101,
+    fraud:      102,
+    no_sponsor: 103
+  }
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -12,6 +21,7 @@ defmodule CodeSponsor.Clicks.Click do
     belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 
+    field :status, :integer, default: 0
     field :is_bot, :boolean, default: false
     field :is_duplicate, :boolean, default: false
     field :is_fraud, :boolean, default: false
@@ -37,14 +47,58 @@ defmodule CodeSponsor.Clicks.Click do
     field :utm_medium, :string
     field :utm_source, :string
     field :utm_term, :string
+    field :revenue_amount, :decimal
+    field :distribution_amount, :decimal
 
     timestamps()
   end
 
+  @attrs [
+    :status,
+    :property_id,
+    :sponsorship_id,
+    :campaign_id,
+    :ip,
+    :user_agent,
+    :is_bot,
+    :is_duplicate,
+    :is_fraud,
+    :referrer,
+    :landing_page,
+    :referring_domain,
+    :search_keyword,
+    :browser,
+    :os,
+    :device_type,
+    :screen_height,
+    :screen_width,
+    :country,
+    :region,
+    :city,
+    :postal_code,
+    :latitude,
+    :longitude,
+    :utm_source,
+    :utm_medium,
+    :utm_term,
+    :utm_content,
+    :utm_campaign,
+    :revenue_amount,
+    :distribution_amount
+  ]
+
+  @required [
+    :status,
+    :property_id,
+    :ip,
+    :revenue_amount,
+    :distribution_amount
+  ]
+
   @doc false
   def changeset(%Click{} = click, attrs) do
     click
-    |> cast(attrs, [:ip, :user_agent, :referrer, :landing_page, :referring_domain, :search_keyword, :browser, :os, :device_type, :screen_height, :screen_width, :country, :region, :city, :postal_code, :latitude, :longitude, :utm_source, :utm_medium, :utm_term, :utm_content, :utm_campaign])
-    |> validate_required([:ip])
+    |> cast(attrs, @attrs)
+    |> validate_required(@required)
   end
 end
