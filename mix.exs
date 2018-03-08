@@ -27,12 +27,13 @@ defmodule CodeSponsor.Mixfile do
         :coherence,
         :exq,
         :exq_ui,
-        :geoip,
+        # :geoip,
         :scrivener_ecto,
         :scrivener_html,
         :formex,
         :timex,
-        :timex_ecto
+        :timex_ecto,
+        :httpoison
       ]
     ]
   end
@@ -61,7 +62,7 @@ defmodule CodeSponsor.Mixfile do
       {:browser, "~> 0.1.0"},
       {:exq, "~> 0.10.1"},
       {:exq_ui, "~> 0.9.0"},
-      {:geoip, "~> 0.1"},
+      # {:geoip, "~> 0.1"},
       {:phoenix_active_link, "~> 0.1.1"},
       {:scrivener, "~> 2.0"},
       {:scrivener_ecto, "~> 1.0"},
@@ -71,6 +72,7 @@ defmodule CodeSponsor.Mixfile do
       {:formex_ecto, "~> 0.1.0"},
       {:timex, "~> 3.1"},
       {:timex_ecto, "~> 3.0"},
+      {:httpoison, "~> 1.0"},
       {:mock, "~> 0.3.0", only: :test}
     ]
   end
