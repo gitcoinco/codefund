@@ -38,4 +38,4 @@ RUN cd assets && npm run deploy
 RUN mix phx.digest
 
 # run phoenix in production on PORT 4000
-CMD mix ecto.create, ecto.migrate, phx.server
+CMD ["mix ecto.create; mix ecto.migrate; mix phx.server"]
