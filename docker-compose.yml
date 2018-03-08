@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  phoenix:
+    build: .
+    ports:
+      - 4000:4000
+    volumes:
+      - '.:/app'
+    command: bash -c "mix deps.get && mix ecto.migrate && mix phx.server"
+    env_file: './.env'
