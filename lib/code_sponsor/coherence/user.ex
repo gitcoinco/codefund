@@ -3,7 +3,7 @@ defmodule CodeSponsor.Coherence.User do
   use Ecto.Schema
   use Formex.Ecto.Schema
   use Coherence.Schema
-  
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
@@ -47,8 +47,7 @@ defmodule CodeSponsor.Coherence.User do
   @required [
     :email,
     :first_name,
-    :last_name,
-    :revenue_rate
+    :last_name
   ]
 
   def changeset(model, params \\ %{}) do
