@@ -67,55 +67,6 @@ cd ../
 mix phx.server
 ```
 
-#### Install Nanobox
-
-[Download and Install Nanobox](https://nanobox.io/download)
-
-#### Clone the repo
-
-    # clone the code
-    git clone https://github.com/codesponsor/web.git
-
-    # cd into the phoenix app
-    cd web
-
-#### Run the app
-
-    # Add a convenient way to access your app from the browser
-    nanobox dns add local codesponsor.local
-    
-    # Set up environment variables
-    nanobox evar add local \
-      MAILGUN_API_KEY=__MAILGUN_API_KEY__ \
-      MAILGUN_DOMAIN=__MAILGUN_DOMAIN__ \
-      SECRET_KEY_BASE=__SECRET_KEY_BASE__
-
-    # Run phoenix
-    nanobox run mix phx.server
-    
-#### Open in browser
-
-Visit your app at [http://codesponsor.local:4000](http://codesponsor.local:4000)
-
-#### Explore
-
-With Nanobox, you have everything you need develop and run your phoenix app:
-
-    # drop into a Nanobox console
-    nanobox run
-
-    # where elixir is installed,
-    elixir -v
-
-    # your packages are available,
-    mix list
-
-    # and your code is mounted
-    ls
-
-    # exit the console
-    exit
-
 ## Road map
 
 We have a road map of what we are going to implement next.
