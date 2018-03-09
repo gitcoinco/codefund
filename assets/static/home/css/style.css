@@ -1,0 +1,133 @@
+/*
+* Style
+*/
+
+/*
+* Google font
+*/
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700|Roboto");
+
+
+/*
+* Section - Home
+*/
+
+/** BG Image */
+#home {
+    background-image: url("../images/bg-home-1.jpg");
+}
+
+/** BG Parallax */
+#home-bg-parallax > .bg-parallax {
+    background: url("../images/bg-parallax.jpg");
+}
+
+/** BG Slider */
+#home-bg-slider .flickity-slider > .carousel-cell:nth-child(1) {
+    background: url("../images/bg-home-1.jpg");
+}
+#home-bg-slider .flickity-slider > .carousel-cell:nth-child(2) {
+    background: url("../images/bg-home-2.jpg");
+}
+#home-bg-slider .flickity-slider > .carousel-cell:nth-child(3) {
+    background: url("../images/bg-home-3.jpg");
+}
+
+/** BG Slideshow */
+#home-bg-slideshow .slides > .bg-cover:nth-child(1) {
+    background: url("../images/bg-home-1.jpg");
+}
+#home-bg-slideshow .slides > .bg-cover:nth-child(2) {
+    background: url("../images/bg-home-2.jpg");
+}
+#home-bg-slideshow .slides > .bg-cover:nth-child(3) {
+    background: url("../images/bg-home-3.jpg");
+}
+
+/** BG Video */
+#home-bg-video .player:before {
+    z-index: 15;
+}
+#home-bg-video .player.is-mobile {
+    display: none;
+}
+#home-bg-video .container {
+    position: relative;
+    z-index: 20;
+}
+
+
+/*
+* Section - Benefits
+*/
+
+#benefits {
+    background-image: url("../images/bg-benefits.jpg");
+}
+
+
+/*
+* Section - Milestones
+*/
+
+#milestones {
+    background-image: url("../images/bg-milestones.jpg");
+}
+
+
+/*
+* Section - Pricing
+*/
+
+#pricing {
+    background-image: url("../images/bg-pricing.jpg");
+}
+
+
+/*
+* Section - Contact
+*/
+
+#contact {
+    background-image: url("../images/bg-contact.jpg");
+}
+.contact-card {
+    opacity: 0.98;
+    min-height: 140px;
+}
+.contact-card img {
+    left: 0;
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 15;
+}
+.contact-card-block {
+    left: 0;
+    padding: 0 30px 0 175px;
+    position: absolute;
+    top: 0;
+    z-index: 20;
+}
+@media (max-width: 575px) {
+    .contact-card img {
+        display: none;
+    }
+    .contact-card-block {
+        padding: 0 30px;
+    }
+}
+
+
+/*
+* Footer
+*/
+
+.footer-logo {
+    max-height: 40px;
+}
+.footer-icon-social {
+    bottom: 10px;
+    position: relative;
+}

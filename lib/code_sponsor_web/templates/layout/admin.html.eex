@@ -7,6 +7,25 @@
   <link rel="shortcut icon" href="/images/code-sponsor-logo-square.png">
   <title><%= title @conn, "Code Sponsor" %></title>
 
+  <!-- Browser Icons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="<%= static_path(@conn, "images/apple-icon-57x57.png") %>">
+  <link rel="apple-touch-icon" sizes="60x60" href="<%= static_path(@conn, "images/apple-icon-60x60.png") %>">
+  <link rel="apple-touch-icon" sizes="72x72" href="<%= static_path(@conn, "images/apple-icon-72x72.png") %>">
+  <link rel="apple-touch-icon" sizes="76x76" href="<%= static_path(@conn, "images/apple-icon-76x76.png") %>">
+  <link rel="apple-touch-icon" sizes="114x114" href="<%= static_path(@conn, "images/apple-icon-114x114.png") %>">
+  <link rel="apple-touch-icon" sizes="120x120" href="<%= static_path(@conn, "images/apple-icon-120x120.png") %>">
+  <link rel="apple-touch-icon" sizes="144x144" href="<%= static_path(@conn, "images/apple-icon-144x144.png") %>">
+  <link rel="apple-touch-icon" sizes="152x152" href="<%= static_path(@conn, "images/apple-icon-152x152.png") %>">
+  <link rel="apple-touch-icon" sizes="180x180" href="<%= static_path(@conn, "images/apple-icon-180x180.png") %>">
+  <link rel="icon" type="image/png" sizes="192x192" href="<%= static_path(@conn, "images/android-icon-192x192.png") %>">
+  <link rel="icon" type="image/png" sizes="32x32" href="<%= static_path(@conn, "images/favicon-32x32.png") %>">
+  <link rel="icon" type="image/png" sizes="96x96" href="<%= static_path(@conn, "images/favicon-96x96.png") %>">
+  <link rel="icon" type="image/png" sizes="16x16" href="<%= static_path(@conn, "images/favicon-16x16.png") %>">
+  <link rel="manifest" href="<%= static_path(@conn, "images/manifest.json") %>">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="<%= static_path(@conn, "images/ms-icon-144x144.png") %>">
+  <meta name="theme-color" content="#ffffff">
+
   <!-- Icons -->
   <link href="<%= static_path(@conn, "/theme/css/flag-icon.min.css") %>" rel="stylesheet">
   <link href="<%= static_path(@conn, "/theme/css/font-awesome.min.css") %>" rel="stylesheet">
