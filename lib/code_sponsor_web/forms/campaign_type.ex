@@ -22,7 +22,7 @@ defmodule CodeSponsorWeb.CampaignType do
         step: "0.01",
         min: "0"
       ])
-    |> add(:budget_daily, :number_input,
+    |> add(:budget_daily_amount, :number_input,
       label: "Daily Budget",
       validation: [:required],
       addon: "$",
@@ -30,7 +30,7 @@ defmodule CodeSponsorWeb.CampaignType do
         step: "0.01",
         min: "0"
       ])
-    |> add(:budget_monthly, :number_input,
+    |> add(:budget_monthly_amount, :number_input,
       label: "Monthly Budget",
       validation: [:required],
       addon: "$",
@@ -38,7 +38,7 @@ defmodule CodeSponsorWeb.CampaignType do
         step: "0.01",
         min: "0"
       ])
-    |> add(:budget_total, :number_input,
+    |> add(:budget_total_amount, :number_input,
       label: "Total Budget",
       validation: [:required],
       addon: "$",
