@@ -1,11 +1,28 @@
-version: '3'
+version: '2'
 
 services:
+  redis:
+    image: redis
+
+  postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
   phoenix:
+    depends_on:
+      - postgres
+      - redis
     build: .
     ports:
       - 4000:4000
     volumes:
       - '.:/app'
     command: bash -c "mix deps.get && mix ecto.migrate && mix phx.server"
-    env_file: './.env'
+    environment:
+      MAILGUN_API_KEY: key-00000000000000000000000000000000
+      MAILGUN_DOMAIN: mg.codesponsor.io
+      SECRET_KEY_BASE: JdaDMqC6DEzZP5Mjm9S06nVaLaqExfN3Tyszbywe9c99Sg6RA2h7nRCVB2LFBN1n
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres

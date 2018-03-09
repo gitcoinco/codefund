@@ -13,7 +13,7 @@ config :code_sponsor,
 # Configures the endpoint
 config :code_sponsor, CodeSponsorWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  secret_key_base: "JdaDMqC6DEzZP5Mjm9S06nVaLaqExfN3Tyszbywe9c99Sg6RA2h7nRCVB2LFBN1n",
   render_errors: [view: CodeSponsorWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: CodeSponsor.PubSub,
            adapter: Phoenix.PubSub.PG2]

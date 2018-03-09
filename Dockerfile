@@ -1,5 +1,5 @@
 # base image elixer to start with
-FROM elixir:1.6.1
+FROM elixir:1.6.2-slim
 
 # install hex package manager
 RUN mix local.hex --force

@@ -31,9 +31,39 @@ A few reasons:
 2. Phoenix is really great, but it's young enough in its lifecycle that there aren't _too many_ in-production, open source sites for people to refer to as examples or inspiration. We want to throw our hat into that ring and hopefully others will follow.
 3. We know open sourcing the platform will lead to good things from y'all (such as bug reports, feature requests, and pull requests).
 
-## Install
+## Development
 
-Code Sponsor uses [Nanobox](https://nanobox.io) for development and deployment.
+#### Using Docker
+
+1. Setup a complete docker and docker-compose installation
+1. Clone this repository
+1. Copy `.env-sample` to `.env`
+1. Run docker-compose up -d to run the containers
+1. Create the database: docker-compose run phoenix mix ecto.create
+1. Run the migrations: docker-compose run phoenix mix ecto.migrate
+1. Seed the database: docker-compose run phoenix mix ecto.migrate
+1. Visit [localhost:4000](http://localhost:4000) to see code sponsor running.
+
+#### Without Docker (native setup)
+
+Here are some basic stemps to get Code Sponsor running:
+
+```shell
+git clone git@github.com:codesponsor/web.git
+cd web/
+# Optionally set the following environment variables
+# MAILGUN_API_KEY=SOMETHING
+# MAILGUN_DOMAIN=SOMETHING
+# config postgres in config/dev.exs
+# start postgres
+mix deps.get
+mix ecto.create
+mix ecto.migrate
+mix code_sponsor.seed
+cd assets && npm install
+cd ../
+mix phx.server
+```
 
 #### Install Nanobox
 
