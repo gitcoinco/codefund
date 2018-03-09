@@ -71,6 +71,7 @@ defmodule CodeSponsor.Mixfile do
       {:formex_ecto, "~> 0.1.0"},
       {:timex, "~> 3.1"},
       {:timex_ecto, "~> 3.0"},
+      {:remote_ip, "~> 0.1.0"},
       {:mock, "~> 0.3.0", only: :test}
     ]
   end

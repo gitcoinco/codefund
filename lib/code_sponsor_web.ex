@@ -23,6 +23,7 @@ defmodule CodeSponsorWeb do
       use Formex.Controller
       use Formex.Ecto.Controller
       import Plug.Conn
+      plug RemoteIp
       import CodeSponsorWeb.Router.Helpers
       import CodeSponsorWeb.Gettext
     end
