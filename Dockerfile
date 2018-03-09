@@ -21,7 +21,7 @@ COPY . /app
 WORKDIR /app
 
 # setting the port and the environment (prod = PRODUCTION!)
-ENV MIX_ENV=prod
+ENV MIX_ENV=dev
 ENV PORT=4000
 
 # install dependencies (production only)

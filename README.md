@@ -35,6 +35,8 @@ A few reasons:
 
 #### Using Docker
 
+## TODO: This section needs to be fixed
+
 1. Setup a complete docker and docker-compose installation
 1. Clone this repository
 1. Copy `.env-sample` to `.env`

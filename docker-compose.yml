@@ -11,14 +11,14 @@ services:
       POSTGRES_PASSWORD: postgres
 
   phoenix:
-    depends_on:
-      - postgres
-      - redis
     build: .
     ports:
       - 4000:4000
     volumes:
       - '.:/app'
+    depends_on:
+      - postgres
+      - redis
     command: bash -c "mix deps.get && mix ecto.migrate && mix phx.server"
     environment:
       MAILGUN_API_KEY: key-00000000000000000000000000000000

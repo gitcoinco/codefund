@@ -53,8 +53,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :code_sponsor, CodeSponsor.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "code_sponsor_dev",
-  username: System.get_env("POSTGRES_USER"),
-  password: System.get_env("POSTGRES_PASSWORD"),
+  username: "postgres",
+  password: "postgres",
   hostname: "localhost",
+  database: "code_sponsor_dev",
   pool_size: 10
