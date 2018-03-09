@@ -48,6 +48,7 @@
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
   <!-- Plugins and scripts required by this views -->
+  <script src="<%= static_path(@conn, "/theme/js/Chart.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/toastr.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/gauge.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/moment.min.js") %>"></script>

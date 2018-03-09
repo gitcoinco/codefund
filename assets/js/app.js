@@ -22,3 +22,4 @@ import "phoenix_html"
 
 import "./theme"
 import "./turbolinks"
+import "./dashboard"

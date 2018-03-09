@@ -58,3 +58,7 @@ config :code_sponsor, CodeSponsor.Repo,
   hostname: "localhost",
   database: "code_sponsor_dev",
   pool_size: 10
+
+config :rollbax,
+  access_token: {:system, "ROLLBAR_ACCESS_TOKEN"},
+  environment: "development"  
