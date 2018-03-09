@@ -15,6 +15,6 @@ config :coherence,
 
 config :coherence, CodeSponsorWeb.Coherence.Mailer,
   adapter: Swoosh.Adapters.Mailgun,
-  api_key: System.get_env("MAILGUN_API_KEY"),
-  domain: System.get_env("MAILGUN_DOMAIN")
+  api_key: (System.get_env("MAILGUN_API_KEY") || "__MISSING__"),
+  domain: (System.get_env("MAILGUN_DOMAIN") || "__MISSING__")
 # %% End Coherence Configuration %%

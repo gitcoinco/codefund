@@ -2,9 +2,8 @@ use Mix.Config
 
 config :exq,
   name: Exq,
-  host: System.get_env("REDIS_HOST"),
-  port: System.get_env("REDIS_PORT"),
-  password: System.get_env("REDIS_PASSWORD"),
+  host: "localhost",
+  port: 6379,
   namespace: "exq",
   concurrency: :infinite,
   queues: [

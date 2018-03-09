@@ -1,5 +1,5 @@
 # base image elixer to start with
-FROM elixir:1.6.1
+FROM elixir:1.6.2-slim
 
 # install hex package manager
 RUN mix local.hex --force
@@ -21,7 +21,7 @@ COPY . /app
 WORKDIR /app
 
 # setting the port and the environment (prod = PRODUCTION!)
-ENV MIX_ENV=prod
+ENV MIX_ENV=dev
 ENV PORT=4000
 
 # install dependencies (production only)
