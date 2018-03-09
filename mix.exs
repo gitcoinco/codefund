@@ -32,7 +32,8 @@ defmodule CodeSponsor.Mixfile do
         :scrivener_html,
         :formex,
         :timex,
-        :timex_ecto
+        :timex_ecto,
+        :rollbax
       ]
     ]
   end
@@ -72,6 +73,7 @@ defmodule CodeSponsor.Mixfile do
       {:timex, "~> 3.1"},
       {:timex_ecto, "~> 3.0"},
       {:remote_ip, "~> 0.1.0"},
+      {:rollbax, ">= 0.0.0"},
       {:mock, "~> 0.3.0", only: :test}
     ]
   end
