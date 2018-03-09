@@ -34,3 +34,7 @@ config :exq,
   scheduler_enable: true,
   max_retries: 5,
   shutdown_timeout: 5000
+
+config :rollbax,
+  access_token: {:system, "ROLLBAR_ACCESS_TOKEN"},
+  environment: "production"
