@@ -2,8 +2,7 @@ use Mix.Config
 
 config :code_sponsor, CodeSponsorWeb.Endpoint,
   load_from_system_env: true,
-  url: [scheme: "https", host: "codesponsor.io", port: 443],
-  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  url: [scheme: "http", host: "code-sponsor-phx.herokuapp.com"],
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
 
