@@ -10,7 +10,9 @@ defmodule CodeSponsor.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     ]
   end
 
@@ -74,7 +76,8 @@ defmodule CodeSponsor.Mixfile do
       {:timex_ecto, "~> 3.0"},
       {:remote_ip, "~> 0.1.0"},
       {:rollbax, ">= 0.0.0"},
-      {:mock, "~> 0.3.0", only: :test}
+      {:mock, "~> 0.3.0", only: :test},
+      {:excoveralls, "~> 0.8", only: :test}
     ]
   end
 

@@ -1,5 +1,8 @@
 # Code Sponsor
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![Build Status](https://travis-ci.org/codesponsor/web.svg?branch=master)](https://travis-ci.org/codesponsor/web)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/codesponsor/web.svg?columns=all)](https://waffle.io/codesponsor/web)
+
 
 Code Sponsor is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codesponsor.io](https://codesponsor.io)
 

@@ -1,0 +1,22 @@
+language: elixir
+
+elixir:
+  - 1.6.2
+
+addons:
+  postgresql: '9.6'
+
+services:
+  - postgresql
+  - redis-server
+
+before_script:
+  - cp config/travis.exs config/test.exs
+  - mix do ecto.create, ecto.migrate
+
+script:
+  - mix test
+  - MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
