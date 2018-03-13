@@ -1,5 +1,5 @@
 # Code Sponsor
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 [![Build Status](https://travis-ci.org/codesponsor/web.svg?branch=master)](https://travis-ci.org/codesponsor/web)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/codesponsor/web.svg?columns=all)](https://waffle.io/codesponsor/web)
 
@@ -38,8 +38,6 @@ A few reasons:
 
 #### Using Docker
 
-## TODO: This section needs to be fixed
-
 1. Setup a complete docker and docker-compose installation
 2. Clone this repository
 3. Copy `.env-sample` to `.env`
@@ -57,9 +55,7 @@ Here are some basic stemps to get Code Sponsor running:
 ```shell
 git clone git@github.com:codesponsor/web.git
 cd web/
-# Optionally set the following environment variables
-# MAILGUN_API_KEY=SOMETHING
-# MAILGUN_DOMAIN=SOMETHING
+# Optionally set the following environment variables (see .env-sample)
 # config postgres in config/dev.exs
 # start postgres
 mix deps.get
@@ -91,6 +87,6 @@ Please keep in mind that the focus is to create a great platform, so we might no
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codesponsor.io)<br />[💻](https://github.com/codesponsor/web/commits?author=coderberry "Code") [📖](https://github.com/codesponsor/web/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") |
-| :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codesponsor.io)<br />[💻](https://github.com/codesponsor/web/commits?author=coderberry "Code") [📖](https://github.com/codesponsor/web/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") | [<img src="https://avatars1.githubusercontent.com/u/660973?v=4" width="100px;"/><br /><sub><b>Miguel Angel Gordián</b></sub>](http://zoek1.github.com)<br />[💻](https://github.com/codesponsor/web/commits?author=zoek1 "Code") [📖](https://github.com/codesponsor/web/commits?author=zoek1 "Documentation") [🚇](#infra-zoek1 "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-zoek1 "Packaging/porting to new platform") |
+| :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
