@@ -1,28 +1,44 @@
-version: '2'
+version: '3'
 
 services:
   redis:
     image: redis
+    hostname: redis
+    networks:
+      - queue
 
   postgres:
     image: postgres:9.6
+    hostname: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    networks:
+      - db
 
-  phoenix:
+  web:
+    hostname: web
     build: .
-    ports:
-      - 4000:4000
-    volumes:
-      - '.:/app'
     depends_on:
       - postgres
       - redis
-    command: bash -c "mix deps.get && mix ecto.migrate && mix phx.server"
-    environment:
-      MAILGUN_API_KEY: key-00000000000000000000000000000000
-      MAILGUN_DOMAIN: mg.codesponsor.io
-      SECRET_KEY_BASE: JdaDMqC6DEzZP5Mjm9S06nVaLaqExfN3Tyszbywe9c99Sg6RA2h7nRCVB2LFBN1n
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+    ports:
+      - 4000:4000
+    links:
+      - redis
+      - postgres
+    networks:
+      queue:
+        aliases:
+         - redis
+         - web.service.queue
+      db:
+        aliases:
+          - postgres
+          - web.service.db
+    env_file:
+      - .env
+
+networks:
+  queue:
+  db:
