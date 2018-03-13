@@ -18,6 +18,11 @@ npm-debug.log
 # this depending on your deployment strategy.
 /priv/static/
 
+npm-debug.log
+yarn-error.log
+/node_modules
+.DS_Store
+
 # Files matching config/*.secret.exs pattern contain sensitive
 # data and you should not commit them into version control.
 #

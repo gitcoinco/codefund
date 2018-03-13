@@ -1,0 +1,3 @@
+#!/bin/bash
+MIX_ENV=dev mix ecto.drop
+heroku pg:pull DATABASE_URL code_sponsor_dev

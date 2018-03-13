@@ -2,7 +2,7 @@ use Mix.Config
 
 config :exq,
   name: Exq,
-  host: "localhost",
+  host: System.get_env("REDIS_HOST") || "127.0.0.1",
   port: 6379,
   namespace: "exq",
   concurrency: :infinite,

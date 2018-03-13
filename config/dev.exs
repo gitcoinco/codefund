@@ -58,20 +58,3 @@ config :code_sponsor, CodeSponsor.Repo,
   hostname: System.get_env("POSTGRES_HOST") || "localhost",
   database: "code_sponsor_dev",
   pool_size: 10
-
-
-config :exq,
-  name: Exq,
-  host: System.get_env("REDIS_HOST"),
-  namespace: "exq",
-  concurrency: :infinite,
-  queues: [
-    {"cs_high", 50},
-    {"cs_default", 10},
-    {"cs_low", 1}
-  ],
-  poll_timeout: 50,
-  scheduler_poll_timeout: 200,
-  scheduler_enable: true,
-  max_retries: 5,
-  shutdown_timeout: 5000
