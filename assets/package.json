@@ -2,6 +2,10 @@
   "name": "code_sponsor",
   "version": "1.0.0",
   "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=6.11.5 <=9.8.x",
+    "yarn": "^1.5.1"
+  },
   "scripts": {
     "start": "webpack --mode=development --config ./webpack/webpack.dev.js --watch",
     "build": "webpack --mode=production --config ./webpack/webpack.prod.js"
