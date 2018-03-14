@@ -11,8 +11,7 @@ config :code_sponsor, CodeSponsorWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
-                    cd: Path.expand("../assets", __DIR__)]]
+  watchers: [npm: ["start", cd: Path.expand("../assets", __DIR__)]]
 
 # ## SSL Support
 #
@@ -58,20 +57,3 @@ config :code_sponsor, CodeSponsor.Repo,
   hostname: System.get_env("POSTGRES_HOST") || "localhost",
   database: "code_sponsor_dev",
   pool_size: 10
-
-
-config :exq,
-  name: Exq,
-  host: System.get_env("REDIS_HOST"),
-  namespace: "exq",
-  concurrency: :infinite,
-  queues: [
-    {"cs_high", 50},
-    {"cs_default", 10},
-    {"cs_low", 1}
-  ],
-  poll_timeout: 50,
-  scheduler_poll_timeout: 200,
-  scheduler_enable: true,
-  max_retries: 5,
-  shutdown_timeout: 5000

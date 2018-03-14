@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-controller="admin">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,18 +26,8 @@
   <meta name="msapplication-TileImage" content="<%= static_path(@conn, "/images/ms-icon-144x144.png") %>">
   <meta name="theme-color" content="#ffffff">
 
-  <!-- Icons -->
-  <link href="<%= static_path(@conn, "/theme/css/flag-icon.min.css") %>" rel="stylesheet">
-  <link href="<%= static_path(@conn, "/theme/css/font-awesome.min.css") %>" rel="stylesheet">
-  <link href="<%= static_path(@conn, "/theme/css/simple-line-icons.min.css") %>" rel="stylesheet">
-
   <!-- Main styles for this application -->
   <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
-
-  <!-- Styles required by this views -->
-  <link href="<%= static_path(@conn, "/theme/css/daterangepicker.min.css") %>" rel="stylesheet">
-  <link href="<%= static_path(@conn, "/theme/css/gauge.min.css") %>" rel="stylesheet">
-  <link href="<%= static_path(@conn, "/theme/css/toastr.min.css") %>" rel="stylesheet">
 
   <!-- Bootstrap and necessary plugins -->
   <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
@@ -55,13 +45,13 @@
 
 </head>
 
-<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+<body data-target="admin.body" class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <header class="app-header navbar">
-    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">
+    <button data-action="click->admin#toggleMobileSidebar" class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#"></a>
-    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
+    <button data-action="click->admin#toggleSidebar" class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="nav navbar-nav d-md-down-none mr-auto">
@@ -85,7 +75,7 @@
           <% end %>
         </div>
       </li>
-      <button class="navbar-toggler aside-menu-toggler" type="button">
+      <button data-action="click->admin#toggleAsideMenu" class="navbar-toggler aside-menu-toggler" type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
     </ul>
@@ -140,7 +130,7 @@
           </li>
         </ul>
       </nav>
-      <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+      <button data-action="click->admin#minimizeSidebarAndBrand" class="sidebar-minimizer brand-minimizer" type="button"></button>
     </div>
 
     <!-- Main content -->
