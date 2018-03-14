@@ -29,10 +29,7 @@ RUN mix local.rebar --force && \
 # install node dependencies
 RUN cd assets && \
     npm install && \
-    npm run deploy
-
-# create the digests
-RUN mix phx.digest
+    npm run build
 
 # run phoenix in production on PORT 4000
 CMD docker/run.sh
