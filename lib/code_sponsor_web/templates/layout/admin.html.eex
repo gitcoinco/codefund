@@ -29,20 +29,8 @@
   <!-- Main styles for this application -->
   <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
 
-  <!-- Bootstrap and necessary plugins -->
-  <script src="<%= static_path(@conn, "/theme/js/jquery.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/popper.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/bootstrap.min.js") %>"></script>
-
-  <!-- Prime main scripts -->
+  <!-- Main scripts (leave in header for Turbolinks) -->
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-
-  <!-- Plugins and scripts required by this views -->
-  <script src="<%= static_path(@conn, "/theme/js/toastr.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/gauge.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/moment.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/daterangepicker.min.js") %>"></script>
-
 </head>
 
 <body data-target="admin.body" class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
