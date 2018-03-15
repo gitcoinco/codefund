@@ -21,6 +21,14 @@ defmodule CodeSponsorWeb.Router do
     plug :put_layout, {CodeSponsorWeb.LayoutView, :admin}
   end
 
+  pipeline :protected_partials do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :put_secure_browser_headers
+    plug Coherence.Authentication.Session, protected: true
+    plug :put_layout, false
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -69,6 +77,13 @@ defmodule CodeSponsorWeb.Router do
     resources "/sponsorships", SponsorshipController
     resources "/clicks", ClickController
     resources "/impressions", ImpressionController
+  end
+
+  scope "/", CodeSponsorWeb do
+    pipe_through :protected_partials
+
+    # Charts
+    get "/charts/traffic_impressions", ChartController, :traffic_impressions
   end
 
   # Other scopes may use custom stacks.
