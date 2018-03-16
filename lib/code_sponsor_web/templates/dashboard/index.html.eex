@@ -4,6 +4,53 @@
   <li class="breadcrumb-item active">Dashboard</li>
 </ol>
 
-<div class="container-fluid">
-  COMING SOON
+<div class="container-fluid"
+     data-controller="dashboard"
+     data-impressions-by-day='<%= @impressions_by_day %>'
+     data-clicks-by-day='<%= @clicks_by_day %>'>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="card-title mb-0">Impressions</h4>
+              <div class="small text-muted">
+                <%= pretty_date_range(@start_date, @end_date) %>
+              </div>
+            </div>
+          </div>
+
+          <hr class="mb-4">
+
+          <div class="chart-wrapper" style="height:343px;">
+            <canvas data-target="dashboard.trafficImpressionsChart"
+                    height="343"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="card-title mb-0">Clicks</h4>
+              <div class="small text-muted">
+                <%= pretty_date_range(@start_date, @end_date) %>
+              </div>
+            </div>
+          </div>
+
+          <hr class="mb-4">
+
+          <div class="chart-wrapper" style="height:343px;">
+            <canvas data-target="dashboard.trafficClicksChart"
+                    height="343"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/.row-->
 </div>

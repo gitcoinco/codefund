@@ -27,3 +27,4 @@ npm-debug.log
 /config/*.secret.exs
 .elixir_ls
 .env
+cover
