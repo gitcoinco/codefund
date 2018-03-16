@@ -1,10 +1,7 @@
 defmodule CodeSponsorWeb.TrackController do
   use CodeSponsorWeb, :controller
   import CodeSponsor.Constants
-  alias CodeSponsor.Impressions
-  alias CodeSponsor.Clicks
-  alias CodeSponsor.Properties
-  alias CodeSponsor.Sponsorships
+  alias CodeSponsor.{Impressions, Clicks, Properties, Sponsorships, Campaigns}
   
   const :transparent_png, <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
 
@@ -39,6 +36,7 @@ defmodule CodeSponsorWeb.TrackController do
     end
   end
 
+  # TODO - This function is too complex! Refactor is necessary
   def click(conn, %{"property_id" => property_id} = params) do
     try do
       property = Properties.get_property!(property_id)
@@ -61,22 +59,36 @@ defmodule CodeSponsorWeb.TrackController do
             click.is_duplicate ->
               Clicks.set_status(click, :duplicate, no_rev_dist)
             true ->
-              revenue = Money.new(sponsorship.bid_amount, :USD)
+              # Redirect to the fraud check URL if present
+              campaign = sponsorship.campaign
 
-              revenue_rate = cond do
-                sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
-                true -> sponsorship.property.user.revenue_rate
+              if campaign.fraud_check_url do
+                Clicks.set_status(click, :fraud_check, %{
+                  fraud_check_redirected_at: Timex.now()
+                })
+
+                # Enqueue the verify click redirected worker for 2 minutes from now
+                enqueue_worker_in(120, CodeSponsorWeb.VerifyClickRedirected, [click.id])
+
+                redirect conn, external: "#{campaign.fraud_check_url}?utm_content=#{click.id}"
+              else
+                revenue = Money.new(sponsorship.bid_amount, :USD)
+
+                revenue_rate = cond do
+                  sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
+                  true -> sponsorship.property.user.revenue_rate
+                end
+
+                distribution = case Money.mult(revenue, revenue_rate) do
+                  {:ok, amount} -> Money.round(amount).amount
+                  {:error, _}   -> 0
+                end
+
+                Clicks.set_status(click, :redirected, %{
+                  revenue_amount: revenue.amount,
+                  distribution_amount: distribution
+                })
               end
-
-              distribution = case Money.mult(revenue, revenue_rate) do
-                {:ok, amount} -> Money.round(amount).amount
-                {:error, _}   -> 0
-              end
-
-              Clicks.set_status(click, :redirected, %{
-                revenue_amount: revenue.amount,
-                distribution_amount: distribution
-              })
           end
 
         {:error, %Ecto.Changeset{} = changeset} ->
@@ -93,6 +105,39 @@ defmodule CodeSponsorWeb.TrackController do
         IO.puts("Property is missing with ID [#{property_id}]")
         redirect conn, external: "/?utm_content=no-property"
     end
+  end
+
+  def improvely_inbound(conn, %{"campaign_id" => campaign_id, "utm_content" => click_id} = params) do
+    campaign = Campaigns.get_campaign!(campaign_id)
+    click = Clicks.get_click!(click_id) |> CodeSponsor.Repo.preload(:sponsorship)
+    sponsorship = click.sponsorship
+
+    revenue = Money.new(sponsorship.bid_amount, :USD)
+
+    revenue_rate = cond do
+      sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
+      true -> sponsorship.property.user.revenue_rate
+    end
+
+    distribution = case Money.mult(revenue, revenue_rate) do
+      {:ok, amount} -> Money.round(amount).amount
+      {:error, _}   -> 0
+    end
+
+    Clicks.set_status(click, :redirected, %{
+      revenue_amount: revenue.amount,
+      distribution_amount: distribution
+    })
+
+    uri = URI.parse(sponsorship.redirect_url)
+    new_query = case uri.query do
+      nil -> "?cs_id=#{click_id}"
+      _ -> "#{uri.query}&cs_id=#{click_id}"
+    end
+
+    url = "#{uri.scheme}://#{uri.host}#{uri.path}?#{new_query}"
+    
+    redirect conn, external: url
   end
 
   defp track_impression(conn, property, sponsorship, params) do
@@ -194,8 +239,8 @@ defmodule CodeSponsorWeb.TrackController do
       click_params = Map.merge(click_params, %{
         campaign_id:    sponsorship.campaign_id,
         sponsorship_id: sponsorship.id,
-        })
-      end
+      })
+    end
       
     case Clicks.create_click(click_params) do
       {:ok, click} ->
@@ -224,4 +269,11 @@ defmodule CodeSponsorWeb.TrackController do
     end
   end
 
+  defp enqueue_worker_in(duration, worker, args) do
+    if Mix.env == :test do
+      apply(worker, :perform, args)
+    else
+      Exq.enqueue_in(Exq, "cs_low", duration, worker, args)
+    end
+  end
 end

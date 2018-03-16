@@ -66,6 +66,7 @@ defmodule CodeSponsorWeb.Router do
     get "/t/l/:property_id/pixel.png", TrackController, :pixel
     get "/t/l/:property_id/logo.png", TrackController, :logo
     get "/t/c/:property_id/", TrackController, :click
+    get "/t/r/:campaign_id/", TrackController, :improvely_inbound
   end
 
   scope "/", CodeSponsorWeb do
@@ -73,6 +74,7 @@ defmodule CodeSponsorWeb.Router do
 
     get "/dashboard", DashboardController, :index
     resources "/properties", PropertyController
+    get "/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url
     resources "/campaigns", CampaignController
     resources "/sponsorships", SponsorshipController
     resources "/clicks", ClickController

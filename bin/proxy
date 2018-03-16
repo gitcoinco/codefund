@@ -1,0 +1,2 @@
+#!/bin/bash
+ngrok http -subdomain codesponsor 4000

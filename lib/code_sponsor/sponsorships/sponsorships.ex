@@ -94,7 +94,7 @@ defmodule CodeSponsor.Sponsorships do
     sponsorship = Repo.preload(property, :sponsorship).sponsorship
 
     if sponsorship do
-      sponsorship
+      sponsorship |> Repo.preload(:campaign)
     else
       new_sponsorship = from(
         s in Sponsorship,
@@ -103,6 +103,7 @@ defmodule CodeSponsor.Sponsorships do
         where: s.property_id == ^property.id,
         order_by: [desc: s.bid_amount]
       ) |> Repo.one()
+        |> Repo.preload(:campaign)
 
       if new_sponsorship do
         Property.changeset(property, %{sponsorship_id: new_sponsorship.id}) |> Repo.update

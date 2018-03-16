@@ -6,12 +6,13 @@ defmodule CodeSponsor.Clicks.Click do
   import CodeSponsor.Constants
 
   const :statuses, %{
-    pending:    0,
-    redirected: 1,
-    bot:        100,
-    duplicate:  101,
-    fraud:      102,
-    no_sponsor: 103
+    pending:     0,
+    redirected:  1,
+    fraud_check: 2,
+    bot:         100,
+    duplicate:   101,
+    fraud:       102,
+    no_sponsor:  103
   }
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -49,6 +50,7 @@ defmodule CodeSponsor.Clicks.Click do
     field :utm_term, :string
     field :revenue_amount, :decimal
     field :distribution_amount, :decimal
+    field :fraud_check_redirected_at, :naive_datetime
 
     timestamps()
   end
@@ -84,7 +86,8 @@ defmodule CodeSponsor.Clicks.Click do
     :utm_content,
     :utm_campaign,
     :revenue_amount,
-    :distribution_amount
+    :distribution_amount,
+    :fraud_check_redirected_at
   ]
 
   @required [
