@@ -24,7 +24,6 @@
                 <th>Campaign</th>
                 <th>Property</th>
                 <th><%= table_link(@conn, "CPC", :bid_amount) %></th>
-                <th>Redirect URL</th>
                 <th></th>
               </tr>
             </thead>
@@ -34,7 +33,6 @@
                   <td><%= link sponsorship.campaign.name, to: campaign_path(@conn, :show, sponsorship.campaign) %></td>
                   <td><%= link sponsorship.property.name, to: property_path(@conn, :show, sponsorship.property) %></td>
                   <td><%= pretty_money sponsorship.bid_amount %></td>
-                  <td><%= sponsorship.redirect_url %></td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: sponsorship_path(@conn, :show, sponsorship), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: sponsorship_path(@conn, :edit, sponsorship), class: "btn btn-outline-primary btn-sm" %>

@@ -57,3 +57,6 @@ config :code_sponsor, CodeSponsor.Repo,
   hostname: System.get_env("POSTGRES_HOST") || "localhost",
   database: "code_sponsor_dev",
   pool_size: 10
+
+# Uncomment when developing locally
+# import_config "dev.secret.exs"

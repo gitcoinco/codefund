@@ -76,4 +76,14 @@ defmodule CodeSponsorWeb.CampaignController do
     |> put_flash(:info, "Campaign deleted successfully.")
     |> redirect(to: campaign_path(conn, :index))
   end
+
+  def generate_fraud_check_url(conn, %{"id" => id}) do
+    campaign = Campaigns.get_campaign!(id)
+
+    Exq.enqueue(Exq, "cs_high", CodeSponsorWeb.CreateFraudTrackingLinkWorker, [campaign.id])
+
+    conn
+    |> put_flash(:info, "Fraud Check URL is being generated")
+    |> redirect(to: campaign_path(conn, :show, campaign))
+  end
 end

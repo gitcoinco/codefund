@@ -20,6 +20,7 @@ defmodule CodeSponsor.Campaigns.Campaign do
     field :budget_daily_amount, :decimal, default: Decimal.new(0.0)
     field :budget_monthly_amount, :decimal, default: Decimal.new(0.0)
     field :budget_total_amount, :decimal, default: Decimal.new(0.0)
+    field :fraud_check_url, :string
 
     timestamps()
   end
@@ -33,7 +34,8 @@ defmodule CodeSponsor.Campaigns.Campaign do
     :bid_amount,
     :budget_daily_amount,
     :budget_monthly_amount,
-    :budget_total_amount
+    :budget_total_amount,
+    :fraud_check_url
   ]
 
   @required [
