@@ -11,7 +11,7 @@ defmodule CodeSponsorWeb.CreateFraudTrackingLinkWorker do
         CodeSponsorWeb.Endpoint,
         :improvely_inbound,
         campaign_id
-      )
+      ) |> String.replace(~r/codesponsor\.io\:\d+/, "codesponsor.io")
 
     payload = %{
       "key"        => System.get_env("IMPROVELY_API_KEY"),
