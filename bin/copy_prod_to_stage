@@ -1,0 +1,4 @@
+#!/bin/bash
+production backup
+staging restore production
+heroku run POOL_SIZE=2 mix ecto.migrate -a code-sponsor-phx-staging

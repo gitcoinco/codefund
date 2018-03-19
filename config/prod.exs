@@ -2,7 +2,11 @@ use Mix.Config
 
 config :code_sponsor, CodeSponsorWeb.Endpoint,
   load_from_system_env: true,
-  url: [scheme: "https", host: "codesponsor.io", port: System.get_env("PORT")],
+  url: [
+    scheme: "https",
+    host: (System.get_env("HOST") || "codesponsor.io"),
+    port: System.get_env("PORT")
+  ],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
