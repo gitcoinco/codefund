@@ -106,6 +106,18 @@
           <% end %>
           <%= if has_any_role? @conn, ["admin"] do %>
             <li class="nav-item">
+              <%= active_link(@conn, to: template_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-eye"></i>
+                Templates
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: theme_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-eye"></i>
+                Themes
+              <% end %>
+            </li>
+            <li class="nav-item">
               <%= active_link(@conn, to: impression_path(@conn, :index), class: "nav-link") do %>
                 <i class="icon-eye"></i>
                 Impressions

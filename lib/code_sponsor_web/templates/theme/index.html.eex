@@ -1,0 +1,28 @@
+<h2>Listing Themes</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Body</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for theme <- @themes do %>
+    <tr>
+      <td><%= theme.name %></td>
+      <td><%= theme.body %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: theme_path(@conn, :show, theme), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: theme_path(@conn, :edit, theme), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: theme_path(@conn, :delete, theme), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Theme", to: theme_path(@conn, :new) %></span>

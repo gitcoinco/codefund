@@ -35,7 +35,8 @@ defmodule CodeSponsor.Mixfile do
         :formex,
         :timex,
         :timex_ecto,
-        :rollbax
+        :rollbax,
+        :corsica
       ]
     ]
   end
@@ -76,6 +77,7 @@ defmodule CodeSponsor.Mixfile do
       {:timex_ecto, "~> 3.0"},
       {:remote_ip, "~> 0.1.0"},
       {:rollbax, ">= 0.0.0"},
+      {:corsica, "~> 1.0"},
       {:mock, "~> 0.3.0", only: :test},
       {:excoveralls, "~> 0.8", only: :test}
     ]

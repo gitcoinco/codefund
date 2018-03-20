@@ -1,0 +1,20 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Templates", to: template_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active"><%= @template.name %></li>
+</ol>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Details
+        </div>
+        <div class="card-body">
+          ...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

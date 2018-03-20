@@ -42,7 +42,7 @@ defmodule CodeSponsorWeb.SponsorshipController do
     render(conn, "show.html", sponsorship: sponsorship)
   end
 
-    def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"id" => id}) do
     sponsorship = Sponsorships.get_sponsorship!(id)
     form = create_form(SponsorshipType, sponsorship)
     render(conn, "edit.html", form: form, sponsorship: sponsorship)

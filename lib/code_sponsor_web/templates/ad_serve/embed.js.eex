@@ -1,0 +1,90 @@
+var _codesponsor_themes = {};
+<%= for theme <- @themes do %>
+_codesponsor_themes['<%= theme.slug %>'] = '<%= theme.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
+<% end %>
+
+var _codesponsor_templates = {};
+<%= for template <- @templates do %>
+_codesponsor_templates['<%= template.slug %>'] = '<%= template.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
+<% end %>
+
+var _codesponsor = {
+  init: function(config) {
+    this.render = this.render.bind(this);
+    this.theme = config.theme;
+    this.template = config.template;
+    this.targetId = config.targetId;
+    this.jsonUrl = '<%= ad_serve_url(@conn, :details, @property.id) |> String.replace(~r/\:\d+/, "") %>';
+  },
+
+  serve: function() {
+    this.loadJSON(this.jsonUrl, this.render);
+  },
+
+  render: function(ad) {
+    this.addTheme();
+    this.insertAd();
+  },
+
+  addTheme: function() {
+    var css = this.decodeHtml(_codesponsor_themes[this.theme]);
+    var head = document.getElementsByTagName('head')[0];
+    var s = document.createElement('style');
+    s.setAttribute('type', 'text/css');
+    if (s.styleSheet) { // IE
+      s.styleSheet.cssText = css;
+    } else {
+      s.appendChild(document.createTextNode(css));
+    }
+    head.appendChild(s);
+  },
+
+  insertAd: function () {
+    var html = this.decodeHtml(_codesponsor_templates[this.template]);
+    var el = document.createElement("span");
+    el.innerHTML = html;
+
+    const script = document.getElementById(this.targetId);
+    script.appendChild(el);
+  },
+
+  decodeHtml: function (text) {
+    var entities = [
+      ['amp', '&'],
+      ['apos', '\''],
+      ['#x27', '\''],
+      ['#x2F', '/'],
+      ['#39', '\''],
+      ['#47', '/'],
+      ['lt', '<'],
+      ['gt', '>'],
+      ['nbsp', ' '],
+      ['quot', '"']
+    ];
+
+    for (var i = 0, max = entities.length; i < max; ++i)
+      text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
+
+    return text;
+  },
+
+  loadJSON: function(url, callback) {
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open("GET", url, true);
+    xobj.onreadystatechange = () => {
+      if (xobj.readyState === 4 && xobj.status === 200) {
+        const json = JSON.parse(xobj.responseText);
+        callback(json);
+      }
+    };
+    xobj.send(null);
+  }
+}
+
+_codesponsor.init({
+  theme: '<%= @theme %>',
+  template: '<%= @template %>',
+  targetId: '<%= @targetId %>'
+});
+_codesponsor.serve();
