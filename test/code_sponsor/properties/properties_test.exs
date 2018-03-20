@@ -31,9 +31,9 @@
      #   assert property.url == "some url"
      # end
 
-    test "create_property/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Properties.create_property(@invalid_attrs)
-    end
+    # test "create_property/1 with invalid data returns error changeset" do
+    #   assert {:error, %Ecto.Changeset{}} = Properties.create_property(@invalid_attrs)
+    # end
 
     test "update_property/2 with valid data updates the property" do
       property = insert(:property)
