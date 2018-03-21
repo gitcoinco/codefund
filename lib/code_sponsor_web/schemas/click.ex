@@ -1,8 +1,7 @@
 defmodule CodeSponsor.Schema.Click do
   use CodeSponsorWeb, :schema_with_formex
-  import CodeSponsor.Constants
 
-  const :statuses, %{
+  @statuses %{
     pending:     0,
     redirected:  1,
     fraud_check: 2,
@@ -14,6 +13,7 @@ defmodule CodeSponsor.Schema.Click do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+
   schema "clicks" do
     belongs_to :property, CodeSponsor.Schema.Property
     belongs_to :sponsorship, CodeSponsor.Schema.Sponsorship
@@ -66,4 +66,6 @@ defmodule CodeSponsor.Schema.Click do
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
   end
+
+  def statuses, do: @statuses
 end
