@@ -89,7 +89,7 @@ defmodule CodeSponsor.ClicksTest do
     test "is_duplicate?/2 with duplicate" do
       sponsorship = insert(:sponsorship)
       days_ago = Timex.shift(Timex.now, days: -3)
-      existing_click = insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, sponsorship: sponsorship, status: 1})
+      insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, sponsorship: sponsorship, status: 1})
       assert Clicks.is_duplicate?(sponsorship.id, "1.2.3.4")
     end
   end

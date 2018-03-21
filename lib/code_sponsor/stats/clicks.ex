@@ -8,6 +8,16 @@ defmodule CodeSponsor.Stats.Clicks do
   alias CodeSponsor.Schema.Impression
   alias CodeSponsor.Schema.User
 
+  def with_sponsorship_details(nil, params), do: params
+
+  def with_sponsorship_details(%CodeSponsor.Schema.Sponsorship{campaign_id: campaign_id, id: id}, params) do
+    params
+    |> Map.merge(%{
+      campaign_id:    campaign_id,
+      sponsorship_id: id,
+    })
+  end
+
   def count(start_date, end_date) when start_date <= end_date do
     Repo.one(
       from c in Click,

@@ -1,5 +1,4 @@
 defmodule CodeSponsor.Stats.Impressions do
-  import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeSponsor.Repo
   alias CodeSponsor.Schema.User

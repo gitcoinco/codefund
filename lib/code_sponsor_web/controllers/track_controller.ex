@@ -1,15 +1,14 @@
 defmodule CodeSponsorWeb.TrackController do
   use CodeSponsorWeb, :controller
-  import CodeSponsor.Constants
-  alias CodeSponsor.{Impressions, Clicks, Properties, Sponsorships, Campaigns}
-  
-  const :transparent_png, <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
+  alias CodeSponsor.{Impressions, Clicks, Properties, Sponsorships}
+
+  @transparent_png <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
 
   def pixel(conn, %{"property_id" => property_id} = params) do
     try do
       property = Properties.get_property!(property_id)
       sponsorship = Sponsorships.get_sponsorship_for_property(property)
-      
+
       impression_id =
         case track_impression(conn, property, sponsorship, params) do
           {:ok, impression} ->
@@ -24,7 +23,7 @@ defmodule CodeSponsorWeb.TrackController do
       conn
       |> put_resp_content_type("image/png")
       |> put_private(:impression_id, impression_id)
-      |> send_resp(200, transparent_png())
+      |> send_resp(200, @transparent_png)
 
     rescue
       Ecto.NoResultsError -> :ok
@@ -32,7 +31,7 @@ defmodule CodeSponsorWeb.TrackController do
       conn
       |> put_resp_content_type("image/png")
       |> put_private(:impression_id, "")
-      |> send_resp(200, transparent_png())
+      |> send_resp(200, @transparent_png)
     end
   end
 
@@ -41,7 +40,7 @@ defmodule CodeSponsorWeb.TrackController do
     try do
       property = Properties.get_property!(property_id)
       sponsorship = Sponsorships.get_sponsorship_for_property(property)
-      
+
       case track_click(conn, property, sponsorship, params) do
         {:ok, click} ->
           enqueue_worker(CodeSponsorWeb.UpdateClickGeolocationWorker, [click.id])
@@ -107,8 +106,7 @@ defmodule CodeSponsorWeb.TrackController do
     end
   end
 
-  def improvely_inbound(conn, %{"campaign_id" => campaign_id, "utm_content" => click_id} = params) do
-    campaign = Campaigns.get_campaign!(campaign_id)
+  def improvely_inbound(conn, %{"campaign_id" => _campaign_id, "utm_content" => click_id}) do
     click = Clicks.get_click!(click_id) |> CodeSponsor.Repo.preload(:sponsorship)
     sponsorship = click.sponsorship
 
@@ -136,7 +134,7 @@ defmodule CodeSponsorWeb.TrackController do
     end
 
     url = "#{uri.scheme}://#{uri.host}#{uri.path}?#{new_query}"
-    
+
     redirect conn, external: url
   end
 
@@ -234,18 +232,18 @@ defmodule CodeSponsorWeb.TrackController do
       distribution_amount: 0
     }
 
-    
-    if sponsorship do
-      click_params = Map.merge(click_params, %{
+
+    click_params = if sponsorship do
+      Map.merge(click_params, %{
         campaign_id:    sponsorship.campaign_id,
         sponsorship_id: sponsorship.id,
       })
     end
-      
+
     case Clicks.create_click(click_params) do
       {:ok, click} ->
         {:ok, click}
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{}} ->
         {:error, nil}
     end
   end
@@ -259,6 +257,7 @@ defmodule CodeSponsorWeb.TrackController do
       true                         -> "unknown"
     end
   end
+
 
   # See https://github.com/akira/exq/issues/199
   defp enqueue_worker(worker, args) do

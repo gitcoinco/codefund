@@ -1,6 +1,5 @@
 defmodule CodeSponsorWeb.RegistrationControllerTest do
   use CodeSponsorWeb.ConnCase
-  import CodeSponsor.Factory
   alias CodeSponsor.Repo
   alias CodeSponsor.Schema.User
 
