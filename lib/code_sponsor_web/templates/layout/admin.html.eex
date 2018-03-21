@@ -98,6 +98,12 @@
           <% end %>
           <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
             <li class="nav-item">
+              <%= active_link(@conn, to: creative_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-eye"></i>
+                Ad Creatives
+              <% end %>
+            </li>
+            <li class="nav-item">
               <%= active_link(@conn, to: sponsorship_path(@conn, :index), class: "nav-link") do %>
                 <i class="icon-energy"></i>
                 Sponsorships
@@ -107,20 +113,14 @@
           <%= if has_any_role? @conn, ["admin"] do %>
             <li class="nav-item">
               <%= active_link(@conn, to: template_path(@conn, :index), class: "nav-link") do %>
-                <i class="icon-eye"></i>
+                <i class="icon-mustache"></i>
                 Templates
               <% end %>
             </li>
             <li class="nav-item">
               <%= active_link(@conn, to: theme_path(@conn, :index), class: "nav-link") do %>
-                <i class="icon-eye"></i>
+                <i class="icon-picture"></i>
                 Themes
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= active_link(@conn, to: impression_path(@conn, :index), class: "nav-link") do %>
-                <i class="icon-eye"></i>
-                Impressions
               <% end %>
             </li>
           <% end %>

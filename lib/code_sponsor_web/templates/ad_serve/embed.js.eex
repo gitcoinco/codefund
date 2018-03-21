@@ -1,18 +1,14 @@
-var _codesponsor_themes = {};
-<%= for theme <- @themes do %>
-_codesponsor_themes['<%= theme.slug %>'] = '<%= theme.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
-<% end %>
+if (!window.hasOwnProperty('_codefund_theme')) {
+  window._codefund_theme = '<%= @theme.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
+}
 
-var _codesponsor_templates = {};
-<%= for template <- @templates do %>
-_codesponsor_templates['<%= template.slug %>'] = '<%= template.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
-<% end %>
+if (!window.hasOwnProperty('_codefund_template')) {
+  window._codefund_template = '<%= @template.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
+}
 
-var _codesponsor = {
+var _codefund = {
   init: function(config) {
     this.render = this.render.bind(this);
-    this.theme = config.theme;
-    this.template = config.template;
     this.targetId = config.targetId;
     this.jsonUrl = '<%= ad_serve_url(@conn, :details, @property.id) |> String.replace(~r/\:\d+/, "") %>';
   },
@@ -23,11 +19,11 @@ var _codesponsor = {
 
   render: function(ad) {
     this.addTheme();
-    this.insertAd();
+    this.insertAd(ad);
   },
 
   addTheme: function() {
-    var css = this.decodeHtml(_codesponsor_themes[this.theme]);
+    var css = this.decodeHtml(window._codefund_theme);
     var head = document.getElementsByTagName('head')[0];
     var s = document.createElement('style');
     s.setAttribute('type', 'text/css');
@@ -39,13 +35,18 @@ var _codesponsor = {
     head.appendChild(s);
   },
 
-  insertAd: function () {
-    var html = this.decodeHtml(_codesponsor_templates[this.template]);
+  insertAd: function (ad) {
+    var rawHtml = this.decodeHtml(window._codefund_template);
+    var html = this.injectVariableIntoTemplate(rawHtml, ad);
     var el = document.createElement("span");
     el.innerHTML = html;
 
     const script = document.getElementById(this.targetId);
-    script.appendChild(el);
+    if (script) {
+      script.appendChild(el);
+    } else {
+      console.log('CodeFund target does not exist. You must create an element in the DOM with id="' + this.targetId + '"');
+    }
   },
 
   decodeHtml: function (text) {
@@ -68,6 +69,16 @@ var _codesponsor = {
     return text;
   },
 
+  injectVariableIntoTemplate: function (template, data) {
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        var re = new RegExp('{{' + key + '}}', 'g');
+        template = template.replace(re, data[key]);
+      }
+    }
+    return template;
+  },
+
   loadJSON: function(url, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
@@ -82,9 +93,7 @@ var _codesponsor = {
   }
 }
 
-_codesponsor.init({
-  theme: '<%= @theme %>',
-  template: '<%= @template %>',
+_codefund.init({
   targetId: '<%= @targetId %>'
 });
-_codesponsor.serve();
+_codefund.serve();

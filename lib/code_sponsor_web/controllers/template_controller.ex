@@ -7,9 +7,15 @@ defmodule CodeSponsorWeb.TemplateController do
 
   plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin"], to: "/dashboard"}
 
-  def index(conn, _params) do
-    templates = Creatives.list_templates()
-    render(conn, "index.html", templates: templates)
+  def index(conn, params) do
+    case Creatives.paginate_templates(params) do
+      {:ok, assigns} ->
+        render(conn, "index.html", assigns)
+      error ->
+        conn
+        |> put_flash(:error, "There was an error rendering templates. #{inspect(error)}")
+        |> redirect(to: template_path(conn, :index))
+    end
   end
 
   def new(conn, _params) do

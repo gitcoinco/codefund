@@ -10,6 +10,7 @@ defmodule CodeSponsor.Sponsorships.Sponsorship do
   schema "sponsorships" do
     has_many :impressions, CodeSponsor.Impressions.Impression
     has_many :clicks, CodeSponsor.Clicks.Click
+    belongs_to :creative, CodeSponsor.Creatives.Creative
     belongs_to :property, CodeSponsor.Properties.Property
     belongs_to :campaign, CodeSponsor.Campaigns.Campaign
 

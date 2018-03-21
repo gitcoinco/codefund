@@ -7,6 +7,7 @@ defmodule CodeSponsor.Creatives.Template do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "templates" do
+    has_many :themes, CodeSponsor.Creatives.Theme
     field :body, :string
     field :name, :string
     field :slug, :string

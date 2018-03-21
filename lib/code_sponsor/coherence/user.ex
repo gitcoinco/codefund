@@ -12,6 +12,7 @@ defmodule CodeSponsor.Coherence.User do
     # has_many :sponsor_sponsorships, CodeSponsor.Sponsorships.Sponsorship, foreign_key: :sponsor_id
     has_many :campaigns, CodeSponsor.Campaigns.Campaign
     has_many :properties, CodeSponsor.Properties.Property
+    has_many :creatives, CodeSponsor.Creatives.Creative
 
     field :first_name, :string
     field :last_name, :string

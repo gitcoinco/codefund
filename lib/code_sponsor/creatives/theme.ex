@@ -6,6 +6,7 @@ defmodule CodeSponsor.Creatives.Theme do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "themes" do
+    belongs_to :template, CodeSponsor.Creatives.Template
     field :body, :string
     field :name, :string
     field :slug, :string
@@ -22,6 +23,6 @@ defmodule CodeSponsor.Creatives.Theme do
     template
     |> cast(attrs, @attrs)
     |> validate_required(@required)
-    |> unique_constraint(:slug)
+    |> unique_constraint(:slug, name: :themes_slug_template_id_index)
   end
 end

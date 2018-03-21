@@ -7,9 +7,15 @@ defmodule CodeSponsorWeb.ThemeController do
 
   plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin"], to: "/dashboard"}
 
-  def index(conn, _params) do
-    themes = Creatives.list_themes()
-    render(conn, "index.html", themes: themes)
+  def index(conn, params) do
+    case Creatives.paginate_themes(params) do
+      {:ok, assigns} ->
+        render(conn, "index.html", assigns)
+      error ->
+        conn
+        |> put_flash(:error, "There was an error rendering themes. #{inspect(error)}")
+        |> redirect(to: theme_path(conn, :index))
+    end
   end
 
   def new(conn, _params) do
@@ -38,8 +44,8 @@ defmodule CodeSponsorWeb.ThemeController do
 
   def edit(conn, %{"id" => id}) do
     theme = Creatives.get_theme!(id)
-    changeset = Creatives.change_theme(theme)
-    render(conn, "edit.html", theme: theme, changeset: changeset)
+    form = create_form(ThemeType, theme)
+    render(conn, "edit.html", form: form, theme: theme)
   end
 
   def update(conn, %{"id" => id, "theme" => theme_params}) do

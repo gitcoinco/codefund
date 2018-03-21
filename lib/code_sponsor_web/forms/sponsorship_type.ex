@@ -5,6 +5,7 @@ defmodule CodeSponsorWeb.SponsorshipType do
     form
       |> add(:campaign_id, SelectAssoc, label: "Campaign", validation: [:required])
       |> add(:property_id, SelectAssoc, label: "Property", validation: [:required])
+      |> add(:creative_id, SelectAssoc, label: "Ad Creative", validation: [:required])
       |> add(:bid_amount, :number_input,
         label: "CPC",
         validation: [:required],

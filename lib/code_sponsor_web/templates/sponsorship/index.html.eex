@@ -21,8 +21,9 @@
           <table class="table table-responsive-sm table-striped">
             <thead>
               <tr>
-                <th>Campaign</th>
+                <th><%= table_link(@conn, "Campaign", :campaign_id) %></th>
                 <th>Property</th>
+                <th><%= table_link(@conn, "Creative", :creative_id) %></th>
                 <th><%= table_link(@conn, "CPC", :bid_amount) %></th>
                 <th></th>
               </tr>
@@ -32,6 +33,11 @@
                 <tr>
                   <td><%= link sponsorship.campaign.name, to: campaign_path(@conn, :show, sponsorship.campaign) %></td>
                   <td><%= link sponsorship.property.name, to: property_path(@conn, :show, sponsorship.property) %></td>
+                  <%= if sponsorship.creative do %>
+                    <td><%= link sponsorship.creative.name, to: creative_path(@conn, :show, sponsorship.creative) %></td>
+                  <% else %>
+                    <td>-</td>
+                  <% end %>
                   <td><%= pretty_money sponsorship.bid_amount %></td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: sponsorship_path(@conn, :show, sponsorship), class: "btn btn-outline-info btn-sm" %>
