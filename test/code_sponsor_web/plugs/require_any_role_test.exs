@@ -1,7 +1,7 @@
 defmodule CodeSponsorWeb.Plugs.RequireAnyRoleTest do
   use CodeSponsorWeb.ConnCase
   alias CodeSponsorWeb.Plugs.RequireAnyRole
-  alias CodeSponsor.Coherence.User
+  alias CodeSponsor.Schema.User
 
   test "user is redirected when current_user is not assigned" do
     conn = build_conn() |> require_login

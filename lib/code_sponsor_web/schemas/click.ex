@@ -1,8 +1,5 @@
-defmodule CodeSponsor.Clicks.Click do
-  use Ecto.Schema
-  use Formex.Ecto.Schema
-  import Ecto.Changeset
-  alias CodeSponsor.Clicks.Click
+defmodule CodeSponsor.Schema.Click do
+  use CodeSponsorWeb, :schema_with_formex
   import CodeSponsor.Constants
 
   const :statuses, %{
@@ -18,9 +15,9 @@ defmodule CodeSponsor.Clicks.Click do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "clicks" do
-    belongs_to :property, CodeSponsor.Properties.Property
-    belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
-    belongs_to :campaign, CodeSponsor.Campaigns.Campaign
+    belongs_to :property, CodeSponsor.Schema.Property
+    belongs_to :sponsorship, CodeSponsor.Schema.Sponsorship
+    belongs_to :campaign, CodeSponsor.Schema.Campaign
 
     field :status, :integer, default: 0
     field :is_bot, :boolean, default: false
@@ -55,41 +52,6 @@ defmodule CodeSponsor.Clicks.Click do
     timestamps()
   end
 
-  @attrs [
-    :status,
-    :property_id,
-    :sponsorship_id,
-    :campaign_id,
-    :ip,
-    :user_agent,
-    :is_bot,
-    :is_duplicate,
-    :is_fraud,
-    :referrer,
-    :landing_page,
-    :referring_domain,
-    :search_keyword,
-    :browser,
-    :os,
-    :device_type,
-    :screen_height,
-    :screen_width,
-    :country,
-    :region,
-    :city,
-    :postal_code,
-    :latitude,
-    :longitude,
-    :utm_source,
-    :utm_medium,
-    :utm_term,
-    :utm_content,
-    :utm_campaign,
-    :revenue_amount,
-    :distribution_amount,
-    :fraud_check_redirected_at
-  ]
-
   @required [
     :status,
     :property_id,
@@ -99,9 +61,9 @@ defmodule CodeSponsor.Clicks.Click do
   ]
 
   @doc false
-  def changeset(%Click{} = click, attrs) do
+  def changeset(%Click{} = click, params) do
     click
-    |> cast(attrs, @attrs)
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
   end
 end

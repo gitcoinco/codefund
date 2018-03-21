@@ -1,12 +1,12 @@
 defmodule CodeSponsor.Stats.Clicks do
-  import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeSponsor.Repo
-  alias CodeSponsor.Properties.Property
-  alias CodeSponsor.Campaigns.Campaign
-  alias CodeSponsor.Sponsorships.Sponsorship
-  alias CodeSponsor.Clicks.Click
-  alias CodeSponsor.Coherence.User
+  alias CodeSponsor.Schema.Property
+  alias CodeSponsor.Schema.Campaign
+  alias CodeSponsor.Schema.Sponsorship
+  alias CodeSponsor.Schema.Click
+  alias CodeSponsor.Schema.Impression
+  alias CodeSponsor.Schema.User
 
   def count(start_date, end_date) when start_date <= end_date do
     Repo.one(
@@ -147,7 +147,7 @@ defmodule CodeSponsor.Stats.Clicks do
         |> Tuple.delete_at(1)
         |> Tuple.insert_at(1, {0, 0, 0})
         |> NaiveDateTime.from_erl()
-        
+
       formatted_date = Timex.format!(date, "%F", :strftime)
       {formatted_date, count}
     end)

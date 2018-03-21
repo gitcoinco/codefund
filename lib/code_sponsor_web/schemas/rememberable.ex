@@ -1,22 +1,23 @@
-defmodule CodeSponsor.Coherence.Invitation do
-  @moduledoc """
-  Schema to support inviting a someone to create an account.
-  """
-  use Ecto.Schema
-  import Ecto.Changeset
+defmodule CodeSponsor.Schema.Rememberable do
+  @moduledoc false
+  use CodeSponsorWeb, :schema
 
-  
+  alias Coherence.Config
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  
 
-  schema "invitations" do
-    field :name, :string
-    field :email, :string
-    field :token, :string
+
+  schema "rememberables" do
+    field :series_hash, :string
+    field :token_hash, :string
+    field :token_created_at, Timex.Ecto.DateTime
+    belongs_to :user, CodeSponsor.Schema.User, type: :binary_id
 
     timestamps()
   end
+
+  use Coherence.Rememberable
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -27,10 +28,8 @@ defmodule CodeSponsor.Coherence.Invitation do
   @spec changeset(Ecto.Schema.t, Map.t) :: Ecto.Changeset.t
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(name email token))
-    |> validate_required([:name, :email])
-    |> unique_constraint(:email)
-    |> validate_format(:email, ~r/@/)
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
+    |> validate_required(~w(series_hash token_hash token_created_at user_id)a)
   end
 
   @doc """
@@ -38,6 +37,7 @@ defmodule CodeSponsor.Coherence.Invitation do
   """
   @spec new_changeset(Map.t) :: Ecto.Changeset.t
   def new_changeset(params \\ %{}) do
-    changeset %__MODULE__{}, params
+    changeset %Rememberable{}, params
   end
+
 end

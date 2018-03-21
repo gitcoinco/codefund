@@ -4,16 +4,16 @@ defmodule CodeSponsor.Constants do
 
   ## Examples
 
-      defmodule CodeSponsor.Clicks.Click do
+      defmodule CodeSponsor.Schema.Click do
         import CodeSponsor.Constants
-      
+
         const :statuses, %{
           pending: 0,
           redirected: 1
         }
       end
-      
-      CodeSponsor.Clicks.Click.statuses[:pending]  # You can use this line anywhere
+
+      CodeSponsor.Schema.Click.statuses[:pending]  # You can use this line anywhere
 
   """
   defmacro const(const_name, const_value) do

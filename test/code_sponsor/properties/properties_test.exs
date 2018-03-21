@@ -4,7 +4,7 @@
 #   alias CodeSponsor.Properties
 
 #   describe "properties" do
-#     alias CodeSponsor.Properties.Property
+#     alias CodeSponsor.Schema.Property
 
 #     @valid_attrs %{description: "some description", name: "some name", property_type: 42, url: "some url"}
 #     @update_attrs %{description: "some updated description", name: "some updated name", property_type: 43, url: "some updated url"}

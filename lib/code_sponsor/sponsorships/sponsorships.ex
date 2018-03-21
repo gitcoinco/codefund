@@ -8,8 +8,8 @@ defmodule CodeSponsor.Sponsorships do
   import Ecto.Query, warn: false
 
   alias CodeSponsor.Repo
-  alias CodeSponsor.Sponsorships.Sponsorship
-  alias CodeSponsor.Properties.Property
+  alias CodeSponsor.Schema.Sponsorship
+  alias CodeSponsor.Schema.Property
 
   @pagination [page_size: 15]
   @pagination_distance 5

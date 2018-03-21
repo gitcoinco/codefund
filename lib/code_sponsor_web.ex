@@ -60,6 +60,22 @@ defmodule CodeSponsorWeb do
     end
   end
 
+  def schema do
+    quote do
+      use Ecto.Schema
+      import Ecto.Query
+      import Ecto.Changeset
+      alias __MODULE__
+    end
+  end
+
+  def schema_with_formex do
+    quote do
+      use CodeSponsorWeb, :schema
+      use Formex.Ecto.Schema
+    end
+  end
+
   def channel do
     quote do
       use Phoenix.Channel

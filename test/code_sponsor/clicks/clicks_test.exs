@@ -2,7 +2,7 @@ defmodule CodeSponsor.ClicksTest do
   use CodeSponsor.DataCase
   import CodeSponsor.Sigils
   alias CodeSponsor.Clicks
-  alias CodeSponsor.Clicks.Click
+  alias CodeSponsor.Schema.Click
   import CodeSponsor.Factory
 
   describe "clicks" do

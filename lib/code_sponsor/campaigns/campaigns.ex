@@ -8,8 +8,8 @@ defmodule CodeSponsor.Campaigns do
   import Ecto.Query, warn: false
 
   alias CodeSponsor.Repo
-  alias CodeSponsor.Campaigns.Campaign
-  alias CodeSponsor.Coherence.User
+  alias CodeSponsor.Schema.Campaign
+  alias CodeSponsor.Schema.User
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -140,7 +140,7 @@ defmodule CodeSponsor.Campaigns do
   def change_campaign(%Campaign{} = campaign) do
     Campaign.changeset(campaign, %{})
   end
-  
+
   defp filter_config(:campaigns) do
     defconfig do
       text :name

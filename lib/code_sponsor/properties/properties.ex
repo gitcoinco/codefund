@@ -2,14 +2,14 @@ defmodule CodeSponsor.Properties do
   @moduledoc """
   The Properties context.
   """
-  
+
   import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
   import Filtrex.Type.Config
   import Ecto.Query, warn: false
 
   alias CodeSponsor.Repo
-  alias CodeSponsor.Properties.Property
-  alias CodeSponsor.Coherence.User
+  alias CodeSponsor.Schema.Property
+  alias CodeSponsor.Schema.User
 
   @pagination [page_size: 15]
   @pagination_distance 5

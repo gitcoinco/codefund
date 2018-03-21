@@ -8,7 +8,7 @@ defmodule CodeSponsor.Impressions do
   import Ecto.Query, warn: false
 
   alias CodeSponsor.Repo
-  alias CodeSponsor.Impressions.Impression
+  alias CodeSponsor.Schema.Impression
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -145,7 +145,7 @@ defmodule CodeSponsor.Impressions do
   def change_impression(%Impression{} = impression) do
     Impression.changeset(impression, %{})
   end
-  
+
   defp filter_config(:impressions) do
     defconfig do
       text :ip

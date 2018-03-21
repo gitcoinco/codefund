@@ -47,7 +47,7 @@ defmodule CodeSponsor.Coherence.Schemas do
     @repo.insert change_user(params)
   end
 
-  Enum.each [CodeSponsor.Coherence.Invitation, CodeSponsor.Coherence.Rememberable], fn module ->
+  Enum.each [CodeSponsor.Schema.Invitation, CodeSponsor.Schema.Rememberable], fn module ->
 
     name =
       module
@@ -99,7 +99,7 @@ defmodule CodeSponsor.Coherence.Schemas do
       @repo.delete struct
     end
   end
-  
+
   def query_by(schema, opts) do
     Enum.reduce opts, schema, fn {k, v}, query ->
       where(query, [b], field(b, ^k) == ^v)

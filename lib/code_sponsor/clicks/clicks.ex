@@ -8,7 +8,7 @@ defmodule CodeSponsor.Clicks do
   import Ecto.Query, warn: false
 
   alias CodeSponsor.Repo
-  alias CodeSponsor.Clicks.Click
+  alias CodeSponsor.Schema.Click
 
   @pagination [page_size: 15]
   @pagination_distance 5
