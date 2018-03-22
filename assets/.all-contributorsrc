@@ -1,0 +1,48 @@
+{
+  "projectName": "web",
+  "projectOwner": "codesponsor",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "../README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "coderberry",
+      "name": "Eric Berry",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12481?v=4",
+      "profile": "https://codesponsor.io",
+      "contributions": [
+        "code",
+        "doc",
+        "platform"
+      ]
+    },
+    {
+      "login": "zoek1",
+      "name": "Miguel Angel Gordián",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/660973?v=4",
+      "profile": "http://zoek1.github.com",
+      "contributions": [
+        "code",
+        "doc",
+        "infra",
+        "platform"
+      ]
+    },
+    {
+      "login": "StareIntoTheBeard",
+      "name": "Justin Bean",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1427179?v=4",
+      "profile": "http://stareintothebeard.github.io/",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas",
+        "test"
+      ]
+    }
+  ]
+}
