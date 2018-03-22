@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Schema.Rememberable do
+defmodule CodeSponsor.Coherence.Rememberable do
   @moduledoc false
   use CodeSponsorWeb, :schema
 

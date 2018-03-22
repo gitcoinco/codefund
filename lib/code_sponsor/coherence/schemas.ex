@@ -47,7 +47,7 @@ defmodule CodeSponsor.Coherence.Schemas do
     @repo.insert change_user(params)
   end
 
-  Enum.each [CodeSponsor.Schema.Invitation, CodeSponsor.Schema.Rememberable], fn module ->
+  Enum.each [CodeSponsor.Schema.Invitation, CodeSponsor.Coherence.Rememberable], fn module ->
 
     name =
       module
