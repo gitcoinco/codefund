@@ -76,6 +76,16 @@ defmodule CodeSponsorWeb do
     end
   end
 
+  def query do
+    quote do
+      import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
+      import Filtrex.Type.Config
+      import Ecto.Query, warn: false
+
+      alias CodeSponsor.Repo
+    end
+  end
+
   def channel do
     quote do
       use Phoenix.Channel

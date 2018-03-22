@@ -169,15 +169,7 @@ defmodule CodeSponsorWeb.TrackController do
       utm_term:       params["utm_term"]
     }
 
-    if sponsorship do
-      impression_params = Map.merge(impression_params, %{
-        campaign_id:    sponsorship.campaign_id,
-        sponsorship_id: sponsorship.id,
-      })
-      Impressions.create_impression(impression_params)
-    else
-      Impressions.create_impression(impression_params)
-    end
+    Impressions.create_from_sponsorship(impression_params, sponsorship)
   end
 
   defp track_click(conn, property, sponsorship, params) do

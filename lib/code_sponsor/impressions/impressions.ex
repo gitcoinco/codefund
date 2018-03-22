@@ -3,12 +3,10 @@ defmodule CodeSponsor.Impressions do
   The Impressions context.
   """
 
-  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
-  import Filtrex.Type.Config
-  import Ecto.Query, warn: false
+  use CodeSponsorWeb, :query
 
-  alias CodeSponsor.Repo
   alias CodeSponsor.Schema.Impression
+  alias CodeSponsor.Schema.Sponsorship
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -98,6 +96,29 @@ defmodule CodeSponsor.Impressions do
     |> Impression.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  Creates a impression from a merged with sponsorship details.
+
+  ## Examples
+
+      iex> create_from_sponsorship(%{field: value}, %Sponsorship{} \\ nil)
+      {:ok, %Impression{}}
+
+      iex> create_from_sponsorship(%{field: value}, %Sponsorship{} \\ nil)
+      {:error, %Ecto.Changeset{}}
+
+  """
+
+  def create_from_sponsorship(params, %Sponsorship{campaign_id: campaign_id, id: sponsorship_id}) do
+    params
+    |> Map.merge(%{
+      campaign_id:    campaign_id,
+      sponsorship_id: sponsorship_id
+    }) |> create_impression()
+  end
+
+  def create_from_sponsorship(params, nil), do: params |> create_impression()
 
   @doc """
   Updates a impression.
