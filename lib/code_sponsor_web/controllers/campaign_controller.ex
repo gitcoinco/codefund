@@ -2,7 +2,7 @@ defmodule CodeSponsorWeb.CampaignController do
   use CodeSponsorWeb, :controller
 
   alias CodeSponsor.Campaigns
-  alias CodeSponsor.Campaigns.Campaign
+  alias CodeSponsor.Schema.Campaign
   alias CodeSponsorWeb.CampaignType
 
   plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "sponsor"], to: "/dashboard"}

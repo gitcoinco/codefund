@@ -51,26 +51,13 @@ defmodule CodeSponsorWeb.CreateFraudTrackingLinkWorker do
     #       }
     #     }
     #
-    results = case HTTPoison.post(url, payload, headers) do
-      {:ok, %{status_code: 200, body: body}} ->
-        Poison.decode!(body)
 
-      {:ok, %{status_code: 404}} ->
-        %{"status" => "error", "message" => "404 error"}
-
-      {:error, %{reason: reason}} ->
-        %{"status" => "error", "message" => reason}
-    end
-
-    cond do
-      results["status"] == "success" ->
-        fraud_check_url = results["anywhere"]["short_link"]
-        case Campaigns.update_campaign(campaign, %{fraud_check_url: fraud_check_url}) do
-          {:ok, _campaign} -> IO.puts("Updated campaign")
-          {:error, _changeset} -> IO.puts("Unable to update campaign")
-        end
-      results["status"] == "error" ->
-        nil
-    end
+    with {:ok, %{status_code: 200, body: body}} <- HTTPoison.post(url, payload, headers),
+      %CodeSponsor.Schema.Campaign{} = campaign  <- body |>Poison.decode!(),
+      {:ok, %CodeSponsor.Schema.Campaign{}} <- campaign |> Campaigns.update_campaign(%{fraud_check_url: body["anywhere"]["short_link"]}),
+      do: IO.puts("Updated campaign")
+    else
+      {:error, %{reason: reason}} -> %{"status" => "error", "message" => reason}
+      {:error, %Ecto.Changeset{}} ->  IO.puts("Unable to update campaign")
   end
 end

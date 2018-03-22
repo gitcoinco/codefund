@@ -2,7 +2,7 @@ defmodule CodeSponsorWeb.ImpressionController do
   use CodeSponsorWeb, :controller
 
   alias CodeSponsor.Impressions
-  alias CodeSponsor.Impressions.Impression
+  alias CodeSponsor.Schema.Impression
 
   plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin"], to: "/dashboard"}
 

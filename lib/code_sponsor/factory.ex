@@ -2,7 +2,7 @@ defmodule CodeSponsor.Factory do
   use ExMachina.Ecto, repo: CodeSponsor.Repo
 
   def user_factory do
-    %CodeSponsor.Coherence.User{
+    %CodeSponsor.Schema.User{
       first_name: "Gilroy",
       last_name: "Greene",
       email: sequence(:email, &"user-#{&1}@example.com"),
@@ -13,7 +13,7 @@ defmodule CodeSponsor.Factory do
   end
 
   def property_factory do
-    %CodeSponsor.Properties.Property{
+    %CodeSponsor.Schema.Property {
       name: "Test Website",
       url: sequence(:url, &"https://example.com/#{&1}"),
       property_type: 1,
@@ -22,7 +22,7 @@ defmodule CodeSponsor.Factory do
   end
 
   def campaign_factory do
-    %CodeSponsor.Campaigns.Campaign{
+    %CodeSponsor.Schema.Campaign{
       name: "Test Campaign",
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
       status: 1,
@@ -35,7 +35,7 @@ defmodule CodeSponsor.Factory do
   end
 
   def sponsorship_factory do
-    %CodeSponsor.Sponsorships.Sponsorship{
+    %CodeSponsor.Schema.Sponsorship {
       property: build(:property),
       campaign: build(:campaign),
       bid_amount: Decimal.new(250.00),
@@ -44,7 +44,7 @@ defmodule CodeSponsor.Factory do
   end
 
   def impression_factory do
-    %CodeSponsor.Impressions.Impression{
+    %CodeSponsor.Schema.Impression {
       sponsorship: build(:sponsorship),
       property: build(:property),
       campaign: build(:campaign),
@@ -54,7 +54,7 @@ defmodule CodeSponsor.Factory do
   end
 
   def click_factory do
-    %CodeSponsor.Clicks.Click{
+    %CodeSponsor.Schema.Click{
       sponsorship: build(:sponsorship),
       property: build(:property),
       campaign: build(:campaign),

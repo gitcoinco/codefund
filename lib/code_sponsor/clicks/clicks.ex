@@ -3,12 +3,8 @@ defmodule CodeSponsor.Clicks do
   The Clicks context.
   """
 
-  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
-  import Filtrex.Type.Config
-  import Ecto.Query, warn: false
-
-  alias CodeSponsor.Repo
-  alias CodeSponsor.Clicks.Click
+  use CodeSponsorWeb, :query
+  alias CodeSponsor.Schema.Click
 
   @pagination [page_size: 15]
   @pagination_distance 5

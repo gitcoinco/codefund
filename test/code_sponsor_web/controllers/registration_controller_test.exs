@@ -1,8 +1,7 @@
 defmodule CodeSponsorWeb.RegistrationControllerTest do
   use CodeSponsorWeb.ConnCase
-  import CodeSponsor.Factory
   alias CodeSponsor.Repo
-  alias CodeSponsor.Coherence.User
+  alias CodeSponsor.Schema.User
 
   describe "create" do
     test "sets role of new users as 'developer'", %{conn: conn} do

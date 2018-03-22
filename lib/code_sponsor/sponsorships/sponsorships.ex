@@ -3,13 +3,10 @@ defmodule CodeSponsor.Sponsorships do
   The Sponsorships context.
   """
 
-  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
-  import Filtrex.Type.Config
-  import Ecto.Query, warn: false
+  use CodeSponsorWeb, :query
 
-  alias CodeSponsor.Repo
-  alias CodeSponsor.Sponsorships.Sponsorship
-  alias CodeSponsor.Properties.Property
+  alias CodeSponsor.Schema.Sponsorship
+  alias CodeSponsor.Schema.Property
 
   @pagination [page_size: 15]
   @pagination_distance 5

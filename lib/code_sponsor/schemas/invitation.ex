@@ -1,14 +1,11 @@
-defmodule CodeSponsor.Coherence.Invitation do
+defmodule CodeSponsor.Schema.Invitation do
   @moduledoc """
   Schema to support inviting a someone to create an account.
   """
-  use Ecto.Schema
-  import Ecto.Changeset
+  use CodeSponsorWeb, :schema
 
-  
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  
 
   schema "invitations" do
     field :name, :string
@@ -27,7 +24,7 @@ defmodule CodeSponsor.Coherence.Invitation do
   @spec changeset(Ecto.Schema.t, Map.t) :: Ecto.Changeset.t
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(name email token))
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required([:name, :email])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
