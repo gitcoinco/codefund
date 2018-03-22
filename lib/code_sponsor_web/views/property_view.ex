@@ -2,7 +2,7 @@ defmodule CodeSponsorWeb.PropertyView do
   use CodeSponsorWeb, :view
 
   import CodeSponsorWeb.TableView
-  import CodeSponsorWeb.FilterView
+  # import CodeSponsorWeb.FilterView
 
   def title(:index), do: "Code Sponsor | My Properties"
   def title(:new),   do: "Code Sponsor | Add Property"

@@ -47,7 +47,7 @@ defmodule CodeSponsor.Sponsorships do
     Sponsorship
     |> Filtrex.query(filter)
     |> order_by(^sort(params))
-    |> preload([:campaign, :property])
+    |> preload([:campaign, :property, :creative])
     |> paginate(Repo, params, @pagination)
   end
 
@@ -63,7 +63,7 @@ defmodule CodeSponsor.Sponsorships do
   def list_sponsorships do
     Sponsorship
     |> Repo.all
-    |> Repo.preload([:property, :campaign])
+    |> Repo.preload([:property, :campaign, :creative])
   end
 
   @doc """
@@ -83,7 +83,7 @@ defmodule CodeSponsor.Sponsorships do
   def get_sponsorship!(id) do
     Sponsorship
     |> Repo.get!(id)
-    |> Repo.preload([:property, :campaign])
+    |> Repo.preload([:property, :campaign, :creative])
   end
 
   # TODO: Deal with budgets and spend
@@ -91,7 +91,7 @@ defmodule CodeSponsor.Sponsorships do
     sponsorship = Repo.preload(property, :sponsorship).sponsorship
 
     if sponsorship do
-      sponsorship |> Repo.preload(:campaign)
+      sponsorship |> Repo.preload([:campaign, :creative])
     else
       new_sponsorship = from(
         s in Sponsorship,
@@ -100,7 +100,7 @@ defmodule CodeSponsor.Sponsorships do
         where: s.property_id == ^property.id,
         order_by: [desc: s.bid_amount]
       ) |> Repo.one()
-        |> Repo.preload(:campaign)
+        |> Repo.preload([:campaign, :creative])
 
       if new_sponsorship do
         Property.changeset(property, %{sponsorship_id: new_sponsorship.id}) |> Repo.update

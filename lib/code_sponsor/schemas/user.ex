@@ -7,10 +7,9 @@ defmodule CodeSponsor.Schema.User do
   @foreign_key_type :binary_id
 
   schema "users" do
-    # has_many :developer_sponsorships, CodeSponsor.Schema.Sponsorship , foreign_key: :developer_id
-    # has_many :sponsor_sponsorships, CodeSponsor.Schema.Sponsorship , foreign_key: :sponsor_id
     has_many :campaigns, CodeSponsor.Schema.Campaign
     has_many :properties, CodeSponsor.Schema.Property
+    has_many :creatives, CodeSponsor.Schema.Creative
 
     field :first_name, :string
     field :last_name, :string

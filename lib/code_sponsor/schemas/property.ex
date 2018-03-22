@@ -25,12 +25,12 @@ defmodule CodeSponsor.Schema.Property  do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> put_assoc(:user, user)
-    |> validate_required([:name, :url, :property_type])
+    |> validate_required(~w(name url property_type)a)
   end
 
   def changeset(%Property{} = property, params) do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> validate_required([:user_id, :name, :url, :property_type])
+    |> validate_required(~w(user_id name url property_type)a)
   end
 end

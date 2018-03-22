@@ -15,22 +15,6 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-body">
-    
-      <!-- This is left here for reference -->
-      <section style="display: none;">
-        <h3>Find Campaigns</h3>
-        <%= form_tag @conn.request_path, method: :get do %>
-          <div class="field">
-            <label>Name</label>
-            <%= filter_select(:property, :name, @conn.params) %>
-            <%= filter_string_input(:property, :name, @conn.params) %>
-          </div>
-          
-          <button type="submit" class="btn btn-primary">Search</button>
-          <%= link "Clear Filters", to: campaign_path(@conn, :index) %>
-        <% end %>
-      </section>
-
       <section>
         <%= if length(@campaigns) > 0 do %>
           <table class="table table-responsive-sm table-striped">

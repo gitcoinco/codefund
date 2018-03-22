@@ -1,0 +1,59 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Templates", to: template_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active"><%= @template.name %></li>
+
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: template_path(@conn, :edit, @template), class: "btn" do %>
+        <i class="fa fa-edit"></i> Edit Template
+      <% end %>
+    </div>
+  </li>
+</ol>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Details
+        </div>
+        <div class="card-body">
+          <div class="details-table">
+            <table class="table table-responsive-sm">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ID</strong></td>
+                  <td><%= @template.id %></td>
+                </tr>
+                <tr>
+                  <td><strong>Name</strong></td>
+                  <td><%= @template.name %></td>
+                </tr>
+                <tr>
+                  <td><strong>Slug</strong></td>
+                  <td><%= @template.slug %></td>
+                </tr>
+                <tr>
+                  <td><strong>Description</strong></td>
+                  <td><%= @template.description %></td>
+                </tr>
+                <tr>
+                  <td><strong>Body</strong></td>
+                  <td><pre><code><%= @template.body %></code></pre></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

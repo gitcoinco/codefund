@@ -1,12 +1,12 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
-  <li class="breadcrumb-item"><%= link "Sponsorships", to: sponsorship_path(@conn, :index) %></li>
-  <li class="breadcrumb-item active">Sponsorship</li>
+  <li class="breadcrumb-item"><%= link "Creatives", to: creative_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active"><%= @creative.name %></li>
 
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
-      <%= link to: sponsorship_path(@conn, :edit, @sponsorship), class: "btn" do %>
-        <i class="fa fa-edit"></i> Edit Sponsorship
+      <%= link to: creative_path(@conn, :edit, @creative), class: "btn" do %>
+        <i class="fa fa-edit"></i> Edit Creative
       <% end %>
     </div>
   </li>
@@ -14,7 +14,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <div class="card">
         <div class="card-header">
           Details
@@ -31,23 +31,23 @@
               <tbody>
                 <tr>
                   <td><strong>ID</strong></td>
-                  <td><%= @sponsorship.id %></td>
+                  <td><%= @creative.id %></td>
+                </tr>
+                <tr>
+                  <td><strong>Name</strong></td>
+                  <td><%= @creative.name %></td>
+                </tr>
+                <tr>
+                  <td><strong>Body</strong></td>
+                  <td><%= @creative.body %></td>
+                </tr>
+                <tr>
+                  <td><strong>Image</strong></td>
+                  <td><img src="<%= @creative.image_url %>" style="max-width: 350px;" />
                 </tr>
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          Embed Instructions
-        </div>
-        <div class="card-body">
-          <p>See https://badge.fury.io/for/rb/dotenv</p>
-
-          
         </div>
       </div>
     </div>

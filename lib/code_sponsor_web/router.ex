@@ -79,6 +79,9 @@ defmodule CodeSponsorWeb.Router do
     resources "/sponsorships", SponsorshipController
     resources "/clicks", ClickController
     resources "/impressions", ImpressionController
+    resources "/creatives", CreativeController
+    resources "/templates", TemplateController
+    resources "/themes", ThemeController
   end
 
   scope "/", CodeSponsorWeb do
@@ -88,8 +91,10 @@ defmodule CodeSponsorWeb.Router do
     get "/charts/traffic_impressions", ChartController, :traffic_impressions
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", CodeSponsorWeb do
-  #   pipe_through :api
-  # end
+  scope "/", CodeSponsorWeb do
+    pipe_through :api
+
+    get "/scripts/:property_id/embed.js", AdServeController, :embed
+    get "/t/s/:property_id/details.json", AdServeController, :details
+  end
 end

@@ -1,0 +1,16 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Themes", to: theme_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active">Add Theme</li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form.html",
+        assigns
+        |> Map.put(:action, theme_path(@conn, :create))
+        |> Map.put(:method, :post) %>
+    </div>
+  </div>
+</div>

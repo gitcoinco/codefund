@@ -1,0 +1,59 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Themes", to: theme_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active"><%= @theme.name %></li>
+    
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: theme_path(@conn, :edit, @theme), class: "btn" do %>
+        <i class="fa fa-edit"></i> Edit Theme
+      <% end %>
+    </div>
+  </li>
+</ol>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Details
+        </div>
+        <div class="card-body">
+          <div class="details-table">
+            <table class="table table-responsive-sm">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ID</strong></td>
+                  <td><%= @theme.id %></td>
+                </tr>
+                <tr>
+                  <td><strong>Name</strong></td>
+                  <td><%= @theme.name %></td>
+                </tr>
+                <tr>
+                  <td><strong>Slug</strong></td>
+                  <td><%= @theme.slug %></td>
+                </tr>
+                <tr>
+                  <td><strong>Description</strong></td>
+                  <td><%= @theme.description %></td>
+                </tr>
+                <tr>
+                  <td><strong>Body</strong></td>
+                  <td><pre><code><%= @theme.body %></code></pre></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

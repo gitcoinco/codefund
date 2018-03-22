@@ -31,15 +31,10 @@ defmodule CodeSponsor.Schema.Impression  do
     timestamps()
   end
 
-  @required [
-    :property_id,
-    :ip
-  ]
-
   @doc false
   def changeset(%Impression{} = impression, params) do
     impression
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> validate_required(@required)
+    |> validate_required(~w(property_id ip)a)
   end
 end
