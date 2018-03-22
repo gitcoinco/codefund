@@ -1,9 +1,9 @@
 defmodule CodeSponsor.SponsorshipsTest do
   use CodeSponsor.DataCase
   alias CodeSponsor.Properties
-  alias CodeSponsor.Properties.Property
+  alias CodeSponsor.Schema.Property
   alias CodeSponsor.Sponsorships
-  alias CodeSponsor.Sponsorships.Sponsorship
+  alias CodeSponsor.Schema.Sponsorship
   import CodeSponsor.Factory
 
   describe "sponsorships" do

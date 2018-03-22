@@ -2,7 +2,7 @@ defmodule CodeSponsorWeb.SponsorshipController do
   use CodeSponsorWeb, :controller
 
   alias CodeSponsor.Sponsorships
-  alias CodeSponsor.Sponsorships.Sponsorship
+  alias CodeSponsor.Schema.Sponsorship
   alias CodeSponsorWeb.SponsorshipType
 
   plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "sponsor"], to: "/dashboard"}

@@ -2,14 +2,11 @@ defmodule CodeSponsor.Properties do
   @moduledoc """
   The Properties context.
   """
-  
-  import CodeSponsor.Helpers, only: [sort: 1, paginate: 4]
-  import Filtrex.Type.Config
-  import Ecto.Query, warn: false
 
-  alias CodeSponsor.Repo
-  alias CodeSponsor.Properties.Property
-  alias CodeSponsor.Coherence.User
+  use CodeSponsorWeb, :query
+
+  alias CodeSponsor.Schema.Property
+  alias CodeSponsor.Schema.User
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -105,8 +102,7 @@ defmodule CodeSponsor.Properties do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_property(user, attrs \\ %{}) do
-    attrs = attrs |> Map.put_new("user_id", user.id)
+  def create_property(attrs \\ %{}) do
     %Property{}
     |> Property.changeset(attrs)
     |> Repo.insert()

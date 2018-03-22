@@ -1,18 +1,15 @@
-defmodule CodeSponsor.Coherence.User do
+defmodule CodeSponsor.Schema.User do
   @moduledoc false
-  use Ecto.Schema
-  use Formex.Ecto.Schema
+  use CodeSponsorWeb, :schema_with_formex
   use Coherence.Schema
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
   schema "users" do
-    # has_many :developer_sponsorships, CodeSponsor.Sponsorships.Sponsorship, foreign_key: :developer_id
-    # has_many :sponsor_sponsorships, CodeSponsor.Sponsorships.Sponsorship, foreign_key: :sponsor_id
-    has_many :campaigns, CodeSponsor.Campaigns.Campaign
-    has_many :properties, CodeSponsor.Properties.Property
-    has_many :creatives, CodeSponsor.Creatives.Creative
+    has_many :campaigns, CodeSponsor.Schema.Campaign
+    has_many :properties, CodeSponsor.Schema.Property
+    has_many :creatives, CodeSponsor.Schema.Creative
 
     field :first_name, :string
     field :last_name, :string
@@ -31,20 +28,6 @@ defmodule CodeSponsor.Coherence.User do
     timestamps()
   end
 
-  @attrs [
-    :email,
-    :first_name,
-    :last_name,
-    :address_1,
-    :address_2,
-    :city,
-    :region,
-    :postal_code,
-    :country,
-    :roles,
-    :revenue_rate
-  ]
-
   @required [
     :email,
     :first_name,
@@ -53,7 +36,7 @@ defmodule CodeSponsor.Coherence.User do
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @attrs ++ coherence_fields())
+    |> cast(params, fields())
     |> validate_required(@required)
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
@@ -65,4 +48,6 @@ defmodule CodeSponsor.Coherence.User do
     |> cast(params, ~w(password password_confirmation reset_password_token reset_password_sent_at))
     |> validate_coherence_password_reset(params)
   end
+
+  defp fields(), do:  (__MODULE__.__schema__(:fields) |> List.delete(:id)) ++ coherence_fields()
 end

@@ -1,22 +1,18 @@
 defmodule CodeSponsor.Coherence.Rememberable do
   @moduledoc false
-  use Ecto.Schema
-
-  import Ecto.Changeset
-  import Ecto.Query
+  use CodeSponsorWeb, :schema
 
   alias Coherence.Config
 
-  
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  
+
 
   schema "rememberables" do
     field :series_hash, :string
     field :token_hash, :string
     field :token_created_at, Timex.Ecto.DateTime
-    belongs_to :user, CodeSponsor.Coherence.User, type: :binary_id
+    belongs_to :user, CodeSponsor.Schema.User, type: :binary_id
 
     timestamps()
   end
@@ -32,7 +28,7 @@ defmodule CodeSponsor.Coherence.Rememberable do
   @spec changeset(Ecto.Schema.t, Map.t) :: Ecto.Changeset.t
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(series_hash token_hash token_created_at user_id))
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(~w(series_hash token_hash token_created_at user_id)a)
   end
 

@@ -8,8 +8,8 @@ defmodule CodeSponsorWeb.DashboardController do
 
     impressions_by_day = CodeSponsor.Stats.Impressions.count_by_day(current_user, start_date, end_date)
     clicks_by_day      = CodeSponsor.Stats.Clicks.count_by_day(current_user, start_date, end_date)
-    total_impressions  = Enum.map(impressions_by_day, fn {k, v} -> v end) |> Enum.sum
-    total_clicks       = Enum.map(clicks_by_day, fn {k, v} -> v end) |> Enum.sum
+    total_impressions  = Enum.map(impressions_by_day, fn {_, v} -> v end) |> Enum.sum
+    total_clicks       = Enum.map(clicks_by_day, fn {_, v} -> v end) |> Enum.sum
 
     render(conn, "index.html",
       start_date: start_date,

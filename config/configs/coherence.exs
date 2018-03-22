@@ -2,7 +2,7 @@ use Mix.Config
 
 # %% Coherence Configuration %%   Don't remove this line
 config :coherence,
-  user_schema: CodeSponsor.Coherence.User,
+  user_schema: CodeSponsor.Schema.User,
   repo: CodeSponsor.Repo,
   module: CodeSponsor,
   web_module: CodeSponsorWeb,

@@ -1,17 +1,13 @@
-defmodule CodeSponsor.Campaigns.Campaign do
-  use Ecto.Schema
-  use Formex.Ecto.Schema
-  import Ecto.Changeset
-  alias CodeSponsor.Campaigns.Campaign
+defmodule CodeSponsor.Schema.Campaign do
+  use CodeSponsorWeb, :schema_with_formex
 
-  
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do
-    has_many :impressions, CodeSponsor.Impressions.Impression
-    has_many :clicks, CodeSponsor.Clicks.Click
-    belongs_to :user, CodeSponsor.Coherence.User
-    
+    has_many :impressions, CodeSponsor.Schema.Impression
+    has_many :clicks, CodeSponsor.Schema.Click
+    belongs_to :user, CodeSponsor.Schema.User
+
     field :name, :string
     field :redirect_url, :string
     field :status, :integer, default: 1
@@ -25,19 +21,6 @@ defmodule CodeSponsor.Campaigns.Campaign do
     timestamps()
   end
 
-  @attrs [
-    :user_id,
-    :name,
-    :redirect_url,
-    :status,
-    :description,
-    :bid_amount,
-    :budget_daily_amount,
-    :budget_monthly_amount,
-    :budget_total_amount,
-    :fraud_check_url
-  ]
-
   @required [
     :user_id,
     :name,
@@ -50,9 +33,9 @@ defmodule CodeSponsor.Campaigns.Campaign do
   ]
 
   @doc false
-  def changeset(%Campaign{} = campaign, attrs) do
+  def changeset(%Campaign{} = campaign, params) do
     campaign
-    |> cast(attrs, @attrs)
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
   end
 end

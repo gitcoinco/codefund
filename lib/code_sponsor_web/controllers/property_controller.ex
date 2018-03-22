@@ -2,10 +2,10 @@ defmodule CodeSponsorWeb.PropertyController do
   use CodeSponsorWeb, :controller
 
   alias CodeSponsor.Properties
-  alias CodeSponsor.Properties.Property
+  alias CodeSponsor.Schema.Property
   alias CodeSponsor.Sponsorships
   alias CodeSponsorWeb.PropertyType
-  
+
   plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "developer"], to: "/dashboard"}
 
   def index(conn, params) do

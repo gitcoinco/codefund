@@ -1,12 +1,11 @@
 defmodule CodeSponsor.Stats.Impressions do
-  import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeSponsor.Repo
-  alias CodeSponsor.Coherence.User
-  alias CodeSponsor.Properties.Property
-  alias CodeSponsor.Impressions.Impression
-  alias CodeSponsor.Campaigns.Campaign
-  alias CodeSponsor.Sponsorships.Sponsorship
+  alias CodeSponsor.Schema.User
+  alias CodeSponsor.Schema.Property
+  alias CodeSponsor.Schema.Impression
+  alias CodeSponsor.Schema.Campaign
+  alias CodeSponsor.Schema.Sponsorship
 
   def count(start_date, end_date) when start_date <= end_date do
     Repo.one(
@@ -136,7 +135,7 @@ defmodule CodeSponsor.Stats.Impressions do
         |> Tuple.delete_at(1)
         |> Tuple.insert_at(1, {0, 0, 0})
         |> NaiveDateTime.from_erl()
-        
+
       formatted_date = Timex.format!(date, "%F", :strftime)
       {formatted_date, count}
     end)

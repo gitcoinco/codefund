@@ -1,16 +1,12 @@
-defmodule CodeSponsor.Impressions.Impression do
-  use Ecto.Schema
-  use Formex.Ecto.Schema
-  import Ecto.Changeset
-  alias CodeSponsor.Impressions.Impression
-
+defmodule CodeSponsor.Schema.Impression  do
+  use CodeSponsorWeb, :schema_with_formex
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "impressions" do
-    belongs_to :property, CodeSponsor.Properties.Property
-    belongs_to :sponsorship, CodeSponsor.Sponsorships.Sponsorship
-    belongs_to :campaign, CodeSponsor.Campaigns.Campaign
+    belongs_to :property, CodeSponsor.Schema.Property
+    belongs_to :sponsorship, CodeSponsor.Schema.Sponsorship
+    belongs_to :campaign, CodeSponsor.Schema.Campaign
 
     field :ip, :string
     field :is_bot, :boolean, default: false
@@ -35,40 +31,15 @@ defmodule CodeSponsor.Impressions.Impression do
     timestamps()
   end
 
-  @attrs [
-    :property_id,
-    :sponsorship_id,
-    :campaign_id,
-    :ip,
-    :is_bot,
-    :user_agent,
-    :browser,
-    :os,
-    :device_type,
-    :screen_height,
-    :screen_width,
-    :country,
-    :region,
-    :city,
-    :postal_code,
-    :latitude,
-    :longitude,
-    :utm_source,
-    :utm_medium,
-    :utm_term,
-    :utm_content,
-    :utm_campaign
-  ]
-
   @required [
     :property_id,
     :ip
   ]
 
   @doc false
-  def changeset(%Impression{} = impression, attrs) do
+  def changeset(%Impression{} = impression, params) do
     impression
-    |> cast(attrs, @attrs)
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
   end
 end

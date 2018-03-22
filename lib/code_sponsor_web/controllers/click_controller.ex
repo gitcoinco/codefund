@@ -2,7 +2,7 @@ defmodule CodeSponsorWeb.ClickController do
   use CodeSponsorWeb, :controller
 
   alias CodeSponsor.Clicks
-  alias CodeSponsor.Clicks.Click
+  alias CodeSponsor.Schema.Click
 
   def index(conn, _params) do
     clicks = Clicks.list_clicks()
