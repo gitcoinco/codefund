@@ -16,9 +16,9 @@ defmodule CodeSponsorWeb.AdServeController do
         template_slugs = Enum.map(templates, fn (c) -> c.slug end)
 
         conn
-        |> Status.code(:not_found)
+        |> put_status(:not_found)
         |> put_resp_content_type("application/javascript")
-        |> text "console.log('CodeFund template does not exist. Available templates are \\'#{Enum.join(template_slugs, "','")}\\'');"
+        |> text("console.log('CodeFund template does not exist. Available templates are \\'#{Enum.join(template_slugs, "','")}\\'');")
 
       true ->
         theme = Enum.find(template.themes, fn(t) -> t.slug == theme_slug end)
@@ -29,22 +29,22 @@ defmodule CodeSponsorWeb.AdServeController do
 
             conn
             |> put_resp_content_type("application/javascript")
-            |> text "console.log('CodeFund theme does not exist. Available themes for this template are \\'#{Enum.join(theme_slugs, "','")}\\'');"
+            |> text("console.log('CodeFund theme does not exist. Available themes for this template are \\'#{Enum.join(theme_slugs, "','")}\\'');")
 
           true ->
             conn
             |> put_resp_content_type("application/javascript")
-            |> render "embed.js",
+            |> render("embed.js",
                       property: property,
                       template: template,
                       targetId: targetId,
                       theme: theme,
-                      template: template
+                      template: template)
         end
     end
   end
 
-  def details(conn, %{"property_id" => property_id} = params) do
+  def details(conn, %{"property_id" => property_id}) do
     property    = Properties.get_property!(property_id)
     sponsorship = Sponsorships.get_sponsorship_for_property(property)
     creative    = sponsorship.creative

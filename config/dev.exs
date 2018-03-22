@@ -59,4 +59,4 @@ config :code_sponsor, CodeSponsor.Repo,
   pool_size: 10
 
 # Uncomment when developing locally
-# import_config "dev.secret.exs"
+import_config "dev.secret.exs"

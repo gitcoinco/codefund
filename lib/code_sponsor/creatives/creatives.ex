@@ -7,7 +7,7 @@ defmodule CodeSponsor.Creatives do
   import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeSponsor.Repo
-  alias CodeSponsor.Creatives.{Creative, Template, Theme}
+  alias CodeSponsor.Schema.{Creative, Template, Theme}
 
   @pagination [page_size: 15]
   @pagination_distance 5

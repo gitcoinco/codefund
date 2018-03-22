@@ -8,6 +8,7 @@ defmodule CodeSponsor.Schema.Sponsorship  do
     has_many :clicks, CodeSponsor.Schema.Click
     belongs_to :property, CodeSponsor.Schema.Property
     belongs_to :campaign, CodeSponsor.Schema.Campaign
+    belongs_to :creative, CodeSponsor.Schema.Creative
 
     field :redirect_url, :string
     field :bid_amount, :decimal
@@ -16,13 +17,11 @@ defmodule CodeSponsor.Schema.Sponsorship  do
     timestamps()
   end
 
-  @required [:bid_amount, :redirect_url]
-
   @doc false
   def changeset(%Sponsorship{} = sponsorship, params) do
     sponsorship
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> validate_required(@required)
+    |> validate_required(~w(bid_amount redirect_url)a)
     |> validate_format(:redirect_url, ~r/https?\:\/\/.*/)
   end
 end

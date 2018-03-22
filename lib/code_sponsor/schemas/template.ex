@@ -16,14 +16,11 @@ defmodule CodeSponsor.Schema.Template do
     timestamps()
   end
 
-  @attrs [:name, :body, :slug, :description]
-  @required [:name, :body, :slug]
-
   @doc false
-  def changeset(%Template{} = template, attrs) do
+  def changeset(%Template{} = template, params) do
     template
-    |> cast(attrs, @attrs)
-    |> validate_required([:name, :body])
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
+    |> validate_required(~w(name body slug)a)
     |> unique_constraint(:slug)
   end
 end

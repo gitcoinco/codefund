@@ -8,11 +8,11 @@ defmodule CodeSponsor.Sponsorships.Sponsorship do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "sponsorships" do
-    has_many :impressions, CodeSponsor.Impressions.Impression
-    has_many :clicks, CodeSponsor.Clicks.Click
-    belongs_to :creative, CodeSponsor.Creatives.Creative
-    belongs_to :property, CodeSponsor.Properties.Property
-    belongs_to :campaign, CodeSponsor.Campaigns.Campaign
+    has_many :impressions, CodeSponsor.Schema.Impression
+    has_many :clicks, CodeSponsor.Schema.Click
+    belongs_to :creative, CodeSponsor.Schema.Creative
+    belongs_to :property, CodeSponsor.Schema.Property
+    belongs_to :campaign, CodeSponsor.Schema.Campaign
 
     field :redirect_url, :string
     field :bid_amount, :decimal

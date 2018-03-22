@@ -1,5 +1,6 @@
 import { Controller } from "stimulus";
 import _ from "lodash";
+import moment from "moment";
 import Chart from "chart.js";
 
 export default class extends Controller {
@@ -10,10 +11,15 @@ export default class extends Controller {
   connect() {
     const impressionsByDay = JSON.parse(this.element.dataset.impressionsByDay);
     const clicksByDay = JSON.parse(this.element.dataset.clicksByDay);
+
     this.loadTrafficImpressionsChart(impressionsByDay);
     this.loadTrafficClicksChart(clicksByDay);
 
     console.log("Loaded dashboard");
+  }
+
+  strToDate(str) {
+    return moment(str);
   }
 
   loadTrafficImpressionsChart(impressionsByDay) {
@@ -24,7 +30,9 @@ export default class extends Controller {
       scales: {
         xAxes: [
           {
+            type: "time",
             time: {
+              format: "MM/DD/YYYY",
               unit: "day"
             }
           }
@@ -32,8 +40,10 @@ export default class extends Controller {
       }
     };
 
+    const labels = _.map(_.keys(impressionsByDay), this.strToDate);
+
     const data = {
-      labels: _.keys(impressionsByDay),
+      labels,
       datasets: [
         {
           label: "Impressions",
@@ -57,7 +67,9 @@ export default class extends Controller {
       scales: {
         xAxes: [
           {
+            type: "time",
             time: {
+              format: "MM/DD/YYYY",
               unit: "day"
             }
           }
@@ -65,8 +77,10 @@ export default class extends Controller {
       }
     };
 
+    const labels = _.map(_.keys(clicksByDay), this.strToDate);
+
     const data = {
-      labels: _.keys(clicksByDay),
+      labels,
       datasets: [
         {
           label: "Clicks",

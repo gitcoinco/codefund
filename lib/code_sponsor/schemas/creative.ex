@@ -16,13 +16,10 @@ defmodule CodeSponsor.Schema.Creative do
     timestamps()
   end
 
-  @attrs [:name, :body, :image_url]
-  @required [:name, :body, :image_url]
-
   @doc false
-  def changeset(%Creative{} = creative, attrs) do
+  def changeset(%Creative{} = creative, params) do
     creative
-    |> cast(attrs, @attrs)
-    |> validate_required(@required)
+    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
+    |> validate_required(~w(name body image_url)a)
   end
 end
