@@ -9,7 +9,6 @@
     "contributors:generate": "all-contributors generate"
   },
   "dependencies": {
-    "aphrodite": "^2.1.0",
     "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",

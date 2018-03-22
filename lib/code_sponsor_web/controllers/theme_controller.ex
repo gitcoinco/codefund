@@ -2,7 +2,7 @@ defmodule CodeSponsorWeb.ThemeController do
   use CodeSponsorWeb, :controller
 
   alias CodeSponsor.Creatives
-  alias CodeSponsor.Creatives.Theme
+  alias CodeSponsor.Schema.Theme
   alias CodeSponsorWeb.ThemeType
 
   plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin"], to: "/dashboard"}

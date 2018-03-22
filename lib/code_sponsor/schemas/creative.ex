@@ -1,14 +1,14 @@
-defmodule CodeSponsor.Creatives.Creative do
+defmodule CodeSponsor.Schema.Creative do
   use Ecto.Schema
   import Ecto.Changeset
-  alias CodeSponsor.Creatives.Creative
+  alias CodeSponsor.Schema.Creative
 
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "creatives" do
-    belongs_to :user, CodeSponsor.Coherence.User
-    has_many :sponsorships, CodeSponsor.Sponsorships.Sponsorship
+    belongs_to :user, CodeSponsor.Schema.User
+    has_many :sponsorships, CodeSponsor.Schema.Sponsorship
     field :name, :string
     field :body, :string
     field :image_url, :string

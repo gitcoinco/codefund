@@ -1,13 +1,12 @@
-defmodule CodeSponsor.Creatives.Template do
+defmodule CodeSponsor.Schema.Theme do
   use Ecto.Schema
   import Ecto.Changeset
-  alias CodeSponsor.Creatives.Template
-
+  alias CodeSponsor.Schema.Theme
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  schema "templates" do
-    has_many :themes, CodeSponsor.Creatives.Theme
+  schema "themes" do
+    belongs_to :template, CodeSponsor.Schema.Template
     field :body, :string
     field :name, :string
     field :slug, :string
@@ -20,10 +19,10 @@ defmodule CodeSponsor.Creatives.Template do
   @required [:name, :body, :slug]
 
   @doc false
-  def changeset(%Template{} = template, attrs) do
+  def changeset(%Theme{} = template, attrs) do
     template
     |> cast(attrs, @attrs)
-    |> validate_required([:name, :body])
-    |> unique_constraint(:slug)
+    |> validate_required(@required)
+    |> unique_constraint(:slug, name: :themes_slug_template_id_index)
   end
 end
