@@ -1,7 +1,7 @@
 defmodule CodeSponsor.Campaigns.CampaignTest do
   use CodeSponsor.DataCase
 
-  alias CodeSponsor.Campaigns.Campaign
+  alias CodeSponsor.Schema.Campaign
 
   @valid_attrs %{user_id: "123", name: "Zacck", redirect_url: "https://lol.co", status: 1, bid_amount: 3.4, budget_daily_amount: 5.5,
   budget_monthly_amount: 2.2,

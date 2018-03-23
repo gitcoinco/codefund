@@ -4,7 +4,7 @@
    alias CodeSponsor.{Properties, Coherence.User}
 
    describe "properties" do
-    alias CodeSponsor.Properties.Property
+    alias CodeSponsor.Schema.Property
 
      @valid_attrs %{"name" => "some name", "property_type" =>  42, "url" => "some url"}
      @update_attrs %{"name" => "some updated name", "property_type" =>  43, "url" => "some updated url"}
@@ -62,4 +62,3 @@
     end
    end
  end
->>>>>>> 726e967... Test properties context

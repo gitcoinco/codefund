@@ -1,7 +1,8 @@
 defmodule CodeSponsor.Coherence.SchemasTest do
   use CodeSponsor.DataCase
 
-  alias CodeSponsor.Coherence.{Schemas, User}
+  alias CodeSponsor.Coherence.{Schemas}
+  alias CodeSponsor.Schema.User
 
   @email "zacck@me.com"
   @valid_user %{first_name: "Zacck", last_name: "Osiemo", email: @email, password: "jbjdbwqjbd--"}
@@ -70,7 +71,7 @@ defmodule CodeSponsor.Coherence.SchemasTest do
 
     test "create_user/1 creates a new user" do
       assert Repo.aggregate(User, :count, :id) == 0
-      Schemas.create_user(@valid_user) 
+      Schemas.create_user(@valid_user)
       assert Repo.aggregate(User, :count, :id) == 1
       user = Repo.one(User)
       assert user.email == @valid_user.email

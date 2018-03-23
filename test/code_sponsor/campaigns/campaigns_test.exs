@@ -4,7 +4,7 @@ defmodule CodeSponsor.CampaignsTest do
   alias CodeSponsor.Campaigns
 
   describe "campaigns" do
-    alias CodeSponsor.Campaigns.Campaign
+    alias CodeSponsor.Schema.Campaign
 
     @valid_attrs %{bid_amount: 42, budget_daily_amount: 42, description: "some description", budget_monthly_amount: 42, name: "some name", redirect_url: "some redirect_url", status: 42}
     @update_attrs %{bid_amount: Decimal.new(43), budget_daily_amount: Decimal.new(43), description: "some updated description", budget_monthly_amount: Decimal.new(43), name: "some updated name", redirect_url: "some updated redirect_url", status: 43}
@@ -14,7 +14,6 @@ defmodule CodeSponsor.CampaignsTest do
       user = insert(:user)
       campaign = insert(:campaign, user: user)
       inserted_campaign = Campaigns.get_campaign!(campaign.id)
-
       assert campaign.id == inserted_campaign.id
     end
 

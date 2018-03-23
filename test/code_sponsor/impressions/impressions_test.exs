@@ -4,7 +4,7 @@
    alias CodeSponsor.Impressions
 
   describe "impressions" do
-     alias CodeSponsor.Impressions.Impression
+     alias CodeSponsor.Schema.Impression
 
      @valid_attrs %{browser: "some browser", city: "some city", country: "some country", device_type: "some device_type", ip: "some ip", latitude: "120.5", longitude: "120.5", os: "some os", postal_code: "some postal_code", region: "some region", screen_height: 42, screen_width: 42, user_agent: "some user_agent", utm_campaign: "some utm_campaign", utm_content: "some utm_content", utm_medium: "some utm_medium", utm_source: "some utm_source", utm_term: "some utm_term"}
      @update_attrs %{browser: "some updated browser", city: "some updated city", country: "some updated country", device_type: "some updated device_type", ip: "some updated ip", latitude: "456.7", longitude: "456.7", os: "some updated os", postal_code: "some updated postal_code", region: "some updated region", screen_height: 43, screen_width: 43, user_agent: "some updated user_agent", utm_campaign: "some updated utm_campaign", utm_content: "some updated utm_content", utm_medium: "some updated utm_medium", utm_source: "some updated utm_source", utm_term: "some updated utm_term"}
@@ -26,7 +26,6 @@
       property = insert(:property)
       new_impression = Map.put(@valid_attrs, :property_id, property.id)
       assert {:ok, %Impression{} = impression} = Impressions.create_impression(new_impression)
->>>>>>> 7d3c098... Test impressions context
       assert impression.browser == "some browser"
       assert impression.city == "some city"
       assert impression.country == "some country"
@@ -51,7 +50,6 @@
       assert {:error, %Ecto.Changeset{}} = Impressions.create_impression(@invalid_attrs)
     end
 
-<<<<<<< HEAD
     test "create_from_sponsorship/1 merges attributes of a sponsorship before saving" do
       sponsorship = CodeSponsor.Support.Fixture.generate(:sponsorship)
       property = CodeSponsor.Support.Fixture.generate(:property)
@@ -74,12 +72,9 @@
       assert !is_nil(impression.id)
     end
 
-    test "update_impression/2 with valid data updates the impression" do
-      impression = CodeSponsor.Support.Fixture.generate(:impression)
-=======
+
     test "update_impression/2 with valid data updates the impression" do
       impression = insert(:impression)
->>>>>>> 7d3c098... Test impressions context
       assert {:ok, impression} = Impressions.update_impression(impression, @update_attrs)
       assert %Impression{} = impression
       assert impression.browser == "some updated browser"
@@ -103,15 +98,6 @@
     end
 
     test "update_impression/2 with invalid data returns error changeset" do
-<<<<<<< HEAD
-      impression = CodeSponsor.Support.Fixture.generate(:impression)
-      assert {:error, %Ecto.Changeset{}} = Impressions.update_impression(impression, @invalid_attrs)
-      assert impression == Impressions.get_impression!(impression.id)
-    end
-
-    test "delete_impression/1 deletes the impression" do
-      impression = CodeSponsor.Support.Fixture.generate(:impression)
-=======
       impression = insert(:impression)
       assert {:error, %Ecto.Changeset{}} = Impressions.update_impression(impression, @invalid_attrs)
       saved_impression = Impressions.get_impression!(impression.id)
@@ -120,22 +106,13 @@
 
     test "delete_impression/1 deletes the impression" do
       impression = insert(:impression)
->>>>>>> 7d3c098... Test impressions context
       assert {:ok, %Impression{}} = Impressions.delete_impression(impression)
       assert_raise Ecto.NoResultsError, fn -> Impressions.get_impression!(impression.id) end
     end
 
     test "change_impression/1 returns a impression changeset" do
-<<<<<<< HEAD
-      impression = CodeSponsor.Support.Fixture.generate(:impression)
-      assert %Ecto.Changeset{} = Impressions.change_impression(impression)
-    end
-  end
-end
-=======
       impression = insert(:impression)
       assert %Ecto.Changeset{} = Impressions.change_impression(impression)
     end
    end
  end
->>>>>>> 7d3c098... Test impressions context
