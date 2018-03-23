@@ -86,11 +86,13 @@
                   <li class="nav-item">
                       <a href="https://slack.codesponsor.io" class="nav-link">Slack</a>
                   </li>
-                  <%= if Coherence.logged_in?(@conn) do %>
-                    <li class="nav-item">
+                  <li class="nav-item">
+                    <%= if Coherence.logged_in?(@conn) do %>
                       <%= link "Dashboard", to: dashboard_path(@conn, :index), class: "nav-link" %>
-                    </li>
-                  <% end %>
+                    <% else %>
+                      <%= link "Login", to: session_path(@conn, :new), class: "nav-link" %>
+                    <% end %>
+                  </li>
               </ul>
           </div>
           <!-- //.navbar-collapse -->

@@ -1,2 +1,2 @@
 #!/bin/bash
-ngrok http -subdomain codesponsor 4000
+ngrok http -subdomain codefund 4000

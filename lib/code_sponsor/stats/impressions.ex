@@ -1,11 +1,7 @@
 defmodule CodeSponsor.Stats.Impressions do
   import Ecto.Query, warn: false
   alias CodeSponsor.Repo
-  alias CodeSponsor.Schema.User
-  alias CodeSponsor.Schema.Property
-  alias CodeSponsor.Schema.Impression
-  alias CodeSponsor.Schema.Campaign
-  alias CodeSponsor.Schema.Sponsorship
+  alias CodeSponsor.Schema.{User, Property, Impression, Campaign, Sponsorship}
 
   def count(start_date, end_date) when start_date <= end_date do
     Repo.one(

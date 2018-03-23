@@ -81,12 +81,12 @@ defmodule CodeSponsor.Properties do
   def get_property!(id) do
     try do
       case Ecto.UUID.cast(id) do
-        {:ok, _} -> Repo.get!(Property, id)
-        :error   -> Repo.get_by!(Property, legacy_id: id)
+        {:ok, _} -> Repo.get!(Property, id) |> Repo.preload(:user)
+        :error   -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload(:user)
       end
     rescue
       Ecto.NoResultsError ->
-        Repo.get_by!(Property, legacy_id: id)
+        Repo.get_by!(Property, legacy_id: id) |> Repo.preload(:user)
     end
   end
 
