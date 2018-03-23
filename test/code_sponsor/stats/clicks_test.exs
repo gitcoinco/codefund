@@ -7,6 +7,16 @@ defmodule CodeSponsor.Stats.ClicksTest do
 
   describe "Stats.Click" do
 
+    test "with_sponsorship_details nil" do
+      assert %{} == Clicks.with_sponsorship_details(nil, %{})
+    end
+
+    test "with_sponsorship_details" do
+      sponsorship = insert(:sponsorship)
+      result = Clicks.with_sponsorship_details(sponsorship, %{})
+      assert result.campaign_id == sponsorship.campaign_id
+    end
+
     test "count/3 property returns a click" do
       click = insert(:click)
       property = click.property
@@ -69,6 +79,14 @@ defmodule CodeSponsor.Stats.ClicksTest do
     test "/3 campaign returns a count" do
       click = insert(:click)
       property = click.campaign
+      date = NaiveDateTime.to_date(click.inserted_at)
+      s_date = Date.to_iso8601(date)
+      assert %{^s_date => 1 } = Clicks.count_by_day(property, date, date)
+    end
+
+    test "/3 user returns a count" do
+      click = insert(:click)
+      property = click.property.user
       date = NaiveDateTime.to_date(click.inserted_at)
       s_date = Date.to_iso8601(date)
       assert %{^s_date => 1 } = Clicks.count_by_day(property, date, date)
