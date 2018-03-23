@@ -1,7 +1,7 @@
  defmodule CodeSponsor.PropertiesTest do
    use CodeSponsor.DataCase
 
-   alias CodeSponsor.{Properties, Coherence.User}
+   alias CodeSponsor.{Properties}
 
    describe "properties" do
     alias CodeSponsor.Schema.Property
@@ -19,7 +19,7 @@
 
      test "paginate_properties/1 paginates properties" do
        user = insert(:user)
-       property = insert_list(25, :property, user: user)
+       insert_list(25, :property, user: user)
        {:ok, %{properties: properties}} = Properties.paginate_properties(user, %{})
        assert Enum.count(properties) == 15
      end

@@ -140,7 +140,7 @@
      end
 
      test "paginate_templates/1 returns all templates" do
-       templates = insert_list(25, :template)
+       insert_list(25, :template)
        {:ok, %{templates: saved_templates}} = Creatives.paginate_templates(%{})
        assert Enum.count(saved_templates) == 15
      end
