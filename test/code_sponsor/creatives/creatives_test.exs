@@ -2,6 +2,62 @@
    use CodeSponsor.DataCase
 
    alias CodeSponsor.Creatives
+   alias CodeSponsor.Schema.Theme
+
+   describe "themes" do
+     @valid_attrs %{body: "some body", name: "some name", slug: "some slug"}
+     @update_attrs %{body: "some updated body", name: "some updated name", slug: "some updated slug"}
+     @invalid_attrs %{body: nil, name: nil}
+     test "list_themes/0 returns all themes" do
+       theme = insert(:theme)
+       [first_theme | _] = Creatives.list_themes()
+       assert first_theme.id == theme.id
+     end
+
+     test "get_theme/1 returns all themes" do
+       theme = insert(:theme)
+       saved_theme = Creatives.get_theme!(theme.id)
+       assert saved_theme.id == theme.id
+     end
+
+     test "get_theme_by_slug returns all themes" do
+       theme = insert(:theme)
+       saved_theme = Creatives.get_theme_by_slug!(theme.slug)
+       assert saved_theme.id == theme.id
+     end
+
+     test "paginate_themes/1 returns 15 themes" do
+       theme = insert_list(25, :theme)
+       {:ok, %{themes: themes}} = Creatives.paginate_themes(%{})
+       assert Enum.count(themes) == 15
+     end
+
+     test "create_theme/1 with valid data creates a template" do
+       assert {:ok, %Theme{} = theme} = Creatives.create_theme(@valid_attrs)
+       assert theme.body == "some body"
+       assert theme.name == "some name"
+     end
+
+     test "update_theme/2 with valid data updates the template" do
+       theme = insert(:theme)
+       assert {:ok, theme} = Creatives.update_theme(theme, @update_attrs)
+       assert %Theme{} = theme
+       assert theme.body == "some updated body"
+       assert theme.name == "some updated name"
+     end
+
+     test "change_theme/1 returns a changeset" do
+       theme = insert(:theme)
+       theme = Creatives.change_theme(theme)
+       assert %Ecto.Changeset{} = theme
+     end
+
+     test "delete_theme/1 with valid data updates the template" do
+       theme = insert(:theme)
+       Creatives.delete_theme(theme)
+       assert Repo.aggregate(Theme, :count, :id) == 0
+     end
+   end
 
    describe "templates" do
      alias CodeSponsor.Schema.Template
@@ -21,6 +77,12 @@
     test "get_template!/1 returns the template with given id" do
       template = insert(:template)
       saved_template = Creatives.get_template!(template.id)
+      assert saved_template.id == template.id
+    end
+
+    test "get_template_by_slug/1 returns the template with given id" do
+      template = insert(:template)
+      saved_template = Creatives.get_template_by_slug(template.slug)
       assert saved_template.id == template.id
     end
 
