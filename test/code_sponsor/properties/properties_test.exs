@@ -17,23 +17,30 @@
        assert first_prop.id == property.id
      end
 
+     test "paginate_properties/1 paginates properties" do
+       user = insert(:user)
+       property = insert_list(25, :property, user: user)
+       {:ok, %{properties: properties}} = Properties.paginate_properties(user, %{})
+       assert Enum.count(properties) == 15
+     end
+
      test "get_property!/1 returns the property with given id" do
        property = insert(:property)
        saved_prop = Properties.get_property!(property.id)
        assert saved_prop.id == property.id
     end
 
-     # test "create_property/1 with valid data creates a property" do
-     #   user = insert(:user)|> IO.inspect
-     #   {:ok, property} = Properties.create_property(user, @valid_attrs)
-     #   assert property.name == "some name"
-     #   assert property.property_type == 42
-     #   assert property.url == "some url"
-     # end
+     test "create_property/1 with valid data creates a property" do
+       user = insert(:user)
+       {:ok, property} = Properties.create_property(Map.put(@valid_attrs, "user_id", user.id))
+       assert property.name == "some name"
+       assert property.property_type == 42
+       assert property.url == "some url"
+     end
 
-    # test "create_property/1 with invalid data returns error changeset" do
-    #   assert {:error, %Ecto.Changeset{}} = Properties.create_property(@invalid_attrs)
-    # end
+    test "create_property/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Properties.create_property(@invalid_attrs)
+    end
 
     test "update_property/2 with valid data updates the property" do
       property = insert(:property)
