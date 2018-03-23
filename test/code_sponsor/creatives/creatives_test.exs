@@ -1,193 +1,195 @@
-# defmodule CodeSponsor.CreativesTest do
-#   use CodeSponsor.DataCase
+ defmodule CodeSponsor.CreativesTest do
+   use CodeSponsor.DataCase
 
-#   alias CodeSponsor.Creatives
+   alias CodeSponsor.Creatives
+   alias CodeSponsor.Schema.Theme
 
-#   describe "templates" do
-#     alias CodeSponsor.Creatives.Template
+   describe "themes" do
+     @valid_attrs %{body: "some body", name: "some name", slug: "some slug"}
+     @update_attrs %{body: "some updated body", name: "some updated name", slug: "some updated slug"}
+     @invalid_attrs %{body: nil, name: nil}
+     test "list_themes/0 returns all themes" do
+       theme = insert(:theme)
+       [first_theme | _] = Creatives.list_themes()
+       assert first_theme.id == theme.id
+     end
 
-#     @valid_attrs %{body: "some body", name: "some name"}
-#     @update_attrs %{body: "some updated body", name: "some updated name"}
-#     @invalid_attrs %{body: nil, name: nil}
+     test "get_theme/1 returns all themes" do
+       theme = insert(:theme)
+       saved_theme = Creatives.get_theme!(theme.id)
+       assert saved_theme.id == theme.id
+     end
 
-#     def template_fixture(attrs \\ %{}) do
-#       {:ok, template} =
-#         attrs
-#         |> Enum.into(@valid_attrs)
-#         |> Creatives.create_template()
+     test "get_theme_by_slug returns all themes" do
+       theme = insert(:theme)
+       saved_theme = Creatives.get_theme_by_slug!(theme.slug)
+       assert saved_theme.id == theme.id
+     end
 
-#       template
-#     end
+     test "paginate_themes/1 returns 15 themes" do
+       theme = insert_list(25, :theme)
+       {:ok, %{themes: themes}} = Creatives.paginate_themes(%{})
+       assert Enum.count(themes) == 15
+     end
 
-#     test "list_templates/0 returns all templates" do
-#       template = template_fixture()
-#       assert Creatives.list_templates() == [template]
-#     end
+     test "create_theme/1 with valid data creates a template" do
+       assert {:ok, %Theme{} = theme} = Creatives.create_theme(@valid_attrs)
+       assert theme.body == "some body"
+       assert theme.name == "some name"
+     end
 
-#     test "get_template!/1 returns the template with given id" do
-#       template = template_fixture()
-#       assert Creatives.get_template!(template.id) == template
-#     end
+     test "update_theme/2 with valid data updates the template" do
+       theme = insert(:theme)
+       assert {:ok, theme} = Creatives.update_theme(theme, @update_attrs)
+       assert %Theme{} = theme
+       assert theme.body == "some updated body"
+       assert theme.name == "some updated name"
+     end
 
-#     test "create_template/1 with valid data creates a template" do
-#       assert {:ok, %Template{} = template} = Creatives.create_template(@valid_attrs)
-#       assert template.body == "some body"
-#       assert template.name == "some name"
-#     end
+     test "change_theme/1 returns a changeset" do
+       theme = insert(:theme)
+       theme = Creatives.change_theme(theme)
+       assert %Ecto.Changeset{} = theme
+     end
 
-#     test "create_template/1 with invalid data returns error changeset" do
-#       assert {:error, %Ecto.Changeset{}} = Creatives.create_template(@invalid_attrs)
-#     end
+     test "delete_theme/1 with valid data updates the template" do
+       theme = insert(:theme)
+       Creatives.delete_theme(theme)
+       assert Repo.aggregate(Theme, :count, :id) == 0
+     end
+   end
 
-#     test "update_template/2 with valid data updates the template" do
-#       template = template_fixture()
-#       assert {:ok, template} = Creatives.update_template(template, @update_attrs)
-#       assert %Template{} = template
-#       assert template.body == "some updated body"
-#       assert template.name == "some updated name"
-#     end
+   describe "creatives" do
+     alias CodeSponsor.Schema.Creative
+     alias CodeSponsor.Creatives
 
-#     test "update_template/2 with invalid data returns error changeset" do
-#       template = template_fixture()
-#       assert {:error, %Ecto.Changeset{}} = Creatives.update_template(template, @invalid_attrs)
-#       assert template == Creatives.get_template!(template.id)
-#     end
+     @valid_attrs %{image_url: "some image_url", name: "some text", body: "some title"}
+     @update_attrs %{image_url: "some updated image_url", name: "some updated text", body: "some updated title"}
+     @invalid_attrs %{image_url: nil, text: nil, title: nil}
 
-#     test "delete_template/1 deletes the template" do
-#       template = template_fixture()
-#       assert {:ok, %Template{}} = Creatives.delete_template(template)
-#       assert_raise Ecto.NoResultsError, fn -> Creatives.get_template!(template.id) end
-#     end
+     test "list_creatives/0 returns all creatives" do
+      insert_list(25, :creative)
+      saved_creatives =  Creatives.list_creatives()
+      assert Enum.count(saved_creatives) == 25
+     end
 
-#     test "change_template/1 returns a template changeset" do
-#       template = template_fixture()
-#       assert %Ecto.Changeset{} = Creatives.change_template(template)
-#     end
-#   end
+     test "paginate_creatives/1 returns all creatives" do
+      insert_list(25, :creative)
+      {:ok, %{creatives: paginated_creatives}} =  Creatives.paginate_creatives(%{})
+      assert Enum.count(paginated_creatives) == 15
+     end
 
-#   describe "themes" do
-#     alias CodeSponsor.Creatives.Theme
+    test "get_creative!/1 returns the creative with given id" do
+      creative = insert(:creative)
+      saved_creative = Creatives.get_creative!(creative.id)
+      assert creative.id == saved_creative.id
+    end
 
-#     @valid_attrs %{body: "some body", name: "some name"}
-#     @update_attrs %{body: "some updated body", name: "some updated name"}
-#     @invalid_attrs %{body: nil, name: nil}
+    test "create_creative/1 with valid data creates a creative" do
+      assert {:ok, %Creative{} = creative} = Creatives.create_creative(@valid_attrs)
+      assert creative.image_url == "some image_url"
+      assert creative.name == "some text"
+      assert creative.body == "some title"
+    end
 
-#     def theme_fixture(attrs \\ %{}) do
-#       {:ok, theme} =
-#         attrs
-#         |> Enum.into(@valid_attrs)
-#         |> Creatives.create_theme()
+    test "create_creative/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Creatives.create_creative(@invalid_attrs)
+    end
 
-#       theme
-#     end
+    test "update_creative/2 with valid data updates the creative" do
+      creative = insert(:creative)
+      {:ok, creative}  = Creatives.update_creative(creative, @update_attrs)
+      assert %Creative{} = creative
+      assert creative.image_url == "some updated image_url"
+      assert creative.name == "some updated text"
+      assert creative.body == "some updated title"
+    end
 
-#     test "list_themes/0 returns all themes" do
-#       theme = theme_fixture()
-#       assert Creatives.list_themes() == [theme]
-#     end
+    test "update_creative/2 with invalid data returns error changeset" do
+      creative = insert(:creative)
+      assert {:error, %Ecto.Changeset{}} = Creatives.update_creative(creative, @invalid_attrs)
+      saved_creative = Creatives.get_creative!(creative.id)
+      assert creative.id == saved_creative.id
+    end
 
-#     test "get_theme!/1 returns the theme with given id" do
-#       theme = theme_fixture()
-#       assert Creatives.get_theme!(theme.id) == theme
-#     end
+    test "delete_creative/1 deletes the creative" do
+      creative = insert(:creative)
+      assert {:ok, %Creative{}} = Creatives.delete_creative(creative)
+      assert_raise Ecto.NoResultsError, fn -> Creatives.get_creative!(creative.id) end
+    end
 
-#     test "create_theme/1 with valid data creates a theme" do
-#       assert {:ok, %Theme{} = theme} = Creatives.create_theme(@valid_attrs)
-#       assert theme.body == "some body"
-#       assert theme.name == "some name"
-#     end
+    test "change_creative/1 returns a creative changeset" do
+      creative = insert(:creative)
+      assert %Ecto.Changeset{} = Creatives.change_creative(creative)
+    end
+   end
 
-#     test "create_theme/1 with invalid data returns error changeset" do
-#       assert {:error, %Ecto.Changeset{}} = Creatives.create_theme(@invalid_attrs)
-#     end
+   describe "templates" do
+     alias CodeSponsor.Schema.Template
 
-#     test "update_theme/2 with valid data updates the theme" do
-#       theme = theme_fixture()
-#       assert {:ok, theme} = Creatives.update_theme(theme, @update_attrs)
-#       assert %Theme{} = theme
-#       assert theme.body == "some updated body"
-#       assert theme.name == "some updated name"
-#     end
+     @valid_attrs %{body: "some body", name: "some name", slug: "some slug"}
+     @update_attrs %{body: "some updated body", name: "some updated name", slug: "some updated slug"}
+     @invalid_attrs %{body: nil, name: nil}
 
-#     test "update_theme/2 with invalid data returns error changeset" do
-#       theme = theme_fixture()
-#       assert {:error, %Ecto.Changeset{}} = Creatives.update_theme(theme, @invalid_attrs)
-#       assert theme == Creatives.get_theme!(theme.id)
-#     end
 
-#     test "delete_theme/1 deletes the theme" do
-#       theme = theme_fixture()
-#       assert {:ok, %Theme{}} = Creatives.delete_theme(theme)
-#       assert_raise Ecto.NoResultsError, fn -> Creatives.get_theme!(theme.id) end
-#     end
 
-#     test "change_theme/1 returns a theme changeset" do
-#       theme = theme_fixture()
-#       assert %Ecto.Changeset{} = Creatives.change_theme(theme)
-#     end
-#   end
+     test "list_templates/0 returns all templates" do
+       template = insert(:template)
+       [first_template | _] = Creatives.list_templates()
+       assert first_template.id == template.id
+     end
 
-#   describe "creatives" do
-#     alias CodeSponsor.Creatives.Creative
+     test "paginate_templates/1 returns all templates" do
+       insert_list(25, :template)
+       {:ok, %{templates: saved_templates}} = Creatives.paginate_templates(%{})
+       assert Enum.count(saved_templates) == 15
+     end
 
-#     @valid_attrs %{image_url: "some image_url", text: "some text", title: "some title"}
-#     @update_attrs %{image_url: "some updated image_url", text: "some updated text", title: "some updated title"}
-#     @invalid_attrs %{image_url: nil, text: nil, title: nil}
+    test "get_template!/1 returns the template with given id" do
+      template = insert(:template)
+      saved_template = Creatives.get_template!(template.id)
+      assert saved_template.id == template.id
+    end
 
-#     def creative_fixture(attrs \\ %{}) do
-#       {:ok, creative} =
-#         attrs
-#         |> Enum.into(@valid_attrs)
-#         |> Creatives.create_creative()
+    test "get_template_by_slug/1 returns the template with given id" do
+      template = insert(:template)
+      saved_template = Creatives.get_template_by_slug(template.slug)
+      assert saved_template.id == template.id
+    end
 
-#       creative
-#     end
+    test "create_template/1 with valid data creates a template" do
+      assert {:ok, %Template{} = template} = Creatives.create_template(@valid_attrs)
+      assert template.body == "some body"
+      assert template.name == "some name"
+    end
 
-#     test "list_creatives/0 returns all creatives" do
-#       creative = creative_fixture()
-#       assert Creatives.list_creatives() == [creative]
-#     end
+    test "create_template/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Creatives.create_template(@invalid_attrs)
+    end
 
-#     test "get_creative!/1 returns the creative with given id" do
-#       creative = creative_fixture()
-#       assert Creatives.get_creative!(creative.id) == creative
-#     end
+    test "update_template/2 with valid data updates the template" do
+      template = insert(:template)
+      assert {:ok, template} = Creatives.update_template(template, @update_attrs)
+      assert %Template{} = template
+      assert template.body == "some updated body"
+      assert template.name == "some updated name"
+    end
 
-#     test "create_creative/1 with valid data creates a creative" do
-#       assert {:ok, %Creative{} = creative} = Creatives.create_creative(@valid_attrs)
-#       assert creative.image_url == "some image_url"
-#       assert creative.text == "some text"
-#       assert creative.title == "some title"
-#     end
+    test "update_template/2 with invalid data returns error changeset" do
+      template = insert(:template)
+      assert {:error, %Ecto.Changeset{}} = Creatives.update_template(template, @invalid_attrs)
+      assert template == Creatives.get_template!(template.id)
+    end
 
-#     test "create_creative/1 with invalid data returns error changeset" do
-#       assert {:error, %Ecto.Changeset{}} = Creatives.create_creative(@invalid_attrs)
-#     end
+    test "delete_template/1 deletes the template" do
+      template = insert(:template)
+      assert {:ok, %Template{}} = Creatives.delete_template(template)
+      assert_raise Ecto.NoResultsError, fn -> Creatives.get_template!(template.id) end
+    end
 
-#     test "update_creative/2 with valid data updates the creative" do
-#       creative = creative_fixture()
-#       assert {:ok, creative} = Creatives.update_creative(creative, @update_attrs)
-#       assert %Creative{} = creative
-#       assert creative.image_url == "some updated image_url"
-#       assert creative.text == "some updated text"
-#       assert creative.title == "some updated title"
-#     end
-
-#     test "update_creative/2 with invalid data returns error changeset" do
-#       creative = creative_fixture()
-#       assert {:error, %Ecto.Changeset{}} = Creatives.update_creative(creative, @invalid_attrs)
-#       assert creative == Creatives.get_creative!(creative.id)
-#     end
-
-#     test "delete_creative/1 deletes the creative" do
-#       creative = creative_fixture()
-#       assert {:ok, %Creative{}} = Creatives.delete_creative(creative)
-#       assert_raise Ecto.NoResultsError, fn -> Creatives.get_creative!(creative.id) end
-#     end
-
-#     test "change_creative/1 returns a creative changeset" do
-#       creative = creative_fixture()
-#       assert %Ecto.Changeset{} = Creatives.change_creative(creative)
-#     end
-#   end
-# end
+    test "change_template/1 returns a template changeset" do
+      template = insert(:template)
+      assert %Ecto.Changeset{} = Creatives.change_template(template)
+    end
+  end
+ end

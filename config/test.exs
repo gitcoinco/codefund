@@ -13,7 +13,7 @@ config :logger, level: :warn
 config :code_sponsor, CodeSponsor.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "",
+  password: "postgres",
   database: "code_sponsor_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

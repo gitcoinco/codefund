@@ -20,6 +20,10 @@ defmodule CodeSponsorWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import CodeSponsorWeb.Router.Helpers
+      # Add Factories for DataCase
+      import CodeSponsor.Factory
+      import CodeSponsorWeb.Router.Helpers
+
 
       # The default endpoint for testing
       @endpoint CodeSponsorWeb.Endpoint

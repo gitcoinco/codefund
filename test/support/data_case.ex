@@ -22,6 +22,8 @@ defmodule CodeSponsor.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import CodeSponsor.DataCase
+      # Add Factories for DataCase
+      import CodeSponsor.Factory
     end
   end
 

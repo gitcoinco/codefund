@@ -155,6 +155,10 @@ defmodule CodeSponsor.Properties do
     Property.changeset(property, %{})
   end
 
+  def change_property(%Property{} = property, %{user: user} = _params) do
+    Property.changeset(property, user)
+  end
+
   defp filter_config(:properties) do
     defconfig do
       text :name

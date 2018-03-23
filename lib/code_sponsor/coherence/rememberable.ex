@@ -6,8 +6,6 @@ defmodule CodeSponsor.Coherence.Rememberable do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-
-
   schema "rememberables" do
     field :series_hash, :string
     field :token_hash, :string

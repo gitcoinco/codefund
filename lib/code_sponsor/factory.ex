@@ -64,4 +64,30 @@ defmodule CodeSponsor.Factory do
       user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
     }
   end
+
+  def template_factory do
+    %CodeSponsor.Schema.Template{
+      name: sequence(:name, &"template-#{&1}"),
+      slug: sequence(:slug, &"slug-#{&1}"),
+      body: sequence(:slug, &"body-#{&1}"),
+    }
+  end
+
+  def theme_factory do
+    %CodeSponsor.Schema.Theme{
+    template: build(:template),
+    name: sequence(:name, &"theme-#{&1}"),
+    body: sequence(:body, &"body-#{&1}"),
+    slug: sequence(:slug, &"themeslug-#{&1}")
+  }
+  end
+
+  def creative_factory do
+    %CodeSponsor.Schema.Creative{
+      user: build(:user),
+      name: sequence(:name, &"creative-#{&1}"),
+      body: sequence(:body, &"body-#{&1}"),
+      image_url: sequence(:image_url, &"https://-#{&1}")
+    }
+  end
 end
