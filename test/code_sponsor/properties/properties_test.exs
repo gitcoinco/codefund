@@ -67,5 +67,11 @@
       property = insert(:property)
       assert %Ecto.Changeset{} = Properties.change_property(property)
     end
+
+    test "change_property/2 returns a property changeset" do
+      property = insert(:property)
+      user = insert(:user)
+      assert %Ecto.Changeset{} = Properties.change_property(property, %{user: Map.from_struct(user)})
+    end
    end
  end
