@@ -78,7 +78,16 @@ defmodule CodeSponsor.Factory do
     template: build(:template),
     name: sequence(:name, &"theme-#{&1}"),
     body: sequence(:body, &"body-#{&1}"),
-    slug: sequence(:sluf, &"themeslug-#{&1}")
+    slug: sequence(:slug, &"themeslug-#{&1}")
   }
+  end
+
+  def creative_factory do
+    %CodeSponsor.Schema.Creative{
+      user: build(:user),
+      name: sequence(:name, &"creative-#{&1}"),
+      body: sequence(:body, &"body-#{&1}"),
+      image_url: sequence(:image_url, &"https://-#{&1}")
+    }
   end
 end
