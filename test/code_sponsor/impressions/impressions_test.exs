@@ -16,6 +16,12 @@
        assert impression.id == first_impression.id
      end
 
+     test "paginate_impressions/1 returns all impressions" do
+       impression = insert_list(25, :impression)
+       {:ok, %{impressions: impressions}} = Impressions.paginate_impressions(%{})
+       assert Enum.count(impressions) == 15
+     end
+
      test "get_impression!/1 returns the impression with given id" do
        impression = insert(:impression)
        fetch_impression = Impressions.get_impression!(impression.id)
