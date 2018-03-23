@@ -6,7 +6,6 @@ defmodule CodeSponsor.PropertiesTest do
   setup do
     user = CodeSponsor.Support.Fixture.generate(:user)
     property = CodeSponsor.Support.Fixture.generate(:property)
-    property = CodeSponsor.Repo.get!(CodeSponsor.Schema.Property, property.id)
     {:ok, %{user: user, property: property}}
   end
 
@@ -18,11 +17,12 @@ defmodule CodeSponsor.PropertiesTest do
     @invalid_attrs %{description: nil, name: nil, property_type: nil, url: nil}
 
     test "list_properties/0 returns all properties", %{property: property} do
-      assert Properties.list_properties() == [property]
+      subject = Properties.list_properties() |> Enum.at(0)
+      assert subject.name == property.name
     end
 
     test "get_property!/1 returns the property with given id", %{property: property} do
-      assert Properties.get_property!(property.id) == property
+      assert Properties.get_property!(property.id).name == property.name
     end
 
     test "create_property/1 with valid data creates a property", %{user: user} do
@@ -57,7 +57,7 @@ defmodule CodeSponsor.PropertiesTest do
 
     test "update_property/2 with invalid data returns error changeset", %{property: property} do
       assert {:error, %Ecto.Changeset{}} = Properties.update_property(property, @invalid_attrs)
-      assert property == Properties.get_property!(property.id)
+      assert property.name == Properties.get_property!(property.id).name
     end
 
     test "delete_property/1 deletes the property" do
