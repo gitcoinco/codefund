@@ -1,30 +1,40 @@
-<h2><%= dgettext "coherence", "Show account" %></h2>
-<ul>
-  <li>
-    <strong><%= dgettext "coherence", "First Name:" %></strong>
-    <%= @user.first_name %>
-  </li>
-  <li>
-    <strong><%= dgettext "coherence", "Last Name:" %></strong>
-    <%= @user.last_name %>
-  </li>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card mx-4">
+        <div class="card-body p-4">
+          <h2><%= dgettext "coherence", "Show account" %></h2>
+          <ul>
+            <li>
+              <strong><%= dgettext "coherence", "First Name:" %></strong>
+              <%= @user.first_name %>
+            </li>
+            <li>
+              <strong><%= dgettext "coherence", "Last Name:" %></strong>
+              <%= @user.last_name %>
+            </li>
 
-  <%= unless (login_field = Coherence.Config.login_field) == :email do %>
-    <li>
-      <strong><%= humanize login_field %></strong>
-      <%= Map.get(@user, login_field) %>
-    </li>
-  <% end %>
+            <%= unless (login_field = Coherence.Config.login_field) == :email do %>
+              <li>
+                <strong><%= humanize login_field %></strong>
+                <%= Map.get(@user, login_field) %>
+              </li>
+            <% end %>
 
-  <li>
-    <strong><%= dgettext "coherence", "Email:" %></strong>
-    <%= @user.email %>
-  </li>
+            <li>
+              <strong><%= dgettext "coherence", "Email:" %></strong>
+              <%= @user.email %>
+            </li>
 
-</ul>
+          </ul>
 
-<%= link dgettext("coherence", "Edit"), to: registration_path(@conn, :edit) %> |
-<%= link dgettext("coherence", "Delete"),
-        to: registration_path(@conn, :delete),
-        method: :delete,
-        data: [confirm: dgettext("coherence", "Are you sure?")] %>
+          <%= link dgettext("coherence", "Edit"), to: registration_path(@conn, :edit) %> |
+          <%= link dgettext("coherence", "Delete"),
+                  to: registration_path(@conn, :delete),
+                  method: :delete,
+                  data: [confirm: dgettext("coherence", "Are you sure?")] %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

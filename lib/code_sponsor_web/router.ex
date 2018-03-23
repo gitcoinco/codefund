@@ -32,7 +32,7 @@ defmodule CodeSponsorWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-  
+
   pipeline :exq do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -46,12 +46,12 @@ defmodule CodeSponsorWeb.Router do
     forward "/", RouterPlug.Router, :index
   end
 
-  scope "/" do
+  scope "/", CodeSponsorWeb do
     pipe_through :browser
     coherence_routes()
   end
 
-  scope "/" do
+  scope "/", CodeSponsorWeb do
     pipe_through :protected
     coherence_routes :protected
   end
@@ -61,7 +61,7 @@ defmodule CodeSponsorWeb.Router do
 
   scope "/", CodeSponsorWeb do
     pipe_through :browser
-    
+
     get "/", PageController, :index
     get "/t/l/:property_id/pixel.png", TrackController, :pixel
     get "/t/l/:property_id/logo.png", TrackController, :logo

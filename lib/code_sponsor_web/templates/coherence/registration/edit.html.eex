@@ -1,5 +1,15 @@
-<h3><%= dgettext "coherence", "Edit Account" %></h3>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card mx-4">
+        <div class="card-body p-4">
+            <h3><%= dgettext "coherence", "Edit Account" %></h3>
 
-<%= render "form.html", changeset: @changeset,
-                        label: dgettext("coherence", "Update"), required: [],
-                        action: registration_path(@conn, :update) %>
+            <%= render "form.html", changeset: @changeset,
+                                    label: dgettext("coherence", "Update"), required: [],
+                                    action: registration_path(@conn, :update) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
