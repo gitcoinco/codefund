@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                   <td><strong>Developer</strong></td>
-                  <td><%= @property.user_id %></td>
+                  <td><%= full_name @property.user %></td>
                 </tr>
                 <tr>
                   <td><strong>Name</strong></td>
@@ -48,10 +48,6 @@
                 <tr>
                   <td><strong>Description</strong></td>
                   <td><%= @property.description %></td>
-                </tr>
-                <tr>
-                  <td><strong>Legacy ID</strong></td>
-                  <td><%= @property.legacy_id %></td>
                 </tr>
                 <tr>
                   <td><strong>Current Sponsorship</strong></td>
@@ -69,16 +65,14 @@
           Embed Instructions
         </div>
         <div class="card-body">
-          <p>See https://badge.fury.io/for/rb/dotenv</p>
-
-          <h5>Pixel Code</h5>
-          <pre><code><%= track_url @conn, :pixel, @property %></code></pre>
-
-          <h5>Logo Code</h5>
-          <pre><code><%= track_url @conn, :logo, @property %></code></pre>
-
-          <h5>Click Link</h5>
-          <pre><code><%= track_url @conn, :click, @property %></code></pre>
+          <%= if @property.property_type == CodeSponsor.Schema.Property.property_types[:website] do %>
+            <p>Embed the following script into your website and create a div with <code>id="codefund_ad"</code></p>
+            <pre><code><%= script_embed_code(@conn, @property) %></code></pre>
+          <% else %>
+            <div class="alert">
+              We do not yet support properties of type '<%= @property.property_type %>'
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

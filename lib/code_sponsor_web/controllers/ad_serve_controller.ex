@@ -32,6 +32,7 @@ defmodule CodeSponsorWeb.AdServeController do
             |> text("console.log('CodeFund theme does not exist. Available themes for this template are \\'#{Enum.join(theme_slugs, "','")}\\'');")
 
           true ->
+            details_url = "//#{conn.host}/t/s/#{property.id}/details.json"
             conn
             |> put_resp_content_type("application/javascript")
             |> render("embed.js",
@@ -39,7 +40,8 @@ defmodule CodeSponsorWeb.AdServeController do
                       template: template,
                       targetId: targetId,
                       theme: theme,
-                      template: template)
+                      template: template,
+                      details_url: details_url)
         end
     end
   end
@@ -49,19 +51,19 @@ defmodule CodeSponsorWeb.AdServeController do
     sponsorship = Sponsorships.get_sponsorship_for_property(property)
     creative    = sponsorship.creative
 
-    cond do
+    payload = cond do
       sponsorship == nil ->
-        payload = %{
+        %{
           image: "//cdn.rollbar.com/assets/homepage/images/media/display/rollbar-logo-white-stacked.png",
-          link: "//rollbar.com",
+          link: "//#{conn.host}/t/s/fallback",
           description: "Rollbar: Real-time error monitoring, alerting, and analytics for JavaScript developers 🚀",
           pixel: "//example.com/pixel.png",
           poweredByLink: "https://codefund.io?utm_content="
         }
       true ->
-        payload = %{
+        %{
           image: creative.image_url,
-          link: track_url(conn, :click, property, sid: sponsorship.id),
+          link: "//#{conn.host}/t/s/#{sponsorship.id}",
           description: creative.body,
           pixel: track_url(conn, :pixel, property, sid: sponsorship.id),
           poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"

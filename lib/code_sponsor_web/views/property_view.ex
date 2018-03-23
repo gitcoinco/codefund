@@ -15,4 +15,12 @@ defmodule CodeSponsorWeb.PropertyView do
     domain = String.replace(url, ~r/^https?:\/\//, "")
     "//www.google.com/s2/favicons?domain=#{domain}"
   end
+
+  def script_embed_code(conn, %CodeSponsor.Schema.Property{} = property) do
+    url = "//#{conn.host}/scripts/#{property.id}/embed.js"
+    '''
+    <script src="#{url}"></script>
+    <div id="codefund_ad"></div>
+    '''
+  end
 end

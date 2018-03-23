@@ -10,7 +10,7 @@ var _codefund = {
   init: function(config) {
     this.render = this.render.bind(this);
     this.targetId = config.targetId;
-    this.jsonUrl = '<%= ad_serve_url(@conn, :details, @property.id) |> String.replace(~r/\:\d+/, "") %>';
+    this.jsonUrl = '<%= @details_url %>';
   },
 
   serve: function() {

@@ -30,4 +30,8 @@ defmodule CodeSponsorWeb.ViewHelpers do
       false
     end
   end
+
+  def full_name(%CodeSponsor.Schema.User{} = user) do
+    "#{user.first_name} #{user.last_name}"
+  end
 end

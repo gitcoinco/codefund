@@ -21,7 +21,8 @@ defmodule CodeSponsorWeb.PropertyController do
   end
 
   def new(conn, _params) do
-    form = create_form(PropertyType, %Property{})
+    current_user = conn.assigns.current_user
+    form = create_form(PropertyType, %Property{}, %{}, user: current_user)
     render(conn, "new.html", form: form)
   end
 

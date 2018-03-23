@@ -106,6 +106,76 @@ defmodule CodeSponsorWeb.TrackController do
     end
   end
 
+  def click(conn, %{"sponsorship_id" => sponsorship_id} = params) do
+    try do
+      sponsorship = Sponsorships.get_sponsorship!(sponsorship_id)
+      property = sponsorship.property
+
+      case track_click(conn, property, sponsorship, params) do
+        {:ok, click} ->
+          enqueue_worker(CodeSponsorWeb.UpdateClickGeolocationWorker, [click.id])
+
+          no_rev_dist = %{
+            revenue_amount: Decimal.new(0),
+            distribution_amount: Decimal.new(0)
+          }
+
+          cond do
+            sponsorship == nil ->
+              Clicks.set_status(click, :no_sponsor, no_rev_dist)
+            click.is_bot ->
+              Clicks.set_status(click, :bot, no_rev_dist)
+            click.is_duplicate ->
+              Clicks.set_status(click, :duplicate, no_rev_dist)
+            true ->
+              # Redirect to the fraud check URL if present
+              campaign = sponsorship.campaign
+
+              if campaign.fraud_check_url do
+                Clicks.set_status(click, :fraud_check, %{
+                  fraud_check_redirected_at: Timex.now()
+                })
+
+                # Enqueue the verify click redirected worker for 2 minutes from now
+                enqueue_worker_in(120, CodeSponsorWeb.VerifyClickRedirected, [click.id])
+
+                redirect conn, external: "#{campaign.fraud_check_url}?utm_content=#{click.id}"
+              else
+                revenue = Money.new(sponsorship.bid_amount, :USD)
+
+                revenue_rate = cond do
+                  sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
+                  true -> sponsorship.property.user.revenue_rate
+                end
+
+                distribution = case Money.mult(revenue, revenue_rate) do
+                  {:ok, amount} -> Money.round(amount).amount
+                  {:error, _}   -> 0
+                end
+
+                Clicks.set_status(click, :redirected, %{
+                  revenue_amount: revenue.amount,
+                  distribution_amount: distribution
+                })
+              end
+          end
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          IO.puts("Unable to save click: #{inspect(changeset)}")
+      end
+
+      if sponsorship do
+        redirect conn, external: sponsorship.redirect_url
+      else
+        redirect conn, external: "/?utm_content=no-sponsor&utm_term=#{property.id}"
+      end
+    rescue
+      Ecto.NoResultsError ->
+        IO.puts("Sponsorship is missing with ID [#{sponsorship_id}]")
+        redirect conn, external: "/?utm_content=no-property"
+    end
+  end
+
   def improvely_inbound(conn, %{"campaign_id" => _campaign_id, "utm_content" => click_id}) do
     click = Clicks.get_click!(click_id) |> CodeSponsor.Repo.preload(:sponsorship)
     sponsorship = click.sponsorship
