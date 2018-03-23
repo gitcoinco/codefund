@@ -32,7 +32,7 @@ defmodule CodeSponsorWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-  
+
   pipeline :exq do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -61,11 +61,12 @@ defmodule CodeSponsorWeb.Router do
 
   scope "/", CodeSponsorWeb do
     pipe_through :browser
-    
+
     get "/", PageController, :index
     get "/t/l/:property_id/pixel.png", TrackController, :pixel
     get "/t/l/:property_id/logo.png", TrackController, :logo
     get "/t/c/:property_id/", TrackController, :click
+    get "/t/s/:sponsorship_id/", TrackController, :click
     get "/t/r/:campaign_id/", TrackController, :improvely_inbound
   end
 
