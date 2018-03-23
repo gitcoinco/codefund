@@ -59,6 +59,71 @@
      end
    end
 
+   describe "creatives" do
+     alias CodeSponsor.Schema.Creative
+     alias CodeSponsor.Creatives
+
+     @valid_attrs %{image_url: "some image_url", name: "some text", body: "some title"}
+     @update_attrs %{image_url: "some updated image_url", name: "some updated text", body: "some updated title"}
+     @invalid_attrs %{image_url: nil, text: nil, title: nil}
+
+     test "list_creatives/0 returns all creatives" do
+      insert_list(25, :creative)
+      saved_creatives =  Creatives.list_creatives()
+      assert Enum.count(saved_creatives) == 25
+     end
+
+     test "paginate_creatives/1 returns all creatives" do
+      insert_list(25, :creative)
+      {:ok, %{creatives: paginated_creatives}} =  Creatives.paginate_creatives(%{})
+      assert Enum.count(paginated_creatives) == 15
+     end
+
+    test "get_creative!/1 returns the creative with given id" do
+      creative = insert(:creative)
+      saved_creative = Creatives.get_creative!(creative.id)
+      assert creative.id == saved_creative.id
+    end
+
+    test "create_creative/1 with valid data creates a creative" do
+      assert {:ok, %Creative{} = creative} = Creatives.create_creative(@valid_attrs)
+      assert creative.image_url == "some image_url"
+      assert creative.name == "some text"
+      assert creative.body == "some title"
+    end
+
+    test "create_creative/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Creatives.create_creative(@invalid_attrs)
+    end
+
+    test "update_creative/2 with valid data updates the creative" do
+      creative = insert(:creative)
+      {:ok, creative}  = Creatives.update_creative(creative, @update_attrs)
+      assert %Creative{} = creative
+      assert creative.image_url == "some updated image_url"
+      assert creative.name == "some updated text"
+      assert creative.body == "some updated title"
+    end
+
+    test "update_creative/2 with invalid data returns error changeset" do
+      creative = insert(:creative)
+      assert {:error, %Ecto.Changeset{}} = Creatives.update_creative(creative, @invalid_attrs)
+      saved_creative = Creatives.get_creative!(creative.id)
+      assert creative.id == saved_creative.id
+    end
+
+    test "delete_creative/1 deletes the creative" do
+      creative = insert(:creative)
+      assert {:ok, %Creative{}} = Creatives.delete_creative(creative)
+      assert_raise Ecto.NoResultsError, fn -> Creatives.get_creative!(creative.id) end
+    end
+
+    test "change_creative/1 returns a creative changeset" do
+      creative = insert(:creative)
+      assert %Ecto.Changeset{} = Creatives.change_creative(creative)
+    end
+   end
+
    describe "templates" do
      alias CodeSponsor.Schema.Template
 
@@ -72,6 +137,12 @@
        template = insert(:template)
        [first_template | _] = Creatives.list_templates()
        assert first_template.id == template.id
+     end
+
+     test "paginate_templates/1 returns all templates" do
+       templates = insert_list(25, :template)
+       {:ok, %{templates: saved_templates}} = Creatives.paginate_templates(%{})
+       assert Enum.count(saved_templates) == 15
      end
 
     test "get_template!/1 returns the template with given id" do
