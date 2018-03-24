@@ -24,7 +24,7 @@ Here are a few blog posts and podcasts that discuss Code Sponsor:
 
 ## What is this?
 
-This is the software behind [codesponsor.io](https://codesponsor.io). It's an [Elixir](http://elixir-lang.org) application built on the [Phoenix](http://www.phoenixframework.org) web framework, [PostgreSQL](https://www.postgresql.org), and [many](https://github.com/codesponsor/web/blob/master/mix.exs#L42) [other](https://github.com/codesponsor/web/blob/master/assets/package.json) great open source efforts.
+This is the software behind [codesponsor.io](https://codesponsor.io). It's an [Elixir](http://elixir-lang.org) application built on the [Phoenix](http://www.phoenixframework.org) web framework, [PostgreSQL](https://www.postgresql.org), and [many](https://github.com/gitcoinco/codefund/blob/master/mix.exs#L42) [other](https://github.com/gitcoinco/codefund/blob/master/assets/package.json) great open source efforts.
 
 ## Why is it open source?
 
@@ -71,22 +71,22 @@ mix phx.server
 
 We have a road map of what we are going to implement next.
 
-[Code Sponsor Q1 Goals](https://github.com/codesponsor/web/issues/1)
+[Code Sponsor Q1 Goals](https://github.com/gitcoinco/codefund/issues/1)
 
 If you wish to add features that are not on the road map, you're very welcome to do so. We encourage you to
-[create an Issue](https://github.com/codesponsor/web/issues/new)
+[create an Issue](https://github.com/gitcoinco/codefund/issues/new)
 before coding, so we can all discuss the relevance to the community.
 
 Please keep in mind that the focus is to create a great platform, so we might not implement/accept all the suggested features.
 
 ## Code of Conduct
 
-[Contributor Code of Conduct](https://github.com/codesponsor/web/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+[Contributor Code of Conduct](https://github.com/gitcoinco/codefund/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codesponsor.io)<br />[💻](https://github.com/codesponsor/web/commits?author=coderberry "Code") [📖](https://github.com/codesponsor/web/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") | [<img src="https://avatars1.githubusercontent.com/u/660973?v=4" width="100px;"/><br /><sub><b>Miguel Angel Gordián</b></sub>](http://zoek1.github.com)<br />[💻](https://github.com/codesponsor/web/commits?author=zoek1 "Code") [📖](https://github.com/codesponsor/web/commits?author=zoek1 "Documentation") [🚇](#infra-zoek1 "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-zoek1 "Packaging/porting to new platform") | [<img src="https://avatars3.githubusercontent.com/u/1427179?v=4" width="100px;"/><br /><sub><b>Justin Bean</b></sub>](http://stareintothebeard.github.io/)<br />[💻](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Code") [📖](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Documentation") [🤔](#ideas-StareIntoTheBeard "Ideas, Planning, & Feedback") [⚠️](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Tests") |
+| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codesponsor.io)<br />[💻](https://github.com/gitcoinco/codefund/commits?author=coderberry "Code") [📖](https://github.com/gitcoinco/codefund/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") | [<img src="https://avatars1.githubusercontent.com/u/660973?v=4" width="100px;"/><br /><sub><b>Miguel Angel Gordián</b></sub>](http://zoek1.github.com)<br />[💻](https://github.com/gitcoinco/codefund/commits?author=zoek1 "Code") [📖](https://github.com/gitcoinco/codefund/commits?author=zoek1 "Documentation") [🚇](#infra-zoek1 "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-zoek1 "Packaging/porting to new platform") | [<img src="https://avatars3.githubusercontent.com/u/1427179?v=4" width="100px;"/><br /><sub><b>Justin Bean</b></sub>](http://stareintothebeard.github.io/)<br />[💻](https://github.com/gitcoinco/codefund/commits?author=StareIntoTheBeard "Code") [📖](https://github.com/gitcoinco/codefund/commits?author=StareIntoTheBeard "Documentation") [🤔](#ideas-StareIntoTheBeard "Ideas, Planning, & Feedback") [⚠️](https://github.com/gitcoinco/codefundcommits?author=StareIntoTheBeard "Tests") |
 | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
