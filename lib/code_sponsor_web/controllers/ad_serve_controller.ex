@@ -52,20 +52,20 @@ defmodule CodeSponsorWeb.AdServeController do
     creative    = sponsorship.creative
 
     payload = cond do
-      sponsorship == nil ->
+      sponsorship == nil || creative == nil ->
         %{
-          image: "//cdn.rollbar.com/assets/homepage/images/media/display/rollbar-logo-white-stacked.png",
-          link: "//#{conn.host}/t/s/fallback",
-          description: "Rollbar: Real-time error monitoring, alerting, and analytics for JavaScript developers 🚀",
-          pixel: "//example.com/pixel.png",
+          image: "",
+          link: "",
+          description: "",
+          pixel: "//#{conn.host}/t/l/#{property.id}/pixel.png",
           poweredByLink: "https://codefund.io?utm_content="
         }
       true ->
         %{
           image: creative.image_url,
-          link: "//#{conn.host}/t/s/#{sponsorship.id}",
+          link: "https://#{conn.host}/t/s/#{sponsorship.id}",
           description: creative.body,
-          pixel: track_url(conn, :pixel, property, sid: sponsorship.id),
+          pixel: "//#{conn.host}/t/l/#{property.id}/pixel.png",
           poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
         }
     end

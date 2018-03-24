@@ -42,10 +42,14 @@ var _codefund = {
     el.innerHTML = html;
 
     const script = document.getElementById(this.targetId);
-    if (script) {
-      script.appendChild(el);
+    if (ad.link === "") {
+      console.log('CodeFund does not have a advertiser for you at this time.');
     } else {
-      console.log('CodeFund target does not exist. You must create an element in the DOM with id="' + this.targetId + '"');
+      if (script && ad.link !== "") {
+        script.appendChild(el);
+      } else {
+        console.log('CodeFund target does not exist. You must create an element in the DOM with id="' + this.targetId + '"');
+      }
     }
   },
 

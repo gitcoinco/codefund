@@ -17,7 +17,7 @@ defmodule CodeSponsorWeb.PropertyView do
   end
 
   def script_embed_code(conn, %CodeSponsor.Schema.Property{} = property) do
-    url = "//#{conn.host}/scripts/#{property.id}/embed.js"
+    url = "https://#{conn.host}/scripts/#{property.id}/embed.js"
     '''
     <script src="#{url}"></script>
     <div id="codefund_ad"></div>
