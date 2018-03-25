@@ -55,6 +55,14 @@ defmodule CodeSponsorWeb.SponsorshipControllerTest do
       assert html_response(conn, 200) =~ "Edit Sponsorship"
     end
 
+    test " edit should show a sponsorship edit form", %{conn: conn} do
+      user = insert(:user, %{roles: ["admin"]})
+      sponsorship = insert(:sponsorship)
+      conn = assign conn, :current_user, user
+      conn = get conn, sponsorship_path(conn, :edit, sponsorship)
+      assert html_response(conn, 200) =~ "Edit Sponsorship"
+    end
+
     test "deletes a sponsorship", %{conn: conn} do
       user = insert(:user, %{roles: ["admin"]})
       sponsorship = insert(:sponsorship)
