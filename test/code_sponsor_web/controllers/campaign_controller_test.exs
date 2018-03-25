@@ -56,7 +56,7 @@ defmodule CodeSponsorWeb.CampaignControllerTest do
   #       "name" => "namey"
   #     }
   #   }
-  #   conn = put conn, campaign_path(conn, :update, campaign), params
+  #   conn = patc conn, campaign_path(conn, :update, campaign), params
   #   updated_campaign = Repo.one(CodeSponsor.Schema.Campaign)
   #   assert updated_campaign.name == "namey"
   # end
