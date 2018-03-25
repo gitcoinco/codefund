@@ -1,6 +1,6 @@
 defmodule CodeSponsorWeb.CreativeControllerTest do
   use CodeSponsorWeb.ConnCase
-  
+
 
   describe "CreativeController" do
     test "index should render index page", %{conn: conn} do
@@ -60,6 +60,14 @@ defmodule CodeSponsorWeb.CreativeControllerTest do
       assert updated_creative.name == "namey"
     end
 
-
+    test "deletes a creative", %{conn: conn} do
+      creative = insert(:creative)
+      user = insert(:user, %{roles: ["sponsor"]})
+      conn = assign conn, :current_user, user
+      assert Repo.aggregate(CodeSponsor.Schema.Creative, :count, :id) == 1
+      conn = delete conn, creative_path(conn, :delete, creative)
+      assert html_response(conn, 302)
+      assert Repo.aggregate(CodeSponsor.Schema.Creative, :count, :id) == 0
+    end
   end
 end
