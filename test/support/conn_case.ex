@@ -54,6 +54,7 @@ defmodule CodeSponsorWeb.ConnCase do
           |> add_authentication_headers("admin")
       true ->
         conn = build_conn()
+        {conn, nil}
       end
 
     {:ok, conn: conn, current_user: current_user}
