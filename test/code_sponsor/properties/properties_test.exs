@@ -55,6 +55,7 @@
       property = insert(:property)
       assert {:error, %Ecto.Changeset{}} = Properties.update_property(property, @invalid_attrs)
       saved_property = Properties.get_property!(property.id)
+      assert saved_property.name == property.name
     end
 
     test "delete_property/1 deletes the property" do

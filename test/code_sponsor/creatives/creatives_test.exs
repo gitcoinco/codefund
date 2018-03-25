@@ -27,7 +27,7 @@
      end
 
      test "paginate_themes/1 returns 15 themes" do
-       theme = insert_list(25, :theme)
+       insert_list(25, :theme)
        {:ok, %{themes: themes}} = Creatives.paginate_themes(%{})
        assert Enum.count(themes) == 15
      end

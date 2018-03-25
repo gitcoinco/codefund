@@ -3,7 +3,7 @@ defmodule CodeSponsor.PageControllerTest do
 
   describe "PageController" do
     test "index" do
-      conn = get build_conn, "/"
+      conn = get build_conn(), "/"
       assert html_response(conn,200)
     end
   end

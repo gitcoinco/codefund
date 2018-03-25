@@ -17,7 +17,7 @@
      end
 
      test "paginate_impressions/1 returns all impressions" do
-       impression = insert_list(25, :impression)
+       insert_list(25, :impression)
        {:ok, %{impressions: impressions}} = Impressions.paginate_impressions(%{})
        assert Enum.count(impressions) == 15
      end
