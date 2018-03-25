@@ -14,6 +14,9 @@ defmodule CodeSponsorWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  use Phoenix.ConnTest
+  import CodeSponsor.Factory
+
 
   using do
     quote do
@@ -38,7 +41,30 @@ defmodule CodeSponsorWeb.ConnCase do
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(CodeSponsor.Repo, {:shared, self()})
     end
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    # authentication tags
+    {conn, current_user} = cond do
+      tags[:developer] ->
+        build_conn()
+        |> add_authentication_headers("developer")
+      tags[:sponsor] ->
+        build_conn()
+        |> add_authentication_headers("sponsor")
+      tags[:admin] ->
+          build_conn()
+          |> add_authentication_headers("admin")
+      true ->
+        conn = build_conn()
+      end
+
+    {:ok, conn: conn, current_user: current_user}
+  end
+
+  # add specific roles
+  defp add_authentication_headers(conn, type) do
+    user = insert(:user, %{roles: [type]})
+
+    conn = conn |> CodeSponsor.AuthenticationTestHelpers.authenticate(user)
+    {conn, user}
   end
 
 end
