@@ -5,7 +5,7 @@ defmodule CodeSponsorWeb.SponsorshipController do
   alias CodeSponsor.Schema.Sponsorship
   alias CodeSponsorWeb.SponsorshipType
 
-  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "sponsor"], to: "/dashboard"}
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, [roles: ["admin", "sponsor"]]
 
   def index(conn, params) do
     case Sponsorships.paginate_sponsorships(params) do

@@ -5,7 +5,7 @@ defmodule CodeSponsorWeb.CreativeController do
   alias CodeSponsor.Schema.Creative
   alias CodeSponsorWeb.CreativeType
 
-  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "sponsor"], to: "/dashboard"}
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, [roles: ["admin", "sponsor"]]
 
   def index(conn, params) do
     case Creatives.paginate_creatives(params) do

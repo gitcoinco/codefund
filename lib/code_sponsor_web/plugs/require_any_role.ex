@@ -3,23 +3,28 @@ defmodule CodeSponsorWeb.Plugs.RequireAnyRole do
 
   def init(opts), do: opts
 
-  def call(conn, %{roles: roles, to: url}) do
-    if conn.assigns[:current_user] do
-      current_roles = conn.assigns[:current_user].roles
-      matches = all_matches(current_roles, roles)
-      if Enum.empty?(matches) do
-        conn |> Phoenix.Controller.redirect(to: url) |> halt
-      else
-        conn
-      end
-    else
-      conn |> Phoenix.Controller.redirect(to: url) |> halt
+  def call(conn,  opts) do
+    opts = Keyword.merge(
+      [
+        roles: ["developer"],
+        to: "/dashboard",
+        flash: "You are not authorized to view this page."
+      ], opts)
+
+    with %CodeSponsor.Schema.User{} = user <- conn.assigns[:current_user],
+       true <-  user_has_role?(user.roles, opts[:roles])
+       do conn
+    else _ ->
+      conn
+      |> Phoenix.Controller.redirect(to: opts[:to])
+      |> Phoenix.Controller.put_flash(:error, opts[:flash])
+      |> halt
     end
   end
 
-  defp all_matches(existing_roles, target_roles) do
-    Enum.filter(existing_roles, fn(role) ->
-      Enum.member?(target_roles, role)
+  defp user_has_role?(existing_roles, target_roles) do
+    Enum.any?(target_roles, fn(role) ->
+      Enum.member?(existing_roles, role)
     end)
   end
 end

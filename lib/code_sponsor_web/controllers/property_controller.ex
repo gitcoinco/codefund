@@ -6,7 +6,7 @@ defmodule CodeSponsorWeb.PropertyController do
   alias CodeSponsor.Sponsorships
   alias CodeSponsorWeb.PropertyType
 
-  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "developer"], to: "/dashboard"}
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, [roles: ["admin", "developer"]]
 
   def index(conn, params) do
     current_user = conn.assigns.current_user

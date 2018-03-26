@@ -5,7 +5,7 @@ defmodule CodeSponsorWeb.TemplateController do
   alias CodeSponsor.Schema.Template
   alias CodeSponsorWeb.TemplateType
 
-  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin"], to: "/dashboard"}
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, [roles: ["admin"]]
 
   def index(conn, params) do
     case Creatives.paginate_templates(params) do

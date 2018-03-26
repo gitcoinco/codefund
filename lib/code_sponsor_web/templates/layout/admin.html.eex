@@ -130,6 +130,12 @@
               Profile
             <% end %>
           </li>
+          <li class="nav-item">
+            <%= active_link(@conn, to: user_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-user"></i>
+              Users
+            <% end %>
+          </li>
         </ul>
       </nav>
       <button data-action="click->admin#minimizeSidebarAndBrand" class="sidebar-minimizer brand-minimizer" type="button"></button>
@@ -137,6 +143,7 @@
 
     <!-- Main content -->
     <main class="main">
+      <%= flash_element(@conn) %>
       <%= render @view_module, @view_template, assigns %>
     </main>
 

@@ -5,7 +5,7 @@ defmodule CodeSponsorWeb.CampaignController do
   alias CodeSponsor.Schema.Campaign
   alias CodeSponsorWeb.CampaignType
 
-  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin", "sponsor"], to: "/dashboard"}
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, [roles: ["admin", "sponsor"]]
 
   def index(conn, params) do
     current_user = conn.assigns.current_user

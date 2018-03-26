@@ -4,7 +4,7 @@ defmodule CodeSponsorWeb.ImpressionController do
   alias CodeSponsor.Impressions
   alias CodeSponsor.Schema.Impression
 
-  plug CodeSponsorWeb.Plugs.RequireAnyRole, %{roles: ["admin"], to: "/dashboard"}
+  plug CodeSponsorWeb.Plugs.RequireAnyRole, [roles: ["admin"]]
 
   def index(conn, params) do
     case Impressions.paginate_impressions(params) do
