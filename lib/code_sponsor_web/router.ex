@@ -83,6 +83,7 @@ defmodule CodeSponsorWeb.Router do
     resources "/creatives", CreativeController
     resources "/templates", TemplateController
     resources "/themes", ThemeController
+    resources "/users", UserController, only: [:index]
   end
 
   scope "/", CodeSponsorWeb do
