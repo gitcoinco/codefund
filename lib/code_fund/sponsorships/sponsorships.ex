@@ -90,9 +90,12 @@ defmodule CodeFund.Sponsorships do
   def get_sponsorship_for_property(%Property{} = property) do
     sponsorship = Repo.preload(property, :sponsorship).sponsorship
 
+    # Find out if there is a remaining budget, if not, sponsorship = nil
+
     if sponsorship do
       sponsorship |> Repo.preload([:campaign, :creative])
     else
+      # also filter by remaining budget for day/month/total
       new_sponsorship = from(
         s in Sponsorship,
         join: p in Property,

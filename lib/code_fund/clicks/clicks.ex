@@ -90,7 +90,7 @@ defmodule CodeFund.Clicks do
 
   """
   def create_click(attrs \\ %{}) do
-    %Click{}
+    %CodeSponsor.Schema.Click{}
     |> Click.changeset(attrs)
     |> Repo.insert()
   end
@@ -107,13 +107,13 @@ defmodule CodeFund.Clicks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_click(%Click{} = click, attrs) do
+  def update_click(%CodeSponsor.Schema.Click{} = click, attrs) do
     click
     |> Click.changeset(attrs)
     |> Repo.update()
   end
 
-  def set_status(%Click{} = click, status, attrs \\ %{}) do
+  def set_status(%CodeSponsor.Schema.Click{} = click, status, attrs \\ %{}) do
     status_int = Click.statuses[status]
     attrs = Map.merge(attrs, %{status: status_int})
     click
@@ -158,7 +158,7 @@ defmodule CodeFund.Clicks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_click(%Click{} = click) do
+  def delete_click(%CodeSponsor.Schema.Click{} = click) do
     Repo.delete(click)
   end
 
@@ -171,8 +171,29 @@ defmodule CodeFund.Clicks do
       %Ecto.Changeset{source: %Click{}}
 
   """
-  def change_click(%Click{} = click) do
+  def change_click(%CodeSponsor.Schema.Click{} = click) do
     Click.changeset(click, %{})
+  end
+
+  def payable(query) do
+    from click in query,
+    where: click.is_bot == false,
+    where: click.is_duplicate == false,
+    where: click.is_fraud == false
+  end
+
+  def select_amounts(query \\ %CodeSponsor.Schema.Click{}) do
+    from click in query,
+    select: %{
+      total_revenue_amount: sum(click.revenue_amount),
+      total_distribution_amount: sum(click.distribution_amount),
+      total_profit_amount: sum(click.profit_amount)
+    }
+  end
+
+  def for_campaign(query \\ %CodeSponsor.Schema.Click{}, %CodeSponsor.Schema.Campaign{} = campaign) do
+    from click in query,
+    where: click.campaign_id == ^campaign.id
   end
 
   defp filter_config(:clicks) do

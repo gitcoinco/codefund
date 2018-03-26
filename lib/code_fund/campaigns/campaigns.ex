@@ -73,6 +73,8 @@ defmodule CodeFund.Campaigns do
   """
   def get_campaign!(id), do: Repo.get!(Campaign, id)
 
+  def get_campaign_by_name!(name), do: Repo.get_by!(Campaign, name: name)
+
   @doc """
   Creates a campaign.
 
@@ -124,6 +126,7 @@ defmodule CodeFund.Campaigns do
   def delete_campaign(%Campaign{} = campaign) do
     Repo.delete(campaign)
   end
+
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking campaign changes.
