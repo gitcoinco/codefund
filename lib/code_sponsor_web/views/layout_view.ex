@@ -1,8 +1,6 @@
 defmodule CodeSponsorWeb.LayoutView do
   use CodeSponsorWeb, :view
 
-  import Phoenix.Controller, only: [view_module: 1, action_name: 1]
-
   @doc """
   Calls the `title` fn of the current `view_module` with the performed `:action` as arg.
   If no fun exists/matches the `default` title is returned instead.
@@ -49,4 +47,15 @@ defmodule CodeSponsorWeb.LayoutView do
       ""
     end
   end
+
+  def flash_element(conn) do
+    case get_flash(conn) do
+      %{"info" => message} -> message |> flash_tag()
+      %{"notice" => message} -> message |> flash_tag("alert-success")
+      %{"error" => message} -> message |> flash_tag("alert-danger")
+      %{} -> nil
+    end
+  end
+
+  defp flash_tag(message, style \\ "alert-warning"), do: content_tag(:p, message, [class: "alert #{style}", role: "alert"])
 end

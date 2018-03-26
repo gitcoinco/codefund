@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="shortcut icon" href="<%= static_path(@conn, "/images/code-sponsor-logo-square.png") %>">
+  <link rel="shortcut icon" href="<%= static_path(@conn, "/images/codefund-logo-square.png") %>">
   <title>Code Sponsor</title>
 
   <!-- Browser Icons -->
@@ -65,8 +65,8 @@
       <div class="container">
           <div class="navbar-header">
               <a class="navbar-brand page-scroll" href="#page-top">
-                  <img src="<%= static_path(@conn, "/images/code-sponsor-logo.png") %>" alt="" class="logo-text-black"/>
-                  <img src="<%= static_path(@conn, "/images/code-sponsor-logo-light.png") %>" alt="" class="logo-text-white"/>
+                  <img src="<%= static_path(@conn, "/images/codefund-logo.png") %>" alt="" class="logo-text-black"/>
+                  <img src="<%= static_path(@conn, "/images/codefund-logo-light.png") %>" alt="" class="logo-text-white"/>
               </a>
               
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-kania" aria-controls="navbar-kania" aria-expanded="false" aria-label="Toggle navigation">

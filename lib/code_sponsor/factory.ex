@@ -8,7 +8,7 @@ defmodule CodeSponsor.Factory do
       email: sequence(:email, &"user-#{&1}@example.com"),
       password_hash: "$2b$12$XgUXHTx3ipopQvWHvjkwPu0khqOmZTYWtT5TMv/PIgbiadFtwBdzi", # 'secret'
       roles: ["sponsor"],
-      revenue_rate: Decimal.new(0.6)
+      revenue_rate: Decimal.new("0.600")
     }
   end
 

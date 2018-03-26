@@ -3,37 +3,36 @@ defmodule CodeSponsorWeb.Plugs.RequireAnyRoleTest do
   alias CodeSponsorWeb.Plugs.RequireAnyRole
   alias CodeSponsor.Schema.User
 
-  test "user is redirected when current_user is not assigned" do
-    conn = build_conn() |> require_login
-
-    assert redirected_to(conn) == "/dashboard"
+  setup do
+    conn = build_conn() |> Plug.Test.init_test_session([foo: :bar]) |> Phoenix.Controller.fetch_flash
+    {:ok, %{conn: conn}}
   end
 
-  test "user is redirected when current_user does not have the role of admin" do
-    conn = build_conn() |> authenticate_as_developer |> require_login
-
-    assert redirected_to(conn) == "/dashboard"
+  test "user is redirected when current_user is not assigned", %{conn: conn} do
+    assert conn
+    |> require_login
+    |> redirected_to() == "/dashboard"
   end
 
-  test "user passes through when current_user is assigned and is an admin" do
-    conn = build_conn() |> authenticate_as_admin |> require_login
+  test "user is redirected when current_user does not have the role of admin", %{conn: conn} do
+    assert conn
+    |> authenticate_as_roles(["developer"])
+    |> require_login
+    |> redirected_to() == "/dashboard"
+  end
 
-    assert not_redirected?(conn)
+  test "user passes through when current_user is assigned and is an admin", %{conn: conn} do
+    refute conn
+    |> authenticate_as_roles(["admin"])
+    |> require_login
+    |> Map.get(:status) == 302
   end
 
   defp require_login(conn) do
-    conn |> RequireAnyRole.call(%{roles: ["admin"], to: "/dashboard"})
+    conn |> RequireAnyRole.call([roles: ["admin"]])
   end
 
-  defp authenticate_as_developer(conn) do
-    conn |> assign(:current_user, %User{roles: ["developer"]})
-  end
-
-  defp authenticate_as_admin(conn) do
-    conn |> assign(:current_user, %User{roles: ["admin"]})
-  end
-
-  defp not_redirected?(conn) do
-    conn.status != 302
+  defp authenticate_as_roles(conn, roles) when is_list(roles) do
+    conn |> assign(:current_user, %User{roles: roles})
   end
 end
