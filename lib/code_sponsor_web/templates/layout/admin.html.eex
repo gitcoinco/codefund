@@ -74,6 +74,17 @@
     <div class="sidebar">
       <nav class="sidebar-nav">
         <ul class="nav">
+          <%= if Plug.Conn.get_session(@conn, "admin_user") != nil do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: user_path(
+                  @conn,
+                  :end_masquerade),
+                  class: "nav-link") do %>
+                <i class="icon-speedometer"></i>
+                Leave Masquerade
+              <% end %>
+            </li>
+          <% end %>
           <li class="nav-item">
             <%= active_link(@conn, to: dashboard_path(@conn, :index), class: "nav-link") do %>
               <i class="icon-speedometer"></i>
@@ -123,6 +134,11 @@
                 Themes
               <% end %>
             </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: user_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-user"></i>
+                Users
+            <% end %>
           <% end %>
           <li class="nav-item">
             <%= active_link(@conn, to: registration_path(@conn, :show), class: "nav-link") do %>
@@ -130,11 +146,6 @@
               Profile
             <% end %>
           </li>
-          <li class="nav-item">
-            <%= active_link(@conn, to: user_path(@conn, :index), class: "nav-link") do %>
-              <i class="icon-user"></i>
-              Users
-            <% end %>
           </li>
         </ul>
       </nav>
