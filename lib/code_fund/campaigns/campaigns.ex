@@ -53,6 +53,8 @@ defmodule CodeFund.Campaigns do
     Campaign
     |> where([p], p.user_id == ^user.id)
     |> Filtrex.query(filter)
+    |> preload(:user)
+    |> Ecto.assoc(:budgeted_campaigns)
     |> order_by(^sort(params))
     |> paginate(Repo, params, @pagination)
   end
@@ -71,9 +73,19 @@ defmodule CodeFund.Campaigns do
       ** (Ecto.NoResultsError)
 
   """
-  def get_campaign!(id), do: Repo.get!(Campaign, id)
+  def get_campaign!(id) do
+    Campaign
+    |> Repo.get!(id)
+    |> preload(:user)
+    |> Ecto.assoc(:budgeted_campaigns)
+  end
 
-  def get_campaign_by_name!(name), do: Repo.get_by!(Campaign, name: name)
+  def get_campaign_by_name!(name) do
+    Campaign
+    |> Repo.get_by!(name: name)
+    |> preload(:user)
+    |> Ecto.assoc(:budgeted_campaigns)
+  end
 
   @doc """
   Creates a campaign.
@@ -139,6 +151,38 @@ defmodule CodeFund.Campaigns do
   """
   def change_campaign(%Campaign{} = campaign) do
     Campaign.changeset(campaign, %{})
+  end
+
+  def has_remaining_budget?(%Campaign{} = campaign) do
+    Enum.all?(
+      campaign.day_remain > 0,
+      campaign.month_remain > 0,
+      campaign.total_remain > 0
+    )
+  end
+
+  def with_sponsorship(query, %CodeSponsor.Schema.Sponsorship{} = sponsorship) do
+    from c in query,
+      where: c.id == ^sponsorship.campaign_id
+  end
+
+  def with_property(query, %CodeSponsor.Schema.Property{} = property) do
+    from c in query,
+      join: sponsorships in assoc(query, :sponsorships),
+      where: sponsorships.property_id == ^property.id,
+      where: c.id == ^sponsorship.campaign_id
+  end
+
+  def with_remaining_budget(query) do
+    from c in query,
+      where: c.day_remain > 0,
+      where: c.month_remain > 0,
+      where: c.total_remain > 0
+  end
+
+  def order_by_bid_amount(query) do
+    from c in query,
+      order_by: [desc: c.bid_amount]
   end
 
   defp filter_config(:campaigns) do

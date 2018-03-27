@@ -57,15 +57,15 @@
             </tr>
             <tr>
               <td><strong>Daily Budget</strong></td>
-              <td><%= pretty_money @campaign.budget_daily_amount %></td>
+              <td><%= pretty_money @campaign.budget_daily_amount %> - <%= pretty_money @budget.day_spend %> = <%= pretty_money @budget.day_remain %></td>
             </tr>
             <tr>
               <td><strong>Monthly Budget</strong></td>
-              <td><%= pretty_money @campaign.budget_monthly_amount %></td>
+              <td><%= pretty_money @campaign.budget_monthly_amount %> - <%= pretty_money @budget.month_spend %> = <%= pretty_money @budget.month_remain %></td>
             </tr>
             <tr>
               <td><strong>Total Budget</strong></td>
-              <td><%= pretty_money @campaign.budget_total_amount %></td>
+              <td><%= pretty_money @campaign.budget_total_amount %> - <%= pretty_money @budget.total_spend %> = <%= pretty_money @budget.total_remain %></td>
             </tr>
             <tr>
               <td><strong>Fraud Check URL</strong></td>

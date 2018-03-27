@@ -1,12 +1,15 @@
 defmodule CodeFund.Schema.Campaign do
   use CodeFundWeb, :schema_with_formex
 
+  alias CodeFund.Schema.{Impression, Click, BudgetedCampaign, User}
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do
-    has_many :impressions, CodeFund.Schema.Impression
-    has_many :clicks, CodeFund.Schema.Click
-    belongs_to :user, CodeFund.Schema.User
+    has_many :impressions, Impression
+    has_many :clicks, Click
+    has_many :budgeted_campaigns, BudgetedCampaign
+    belongs_to :user, User
 
     field :name, :string
     field :redirect_url, :string
