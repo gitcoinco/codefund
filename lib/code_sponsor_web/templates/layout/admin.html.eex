@@ -36,6 +36,7 @@
 </head>
 
 <body data-target="admin.body" class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <%= flash_element(@conn) %>
   <header class="app-header navbar">
     <button data-action="click->admin#toggleMobileSidebar" class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">
       <span class="navbar-toggler-icon"></span>
@@ -154,7 +155,6 @@
 
     <!-- Main content -->
     <main class="main">
-      <%= flash_element(@conn) %>
       <%= render @view_module, @view_template, assigns %>
     </main>
 
