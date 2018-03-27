@@ -49,13 +49,7 @@ defmodule CodeSponsorWeb.LayoutView do
   end
 
   def flash_element(conn) do
-    case get_flash(conn) do
-      %{"info" => message} -> message |> flash_tag()
-      %{"notice" => message} -> message |> flash_tag("alert-success")
-      %{"error" => message} -> message |> flash_tag("alert-danger")
-      %{} -> nil
-    end
+    flash_json = Poison.encode!(get_flash(conn))
+    content_tag(:div, "", [{:data, [flash: flash_json, controller: "flash"]}])
   end
-
-  defp flash_tag(message, style \\ "alert-warning"), do: content_tag(:p, message, [class: "alert #{style}", role: "alert"])
 end
