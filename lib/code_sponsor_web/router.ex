@@ -84,6 +84,8 @@ defmodule CodeSponsorWeb.Router do
     resources "/templates", TemplateController
     resources "/themes", ThemeController
     resources "/users", UserController, only: [:index]
+    get "/users/:id/masquerade", UserController, :masquerade
+    get "/users/end_masquerade", UserController, :end_masquerade
   end
 
   scope "/", CodeSponsorWeb do
