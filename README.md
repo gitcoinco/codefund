@@ -1,6 +1,6 @@
 # CodeFund
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
-[![Build Status](https://travis-ci.org/codesponsor/web.svg?branch=master)](https://travis-ci.org/codesponsor/web)
+[![Build Status](https://travis-ci.org/gitcoinco/codefund.svg?branch=master)](https://travis-ci.org/codesponsor/web)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/gitcoinco/codefund.svg?columns=all)](https://waffle.io/codesponsor/web)
 
 
