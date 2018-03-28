@@ -31,7 +31,6 @@ defmodule CodeFund.Campaigns do
 
     with {:ok, filter} <- Filtrex.parse_params(filter_config(:campaigns), params["campaign"] || %{}),
         %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params) do
-      # campaigns = Enum.map(page.entries, fn(c) ->  end)
       {:ok,
         %{
           campaigns: page.entries,
