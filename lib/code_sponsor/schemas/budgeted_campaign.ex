@@ -1,14 +1,14 @@
-defmodule CodeSponsor.Schema.BudgetedCampaign do
+defmodule CodeFund.Schema.BudgetedCampaign do
   @moduledoc """
   This schema is for a postgres view
   """
 
-  use CodeSponsorWeb, :schema
+  use CodeFundWeb, :schema
 
   @primary_key false
   @foreign_key_type :binary_id
   schema "budgeted_campaigns" do
-    belongs_to :campaign, CodeSponsor.Schema.Campaign
+    belongs_to :campaign, CodeFund.Schema.Campaign
 
     field :name, :string
     field :day_spend, :decimal

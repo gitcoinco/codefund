@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.CreateBudgetedCampaignView do
+defmodule CodeFund.Repo.Migrations.CreateBudgetedCampaignView do
   use Ecto.Migration
 
   def up do

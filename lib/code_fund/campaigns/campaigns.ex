@@ -154,23 +154,22 @@ defmodule CodeFund.Campaigns do
   end
 
   def has_remaining_budget?(%Campaign{} = campaign) do
-    Enum.all?(
+    Enum.all?([
       campaign.day_remain > 0,
       campaign.month_remain > 0,
       campaign.total_remain > 0
-    )
+    ])
   end
 
-  def with_sponsorship(query, %CodeSponsor.Schema.Sponsorship{} = sponsorship) do
+  def with_sponsorship(query, %CodeFund.Schema.Sponsorship{} = sponsorship) do
     from c in query,
       where: c.id == ^sponsorship.campaign_id
   end
 
-  def with_property(query, %CodeSponsor.Schema.Property{} = property) do
+  def with_property(query, %CodeFund.Schema.Property{} = property) do
     from c in query,
-      join: sponsorships in assoc(query, :sponsorships),
-      where: sponsorships.property_id == ^property.id,
-      where: c.id == ^sponsorship.campaign_id
+      join: s in Sponsorship, on: c.id == s.campaign_id,
+      where: s.property_id == ^property.id
   end
 
   def with_remaining_budget(query) do
