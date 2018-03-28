@@ -4,7 +4,9 @@
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/gitcoinco/codefund.svg?columns=all)](https://waffle.io/codesponsor/web)
 
 
-CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codefund.io](https://codefund.io)
+CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codefund.io](https://codefund.io/t/s/76674f2b-a37b-4bf7-8e20-25d3913f0012/)
+
+<img src="https://codefund.io/t/p/76674f2b-a37b-4bf7-8e20-25d3913f0012/pixel.png" width="1" height="1" style="width: 1px; height: 1px;" />
 
 Here are a few blog posts and podcasts that discuss CodeFund:
 
@@ -17,14 +19,14 @@ Here are a few blog posts and podcasts that discuss CodeFund:
 # Table of Contents
 - [What is this?](#what-is-this)
 - [Why is it open source?](#why-is-it-open-source)
-- [Install](#install)
+- [Development](#development)
 - [Road map](#road-map)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
 
 ## What is this?
 
-This is the software behind [codesponsor.io](https://codesponsor.io). It's an [Elixir](http://elixir-lang.org) application built on the [Phoenix](http://www.phoenixframework.org) web framework, [PostgreSQL](https://www.postgresql.org), and [many](https://github.com/gitcoinco/codefund/blob/master/mix.exs#L42) [other](https://github.com/gitcoinco/codefund/blob/master/assets/package.json) great open source efforts.
+This is the software behind [codefund.io](https://codefund.io/t/s/76674f2b-a37b-4bf7-8e20-25d3913f0012/). It's an [Elixir](http://elixir-lang.org) application built on the [Phoenix](http://www.phoenixframework.org) web framework, [PostgreSQL](https://www.postgresql.org), and [many](https://github.com/gitcoinco/codefund/blob/master/mix.exs#L42) [other](https://github.com/gitcoinco/codefund/blob/master/assets/package.json) great open source efforts.
 
 ## Why is it open source?
 
