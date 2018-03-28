@@ -9,7 +9,7 @@ config :coherence,
   router: CodeSponsorWeb.Router,
   messages_backend: CodeSponsorWeb.Coherence.Messages,
   logged_out_url: "/",
-  email_from_name: "Code Sponsor Team",
+  email_from_name: "CodeFund Team",
   email_from_email: "team@codesponsor.io",
   opts: [:authenticatable, :recoverable, :lockable, :trackable, :unlockable_with_token, :invitable, :registerable, :rememberable]
 

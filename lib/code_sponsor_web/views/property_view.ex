@@ -4,10 +4,10 @@ defmodule CodeSponsorWeb.PropertyView do
   import CodeSponsorWeb.TableView
   # import CodeSponsorWeb.FilterView
 
-  def title(:index), do: "Code Sponsor | My Properties"
-  def title(:new),   do: "Code Sponsor | Add Property"
-  def title(:edit),  do: "Code Sponsor | Edit Property"
-  def title(:show),  do: "Code Sponsor | View Property"
+  def title(:index), do: "CodeFund | My Properties"
+  def title(:new),   do: "CodeFund | Add Property"
+  def title(:edit),  do: "CodeFund | Edit Property"
+  def title(:show),  do: "CodeFund | View Property"
 
   def body_class(_), do: "app flex-row align-items-center"
 

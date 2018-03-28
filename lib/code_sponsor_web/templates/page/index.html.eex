@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="<%= static_path(@conn, "/images/codefund-logo-square.png") %>">
-  <title>Code Sponsor</title>
+  <title>CodeFund</title>
 
   <!-- Browser Icons -->
   <link rel="apple-touch-icon" sizes="57x57" href="<%= static_path(@conn, "/images/apple-icon-57x57.png") %>">
@@ -141,7 +141,7 @@
         <div class="row justify-content-center pb-4 pb-lg-5">
             <div class="col-lg-6 text-center">
                 <h3 class="font-alt font-w-600 letter-spacing-2 m-0 mt-1 text-uppercase title-xs-small title-medium title-underline-thick-base-color">
-                  What is Code Sponsor?
+                  What is CodeFund?
                 </h3>
                 <p class="mt-4 text-xs-large text-extra-large">
                   We provide a way for open source developers to get paid by placing ethical ads on their websites.

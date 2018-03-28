@@ -3,8 +3,8 @@ defmodule CodeSponsorWeb.CreativeView do
 
   import CodeSponsorWeb.TableView
 
-  def title(:index), do: "Code Sponsor | Creatives"
-  def title(:new),   do: "Code Sponsor | Add Creative"
-  def title(:edit),  do: "Code Sponsor | Edit Creative"
-  def title(:show),  do: "Code Sponsor | View Creative"
+  def title(:index), do: "CodeFund | Creatives"
+  def title(:new),   do: "CodeFund | Add Creative"
+  def title(:edit),  do: "CodeFund | Edit Creative"
+  def title(:show),  do: "CodeFund | View Creative"
 end

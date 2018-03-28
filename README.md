@@ -1,16 +1,16 @@
-# Code Sponsor
+# CodeFund
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 [![Build Status](https://travis-ci.org/codesponsor/web.svg?branch=master)](https://travis-ci.org/codesponsor/web)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/gitcoinco/codefund.svg?columns=all)](https://waffle.io/codesponsor/web)
 
 
-Code Sponsor is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codesponsor.io](https://codesponsor.io)
+CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codesponsor.io](https://codesponsor.io)
 
-Here are a few blog posts and podcasts that discuss Code Sponsor:
+Here are a few blog posts and podcasts that discuss CodeFund:
 
-* [Fighting for Open Source Sustainability: Introducing Code Sponsor](https://medium.com/code-sponsor/fighting-for-open-source-sustainability-introducing-code-sponsor-577e0ccca025)
+* [Fighting for Open Source Sustainability: Introducing CodeFund](https://medium.com/code-sponsor/fighting-for-open-source-sustainability-introducing-code-sponsor-577e0ccca025)
 * [Why Funding Open Source is Hard](https://medium.com/@codesponsor/why-funding-open-source-is-hard-652b7055569d)
-* [Code Sponsor + Gitcoin = OSS Sustainability](https://medium.com/gitcoin/code-sponsor-gitcoin-oss-sustainability-5684c4adf4b4)
+* [CodeFund + Gitcoin = OSS Sustainability](https://medium.com/gitcoin/code-sponsor-gitcoin-oss-sustainability-5684c4adf4b4)
 * [Sustaining Open Source](https://startupcto.io/podcast/0-57-sustaining-open-source-w-eric-berry-codesponsor-io/)
 * [Sustaining Open-Source Software through Ethical Advertising](https://devchat.tv/js-jabber/jsj-281-codesponsor-sustaining-open-source-software-ethical-advertising-eric-berry)
 
@@ -46,11 +46,11 @@ A few reasons:
 6. Run the migrations: docker-compose run web mix ecto.migrate
 7. Seed the db: docker-compose run web mix code_sponsor.seed
 8. Run the services: docker-compose up -d
-9. Visit [localhost:4000](http://localhost:4000) to see code sponsor running.
+9. Visit [localhost:4000](http://localhost:4000) to see CodeFund running.
 
 #### Without Docker (native setup)
 
-Here are some basic stemps to get Code Sponsor running:
+Here are some basic stemps to get CodeFund running:
 
 ```shell
 git clone git@github.com:codesponsor/web.git
@@ -71,7 +71,7 @@ mix phx.server
 
 We have a road map of what we are going to implement next.
 
-[Code Sponsor Q1 Goals](https://github.com/gitcoinco/codefund/issues/1)
+[CodeFund Q1 Goals](https://github.com/gitcoinco/codefund/issues/1)
 
 If you wish to add features that are not on the road map, you're very welcome to do so. We encourage you to
 [create an Issue](https://github.com/gitcoinco/codefund/issues/new)

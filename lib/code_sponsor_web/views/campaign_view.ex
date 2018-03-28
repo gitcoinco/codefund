@@ -4,8 +4,8 @@ defmodule CodeSponsorWeb.CampaignView do
   import CodeSponsorWeb.TableView
   # import CodeSponsorWeb.FilterView
 
-  def title(:index), do: "Code Sponsor | My Campaigns"
-  def title(:new),   do: "Code Sponsor | Add Campaign"
-  def title(:edit),  do: "Code Sponsor | Edit Campaign"
-  def title(:show),  do: "Code Sponsor | View Campaign"
+  def title(:index), do: "CodeFund | My Campaigns"
+  def title(:new),   do: "CodeFund | Add Campaign"
+  def title(:edit),  do: "CodeFund | Edit Campaign"
+  def title(:show),  do: "CodeFund | View Campaign"
 end

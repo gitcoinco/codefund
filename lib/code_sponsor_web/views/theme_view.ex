@@ -3,8 +3,8 @@ defmodule CodeSponsorWeb.ThemeView do
 
   import CodeSponsorWeb.TableView
 
-  def title(:index), do: "Code Sponsor | Themes"
-  def title(:new),   do: "Code Sponsor | Add Theme"
-  def title(:edit),  do: "Code Sponsor | Edit Theme"
-  def title(:show),  do: "Code Sponsor | View Theme"
+  def title(:index), do: "CodeFund | Themes"
+  def title(:new),   do: "CodeFund | Add Theme"
+  def title(:edit),  do: "CodeFund | Edit Theme"
+  def title(:show),  do: "CodeFund | View Theme"
 end

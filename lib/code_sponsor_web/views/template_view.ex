@@ -3,8 +3,8 @@ defmodule CodeSponsorWeb.TemplateView do
 
   import CodeSponsorWeb.TableView
 
-  def title(:index), do: "Code Sponsor | Templates"
-  def title(:new),   do: "Code Sponsor | Add Template"
-  def title(:edit),  do: "Code Sponsor | Edit Template"
-  def title(:show),  do: "Code Sponsor | View Template"
+  def title(:index), do: "CodeFund | Templates"
+  def title(:new),   do: "CodeFund | Add Template"
+  def title(:edit),  do: "CodeFund | Edit Template"
+  def title(:show),  do: "CodeFund | View Template"
 end
