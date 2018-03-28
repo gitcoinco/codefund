@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item"><%= link "Creatives", to: creative_path(@conn, :index) %></li>
-  <li class="breadcrumb-item"><%= link @creative.title, to: creative_path(@conn, :show, @creative) %></li>
+  <li class="breadcrumb-item"><%= link @creative.name, to: creative_path(@conn, :show, @creative) %></li>
   <li class="breadcrumb-item active">Edit Creative</li>
 </ol>
 
