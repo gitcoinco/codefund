@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.RemoveSelfReferencialSponsorship do
+defmodule CodeFund.Repo.Migrations.RemoveSelfReferencialSponsorship do
   use Ecto.Migration
 
   def change do

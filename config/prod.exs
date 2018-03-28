@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :code_sponsor, CodeSponsorWeb.Endpoint,
+config :code_fund, CodeFundWeb.Endpoint,
   load_from_system_env: true,
   url: [
     scheme: "https",
@@ -15,7 +15,7 @@ config :code_sponsor, CodeSponsorWeb.Endpoint,
 config :logger, level: :info
 
 # Configure your database
-config :code_sponsor, CodeSponsor.Repo,
+config :code_fund, CodeFund.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),

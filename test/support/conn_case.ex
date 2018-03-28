@@ -1,4 +1,4 @@
-defmodule CodeSponsorWeb.ConnCase do
+defmodule CodeFundWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -19,18 +19,18 @@ defmodule CodeSponsorWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import CodeSponsorWeb.Router.Helpers
+      import CodeFundWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint CodeSponsorWeb.Endpoint
+      @endpoint CodeFundWeb.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(CodeSponsor.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(CodeFund.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(CodeSponsor.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(CodeFund.Repo, {:shared, self()})
     end
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

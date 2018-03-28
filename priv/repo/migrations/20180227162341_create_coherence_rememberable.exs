@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.CreateCoherenceRememberable do
+defmodule CodeFund.Repo.Migrations.CreateCoherenceRememberable do
   use Ecto.Migration
   def change do
     create table(:rememberables, primary_key: false) do

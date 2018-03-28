@@ -1,9 +1,9 @@
-defmodule CodeSponsor.ClicksTest do
-  use CodeSponsor.DataCase
-  import CodeSponsor.Sigils
-  alias CodeSponsor.Clicks
-  alias CodeSponsor.Schema.Click
-  import CodeSponsor.Factory
+defmodule CodeFund.ClicksTest do
+  use CodeFund.DataCase
+  import CodeFund.Sigils
+  alias CodeFund.Clicks
+  alias CodeFund.Schema.Click
+  import CodeFund.Factory
 
   describe "clicks" do
     @valid_attrs %{ip: "121.12.1.31", revenue_amount: ~n(2.00), distribution_amount: ~n(1.20)}

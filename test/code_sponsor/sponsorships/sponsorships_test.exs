@@ -1,10 +1,10 @@
-defmodule CodeSponsor.SponsorshipsTest do
-  use CodeSponsor.DataCase
-  alias CodeSponsor.Properties
-  alias CodeSponsor.Schema.Property
-  alias CodeSponsor.Sponsorships
-  alias CodeSponsor.Schema.Sponsorship
-  import CodeSponsor.Factory
+defmodule CodeFund.SponsorshipsTest do
+  use CodeFund.DataCase
+  alias CodeFund.Properties
+  alias CodeFund.Schema.Property
+  alias CodeFund.Sponsorships
+  alias CodeFund.Schema.Sponsorship
+  import CodeFund.Factory
 
   describe "sponsorships" do
     @valid_attrs %{bid_amount: 1.50, redirect_url: "https://gitcoin.co"}

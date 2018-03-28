@@ -1,1 +1,1 @@
-# See lib/code_sponsor/seed.ex
+# See lib/code_fund/seed.ex

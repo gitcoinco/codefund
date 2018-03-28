@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.AddSponsorshipToProperties do
+defmodule CodeFund.Repo.Migrations.AddSponsorshipToProperties do
   use Ecto.Migration
 
   def change do

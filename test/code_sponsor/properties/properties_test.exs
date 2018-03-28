@@ -1,16 +1,16 @@
-defmodule CodeSponsor.PropertiesTest do
-  use CodeSponsor.DataCase
+defmodule CodeFund.PropertiesTest do
+  use CodeFund.DataCase
 
-  alias CodeSponsor.Properties
+  alias CodeFund.Properties
 
   setup do
-    user = CodeSponsor.Support.Fixture.generate(:user)
-    property = CodeSponsor.Support.Fixture.generate(:property)
+    user = CodeFund.Support.Fixture.generate(:user)
+    property = CodeFund.Support.Fixture.generate(:property)
     {:ok, %{user: user, property: property}}
   end
 
   describe "properties" do
-    alias CodeSponsor.Schema.Property
+    alias CodeFund.Schema.Property
 
     @valid_attrs %{description: "some description", name: "some name", property_type: 42, url: "some url"}
     @update_attrs %{description: "some updated description", name: "some updated name", property_type: 43, url: "some updated url"}
@@ -46,7 +46,7 @@ defmodule CodeSponsor.PropertiesTest do
     end
 
     test "update_property/2 with valid data updates the property" do
-      property = CodeSponsor.Support.Fixture.generate(:property)
+      property = CodeFund.Support.Fixture.generate(:property)
       assert {:ok, property} = Properties.update_property(property, @update_attrs)
       assert %Property{} = property
       assert property.description == "some updated description"
@@ -61,7 +61,7 @@ defmodule CodeSponsor.PropertiesTest do
     end
 
     test "delete_property/1 deletes the property" do
-      property = CodeSponsor.Support.Fixture.generate(:property)
+      property = CodeFund.Support.Fixture.generate(:property)
       assert {:ok, %Property{}} = Properties.delete_property(property)
       assert_raise Ecto.NoResultsError, fn -> Properties.get_property!(property.id) end
     end

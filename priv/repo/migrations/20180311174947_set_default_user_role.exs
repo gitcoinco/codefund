@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.SetDefaultUserRole do
+defmodule CodeFund.Repo.Migrations.SetDefaultUserRole do
   use Ecto.Migration
 
   def change do

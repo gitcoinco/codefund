@@ -1,9 +1,9 @@
-defmodule CodeSponsor.Support.Fixture do
+defmodule CodeFund.Support.Fixture do
 
   def generate(schema, attrs \\ %{})
 
   def generate(:campaign, attrs) do
-    %CodeSponsor.Schema.Campaign{
+    %CodeFund.Schema.Campaign{
       bid_amount: Decimal.new("42.0"),
       description: "some description",
       budget_daily_amount: Decimal.new("42.0"),
@@ -17,7 +17,7 @@ defmodule CodeSponsor.Support.Fixture do
   end
 
   def generate(:impression, attrs) do
-     %CodeSponsor.Schema.Impression{
+     %CodeFund.Schema.Impression{
       browser: "some browser",
       city: "some city",
       country: "some country",
@@ -41,7 +41,7 @@ defmodule CodeSponsor.Support.Fixture do
   end
 
   def generate(:property, attrs) do
-    %CodeSponsor.Schema.Property{
+    %CodeFund.Schema.Property{
       description: "some description",
       name: "some name",
       property_type: 42,
@@ -51,7 +51,7 @@ defmodule CodeSponsor.Support.Fixture do
   end
 
   def generate(:sponsorship, attrs) do
-    %CodeSponsor.Schema.Sponsorship{
+    %CodeFund.Schema.Sponsorship{
       bid_amount: Decimal.new("1.50"),
       redirect_url: "https://gitcoin.co",
       campaign_id: generate(:campaign).id
@@ -59,7 +59,7 @@ defmodule CodeSponsor.Support.Fixture do
   end
 
   def generate(:user, attrs) do
-    %CodeSponsor.Schema.User{
+    %CodeFund.Schema.User{
       first_name: "First",
       last_name: "Last",
       email: "some#{UUID.uuid4()}@example.com",
@@ -68,5 +68,5 @@ defmodule CodeSponsor.Support.Fixture do
     } |> run!(attrs)
   end
 
-  defp run!(object, attrs), do:  object |> Map.merge(attrs) |> CodeSponsor.Repo.insert!
+  defp run!(object, attrs), do:  object |> Map.merge(attrs) |> CodeFund.Repo.insert!
 end

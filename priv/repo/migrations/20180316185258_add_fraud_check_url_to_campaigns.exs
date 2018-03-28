@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.AddFraudCheckUrlToCampaigns do
+defmodule CodeFund.Repo.Migrations.AddFraudCheckUrlToCampaigns do
   use Ecto.Migration
 
   def change do

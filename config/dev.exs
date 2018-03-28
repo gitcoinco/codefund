@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :code_sponsor, CodeSponsorWeb.Endpoint,
+config :code_fund, CodeFundWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -30,15 +30,15 @@ config :code_sponsor, CodeSponsorWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :code_sponsor, CodeSponsorWeb.Endpoint,
+config :code_fund, CodeFundWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/code_sponsor_web/views/.*(ex)$},
-      ~r{lib/code_sponsor_web/templates/.*(eex)$},
-      ~r{lib/code_sponsor_web/forms/.*(ex)$},
-      ~r{lib/code_sponsor_web/plugs/.*(ex)$}
+      ~r{lib/code_fund_web/views/.*(ex)$},
+      ~r{lib/code_fund_web/templates/.*(eex)$},
+      ~r{lib/code_fund_web/forms/.*(ex)$},
+      ~r{lib/code_fund_web/plugs/.*(ex)$}
     ]
   ]
 
@@ -50,12 +50,12 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :code_sponsor, CodeSponsor.Repo,
+config :code_fund, CodeFund.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: System.get_env("POSTGRES_USER") || "postgres",
   password: System.get_env("POSTGRES_PASSWORD") || "postgres",
   hostname: System.get_env("POSTGRES_HOST") || "localhost",
-  database: "code_sponsor_dev",
+  database: "code_fund_dev",
   pool_size: 10
 
 # Uncomment when developing locally

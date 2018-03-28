@@ -1,6 +1,6 @@
-defmodule CodeSponsorWeb.UserControllerTest do
-  use CodeSponsorWeb.ConnCase
-  import CodeSponsor.Factory
+defmodule CodeFundWeb.UserControllerTest do
+  use CodeFundWeb.ConnCase
+  import CodeFund.Factory
 
   setup do
     normal_user = insert(:user)
@@ -27,7 +27,7 @@ defmodule CodeSponsorWeb.UserControllerTest do
       assert conn.assigns.users == [
         normal_user,
         admin_user
-      ] |> CodeSponsor.Repo.preload([:properties])
+      ] |> CodeFund.Repo.preload([:properties])
     end
   end
 
