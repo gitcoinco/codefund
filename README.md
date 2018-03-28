@@ -4,13 +4,13 @@
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/gitcoinco/codefund.svg?columns=all)](https://waffle.io/codesponsor/web)
 
 
-CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codesponsor.io](https://codesponsor.io)
+CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codefund.io](https://codefund.io)
 
 Here are a few blog posts and podcasts that discuss CodeFund:
 
-* [Fighting for Open Source Sustainability: Introducing CodeFund](https://medium.com/code-sponsor/fighting-for-open-source-sustainability-introducing-code-sponsor-577e0ccca025)
+* [Fighting for Open Source Sustainability: Introducing Code Sponsor](https://medium.com/code-sponsor/fighting-for-open-source-sustainability-introducing-code-sponsor-577e0ccca025)
 * [Why Funding Open Source is Hard](https://medium.com/@codesponsor/why-funding-open-source-is-hard-652b7055569d)
-* [CodeFund + Gitcoin = OSS Sustainability](https://medium.com/gitcoin/code-sponsor-gitcoin-oss-sustainability-5684c4adf4b4)
+* [Code Sponsor + Gitcoin = OSS Sustainability](https://medium.com/gitcoin/code-sponsor-gitcoin-oss-sustainability-5684c4adf4b4)
 * [Sustaining Open Source](https://startupcto.io/podcast/0-57-sustaining-open-source-w-eric-berry-codesponsor-io/)
 * [Sustaining Open-Source Software through Ethical Advertising](https://devchat.tv/js-jabber/jsj-281-codesponsor-sustaining-open-source-software-ethical-advertising-eric-berry)
 
@@ -50,10 +50,10 @@ A few reasons:
 
 #### Without Docker (native setup)
 
-Here are some basic stemps to get CodeFund running:
+Here are some basic steps to get CodeFund running:
 
 ```shell
-git clone git@github.com:codesponsor/web.git
+git clone git@github.com:gitcoinco/codefund.git
 cd web/
 # Optionally set the following environment variables (see .env-sample)
 # config postgres in config/dev.exs
