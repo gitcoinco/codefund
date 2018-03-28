@@ -23,6 +23,7 @@
                 <th></th>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th><%= table_link(@conn, "URL", :url) %></th>
+                <th>Advertiser</th>
                 <th></th>
               </tr>
             </thead>
@@ -32,6 +33,16 @@
                   <td><img src="<%= favicon_image_url(property.url) %>" width="16" height="16" /></td>
                   <td><%= property.name %></td>
                   <td><%= link property.url, to: property.url, target: "_blank" %></td>
+                  
+                  <!-- TODO: Refactor -->
+                  <td>
+                    <%= if property.sponsorship do %>
+                      <%= CodeFund.Repo.preload(property.sponsorship, :campaign).campaign.name %>
+                    <% else %>
+                      <span class="text-muted">None</span>
+                    <% end %>
+                  </td>
+
                   <td class="text-right p-2">
                     <%= link 'Show', to: property_path(@conn, :show, property), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: property_path(@conn, :edit, property), class: "btn btn-outline-primary btn-sm" %>

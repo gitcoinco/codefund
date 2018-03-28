@@ -35,6 +35,37 @@ defmodule CodeFundWeb.TrackController do
     end
   end
 
+  def pixel(conn, %{"sponsorship_id" => sponsorship_id} = params) do
+    try do
+      sponsorship = Sponsorships.get_sponsorship!(sponsorship_id)
+      property = sponsorship.property
+
+      impression_id =
+        case track_impression(conn, property, sponsorship, params) do
+          {:ok, impression} ->
+            impression.id
+          {:error, _} -> nil
+        end
+
+      if impression_id !== nil do
+        enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id])
+      end
+
+      conn
+      |> put_resp_content_type("image/png")
+      |> put_private(:impression_id, impression_id)
+      |> send_resp(200, @transparent_png)
+
+    rescue
+      Ecto.NoResultsError -> :ok
+
+      conn
+      |> put_resp_content_type("image/png")
+      |> put_private(:impression_id, "")
+      |> send_resp(200, @transparent_png)
+    end
+  end
+
   # TODO - This function is too complex! Refactor is necessary
   def click(conn, %{"property_id" => property_id} = params) do
     try do

@@ -41,9 +41,8 @@ defmodule CodeFund.Clicks do
     end
   end
 
-  defp do_paginate_clicks(filter, params) do
+  defp do_paginate_clicks(_filter, params) do
     Click
-    |> Filtrex.query(filter)
     |> order_by(^sort(params))
     |> paginate(Repo, params, @pagination)
   end

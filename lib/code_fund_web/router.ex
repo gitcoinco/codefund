@@ -63,6 +63,7 @@ defmodule CodeFundWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/t/p/:sponsorship_id/pixel.png", TrackController, :pixel
     get "/t/l/:property_id/pixel.png", TrackController, :pixel
     get "/t/l/:property_id/logo.png", TrackController, :logo
     get "/t/c/:property_id/", TrackController, :click

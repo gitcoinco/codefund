@@ -5,8 +5,8 @@ defmodule CodeFund.Sponsorships do
 
   use CodeFundWeb, :query
 
-  alias CodeFund.Schema.Sponsorship
-  alias CodeFund.Schema.Property
+  alias CodeFund.Schema.{Sponsorship, Property, Campaign}
+  alias CodeFund.Campaigns
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -43,9 +43,8 @@ defmodule CodeFund.Sponsorships do
     end
   end
 
-  defp do_paginate_sponsorships(filter, params) do
+  defp do_paginate_sponsorships(_filter, params) do
     Sponsorship
-    |> Filtrex.query(filter)
     |> order_by(^sort(params))
     |> preload([:campaign, :property, :creative])
     |> paginate(Repo, params, @pagination)
@@ -86,30 +85,54 @@ defmodule CodeFund.Sponsorships do
     |> Repo.preload([:property, :campaign, :creative])
   end
 
-  # TODO: Deal with budgets and spend
   def get_sponsorship_for_property(%Property{} = property) do
     sponsorship = Repo.preload(property, :sponsorship).sponsorship
-
-    if sponsorship do
-      sponsorship |> Repo.preload([:campaign, :creative])
-    else
-      new_sponsorship = from(
-        s in Sponsorship,
-        join: p in Property,
-        on: s.property_id == p.id,
-        where: s.property_id == ^property.id,
-        order_by: [desc: s.bid_amount]
-      ) |> Repo.one()
-        |> Repo.preload([:campaign, :creative])
-
-      if new_sponsorship do
-        Property.changeset(property, %{sponsorship_id: new_sponsorship.id}) |> Repo.update
-        new_sponsorship
-      else
-        nil
-      end
+    case confirm_existing_sponsorship(property, sponsorship) do
+      %Sponsorship{} = sponsorship -> sponsorship |> Repo.preload([:campaign, :property, :creative])
+      nil -> nil
     end
   end
+
+  def confirm_existing_sponsorship(%Property{} = property, nil) do
+    # Determine if there is an available campaign
+    campaign =
+      Repo.one(
+        from c in Campaign,
+        join: s in assoc(c, :sponsorships),
+        join: b in assoc(c, :budgeted_campaign),
+        where: c.status == 1,
+        where: s.property_id == ^property.id,
+        where: b.day_remain > 0,
+        where: b.month_remain > 0,
+        where: b.total_remain > 0,
+        order_by: [desc: c.bid_amount]
+      )
+
+    cond do
+      campaign == nil ->
+        Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update
+        nil
+      true ->
+        sponsorship =
+          Repo.one(
+            from s in Sponsorship,
+            where: s.property_id == ^property.id,
+            where: s.campaign_id == ^campaign.id
+          )
+        Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update
+        sponsorship
+    end
+  end
+
+  def confirm_existing_sponsorship(%Property{} = property, %Sponsorship{} = sponsorship) do
+    campaign = Repo.preload(sponsorship, :campaign).campaign |> Repo.preload(:budgeted_campaign)
+    case Campaigns.has_remaining_budget?(campaign) do
+      true -> sponsorship
+      false -> confirm_existing_sponsorship(property, nil)
+    end
+  end
+
+
 
   @doc """
   Creates a sponsorship.

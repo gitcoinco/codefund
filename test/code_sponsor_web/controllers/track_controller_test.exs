@@ -22,7 +22,26 @@ defmodule CodeFundWeb.TrackControllerTest do
       conn =
         conn
         |> put_req_header("user-agent", @user_agent)
-        |> get(track_path(conn, :pixel, property.id))
+        |> get("/t/l/#{property.id}/pixel.png")
+
+      content_type  = conn |> get_resp_header("content-type") |> Enum.at(0)
+      impression_id = conn.private[:impression_id]
+
+      assert content_type == "image/png; charset=utf-8"
+      assert String.length(impression_id) == 36 # uuid
+      assert conn.resp_body == transparent_png
+    end
+
+    test "Creates impression and renders a transparent png with sponsorship", %{conn: conn, transparent_png: transparent_png} do
+      user        = insert(:user)
+      campaign    = insert(:campaign)
+      sponsorship = insert(:sponsorship, bid_amount: Decimal.new(1.25), campaign: campaign)
+      property    = insert(:property, user: user, sponsorship: sponsorship)
+
+      conn =
+        conn
+        |> put_req_header("user-agent", @user_agent)
+        |> get("/t/p/#{sponsorship.id}/pixel.png")
 
       content_type  = conn |> get_resp_header("content-type") |> Enum.at(0)
       impression_id = conn.private[:impression_id]
@@ -36,7 +55,7 @@ defmodule CodeFundWeb.TrackControllerTest do
       conn =
         conn
         |> put_req_header("user-agent", @user_agent)
-        |> get(track_path(conn, :pixel, "12345"))
+        |> get("/t/l/5a04fdde-1358-4249-a69b-6283e9b4d432/pixel.png")
 
       content_type  = conn |> get_resp_header("content-type") |> Enum.at(0)
       impression_id = conn.private[:impression_id]
@@ -53,7 +72,7 @@ defmodule CodeFundWeb.TrackControllerTest do
       conn =
         conn
         |> put_req_header("user-agent", @user_agent)
-        |> get(track_path(conn, :pixel, property.id))
+        |> get("/t/l/#{property.id}/pixel.png")
 
       content_type  = conn |> get_resp_header("content-type") |> Enum.at(0)
       impression_id = conn.private[:impression_id]
@@ -72,7 +91,7 @@ defmodule CodeFundWeb.TrackControllerTest do
       conn =
         conn
         |> put_req_header("user-agent", @bot_agent)
-        |> get(track_path(conn, :pixel, property.id))
+        |> get("/t/l/#{property.id}/pixel.png")
 
       content_type  = conn |> get_resp_header("content-type") |> Enum.at(0)
       impression_id = conn.private[:impression_id]

@@ -5,8 +5,8 @@ defmodule CodeFund.Campaigns do
 
   use CodeFundWeb, :query
 
-  alias CodeFund.Schema.Campaign
-  alias CodeFund.Schema.User
+  alias Decimal, as: D
+  alias CodeFund.Schema.{Campaign, User}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -49,10 +49,10 @@ defmodule CodeFund.Campaigns do
     end
   end
 
-  defp do_paginate_campaigns(%User{} = user, filter, params) do
+  defp do_paginate_campaigns(%User{} = user, _filter, params) do
     Campaign
     |> where([p], p.user_id == ^user.id)
-    |> Filtrex.query(filter)
+    |> preload([:user, :budgeted_campaign])
     |> order_by(^sort(params))
     |> paginate(Repo, params, @pagination)
   end
@@ -71,7 +71,17 @@ defmodule CodeFund.Campaigns do
       ** (Ecto.NoResultsError)
 
   """
-  def get_campaign!(id), do: Repo.get!(Campaign, id)
+  def get_campaign!(id) do
+    Campaign
+    |> Repo.get!(id)
+    |> Repo.preload([:user, :budgeted_campaign])
+  end
+
+  def get_campaign_by_name!(name) do
+    Campaign
+    |> Repo.get_by!(name: name)
+    |> Repo.preload([:user, :budgeted_campaign])
+  end
 
   @doc """
   Creates a campaign.
@@ -125,6 +135,7 @@ defmodule CodeFund.Campaigns do
     Repo.delete(campaign)
   end
 
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking campaign changes.
 
@@ -136,6 +147,15 @@ defmodule CodeFund.Campaigns do
   """
   def change_campaign(%Campaign{} = campaign) do
     Campaign.changeset(campaign, %{})
+  end
+
+  def has_remaining_budget?(%Campaign{} = campaign) do
+    budgeted_campaign = campaign.budgeted_campaign
+    Enum.all?([
+      (D.cmp(budgeted_campaign.day_remain, D.new(0)) == :gt),
+      (D.cmp(budgeted_campaign.month_remain, D.new(0)) == :gt),
+      (D.cmp(budgeted_campaign.total_remain, D.new(0)) == :gt)
+    ])
   end
 
   defp filter_config(:campaigns) do

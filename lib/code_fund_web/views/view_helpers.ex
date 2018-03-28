@@ -1,5 +1,5 @@
 defmodule CodeFundWeb.ViewHelpers do
-  
+
   @doc ~S"""
   Converts a Decimal to a formatted currency amount
 
@@ -12,6 +12,17 @@ defmodule CodeFundWeb.ViewHelpers do
   def pretty_money(amount, currency \\ "USD") do
     {:ok, ret} = Money.to_string Money.new(amount, currency), currency: currency
     String.replace(ret, "US", "")
+  end
+
+  def pretty_subtracted_money_with_total(a, b, c) do
+    html = """
+    <span class="money-subtract-wrapper">
+      <span class="line_1">#{pretty_money(a)}</span>
+      <span class="line_2">#{pretty_money(b)}</span>
+      <span class="line_3 #{if Decimal.cmp(c, Decimal.new(0)) == :lt, do: "negative", else: "positive"}">#{pretty_money(c)}</span>
+    </span>
+    """
+    {:safe, html}
   end
 
   def campaign_status(status) do

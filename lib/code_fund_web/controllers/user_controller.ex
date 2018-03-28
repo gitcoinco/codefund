@@ -8,7 +8,7 @@ defmodule CodeFundWeb.UserController do
   use Coherence.Config
 
   def index(conn, _params) do
-    render conn, "index.html", users: Repo.all from u in User, preload: [:properties]
+    render conn, "index.html", users: Repo.all from u in User, preload: [:properties], order_by: u.first_name
   end
 
   def masquerade(conn, %{"id" => user_id}) do
