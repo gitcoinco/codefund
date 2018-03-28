@@ -3,12 +3,6 @@ defmodule CodeFund.Schema.Campaign do
 
   alias CodeFund.Schema.{Impression, Click, BudgetedCampaign, User, Sponsorship}
 
-   @statuses %{
-    pending:  0,
-    active:   1,
-    archived: 2
-  }
-
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do

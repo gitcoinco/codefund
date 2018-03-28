@@ -88,7 +88,7 @@ defmodule CodeFund.Sponsorships do
   def get_sponsorship_for_property(%Property{} = property) do
     sponsorship = Repo.preload(property, :sponsorship).sponsorship
     case confirm_existing_sponsorship(property, sponsorship) do
-      %Sponsorship{} = sponsorship -> sponsorship |> Repo.preload([:user, :campaign, :property])
+      %Sponsorship{} = sponsorship -> sponsorship |> Repo.preload([:campaign, :property, :creative])
       nil -> nil
     end
   end
@@ -203,16 +203,6 @@ defmodule CodeFund.Sponsorships do
   """
   def change_sponsorship(%Sponsorship{} = sponsorship) do
     Sponsorship.changeset(sponsorship, %{})
-  end
-
-  def with_property(query, %Property{} = property) do
-    from s in query,
-      where: s.property_id == ^property.id
-  end
-
-  def with_campaign(query, %Campaign{} = campaign) do
-    from s in query,
-      where: s.campaign_id == ^campaign.id
   end
 
   defp filter_config(:sponsorships) do

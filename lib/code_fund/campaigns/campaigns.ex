@@ -6,7 +6,7 @@ defmodule CodeFund.Campaigns do
   use CodeFundWeb, :query
 
   alias Decimal, as: D
-  alias CodeFund.Schema.{Campaign, User, Sponsorship, Property}
+  alias CodeFund.Schema.{Campaign, User}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -157,34 +157,6 @@ defmodule CodeFund.Campaigns do
       (D.cmp(budgeted_campaign.month_remain, D.new(0)) == :gt),
       (D.cmp(budgeted_campaign.total_remain, D.new(0)) == :gt)
     ])
-  end
-
-  def with_sponsorship(query, %Sponsorship{} = sponsorship) do
-    from c in query,
-      where: c.id == ^sponsorship.campaign_id
-  end
-
-  def with_property(query, %Property{} = property) do
-    from c in query,
-      join: s in Sponsorship, on: c.id == s.campaign_id,
-      where: s.property_id == ^property.id
-  end
-
-  def with_remaining_budget(query) do
-    from c in query,
-      where: c.day_remain > 0,
-      where: c.month_remain > 0,
-      where: c.total_remain > 0
-  end
-
-  def active(query) do
-    from s in query,
-      where: s.status == ^1
-  end
-
-  def order_by_bid_amount(query) do
-    from c in query,
-      order_by: [desc: c.bid_amount]
   end
 
   defp filter_config(:campaigns) do

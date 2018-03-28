@@ -59,16 +59,16 @@ defmodule CodeFundWeb.AdServeController do
     }
 
     payload = cond do
-      sponsorship == nil -> default
+      sponsorship == nil -> Map.merge(default, %{reason: "CodeFund does not have a advertiser for you at this time"})
       true ->
         case sponsorship.creative do
-          nil -> default
+          nil -> Map.merge(default, %{reason: "CodeFund creative has not been assigned to the sponsorship"})
           creative ->
             %{
               image: creative.image_url,
               link: "https://#{conn.host}/t/s/#{sponsorship.id}",
               description: creative.body,
-              pixel: "//#{conn.host}/t/l/#{property.id}/pixel.png",
+              pixel: "//#{conn.host}/t/p/#{sponsorship.id}/pixel.png",
               poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
             }
         end
