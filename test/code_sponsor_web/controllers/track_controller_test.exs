@@ -1,6 +1,6 @@
-defmodule CodeSponsorWeb.TrackControllerTest do
-  use CodeSponsorWeb.ConnCase
-  import CodeSponsor.Factory
+defmodule CodeFundWeb.TrackControllerTest do
+  use CodeFundWeb.ConnCase
+  import CodeFund.Factory
 
   # import Mock
 
@@ -81,7 +81,7 @@ defmodule CodeSponsorWeb.TrackControllerTest do
       assert String.length(impression_id) == 36 # uuid
       assert conn.resp_body == transparent_png
 
-      impression = CodeSponsor.Impressions.get_impression!(impression_id)
+      impression = CodeFund.Impressions.get_impression!(impression_id)
       assert impression.is_bot
     end
   end

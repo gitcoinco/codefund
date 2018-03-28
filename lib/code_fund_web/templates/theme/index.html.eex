@@ -1,0 +1,51 @@
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Themes</li>
+  
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: theme_path(@conn, :new), class: "btn" do %>
+        <i class="fa fa-plus"></i> Add Theme
+      <% end %>
+    </div>
+  </li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <section>
+        <%= if length(@themes) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th><%= table_link(@conn, "Template", :template_id) %></th>
+                <th><%= table_link(@conn, "Name", :name) %></th>
+                <th><%= table_link(@conn, "Slug", :slug) %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for theme <- @themes do %>
+                <tr>
+                  <td><%= link theme.template.name, to: template_path(@conn, :show, theme.template.id) %></td>
+                  <td><%= theme.name %></td>
+                  <td><%= theme.slug %></td>
+                  <td class="text-right p-2">
+                    <%= link 'Show', to: theme_path(@conn, :show, theme), class: "btn btn-outline-info btn-sm" %>
+                    <%= link 'Edit', to: theme_path(@conn, :edit, theme), class: "btn btn-outline-primary btn-sm" %>
+                    <%= link 'Delete', to: theme_path(@conn, :delete, theme), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= render CodeFundWeb.PaginationView, "_pagination.html", assigns %>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

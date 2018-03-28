@@ -6,16 +6,16 @@
 use Mix.Config
 
 # General application configuration
-config :code_sponsor,
-  ecto_repos: [CodeSponsor.Repo],
+config :code_fund,
+  ecto_repos: [CodeFund.Repo],
   generators: [binary_id: true]
 
 # Configures the endpoint
-config :code_sponsor, CodeSponsorWeb.Endpoint,
+config :code_fund, CodeFundWeb.Endpoint,
   url: [host: (System.get_env("HOST") || "localhost")],
   secret_key_base: "JdaDMqC6DEzZP5Mjm9S06nVaLaqExfN3Tyszbywe9c99Sg6RA2h7nRCVB2LFBN1n",
-  render_errors: [view: CodeSponsorWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: CodeSponsor.PubSub,
+  render_errors: [view: CodeFundWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: CodeFund.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 import_config "./configs/*.exs"

@@ -1,9 +1,9 @@
-defmodule CodeSponsor.Mixfile do
+defmodule CodeFund.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :code_sponsor,
+      app: :code_fund,
       version: "0.0.1",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -21,7 +21,7 @@ defmodule CodeSponsor.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {CodeSponsor.Application, []},
+      mod: {CodeFund.Application, []},
       extra_applications: [
         :ex_machina,
         :logger,
@@ -91,7 +91,7 @@ defmodule CodeSponsor.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "code_sponsor.seed"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "code_fund.seed"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]

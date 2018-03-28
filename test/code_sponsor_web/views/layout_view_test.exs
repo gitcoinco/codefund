@@ -1,3 +1,3 @@
-defmodule CodeSponsorWeb.LayoutViewTest do
-  use CodeSponsorWeb.ConnCase, async: true
+defmodule CodeFundWeb.LayoutViewTest do
+  use CodeFundWeb.ConnCase, async: true
 end

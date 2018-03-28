@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.CreateCoherenceInvitable do
+defmodule CodeFund.Repo.Migrations.CreateCoherenceInvitable do
   use Ecto.Migration
   def change do
     create table(:invitations, primary_key: false) do

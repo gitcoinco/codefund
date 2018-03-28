@@ -1,7 +1,7 @@
-defmodule CodeSponsorWeb.Plugs.RequireAnyRoleTest do
-  use CodeSponsorWeb.ConnCase
-  alias CodeSponsorWeb.Plugs.RequireAnyRole
-  alias CodeSponsor.Schema.User
+defmodule CodeFundWeb.Plugs.RequireAnyRoleTest do
+  use CodeFundWeb.ConnCase
+  alias CodeFundWeb.Plugs.RequireAnyRole
+  alias CodeFund.Schema.User
 
   setup do
     conn = build_conn() |> Plug.Test.init_test_session([foo: :bar]) |> Phoenix.Controller.fetch_flash

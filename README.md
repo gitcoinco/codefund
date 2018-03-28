@@ -44,7 +44,7 @@ A few reasons:
 4. Built the phoenix app into image: docker-compose build
 5. Create the database: docker-compose run web mix ecto.create
 6. Run the migrations: docker-compose run web mix ecto.migrate
-7. Seed the db: docker-compose run web mix code_sponsor.seed
+7. Seed the db: docker-compose run web mix code_fund.seed
 8. Run the services: docker-compose up -d
 9. Visit [localhost:4000](http://localhost:4000) to see CodeFund running.
 
@@ -61,7 +61,7 @@ cd web/
 mix deps.get
 mix ecto.create
 mix ecto.migrate
-mix code_sponsor.seed
+mix code_fund.seed
 cd assets && npm install
 cd ../
 mix phx.server

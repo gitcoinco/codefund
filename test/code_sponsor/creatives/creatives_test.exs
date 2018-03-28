@@ -1,10 +1,10 @@
-# defmodule CodeSponsor.CreativesTest do
-#   use CodeSponsor.DataCase
+# defmodule CodeFund.CreativesTest do
+#   use CodeFund.DataCase
 
-#   alias CodeSponsor.Creatives
+#   alias CodeFund.Creatives
 
 #   describe "templates" do
-#     alias CodeSponsor.Creatives.Template
+#     alias CodeFund.Creatives.Template
 
 #     @valid_attrs %{body: "some body", name: "some name"}
 #     @update_attrs %{body: "some updated body", name: "some updated name"}
@@ -66,7 +66,7 @@
 #   end
 
 #   describe "themes" do
-#     alias CodeSponsor.Creatives.Theme
+#     alias CodeFund.Creatives.Theme
 
 #     @valid_attrs %{body: "some body", name: "some name"}
 #     @update_attrs %{body: "some updated body", name: "some updated name"}
@@ -128,7 +128,7 @@
 #   end
 
 #   describe "creatives" do
-#     alias CodeSponsor.Creatives.Creative
+#     alias CodeFund.Creatives.Creative
 
 #     @valid_attrs %{image_url: "some image_url", text: "some text", title: "some title"}
 #     @update_attrs %{image_url: "some updated image_url", text: "some updated text", title: "some updated title"}

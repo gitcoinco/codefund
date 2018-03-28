@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.CreateClicks do
+defmodule CodeFund.Repo.Migrations.CreateClicks do
   use Ecto.Migration
 
   def change do
