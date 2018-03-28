@@ -14,7 +14,7 @@ defmodule CodeFund.Repo.Migrations.CreateBudgetedCampaignView do
               AND inserted_at::date = now()::date
       ) AS day_spend,
       (
-          SELECT COALESCE((campaigns.budget_daily_amount - SUM(clicks.revenue_amount)), 0) FROM clicks
+          SELECT COALESCE((campaigns.budget_daily_amount - COALESCE(SUM(clicks.revenue_amount), 0)), 0) FROM clicks
               WHERE is_bot = false
               AND is_duplicate = false
               AND is_fraud = false
@@ -30,7 +30,7 @@ defmodule CodeFund.Repo.Migrations.CreateBudgetedCampaignView do
               AND inserted_at::date >= DATE_TRUNC('month', now())::date
       ) AS month_spend,
       (
-          SELECT COALESCE((campaigns.budget_monthly_amount - SUM(clicks.revenue_amount)), 0) FROM clicks
+          SELECT COALESCE((campaigns.budget_monthly_amount - COALESCE(SUM(clicks.revenue_amount), 0)), 0) FROM clicks
               WHERE is_bot = false
               AND is_duplicate = false
               AND is_fraud = false
@@ -45,7 +45,7 @@ defmodule CodeFund.Repo.Migrations.CreateBudgetedCampaignView do
               AND campaign_id = campaigns.id
       ) AS total_spend,
       (
-          SELECT COALESCE((campaigns.budget_total_amount - SUM(clicks.revenue_amount)), 0) FROM clicks
+          SELECT COALESCE((campaigns.budget_total_amount - COALESCE(SUM(clicks.revenue_amount), 0)), 0) FROM clicks
               WHERE is_bot = false
               AND is_duplicate = false
               AND is_fraud = false

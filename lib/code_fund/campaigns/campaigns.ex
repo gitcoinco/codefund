@@ -5,8 +5,8 @@ defmodule CodeFund.Campaigns do
 
   use CodeFundWeb, :query
 
-  alias CodeFund.Schema.Campaign
-  alias CodeFund.Schema.User
+  alias Decimal, as: D
+  alias CodeFund.Schema.{Campaign, User, Sponsorship, Property}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -31,6 +31,7 @@ defmodule CodeFund.Campaigns do
 
     with {:ok, filter} <- Filtrex.parse_params(filter_config(:campaigns), params["campaign"] || %{}),
         %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params) do
+      # campaigns = Enum.map(page.entries, fn(c) ->  end)
       {:ok,
         %{
           campaigns: page.entries,
@@ -49,12 +50,10 @@ defmodule CodeFund.Campaigns do
     end
   end
 
-  defp do_paginate_campaigns(%User{} = user, filter, params) do
+  defp do_paginate_campaigns(%User{} = user, _filter, params) do
     Campaign
     |> where([p], p.user_id == ^user.id)
-    |> Filtrex.query(filter)
-    |> preload(:user)
-    |> Ecto.assoc(:budgeted_campaigns)
+    |> preload([:user, :budgeted_campaign])
     |> order_by(^sort(params))
     |> paginate(Repo, params, @pagination)
   end
@@ -76,15 +75,13 @@ defmodule CodeFund.Campaigns do
   def get_campaign!(id) do
     Campaign
     |> Repo.get!(id)
-    |> preload(:user)
-    |> Ecto.assoc(:budgeted_campaigns)
+    |> Repo.preload([:user, :budgeted_campaign])
   end
 
   def get_campaign_by_name!(name) do
     Campaign
     |> Repo.get_by!(name: name)
-    |> preload(:user)
-    |> Ecto.assoc(:budgeted_campaigns)
+    |> Repo.preload([:user, :budgeted_campaign])
   end
 
   @doc """
@@ -154,19 +151,20 @@ defmodule CodeFund.Campaigns do
   end
 
   def has_remaining_budget?(%Campaign{} = campaign) do
+    budgeted_campaign = campaign.budgeted_campaign
     Enum.all?([
-      campaign.day_remain > 0,
-      campaign.month_remain > 0,
-      campaign.total_remain > 0
+      (D.cmp(budgeted_campaign.day_remain, D.new(0)) == :gt),
+      (D.cmp(budgeted_campaign.month_remain, D.new(0)) == :gt),
+      (D.cmp(budgeted_campaign.total_remain, D.new(0)) == :gt)
     ])
   end
 
-  def with_sponsorship(query, %CodeFund.Schema.Sponsorship{} = sponsorship) do
+  def with_sponsorship(query, %Sponsorship{} = sponsorship) do
     from c in query,
       where: c.id == ^sponsorship.campaign_id
   end
 
-  def with_property(query, %CodeFund.Schema.Property{} = property) do
+  def with_property(query, %Property{} = property) do
     from c in query,
       join: s in Sponsorship, on: c.id == s.campaign_id,
       where: s.property_id == ^property.id
@@ -177,6 +175,11 @@ defmodule CodeFund.Campaigns do
       where: c.day_remain > 0,
       where: c.month_remain > 0,
       where: c.total_remain > 0
+  end
+
+  def active(query) do
+    from s in query,
+      where: s.status == ^1
   end
 
   def order_by_bid_amount(query) do

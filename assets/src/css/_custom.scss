@@ -1,1 +1,27 @@
-// Here you can add other styles
+.money-subtract-wrapper {
+  width: 100px;
+  display: block;
+  float: right;
+  text-align: right;
+  .line_1 {
+    display: block;
+  }
+  .line_2 {
+    display: block;
+    border-bottom: 1px solid #666;
+    &:before {
+      margin-right: 4px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      content: "-";
+    }
+  }
+  .line_3 {
+    display: block;
+    font-weight: bold;
+    border-bottom: 3px double #666;
+    &.negative {
+      color: red;
+    }
+  }
+}

@@ -1,14 +1,21 @@
 defmodule CodeFund.Schema.Campaign do
   use CodeFundWeb, :schema_with_formex
 
-  alias CodeFund.Schema.{Impression, Click, BudgetedCampaign, User}
+  alias CodeFund.Schema.{Impression, Click, BudgetedCampaign, User, Sponsorship}
+
+   @statuses %{
+    pending:  0,
+    active:   1,
+    archived: 2
+  }
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do
     has_many :impressions, Impression
     has_many :clicks, Click
-    has_many :budgeted_campaigns, BudgetedCampaign
+    has_many :sponsorships, Sponsorship
+    has_one :budgeted_campaign, BudgetedCampaign
     belongs_to :user, User
 
     field :name, :string

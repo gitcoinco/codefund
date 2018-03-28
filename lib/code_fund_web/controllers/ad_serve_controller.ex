@@ -49,25 +49,29 @@ defmodule CodeFundWeb.AdServeController do
   def details(conn, %{"property_id" => property_id}) do
     property    = Properties.get_property!(property_id)
     sponsorship = Sponsorships.get_sponsorship_for_property(property)
-    creative    = sponsorship.creative
+
+    default = %{
+      image: "",
+      link: "",
+      description: "",
+      pixel: "//#{conn.host}/t/l/#{property.id}/pixel.png",
+      poweredByLink: "https://codefund.io?utm_content="
+    }
 
     payload = cond do
-      sponsorship == nil || creative == nil ->
-        %{
-          image: "",
-          link: "",
-          description: "",
-          pixel: "//#{conn.host}/t/l/#{property.id}/pixel.png",
-          poweredByLink: "https://codefund.io?utm_content="
-        }
+      sponsorship == nil -> default
       true ->
-        %{
-          image: creative.image_url,
-          link: "https://#{conn.host}/t/s/#{sponsorship.id}",
-          description: creative.body,
-          pixel: "//#{conn.host}/t/l/#{property.id}/pixel.png",
-          poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
-        }
+        case sponsorship.creative do
+          nil -> default
+          creative ->
+            %{
+              image: creative.image_url,
+              link: "https://#{conn.host}/t/s/#{sponsorship.id}",
+              description: creative.body,
+              pixel: "//#{conn.host}/t/l/#{property.id}/pixel.png",
+              poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
+            }
+        end
     end
 
     render conn, "details.json", payload: payload

@@ -42,8 +42,7 @@ defmodule CodeFundWeb.CampaignController do
 
   def show(conn, %{"id" => id}) do
     campaign = Campaigns.get_campaign!(id)
-    budget = CodeFund.BudgetedCampaigns.budget(campaign)
-    render(conn, "show.html", campaign: campaign, budget: budget)
+    render(conn, "show.html", campaign: campaign)
   end
 
   def edit(conn, %{"id" => id}) do

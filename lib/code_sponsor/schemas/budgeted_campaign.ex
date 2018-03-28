@@ -10,14 +10,11 @@ defmodule CodeFund.Schema.BudgetedCampaign do
   schema "budgeted_campaigns" do
     belongs_to :campaign, CodeFund.Schema.Campaign
 
-    field :name, :string
     field :day_spend, :decimal
     field :month_spend, :decimal
     field :total_spend, :decimal
     field :day_remain, :decimal
     field :month_remain, :decimal
     field :total_remain, :decimal
-
-    timestamps()
   end
 end
