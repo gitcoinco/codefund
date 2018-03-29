@@ -255,7 +255,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
     [id, rememberable, series, token] = params
     cred_store = Coherence.Authentication.Utils.get_credential_store()
     if Config.async_rememberable?() and Enum.any?(conn.req_headers,
-      fn {k,v} -> k == "x-requested-with" and v == "XMLHttpRequest" end) do
+      fn {k, v} -> k == "x-requested-with" and v == "XMLHttpRequest" end) do
       # for ajax requests, we don't update the sequence number, ensuring that
       # multiple concurrent ajax requests don't fail on the seq_no
       {assign(conn, :remembered, true), user}

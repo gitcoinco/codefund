@@ -22,7 +22,7 @@ defmodule CodeFund.ImpressionsTest do
 
     test "create_impression/1 with valid data creates a impression" do
       property = CodeFund.Support.Fixture.generate(:property)
-      valid_attrs = @valid_attrs  |> Map.merge(%{property_id: property.id} )
+      valid_attrs = @valid_attrs |> Map.merge(%{property_id: property.id})
       {:ok, %Impression{} = impression} = Impressions.create_impression(valid_attrs)
       assert impression.browser == "some browser"
       assert impression.city == "some city"
@@ -65,7 +65,7 @@ defmodule CodeFund.ImpressionsTest do
 
     test "create_from_sponsorship/1 with a nil sponsorship still saves the impression" do
       property = CodeFund.Support.Fixture.generate(:property)
-      valid_attrs = @valid_attrs  |> Map.merge(%{property_id: property.id} )
+      valid_attrs = @valid_attrs  |> Map.merge(%{property_id: property.id})
       {:ok, %Impression{} = impression} = Impressions.create_impression(valid_attrs)
       assert !is_nil(impression.id)
     end
