@@ -20,6 +20,7 @@ defmodule CodeFundWeb.ClickController do
         conn
         |> put_flash(:info, "Click created successfully.")
         |> redirect(to: click_path(conn, :show, click))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -44,6 +45,7 @@ defmodule CodeFundWeb.ClickController do
         conn
         |> put_flash(:info, "Click updated successfully.")
         |> redirect(to: click_path(conn, :show, click))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", click: click, changeset: changeset)
     end

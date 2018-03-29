@@ -23,7 +23,7 @@ defmodule CodeFundWeb do
       use Formex.Controller
       use Formex.Ecto.Controller
       import Plug.Conn
-      plug RemoteIp
+      plug(RemoteIp)
       import CodeFundWeb.Router.Helpers
       import CodeFundWeb.Gettext
     end
@@ -31,11 +31,13 @@ defmodule CodeFundWeb do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/code_fund_web/templates",
-                        namespace: CodeFundWeb
+      use Phoenix.View,
+        root: "lib/code_fund_web/templates",
+        namespace: CodeFundWeb
 
       # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1, action_name: 1]
+      import Phoenix.Controller,
+        only: [get_flash: 1, get_flash: 2, view_module: 1, action_name: 1]
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML

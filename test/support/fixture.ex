@@ -1,5 +1,4 @@
 defmodule CodeFund.Support.Fixture do
-
   def generate(schema, attrs \\ %{})
 
   def generate(:campaign, attrs) do
@@ -13,11 +12,12 @@ defmodule CodeFund.Support.Fixture do
       redirect_url: "some redirect_url",
       status: 42,
       user_id: generate(:user).id
-    } |> run!(attrs)
+    }
+    |> run!(attrs)
   end
 
   def generate(:impression, attrs) do
-     %CodeFund.Schema.Impression{
+    %CodeFund.Schema.Impression{
       browser: "some browser",
       city: "some city",
       country: "some country",
@@ -37,7 +37,8 @@ defmodule CodeFund.Support.Fixture do
       utm_source: "some utm_source",
       utm_term: "some utm_term",
       property_id: generate(:property).id
-    } |> run!(attrs)
+    }
+    |> run!(attrs)
   end
 
   def generate(:property, attrs) do
@@ -47,7 +48,8 @@ defmodule CodeFund.Support.Fixture do
       property_type: 42,
       url: "some url",
       user: generate(:user)
-    } |> run!(attrs)
+    }
+    |> run!(attrs)
   end
 
   def generate(:sponsorship, attrs) do
@@ -55,7 +57,8 @@ defmodule CodeFund.Support.Fixture do
       bid_amount: Decimal.new("1.50"),
       redirect_url: "https://gitcoin.co",
       campaign_id: generate(:campaign).id
-    } |> run!(attrs)
+    }
+    |> run!(attrs)
   end
 
   def generate(:user, attrs) do
@@ -65,8 +68,9 @@ defmodule CodeFund.Support.Fixture do
       email: "some#{UUID.uuid4()}@example.com",
       password: "P@ssw0rd",
       password_confirmation: "P@ssw0rd"
-    } |> run!(attrs)
+    }
+    |> run!(attrs)
   end
 
-  defp run!(object, attrs), do:  object |> Map.merge(attrs) |> CodeFund.Repo.insert!
+  defp run!(object, attrs), do: object |> Map.merge(attrs) |> CodeFund.Repo.insert!()
 end

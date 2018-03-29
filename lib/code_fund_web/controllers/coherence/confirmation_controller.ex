@@ -15,44 +15,47 @@ defmodule CodeFundWeb.Coherence.ConfirmationController do
 
   require Logger
 
-  plug Coherence.ValidateOption, :confirmable
+  plug(Coherence.ValidateOption, :confirmable)
 
-  plug :layout_view, view: Coherence.ConfirmationView, caller: __MODULE__
-  plug :redirect_logged_in when action in [:new]
+  plug(:layout_view, view: Coherence.ConfirmationView, caller: __MODULE__)
+  plug(:redirect_logged_in when action in [:new])
 
   @doc """
   Handle resending a confirmation email.
 
   Request the user's email, reset the confirmation token and resend the email.
   """
-  @spec new(Plug.Conn.t, Map.t) :: Plug.Conn.t
+  @spec new(Plug.Conn.t(), Map.t()) :: Plug.Conn.t()
   def new(conn, _params) do
-    user_schema = Config.user_schema
-    cs = Helpers.changeset :confirmation, user_schema, user_schema.__struct__
+    user_schema = Config.user_schema()
+    cs = Helpers.changeset(:confirmation, user_schema, user_schema.__struct__)
+
     conn
-    |> render(:new, [email: "", changeset: cs])
+    |> render(:new, email: "", changeset: cs)
   end
 
   @doc """
   Create a new confirmation token and resend the email.
   """
-  @spec create(Plug.Conn.t, Map.t) :: Plug.Conn.t
+  @spec create(Plug.Conn.t(), Map.t()) :: Plug.Conn.t()
   def create(conn, %{"confirmation" => password_params} = params) do
-    user_schema = Config.user_schema
+    user_schema = Config.user_schema()
     email = password_params["email"]
-    user = Schemas.get_by_user email: email
+    user = Schemas.get_by_user(email: email)
 
-    changeset = Helpers.changeset :confirmation, user_schema, user_schema.__struct__
+    changeset = Helpers.changeset(:confirmation, user_schema, user_schema.__struct__)
+
     case user do
       nil ->
         conn
         |> put_flash(:error, Messages.backend().could_not_find_that_email_address())
         |> render("new.html", changeset: changeset)
+
       user ->
         if user_schema.confirmed?(user) do
           conn
           |> put_flash(:error, Messages.backend().account_already_confirmed())
-          |> render(:new, [email: "", changeset: changeset])
+          |> render(:new, email: "", changeset: changeset)
         else
           conn
           |> send_confirmation(user, user_schema)
@@ -67,34 +70,39 @@ defmodule CodeFundWeb.Coherence.ConfirmationController do
   Validate that the confirmation token has not expired and sets `confirmation_sent_at`
   field to nil, marking the user as confirmed.
   """
-  @spec edit(Plug.Conn.t, Map.t) :: Plug.Conn.t
+  @spec edit(Plug.Conn.t(), Map.t()) :: Plug.Conn.t()
   def edit(conn, params) do
-    user_schema = Config.user_schema
+    user_schema = Config.user_schema()
     token = params["id"]
 
-    user = Schemas.get_by_user confirmation_token: token
+    user = Schemas.get_by_user(confirmation_token: token)
 
     case user do
       nil ->
-        changeset = Helpers.changeset :confirmation, user_schema, user_schema.__struct__
+        changeset = Helpers.changeset(:confirmation, user_schema, user_schema.__struct__)
+
         conn
         |> put_flash(:error, Messages.backend().invalid_confirmation_token())
         |> redirect_to(:confirmation_edit_invalid, params)
+
       user ->
-        if ConfirmableService.expired? user do
+        if ConfirmableService.expired?(user) do
           conn
           |> put_flash(:error, Messages.backend().confirmation_token_expired())
           |> redirect_to(:confirmation_edit_expired, params)
         else
-          changeset = Helpers.changeset(:confirmation, user_schema, user, %{
-            confirmation_token: nil,
-            confirmed_at: DateTime.utc,
+          changeset =
+            Helpers.changeset(:confirmation, user_schema, user, %{
+              confirmation_token: nil,
+              confirmed_at: DateTime.utc()
             })
-          case Config.repo.update(changeset) do
+
+          case Config.repo().update(changeset) do
             {:ok, _user} ->
               conn
               |> put_flash(:info, Messages.backend().user_account_confirmed_successfully())
               |> redirect_to(:confirmation_edit, params)
+
             {:error, _changeset} ->
               conn
               |> put_flash(:error, Messages.backend().problem_confirming_user_account())

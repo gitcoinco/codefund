@@ -15,6 +15,7 @@ before_script:
   - mix do ecto.create, ecto.migrate
 
 script:
+  - mix format --check-formatted
   - mix credo list --ignore readability,design,refactor
   - mix test
   - MIX_ENV=test mix do compile, coveralls.json

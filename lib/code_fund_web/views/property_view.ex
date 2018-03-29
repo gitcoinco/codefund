@@ -5,9 +5,9 @@ defmodule CodeFundWeb.PropertyView do
   # import CodeFundWeb.FilterView
 
   def title(:index), do: "CodeFund | My Properties"
-  def title(:new),   do: "CodeFund | Add Property"
-  def title(:edit),  do: "CodeFund | Edit Property"
-  def title(:show),  do: "CodeFund | View Property"
+  def title(:new), do: "CodeFund | Add Property"
+  def title(:edit), do: "CodeFund | Edit Property"
+  def title(:show), do: "CodeFund | View Property"
 
   def body_class(_), do: "app flex-row align-items-center"
 
@@ -18,6 +18,7 @@ defmodule CodeFundWeb.PropertyView do
 
   def script_embed_code(conn, %CodeFund.Schema.Property{} = property) do
     url = "https://#{conn.host}/scripts/#{property.id}/embed.js"
+
     '''
     <script src="#{url}"></script>
     <div id="codefund_ad"></div>

@@ -6,21 +6,21 @@ defmodule CodeFund.Schema.Campaign do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "campaigns" do
-    has_many :impressions, Impression
-    has_many :clicks, Click
-    has_many :sponsorships, Sponsorship
-    has_one :budgeted_campaign, BudgetedCampaign
-    belongs_to :user, User
+    has_many(:impressions, Impression)
+    has_many(:clicks, Click)
+    has_many(:sponsorships, Sponsorship)
+    has_one(:budgeted_campaign, BudgetedCampaign)
+    belongs_to(:user, User)
 
-    field :name, :string
-    field :redirect_url, :string
-    field :status, :integer, default: 1
-    field :description, :string
-    field :bid_amount, :decimal, default: Decimal.new(0.0)
-    field :budget_daily_amount, :decimal, default: Decimal.new(0.0)
-    field :budget_monthly_amount, :decimal, default: Decimal.new(0.0)
-    field :budget_total_amount, :decimal, default: Decimal.new(0.0)
-    field :fraud_check_url, :string
+    field(:name, :string)
+    field(:redirect_url, :string)
+    field(:status, :integer, default: 1)
+    field(:description, :string)
+    field(:bid_amount, :decimal, default: Decimal.new(0.0))
+    field(:budget_daily_amount, :decimal, default: Decimal.new(0.0))
+    field(:budget_monthly_amount, :decimal, default: Decimal.new(0.0))
+    field(:budget_total_amount, :decimal, default: Decimal.new(0.0))
+    field(:fraud_check_url, :string)
 
     timestamps()
   end

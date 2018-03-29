@@ -28,11 +28,14 @@ defmodule CodeFundWeb.LayoutView do
   def current_user_gravatar_url(conn) do
     if Coherence.logged_in?(conn) do
       current_user = Coherence.current_user(conn)
-      hash = current_user.email
+
+      hash =
+        current_user.email
         |> String.trim()
         |> String.downcase()
         |> :erlang.md5()
         |> Base.encode16(case: :lower)
+
       "https://www.gravatar.com/avatar/#{hash}?s=150&d=identicon"
     else
       ""

@@ -11,17 +11,20 @@ defmodule CodeFundWeb.CreateFraudTrackingLinkWorker do
         CodeFundWeb.Endpoint,
         :improvely_inbound,
         campaign_id
-      ) |> String.replace(~r/codesponsor\.io\:\d+/, "codefund.io")
-        |> String.replace(~r/codefund\.io\:\d+/, "codefund.io")
+      )
+      |> String.replace(~r/codesponsor\.io\:\d+/, "codefund.io")
+      |> String.replace(~r/codefund\.io\:\d+/, "codefund.io")
 
-    payload = %{
-      "key"        => System.get_env("IMPROVELY_API_KEY"),
-      "project"    => System.get_env("IMPROVELY_PROJECT_ID"),
-      "url"        => redirect_url,
-      "campaign"   => "#{campaign.id} - #{campaign.name}",
-      "source"     => campaign.user.first_name,
-      "medium"     => "PPC"
-    } |> URI.encode_query
+    payload =
+      %{
+        "key" => System.get_env("IMPROVELY_API_KEY"),
+        "project" => System.get_env("IMPROVELY_PROJECT_ID"),
+        "url" => redirect_url,
+        "campaign" => "#{campaign.id} - #{campaign.name}",
+        "source" => campaign.user.first_name,
+        "medium" => "PPC"
+      }
+      |> URI.encode_query()
 
     url = "https://api.improvely.com/v1/link.json"
 
@@ -54,11 +57,13 @@ defmodule CodeFundWeb.CreateFraudTrackingLinkWorker do
     #
 
     with {:ok, %{status_code: 200, body: body}} <- HTTPoison.post(url, payload, headers),
-      %CodeFund.Schema.Campaign{} = campaign  <- body |> Poison.decode!(),
-      {:ok, %CodeFund.Schema.Campaign{}} <- campaign |> Campaigns.update_campaign(%{fraud_check_url: body["anywhere"]["short_link"]}),
-      do: IO.puts("Updated campaign")
-    else
-      {:error, %{reason: reason}} -> %{"status" => "error", "message" => reason}
-      {:error, %Ecto.Changeset{}} ->  IO.puts("Unable to update campaign")
+         %CodeFund.Schema.Campaign{} = campaign <- body |> Poison.decode!(),
+         {:ok, %CodeFund.Schema.Campaign{}} <-
+           campaign
+           |> Campaigns.update_campaign(%{fraud_check_url: body["anywhere"]["short_link"]}),
+         do: IO.puts("Updated campaign")
+  else
+    {:error, %{reason: reason}} -> %{"status" => "error", "message" => reason}
+    {:error, %Ecto.Changeset{}} -> IO.puts("Unable to update campaign")
   end
 end

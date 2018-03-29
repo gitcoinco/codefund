@@ -17,27 +17,27 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
 
   require Logger
 
-  @type schema :: Ecto.Schema.t
-  @type conn :: Plug.Conn.t
-  @type params :: Map.t
+  @type schema :: Ecto.Schema.t()
+  @type conn :: Plug.Conn.t()
+  @type params :: Map.t()
 
   @dialyzer [
-    {:nowarn_function, update: 2},
+    {:nowarn_function, update: 2}
   ]
 
-  plug Coherence.RequireLogin when action in ~w(show edit update delete)a
-  plug Coherence.ValidateOption, :registerable
-  plug :scrub_params, "registration" when action in [:create, :update]
+  plug(Coherence.RequireLogin when action in ~w(show edit update delete)a)
+  plug(Coherence.ValidateOption, :registerable)
+  plug(:scrub_params, "registration" when action in [:create, :update])
 
-  plug :layout_view, view: Coherence.RegistrationView, caller: __MODULE__
-  plug :redirect_logged_in when action in [:new, :create]
+  plug(:layout_view, view: Coherence.RegistrationView, caller: __MODULE__)
+  plug(:redirect_logged_in when action in [:new, :create])
 
   @doc """
   Render the new user form.
   """
   @spec new(conn, params) :: conn
   def new(conn, _params) do
-    user_schema = Config.user_schema
+    user_schema = Config.user_schema()
     cs = Helpers.changeset(:registration, user_schema, user_schema.__struct__)
     render(conn, :new, email: "", changeset: cs)
   end
@@ -50,15 +50,17 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   """
   @spec create(conn, params) :: conn
   def create(conn, %{"registration" => registration_params} = params) do
-    user_schema = Config.user_schema
+    user_schema = Config.user_schema()
+
     :registration
     |> Helpers.changeset(user_schema, user_schema.__struct__, registration_params)
-    |> Schemas.create
+    |> Schemas.create()
     |> case do
       {:ok, user} ->
         conn
         |> send_confirmation(user, user_schema)
-        |> redirect_or_login(user, params, Config.allow_unconfirmed_access_for)
+        |> redirect_or_login(user, params, Config.allow_unconfirmed_access_for())
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -67,6 +69,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   defp redirect_or_login(conn, _user, params, 0) do
     redirect_to(conn, :registration_create, params)
   end
+
   defp redirect_or_login(conn, user, params, _) do
     conn
     |> Helpers.login_user(user, params)
@@ -89,7 +92,14 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   def edit(conn, _) do
     user = Coherence.current_user(conn)
     changeset = Helpers.changeset(:registration, user.__struct__, user)
-    render(conn, "edit.html", user: user, changeset: changeset, layout: {CodeFundWeb.LayoutView, "admin.html"})
+
+    render(
+      conn,
+      "edit.html",
+      user: user,
+      changeset: changeset,
+      layout: {CodeFundWeb.LayoutView, "admin.html"}
+    )
   end
 
   @doc """
@@ -97,17 +107,19 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   """
   @spec update(conn, params) :: conn
   def update(conn, %{"registration" => user_params} = params) do
-    user_schema = Config.user_schema
+    user_schema = Config.user_schema()
     user = Coherence.current_user(conn)
+
     :registration
     |> Helpers.changeset(user_schema, user, user_params)
-    |> Schemas.update
+    |> Schemas.update()
     |> case do
       {:ok, user} ->
-        Config.auth_module
-        |> apply(Config.update_login, [conn, user, [id_key: Config.schema_key]])
+        Config.auth_module()
+        |> apply(Config.update_login(), [conn, user, [id_key: Config.schema_key()]])
         |> put_flash(:info, Messages.backend().account_updated_successfully())
         |> redirect_to(:registration_update, params, user)
+
       {:error, changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
     end
@@ -120,7 +132,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   def delete(conn, params) do
     user = Coherence.current_user(conn)
     conn = Helpers.logout_user(conn)
-    Schemas.delete! user
+    Schemas.delete!(user)
     redirect_to(conn, :registration_delete, params)
   end
 end

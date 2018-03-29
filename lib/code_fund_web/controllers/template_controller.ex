@@ -5,12 +5,13 @@ defmodule CodeFundWeb.TemplateController do
   alias CodeFund.Schema.Template
   alias CodeFundWeb.TemplateType
 
-  plug CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin"]]
+  plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin"])
 
   def index(conn, params) do
     case Creatives.paginate_templates(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering templates. #{inspect(error)}")
@@ -25,16 +26,17 @@ defmodule CodeFundWeb.TemplateController do
 
   def create(conn, %{"template" => template_params}) do
     TemplateType
-      |> create_form(%Template{}, template_params)
-      |> insert_form_data
-      |> case do
-        {:ok, template} ->
-          conn
-          |> put_flash(:info, "Template created successfully.")
-          |> redirect(to: template_path(conn, :show, template))
-        {:error, form} ->
-          render(conn, "new.html", form: form)
-      end
+    |> create_form(%Template{}, template_params)
+    |> insert_form_data
+    |> case do
+      {:ok, template} ->
+        conn
+        |> put_flash(:info, "Template created successfully.")
+        |> redirect(to: template_path(conn, :show, template))
+
+      {:error, form} ->
+        render(conn, "new.html", form: form)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -52,16 +54,17 @@ defmodule CodeFundWeb.TemplateController do
     template = Creatives.get_template!(id)
 
     TemplateType
-      |> create_form(template, template_params)
-      |> update_form_data
-      |> case do
-        {:ok, template} ->
-          conn
-          |> put_flash(:info, "Template updated successfully.")
-          |> redirect(to: template_path(conn, :show, template))
-        {:error, form} ->
-          render(conn, "edit.html", template: template, form: form)
-      end
+    |> create_form(template, template_params)
+    |> update_form_data
+    |> case do
+      {:ok, template} ->
+        conn
+        |> put_flash(:info, "Template updated successfully.")
+        |> redirect(to: template_path(conn, :show, template))
+
+      {:error, form} ->
+        render(conn, "edit.html", template: template, form: form)
+    end
   end
 
   def delete(conn, %{"id" => id}) do

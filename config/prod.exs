@@ -4,7 +4,7 @@ config :code_fund, CodeFundWeb.Endpoint,
   load_from_system_env: true,
   url: [
     scheme: "https",
-    host: (System.get_env("HOST") || "codefund.io"),
+    host: System.get_env("HOST") || "codefund.io",
     port: System.get_env("PORT")
   ],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],

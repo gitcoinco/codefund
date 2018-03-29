@@ -5,12 +5,13 @@ defmodule CodeFundWeb.SponsorshipController do
   alias CodeFund.Schema.Sponsorship
   alias CodeFundWeb.SponsorshipType
 
-  plug CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin", "sponsor"]]
+  plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
   def index(conn, params) do
     case Sponsorships.paginate_sponsorships(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering sponsorships. #{inspect(error)}")
@@ -25,16 +26,17 @@ defmodule CodeFundWeb.SponsorshipController do
 
   def create(conn, %{"sponsorship" => sponsorship_params}) do
     SponsorshipType
-      |> create_form(%Sponsorship{}, sponsorship_params)
-      |> insert_form_data
-      |> case do
-        {:ok, sponsorship} ->
-          conn
-          |> put_flash(:info, "Sponsorship created successfully.")
-          |> redirect(to: sponsorship_path(conn, :show, sponsorship))
-        {:error, form} ->
-          render(conn, "new.html", form: form)
-      end
+    |> create_form(%Sponsorship{}, sponsorship_params)
+    |> insert_form_data
+    |> case do
+      {:ok, sponsorship} ->
+        conn
+        |> put_flash(:info, "Sponsorship created successfully.")
+        |> redirect(to: sponsorship_path(conn, :show, sponsorship))
+
+      {:error, form} ->
+        render(conn, "new.html", form: form)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -52,16 +54,17 @@ defmodule CodeFundWeb.SponsorshipController do
     sponsorship = Sponsorships.get_sponsorship!(id)
 
     SponsorshipType
-      |> create_form(sponsorship, sponsorship_params)
-      |> update_form_data
-      |> case do
-        {:ok, sponsorship} ->
-          conn
-          |> put_flash(:info, "Sponsorship updated successfully.")
-          |> redirect(to: sponsorship_path(conn, :show, sponsorship))
-        {:error, form} ->
-          render(conn, "edit.html", sponsorship: sponsorship, form: form)
-      end
+    |> create_form(sponsorship, sponsorship_params)
+    |> update_form_data
+    |> case do
+      {:ok, sponsorship} ->
+        conn
+        |> put_flash(:info, "Sponsorship updated successfully.")
+        |> redirect(to: sponsorship_path(conn, :show, sponsorship))
+
+      {:error, form} ->
+        render(conn, "edit.html", sponsorship: sponsorship, form: form)
+    end
   end
 
   def delete(conn, %{"id" => id}) do

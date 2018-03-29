@@ -7,21 +7,21 @@ defmodule CodeFund.Schema.User do
   @foreign_key_type :binary_id
 
   schema "users" do
-    has_many :campaigns, CodeFund.Schema.Campaign
-    has_many :properties, CodeFund.Schema.Property
-    has_many :creatives, CodeFund.Schema.Creative
+    has_many(:campaigns, CodeFund.Schema.Campaign)
+    has_many(:properties, CodeFund.Schema.Property)
+    has_many(:creatives, CodeFund.Schema.Creative)
 
-    field :first_name, :string
-    field :last_name, :string
-    field :email, :string
-    field :address_1, :string
-    field :address_2, :string
-    field :city, :string
-    field :region, :string
-    field :postal_code, :string
-    field :country, :string
-    field :roles, {:array, :string}
-    field :revenue_rate, :decimal
+    field(:first_name, :string)
+    field(:last_name, :string)
+    field(:email, :string)
+    field(:address_1, :string)
+    field(:address_2, :string)
+    field(:city, :string)
+    field(:region, :string)
+    field(:postal_code, :string)
+    field(:country, :string)
+    field(:roles, {:array, :string})
+    field(:revenue_rate, :decimal)
 
     coherence_schema()
 
@@ -45,9 +45,12 @@ defmodule CodeFund.Schema.User do
 
   def changeset(model, params, :password) do
     model
-    |> cast(params, ~w(password password_confirmation reset_password_token reset_password_sent_at))
+    |> cast(
+      params,
+      ~w(password password_confirmation reset_password_token reset_password_sent_at)
+    )
     |> validate_coherence_password_reset(params)
   end
 
-  defp fields(), do:  (__MODULE__.__schema__(:fields) |> List.delete(:id)) ++ coherence_fields()
+  defp fields(), do: (__MODULE__.__schema__(:fields) |> List.delete(:id)) ++ coherence_fields()
 end

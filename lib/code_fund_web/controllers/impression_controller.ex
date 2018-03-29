@@ -4,12 +4,13 @@ defmodule CodeFundWeb.ImpressionController do
   alias CodeFund.Impressions
   alias CodeFund.Schema.Impression
 
-  plug CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin"]]
+  plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin"])
 
   def index(conn, params) do
     case Impressions.paginate_impressions(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering Impressions. #{inspect(error)}")
@@ -28,6 +29,7 @@ defmodule CodeFundWeb.ImpressionController do
         conn
         |> put_flash(:info, "Impression created successfully.")
         |> redirect(to: impression_path(conn, :show, impression))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -52,6 +54,7 @@ defmodule CodeFundWeb.ImpressionController do
         conn
         |> put_flash(:info, "Impression updated successfully.")
         |> redirect(to: impression_path(conn, :show, impression))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", impression: impression, changeset: changeset)
     end

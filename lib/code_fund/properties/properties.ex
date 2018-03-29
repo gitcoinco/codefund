@@ -23,20 +23,20 @@ defmodule CodeFund.Properties do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:properties), params["property"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_properties(user, filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:properties), params["property"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_properties(user, filter, params) do
       {:ok,
-        %{
-          properties: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         properties: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -50,6 +50,7 @@ defmodule CodeFund.Properties do
         |> preload(:sponsorship)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
+
       false ->
         Property
         |> where([p], p.user_id == ^user.id)
@@ -90,7 +91,7 @@ defmodule CodeFund.Properties do
     try do
       case Ecto.UUID.cast(id) do
         {:ok, _} -> Repo.get!(Property, id) |> Repo.preload(:user)
-        :error   -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :sponsorship])
+        :error -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :sponsorship])
       end
     rescue
       Ecto.NoResultsError ->
@@ -98,7 +99,8 @@ defmodule CodeFund.Properties do
     end
   end
 
-  def get_property_by_name!(name), do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :sponsorship])
+  def get_property_by_name!(name),
+    do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :sponsorship])
 
   @doc """
   Creates a property.
@@ -167,9 +169,9 @@ defmodule CodeFund.Properties do
 
   defp filter_config(:properties) do
     defconfig do
-      text :name
-      text :url
-      text :description
+      text(:name)
+      text(:url)
+      text(:description)
     end
   end
 end

@@ -23,7 +23,7 @@ defmodule CodeFund.Creatives do
   """
   def list_templates do
     Template
-    |> Repo.all
+    |> Repo.all()
     |> Repo.preload([:themes])
   end
 
@@ -39,20 +39,20 @@ defmodule CodeFund.Creatives do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:templates), params["template"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_templates(filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:templates), params["template"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_templates(filter, params) do
       {:ok,
-        %{
-          templates: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         templates: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -165,7 +165,7 @@ defmodule CodeFund.Creatives do
   """
   def list_themes do
     Theme
-    |> Repo.all
+    |> Repo.all()
     |> Repo.preload([:template])
   end
 
@@ -182,19 +182,18 @@ defmodule CodeFund.Creatives do
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
     with {:ok, filter} <- Filtrex.parse_params(filter_config(:themes), params["theme"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_themes(filter, params) do
+         %Scrivener.Page{} = page <- do_paginate_themes(filter, params) do
       {:ok,
-        %{
-          themes: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         themes: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -319,20 +318,20 @@ defmodule CodeFund.Creatives do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:creatives), params["creative"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_creatives(filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:creatives), params["creative"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_creatives(filter, params) do
       {:ok,
-        %{
-          creatives: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         creatives: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -427,25 +426,23 @@ defmodule CodeFund.Creatives do
     Creative.changeset(creative, %{})
   end
 
-
-
   defp filter_config(:templates) do
     defconfig do
-      text :name
-      text :slug
+      text(:name)
+      text(:slug)
     end
   end
 
   defp filter_config(:themes) do
     defconfig do
-      text :name
-      text :slug
+      text(:name)
+      text(:slug)
     end
   end
 
   defp filter_config(:creatives) do
     defconfig do
-      text :name
+      text(:name)
     end
   end
 end

@@ -4,11 +4,15 @@ defmodule CodeFundWeb.UserController do
   alias CodeFund.Repo
   alias CodeFund.Schema.User
 
-  plug CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin"]] when action in [:index, :masquerade]
+  plug(CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin"]] when action in [:index, :masquerade])
   use Coherence.Config
 
   def index(conn, _params) do
-    render conn, "index.html", users: Repo.all from u in User, preload: [:properties], order_by: u.first_name
+    render(
+      conn,
+      "index.html",
+      users: Repo.all(from(u in User, preload: [:properties], order_by: u.first_name))
+    )
   end
 
   def masquerade(conn, %{"id" => user_id}) do

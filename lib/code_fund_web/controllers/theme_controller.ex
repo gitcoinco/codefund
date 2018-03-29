@@ -5,12 +5,13 @@ defmodule CodeFundWeb.ThemeController do
   alias CodeFund.Schema.Theme
   alias CodeFundWeb.ThemeType
 
-  plug CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin"]]
+  plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin"])
 
   def index(conn, params) do
     case Creatives.paginate_themes(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering themes. #{inspect(error)}")
@@ -25,16 +26,17 @@ defmodule CodeFundWeb.ThemeController do
 
   def create(conn, %{"theme" => theme_params}) do
     ThemeType
-      |> create_form(%Theme{}, theme_params)
-      |> insert_form_data
-      |> case do
-        {:ok, theme} ->
-          conn
-          |> put_flash(:info, "Theme created successfully.")
-          |> redirect(to: theme_path(conn, :show, theme))
-        {:error, form} ->
-          render(conn, "new.html", form: form)
-      end
+    |> create_form(%Theme{}, theme_params)
+    |> insert_form_data
+    |> case do
+      {:ok, theme} ->
+        conn
+        |> put_flash(:info, "Theme created successfully.")
+        |> redirect(to: theme_path(conn, :show, theme))
+
+      {:error, form} ->
+        render(conn, "new.html", form: form)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -52,16 +54,17 @@ defmodule CodeFundWeb.ThemeController do
     theme = Creatives.get_theme!(id)
 
     ThemeType
-      |> create_form(theme, theme_params)
-      |> update_form_data
-      |> case do
-        {:ok, theme} ->
-          conn
-          |> put_flash(:info, "Theme updated successfully.")
-          |> redirect(to: theme_path(conn, :show, theme))
-        {:error, form} ->
-          render(conn, "edit.html", theme: theme, form: form)
-      end
+    |> create_form(theme, theme_params)
+    |> update_form_data
+    |> case do
+      {:ok, theme} ->
+        conn
+        |> put_flash(:info, "Theme updated successfully.")
+        |> redirect(to: theme_path(conn, :show, theme))
+
+      {:error, form} ->
+        render(conn, "edit.html", theme: theme, form: form)
+    end
   end
 
   def delete(conn, %{"id" => id}) do

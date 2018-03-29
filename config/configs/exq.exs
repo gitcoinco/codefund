@@ -17,5 +17,4 @@ config :exq,
   max_retries: 5,
   shutdown_timeout: 5000
 
-config :exq_ui,
-  server: true
+config :exq_ui, server: true

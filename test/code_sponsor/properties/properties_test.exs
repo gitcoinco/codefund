@@ -12,8 +12,18 @@ defmodule CodeFund.PropertiesTest do
   describe "properties" do
     alias CodeFund.Schema.Property
 
-    @valid_attrs %{description: "some description", name: "some name", property_type: 42, url: "some url"}
-    @update_attrs %{description: "some updated description", name: "some updated name", property_type: 43, url: "some updated url"}
+    @valid_attrs %{
+      description: "some description",
+      name: "some name",
+      property_type: 42,
+      url: "some url"
+    }
+    @update_attrs %{
+      description: "some updated description",
+      name: "some updated name",
+      property_type: 43,
+      url: "some updated url"
+    }
     @invalid_attrs %{description: nil, name: nil, property_type: nil, url: nil}
 
     test "list_properties/0 returns all properties", %{property: property} do
@@ -35,7 +45,7 @@ defmodule CodeFund.PropertiesTest do
       assert property.user_id == user.id
     end
 
-    test "create_property/1 without a user raises ecto changeset error"do
+    test "create_property/1 without a user raises ecto changeset error" do
       assert {:error, %Ecto.Changeset{} = changeset} = Properties.create_property(@valid_attrs)
       assert changeset.errors == [user_id: {"can't be blank", [validation: :required]}]
     end

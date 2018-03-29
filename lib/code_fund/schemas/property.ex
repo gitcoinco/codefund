@@ -10,16 +10,17 @@ defmodule CodeFund.Schema.Property do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "properties" do
-    has_many :impressions, CodeFund.Schema.Impression
-    has_many :clicks, CodeFund.Schema.Click
-    belongs_to :sponsorship, CodeFund.Schema.Sponsorship
-    belongs_to :user, CodeFund.Schema.User
-    
-    field :legacy_id, :string # This is used to tranfer legacy sponsored projects to the new system
-    field :description, :string
-    field :name, :string
-    field :property_type, :integer
-    field :url, :string
+    has_many(:impressions, CodeFund.Schema.Impression)
+    has_many(:clicks, CodeFund.Schema.Click)
+    belongs_to(:sponsorship, CodeFund.Schema.Sponsorship)
+    belongs_to(:user, CodeFund.Schema.User)
+
+    # This is used to tranfer legacy sponsored projects to the new system
+    field(:legacy_id, :string)
+    field(:description, :string)
+    field(:name, :string)
+    field(:property_type, :integer)
+    field(:url, :string)
 
     timestamps()
   end

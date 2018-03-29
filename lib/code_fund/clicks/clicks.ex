@@ -22,19 +22,18 @@ defmodule CodeFund.Clicks do
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
     with {:ok, filter} <- Filtrex.parse_params(filter_config(:clicks), params["click"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_clicks(filter, params) do
+         %Scrivener.Page{} = page <- do_paginate_clicks(filter, params) do
       {:ok,
-        %{
-          clicks: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         clicks: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -113,8 +112,9 @@ defmodule CodeFund.Clicks do
   end
 
   def set_status(%Click{} = click, status, attrs \\ %{}) do
-    status_int = Click.statuses[status]
+    status_int = Click.statuses()[status]
     attrs = Map.merge(attrs, %{status: status_int})
+
     click
     |> Click.changeset(attrs)
     |> Repo.update()
@@ -133,15 +133,19 @@ defmodule CodeFund.Clicks do
 
   """
   def is_duplicate?(sponsorship_id, ip_address) do
-    query = from c in Click,
-              select: count(c.id),
-              where: [
-                sponsorship_id: ^sponsorship_id,
-                ip: ^ip_address,
-                status: ^Click.statuses[:redirected]
-              ],
-              where: c.inserted_at >= ^Timex.shift(Timex.now, days: -7)
-    matches = query |> Repo.one
+    query =
+      from(
+        c in Click,
+        select: count(c.id),
+        where: [
+          sponsorship_id: ^sponsorship_id,
+          ip: ^ip_address,
+          status: ^Click.statuses()[:redirected]
+        ],
+        where: c.inserted_at >= ^Timex.shift(Timex.now(), days: -7)
+      )
+
+    matches = query |> Repo.one()
     matches > 0
   end
 
@@ -176,7 +180,7 @@ defmodule CodeFund.Clicks do
 
   defp filter_config(:clicks) do
     defconfig do
-      text :ip
+      text(:ip)
     end
   end
 end

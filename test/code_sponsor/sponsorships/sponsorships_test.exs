@@ -71,7 +71,8 @@ defmodule CodeFund.SponsorshipsTest do
     test "update_sponsorship/2 with valid data updates the sponsorship" do
       sponsorship = insert(:sponsorship, bid_amount: Decimal.new(1))
       assert {:ok, sponsorship} = Sponsorships.update_sponsorship(sponsorship, @update_attrs)
-      sponsorship = Sponsorships.get_sponsorship!(sponsorship.id) # reload
+      # reload
+      sponsorship = Sponsorships.get_sponsorship!(sponsorship.id)
       assert %Sponsorship{} = sponsorship
       assert sponsorship.bid_amount == Decimal.new(2.25)
     end
@@ -82,7 +83,10 @@ defmodule CodeFund.SponsorshipsTest do
       assert {:error, %Ecto.Changeset{}} =
                Sponsorships.update_sponsorship(sponsorship, @invalid_attrs)
 
-      assert Decimal.equal?(sponsorship.bid_amount, Sponsorships.get_sponsorship!(sponsorship.id).bid_amount)
+      assert Decimal.equal?(
+               sponsorship.bid_amount,
+               Sponsorships.get_sponsorship!(sponsorship.id).bid_amount
+             )
     end
 
     test "delete_sponsorship/1 deletes the sponsorship" do

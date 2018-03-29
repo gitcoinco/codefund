@@ -5,13 +5,15 @@ defmodule CodeFundWeb.CampaignController do
   alias CodeFund.Schema.Campaign
   alias CodeFundWeb.CampaignType
 
-  plug CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin", "sponsor"]]
+  plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
   def index(conn, params) do
     current_user = conn.assigns.current_user
+
     case Campaigns.paginate_campaigns(current_user, params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering Campaigns. #{inspect(error)}")
@@ -28,16 +30,17 @@ defmodule CodeFundWeb.CampaignController do
     current_user = conn.assigns.current_user
 
     CampaignType
-      |> create_form(%Campaign{}, campaign_params, user: current_user)
-      |> insert_form_data
-      |> case do
-        {:ok, campaign} ->
-          conn
-          |> put_flash(:info, "Campaign created successfully.")
-          |> redirect(to: campaign_path(conn, :show, campaign))
-        {:error, form} ->
-          render(conn, "new.html", form: form)
-      end
+    |> create_form(%Campaign{}, campaign_params, user: current_user)
+    |> insert_form_data
+    |> case do
+      {:ok, campaign} ->
+        conn
+        |> put_flash(:info, "Campaign created successfully.")
+        |> redirect(to: campaign_path(conn, :show, campaign))
+
+      {:error, form} ->
+        render(conn, "new.html", form: form)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -56,16 +59,17 @@ defmodule CodeFundWeb.CampaignController do
     campaign = Campaigns.get_campaign!(id)
 
     CampaignType
-      |> create_form(campaign, campaign_params, user: current_user)
-      |> update_form_data
-      |> case do
-        {:ok, campaign} ->
-          conn
-          |> put_flash(:info, "Campaign updated successfully.")
-          |> redirect(to: campaign_path(conn, :show, campaign))
-        {:error, form} ->
-          render(conn, "edit.html", campaign: campaign, form: form)
-      end
+    |> create_form(campaign, campaign_params, user: current_user)
+    |> update_form_data
+    |> case do
+      {:ok, campaign} ->
+        conn
+        |> put_flash(:info, "Campaign updated successfully.")
+        |> redirect(to: campaign_path(conn, :show, campaign))
+
+      {:error, form} ->
+        render(conn, "edit.html", campaign: campaign, form: form)
+    end
   end
 
   def delete(conn, %{"id" => id}) do

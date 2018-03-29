@@ -3,8 +3,9 @@ defmodule CodeFundWeb.Coherence do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/code_fund_web/templates",
-                        namespace: CodeFundWeb
+      use Phoenix.View,
+        root: "lib/code_fund_web/templates",
+        namespace: CodeFundWeb
 
       # Import convenience functions from controllers
 
