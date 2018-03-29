@@ -10,6 +10,7 @@ defmodule CodeFundWeb.AdServeController do
     template      = Creatives.get_template_by_slug(template_slug)
     targetId      = params["target"] || "codefund_ad"
 
+    # TODO: refactor this into two different methods, and use if is_nil(template) to invoke the correct one
     cond do
       template == nil ->
         templates = Creatives.list_templates()

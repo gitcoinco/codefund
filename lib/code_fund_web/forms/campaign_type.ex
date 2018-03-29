@@ -13,7 +13,7 @@ defmodule CodeFundWeb.CampaignType do
         placeholder: "https://"
       ])
     |> add(:status, :select, label: "Status", choices: ["Pending": 1, "Active": 2, "Archived": 3])
-    |> add(:description, :textarea, label: "Description", phoenix_opts: [ rows: 4 ], required: false)
+    |> add(:description, :textarea, label: "Description", phoenix_opts: [rows: 4], required: false)
     |> add(:bid_amount, :number_input,
       label: "Bid Amount",
       validation: [:required],

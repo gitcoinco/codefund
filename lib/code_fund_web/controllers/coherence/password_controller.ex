@@ -58,7 +58,7 @@ defmodule CodeFundWeb.Coherence.PasswordController do
       user ->
         token = random_string 48
         url = router_helpers().password_url(conn, :edit, token)
-        Logger.debug "reset email url: #{inspect url}"
+        Logger.debug(fn -> "reset email url: #{inspect url}" end)
         dt = Ecto.DateTime.utc
         cs = Helpers.changeset(:password, user_schema, user,
           %{reset_password_token: token, reset_password_sent_at: dt})

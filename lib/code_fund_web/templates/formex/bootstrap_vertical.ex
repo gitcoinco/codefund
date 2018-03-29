@@ -8,11 +8,10 @@ defmodule CodeFundWeb.Formex.BootstrapVertical do
 
   def generate_row(form, item, options \\ [])
 
-  def generate_row(form, field = %Field{}, _options) do
+  def generate_row(form, %Field{} = field, _options) do
     input = generate_input(form, field)
+    |> attach_addon(field)
     label = generate_label(form, field)
-
-    input = attach_addon(input, field)
 
     tags = [label, input]
     |> attach_error(form, field)
@@ -24,7 +23,7 @@ defmodule CodeFundWeb.Formex.BootstrapVertical do
     content_tag(:div, tags, class: Enum.join(wrapper_class, " "))
   end
 
-  def generate_row(form, button = %Button{}, _options) do
+  def generate_row(form, %Button{} = button, _options) do
     generate_input(form, button)
   end
 

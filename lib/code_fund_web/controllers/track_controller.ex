@@ -104,9 +104,10 @@ defmodule CodeFundWeb.TrackController do
               else
                 revenue = Money.new(sponsorship.bid_amount, :USD)
 
-                revenue_rate = cond do
-                  sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
-                  true -> sponsorship.property.user.revenue_rate
+                revenue_rate = if is_nil(sponsorship.override_revenue_rate) do
+                  sponsorship.property.user.revenue_rate
+                else
+                  sponsorship.override_revenue_rate
                 end
 
                 distribution = case Money.mult(revenue, revenue_rate) do
@@ -137,6 +138,7 @@ defmodule CodeFundWeb.TrackController do
     end
   end
 
+  # TODO - This function is too complex! Refactor is necessary
   def click(conn, %{"sponsorship_id" => sponsorship_id} = params) do
     try do
       sponsorship = Sponsorships.get_sponsorship!(sponsorship_id)
@@ -174,9 +176,10 @@ defmodule CodeFundWeb.TrackController do
               else
                 revenue = Money.new(sponsorship.bid_amount, :USD)
 
-                revenue_rate = cond do
-                  sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
-                  true -> sponsorship.property.user.revenue_rate
+                revenue_rate = if is_nil(sponsorship.override_revenue_rate) do
+                  sponsorship.property.user.revenue_rate
+                else
+                  sponsorship.override_revenue_rate
                 end
 
                 distribution = case Money.mult(revenue, revenue_rate) do
@@ -213,9 +216,10 @@ defmodule CodeFundWeb.TrackController do
 
     revenue = Money.new(sponsorship.bid_amount, :USD)
 
-    revenue_rate = cond do
-      sponsorship.override_revenue_rate != nil -> sponsorship.override_revenue_rate
-      true -> sponsorship.property.user.revenue_rate
+    revenue_rate = if is_nil(sponsorship.override_revenue_rate) do
+      sponsorship.property.user.revenue_rate
+    else
+      sponsorship.override_revenue_rate
     end
 
     distribution = case Money.mult(revenue, revenue_rate) do
@@ -325,15 +329,17 @@ defmodule CodeFundWeb.TrackController do
       distribution_amount: 0
     }
 
-
-    click_params = if sponsorship do
-      Map.merge(click_params, %{
+    created_click = if sponsorship do
+      click_params
+      |> Map.merge(%{
         campaign_id:    sponsorship.campaign_id,
         sponsorship_id: sponsorship.id,
       })
-    end
+    else
+      click_params 
+    end |> Clicks.create_click()
 
-    case Clicks.create_click(click_params) do
+    case created_click do
       {:ok, click} ->
         {:ok, click}
       {:error, %Ecto.Changeset{}} ->
