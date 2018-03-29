@@ -91,6 +91,9 @@ defmodule CodeFund.Stats.Clicks do
   def count_by_day(start_date, end_date) when start_date <= end_date do
     from(
       c in Click,
+      where: c.is_bot == false,
+      where: c.is_duplicate == false,
+      where: c.is_fraud == false,
       where: fragment("?::date", c.inserted_at) >= ^start_date,
       where: fragment("?::date", c.inserted_at) <= ^end_date,
       group_by: fragment("date_trunc('day', ?)", field(c, ^:inserted_at)),
@@ -102,6 +105,9 @@ defmodule CodeFund.Stats.Clicks do
   def count_by_day(%Property{} = property, start_date, end_date) when start_date <= end_date do
     from(
       c in Click,
+      where: c.is_bot == false,
+      where: c.is_duplicate == false,
+      where: c.is_fraud == false,
       where: c.property_id == ^property.id,
       where: fragment("?::date", c.inserted_at) >= ^start_date,
       where: fragment("?::date", c.inserted_at) <= ^end_date,
@@ -115,6 +121,9 @@ defmodule CodeFund.Stats.Clicks do
       when start_date <= end_date do
     from(
       c in Click,
+      where: c.is_bot == false,
+      where: c.is_duplicate == false,
+      where: c.is_fraud == false,
       where: c.sponsorship_id == ^sponsorship.id,
       where: fragment("?::date", c.inserted_at) >= ^start_date,
       where: fragment("?::date", c.inserted_at) <= ^end_date,
@@ -127,23 +136,14 @@ defmodule CodeFund.Stats.Clicks do
   def count_by_day(%Campaign{} = campaign, start_date, end_date) when start_date <= end_date do
     from(
       c in Click,
+      where: c.is_bot == false,
+      where: c.is_duplicate == false,
+      where: c.is_fraud == false,
       where: c.campaign_id == ^campaign.id,
       where: fragment("?::date", c.inserted_at) >= ^start_date,
       where: fragment("?::date", c.inserted_at) <= ^end_date,
       group_by: fragment("date_trunc('day', ?)", field(c, ^:inserted_at)),
       select: [fragment("date_trunc('day', ?)", field(c, ^:inserted_at)), count("*")]
-    )
-    |> to_date_map()
-  end
-
-  def count_by_day(%Campaign{} = campaign, start_date, end_date) when start_date <= end_date do
-    from(
-      i in Impression,
-      where: i.campaign_id == ^campaign.id,
-      where: fragment("?::date", i.inserted_at) >= ^start_date,
-      where: fragment("?::date", i.inserted_at) <= ^end_date,
-      group_by: fragment("date_trunc('day', ?)", field(i, ^:inserted_at)),
-      select: [fragment("date_trunc('day', ?)", field(i, ^:inserted_at)), count("*")]
     )
     |> to_date_map()
   end
@@ -159,6 +159,9 @@ defmodule CodeFund.Stats.Clicks do
 
     from(
       c in Click,
+      where: c.is_bot == false,
+      where: c.is_duplicate == false,
+      where: c.is_fraud == false,
       where: c.campaign_id in ^campaign_ids or c.property_id in ^property_ids,
       where: fragment("?::date", c.inserted_at) >= ^start_date,
       where: fragment("?::date", c.inserted_at) <= ^end_date,
