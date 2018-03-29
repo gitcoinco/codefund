@@ -69,6 +69,14 @@ cd ../
 mix phx.server
 ```
 
+#### What To Consider On Your Pull Requests
+
+1. Please run `mix format` prior to submitting a pull request.
+2. We're working on adding typespec to the codebase. Please consider adding them to your pull requests so we can move ahead quicker.
+3. Please make sure you've added, changed or removed tests accordingly for the code you've modified.
+4. Consider running `mix credo list --ignore readability,design,refactor` to make sure your code is consistent and styled well.
+5. Have fun!
+
 ## Road map
 
 We have a road map of what we are going to implement next.
