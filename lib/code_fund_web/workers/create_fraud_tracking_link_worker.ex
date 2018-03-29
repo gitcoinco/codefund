@@ -54,7 +54,7 @@ defmodule CodeFundWeb.CreateFraudTrackingLinkWorker do
     #
 
     with {:ok, %{status_code: 200, body: body}} <- HTTPoison.post(url, payload, headers),
-      %CodeFund.Schema.Campaign{} = campaign  <- body |>Poison.decode!(),
+      %CodeFund.Schema.Campaign{} = campaign  <- body |> Poison.decode!(),
       {:ok, %CodeFund.Schema.Campaign{}} <- campaign |> Campaigns.update_campaign(%{fraud_check_url: body["anywhere"]["short_link"]}),
       do: IO.puts("Updated campaign")
     else

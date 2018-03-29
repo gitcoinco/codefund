@@ -108,19 +108,18 @@ defmodule CodeFund.Sponsorships do
         order_by: [desc: c.bid_amount]
       )
 
-    cond do
-      campaign == nil ->
-        Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update
-        nil
-      true ->
-        sponsorship =
-          Repo.one(
-            from s in Sponsorship,
-            where: s.property_id == ^property.id,
-            where: s.campaign_id == ^campaign.id
-          )
-        Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update
-        sponsorship
+    if is_nil(campaign) do
+      Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update
+      nil
+    else
+      sponsorship =
+        Repo.one(
+          from s in Sponsorship,
+          where: s.property_id == ^property.id,
+          where: s.campaign_id == ^campaign.id
+        )
+      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update
+      sponsorship
     end
   end
 

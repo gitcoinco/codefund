@@ -173,7 +173,7 @@ defmodule Coherence.ControllerHelpers do
     if user_schema.confirmable? do
       token = random_string 48
       url = router_helpers().confirmation_url(conn, :edit, token)
-      Logger.debug "confirmation email url: #{inspect url}"
+      Logger.debug(fn -> "confirmation email url: #{inspect url}" end)
       dt = Ecto.DateTime.utc
       user
       |> user_schema.changeset(%{confirmation_token: token,
