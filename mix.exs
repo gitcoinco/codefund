@@ -78,7 +78,7 @@ defmodule CodeFund.Mixfile do
       {:scrivener_ecto, "~> 1.0"},
       {:scrivener_html, "~> 1.7"},
       {:filtrex, "~> 0.4.1"},
-      {:formex, "~> 0.6.0"},
+      {:formex, "~> 0.6.3"},
       {:formex_ecto, "~> 0.1.0"},
       {:timex, "~> 3.1"},
       {:timex_ecto, "~> 3.0"},

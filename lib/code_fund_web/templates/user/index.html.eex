@@ -15,8 +15,8 @@
               <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Number of Properties</th>
-                <th>Actions</th>
+                <th class="text-center"># Properties</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -24,8 +24,12 @@
                 <tr>
                   <td><%= "#{user.first_name} #{user.last_name}" %></td>
                   <td><%= user.email %></td>
-                  <td><%= user.properties |> Enum.count %></td>
-                  <td><%= link("Masquerade", to: user_path(@conn, :masquerade, user))%></td>
+                  <td class="text-center"><%= user.properties |> Enum.count %></td>
+                  <td class="text-right p-2">
+                    <%= link 'Masquerade', to: user_path(@conn, :masquerade, user), class: "btn btn-outline-warning btn-sm" %>
+                    <%= link 'Show', to: user_path(@conn, :show, user), class: "btn btn-outline-info btn-sm" %>
+                    <%= link 'Edit', to: user_path(@conn, :edit, user), class: "btn btn-outline-primary btn-sm" %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>

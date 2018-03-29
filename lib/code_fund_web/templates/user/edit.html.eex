@@ -1,0 +1,34 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Users", to: user_path(@conn, :index) %></li>
+  <li class="breadcrumb-item"><%= link full_name(@user), to: user_path(@conn, :show, @user) %></li>
+  <li class="breadcrumb-item active">Edit User</li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <%= formex_form_for @form, user_path(@conn, :update, @user), [method: :put, class: "form-horizontal"], fn f -> %>
+        <%= if @form.submitted? do %>
+          <div class="alert alert-danger" role="alert">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        <% end %>
+        <%= formex_row f, :first_name %>
+        <%= formex_row f, :last_name %>
+        <%= formex_row f, :email %>
+        <%= formex_row f, :address_1 %>
+        <%= formex_row f, :address_2 %>
+        <%= formex_row f, :city %>
+        <%= formex_row f, :region %>
+        <%= formex_row f, :postal_code %>
+        <%= formex_row f, :country %>
+        <%= formex_row f, :revenue_rate %>
+        
+        <!-- TODO: Insert multi-select roles (array) -->
+        
+        <%= formex_row f, :save %>
+      <% end %>
+    </div>
+  </div>
+</div>
