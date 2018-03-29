@@ -36,7 +36,7 @@ defmodule CodeFundWeb.TrackControllerTest do
       user        = insert(:user)
       campaign    = insert(:campaign)
       sponsorship = insert(:sponsorship, bid_amount: Decimal.new(1.25), campaign: campaign)
-      property    = insert(:property, user: user, sponsorship: sponsorship)
+      insert(:property, user: user, sponsorship: sponsorship)
 
       conn =
         conn
