@@ -1,4 +1,4 @@
-defmodule CodeSponsorWeb.ChannelCase do
+defmodule CodeFundWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule CodeSponsorWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint CodeSponsorWeb.Endpoint
+      @endpoint CodeFundWeb.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(CodeSponsor.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(CodeFund.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(CodeSponsor.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(CodeFund.Repo, {:shared, self()})
     end
     :ok
   end

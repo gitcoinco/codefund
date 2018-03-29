@@ -1,12 +1,14 @@
-# Code Sponsor
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
-[![Build Status](https://travis-ci.org/codesponsor/web.svg?branch=master)](https://travis-ci.org/codesponsor/web)
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/codesponsor/web.svg?columns=all)](https://waffle.io/codesponsor/web)
+# CodeFund
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
+[![Build Status](https://travis-ci.org/gitcoinco/codefund.svg?branch=master)](https://travis-ci.org/codesponsor/web)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/gitcoinco/codefund.svg?columns=all)](https://waffle.io/codesponsor/web)
 
 
-Code Sponsor is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codesponsor.io](https://codesponsor.io)
+CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codefund.io](https://codefund.io/t/s/76674f2b-a37b-4bf7-8e20-25d3913f0012/)
 
-Here are a few blog posts and podcasts that discuss Code Sponsor:
+<img src="https://codefund.io/t/p/76674f2b-a37b-4bf7-8e20-25d3913f0012/pixel.png" width="1" height="1" style="width: 1px; height: 1px;" />
+
+Here are a few blog posts and podcasts that discuss CodeFund:
 
 * [Fighting for Open Source Sustainability: Introducing Code Sponsor](https://medium.com/code-sponsor/fighting-for-open-source-sustainability-introducing-code-sponsor-577e0ccca025)
 * [Why Funding Open Source is Hard](https://medium.com/@codesponsor/why-funding-open-source-is-hard-652b7055569d)
@@ -17,14 +19,14 @@ Here are a few blog posts and podcasts that discuss Code Sponsor:
 # Table of Contents
 - [What is this?](#what-is-this)
 - [Why is it open source?](#why-is-it-open-source)
-- [Install](#install)
+- [Development](#development)
 - [Road map](#road-map)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
 
 ## What is this?
 
-This is the software behind [codesponsor.io](https://codesponsor.io). It's an [Elixir](http://elixir-lang.org) application built on the [Phoenix](http://www.phoenixframework.org) web framework, [PostgreSQL](https://www.postgresql.org), and [many](https://github.com/gitcoinco/codefund/blob/master/mix.exs#L42) [other](https://github.com/gitcoinco/codefund/blob/master/assets/package.json) great open source efforts.
+This is the software behind [codefund.io](https://codefund.io/t/s/76674f2b-a37b-4bf7-8e20-25d3913f0012/). It's an [Elixir](http://elixir-lang.org) application built on the [Phoenix](http://www.phoenixframework.org) web framework, [PostgreSQL](https://www.postgresql.org), and [many](https://github.com/gitcoinco/codefund/blob/master/mix.exs#L42) [other](https://github.com/gitcoinco/codefund/blob/master/assets/package.json) great open source efforts.
 
 ## Why is it open source?
 
@@ -44,16 +46,16 @@ A few reasons:
 4. Built the phoenix app into image: docker-compose build
 5. Create the database: docker-compose run web mix ecto.create
 6. Run the migrations: docker-compose run web mix ecto.migrate
-7. Seed the db: docker-compose run web mix code_sponsor.seed
+7. Seed the db: docker-compose run web mix code_fund.seed
 8. Run the services: docker-compose up -d
-9. Visit [localhost:4000](http://localhost:4000) to see code sponsor running.
+9. Visit [localhost:4000](http://localhost:4000) to see CodeFund running.
 
 #### Without Docker (native setup)
 
-Here are some basic stemps to get Code Sponsor running:
+Here are some basic steps to get CodeFund running:
 
 ```shell
-git clone git@github.com:codesponsor/web.git
+git clone git@github.com:gitcoinco/codefund.git
 cd web/
 # Optionally set the following environment variables (see .env-sample)
 # config postgres in config/dev.exs
@@ -61,7 +63,7 @@ cd web/
 mix deps.get
 mix ecto.create
 mix ecto.migrate
-mix code_sponsor.seed
+mix code_fund.seed
 cd assets && npm install
 cd ../
 mix phx.server
@@ -71,7 +73,7 @@ mix phx.server
 
 We have a road map of what we are going to implement next.
 
-[Code Sponsor Q1 Goals](https://github.com/gitcoinco/codefund/issues/1)
+[CodeFund Q1 Goals](https://github.com/gitcoinco/codefund/issues/1)
 
 If you wish to add features that are not on the road map, you're very welcome to do so. We encourage you to
 [create an Issue](https://github.com/gitcoinco/codefund/issues/new)
@@ -87,6 +89,6 @@ Please keep in mind that the focus is to create a great platform, so we might no
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codesponsor.io)<br />[💻](https://github.com/gitcoinco/codefund/commits?author=coderberry "Code") [📖](https://github.com/gitcoinco/codefund/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") | [<img src="https://avatars1.githubusercontent.com/u/660973?v=4" width="100px;"/><br /><sub><b>Miguel Angel Gordián</b></sub>](http://zoek1.github.com)<br />[💻](https://github.com/gitcoinco/codefund/commits?author=zoek1 "Code") [📖](https://github.com/gitcoinco/codefund/commits?author=zoek1 "Documentation") [🚇](#infra-zoek1 "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-zoek1 "Packaging/porting to new platform") | [<img src="https://avatars3.githubusercontent.com/u/1427179?v=4" width="100px;"/><br /><sub><b>Justin Bean</b></sub>](http://stareintothebeard.github.io/)<br />[💻](https://github.com/gitcoinco/codefund/commits?author=StareIntoTheBeard "Code") [📖](https://github.com/gitcoinco/codefund/commits?author=StareIntoTheBeard "Documentation") [🤔](#ideas-StareIntoTheBeard "Ideas, Planning, & Feedback") [⚠️](https://github.com/gitcoinco/codefundcommits?author=StareIntoTheBeard "Tests") |
-| :---: | :---: | :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codesponsor.io)<br />[💻](https://github.com/codesponsor/web/commits?author=coderberry "Code") [📖](https://github.com/codesponsor/web/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") | [<img src="https://avatars1.githubusercontent.com/u/660973?v=4" width="100px;"/><br /><sub><b>Miguel Angel Gordián</b></sub>](http://zoek1.github.com)<br />[💻](https://github.com/codesponsor/web/commits?author=zoek1 "Code") [📖](https://github.com/codesponsor/web/commits?author=zoek1 "Documentation") [🚇](#infra-zoek1 "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-zoek1 "Packaging/porting to new platform") | [<img src="https://avatars3.githubusercontent.com/u/1427179?v=4" width="100px;"/><br /><sub><b>Justin Bean</b></sub>](http://stareintothebeard.github.io/)<br />[💻](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Code") [📖](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Documentation") [🤔](#ideas-StareIntoTheBeard "Ideas, Planning, & Feedback") [⚠️](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Tests") | [<img src="https://avatars1.githubusercontent.com/u/4920000?v=4" width="100px;"/><br /><sub><b>bakaoh</b></sub>](https://github.com/bakaoh)<br />[💻](https://github.com/codesponsor/web/commits?author=bakaoh "Code") [📖](https://github.com/codesponsor/web/commits?author=bakaoh "Documentation") |
+| :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->

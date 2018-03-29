@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.CreateImpressions do
+defmodule CodeFund.Repo.Migrations.CreateImpressions do
   use Ecto.Migration
 
   def change do

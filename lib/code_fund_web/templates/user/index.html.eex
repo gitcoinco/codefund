@@ -1,0 +1,39 @@
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Users</li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+
+      <section>
+        <%= if length(@users) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Number of Properties</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for user <- @users do %>
+                <tr>
+                  <td><%= "#{user.first_name} #{user.last_name}" %></td>
+                  <td><%= user.email %></td>
+                  <td><%= user.properties |> Enum.count %></td>
+                  <td><%= link("Masquerade", to: user_path(@conn, :masquerade, user))%></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

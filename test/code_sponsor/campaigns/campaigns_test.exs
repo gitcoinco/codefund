@@ -1,10 +1,10 @@
-# defmodule CodeSponsor.CampaignsTest do
-#   use CodeSponsor.DataCase
+# defmodule CodeFund.CampaignsTest do
+#   use CodeFund.DataCase
 
-#   alias CodeSponsor.Campaigns
+#   alias CodeFund.Campaigns
 
 #   describe "campaigns" do
-#     alias CodeSponsor.Schema.Campaign
+#     alias CodeFund.Schema.Campaign
 
 #     @valid_attrs %{bid_amount_cents: 42, daily_budget_cents: 42, description: "some description", monthly_budget_cents: 42, name: "some name", redirect_url: "some redirect_url", status: 42}
 #     @update_attrs %{bid_amount_cents: 43, daily_budget_cents: 43, description: "some updated description", monthly_budget_cents: 43, name: "some updated name", redirect_url: "some updated redirect_url", status: 43}

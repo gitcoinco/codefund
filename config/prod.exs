@@ -1,10 +1,10 @@
 use Mix.Config
 
-config :code_sponsor, CodeSponsorWeb.Endpoint,
+config :code_fund, CodeFundWeb.Endpoint,
   load_from_system_env: true,
   url: [
     scheme: "https",
-    host: (System.get_env("HOST") || "codesponsor.io"),
+    host: (System.get_env("HOST") || "codefund.io"),
     port: System.get_env("PORT")
   ],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
@@ -15,12 +15,12 @@ config :code_sponsor, CodeSponsorWeb.Endpoint,
 config :logger, level: :info
 
 # Configure your database
-config :code_sponsor, CodeSponsor.Repo,
+config :code_fund, CodeFund.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
-  
+
 config :exq,
   name: Exq,
   host: System.get_env("REDIS_HOST"),

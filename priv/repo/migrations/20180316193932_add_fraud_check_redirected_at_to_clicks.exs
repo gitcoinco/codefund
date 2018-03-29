@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.AddFraudCheckRedirectedAtToClicks do
+defmodule CodeFund.Repo.Migrations.AddFraudCheckRedirectedAtToClicks do
   use Ecto.Migration
 
   def change do

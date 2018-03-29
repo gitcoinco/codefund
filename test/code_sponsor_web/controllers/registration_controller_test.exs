@@ -1,7 +1,7 @@
-defmodule CodeSponsorWeb.RegistrationControllerTest do
-  use CodeSponsorWeb.ConnCase
-  alias CodeSponsor.Repo
-  alias CodeSponsor.Schema.User
+defmodule CodeFundWeb.RegistrationControllerTest do
+  use CodeFundWeb.ConnCase
+  alias CodeFund.Repo
+  alias CodeFund.Schema.User
 
   describe "create" do
     test "sets role of new users as 'developer'", %{conn: conn} do

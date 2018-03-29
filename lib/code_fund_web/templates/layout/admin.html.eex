@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-controller="admin">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title><%= title @conn, "CodeFund" %></title>
+
+  <!-- Browser Icons -->
+  <link rel="shortcut icon" href="<%= static_path(@conn, "/images/codefund-logo-square.png") %>">
+  <link rel="apple-touch-icon" sizes="180x180" href="<%= static_path(@conn, "/apple-touch-icon.png") %>">
+  <link rel="icon" type="image/png" sizes="32x32" href="<%= static_path(@conn, "/favicon-32x32.png") %>">
+  <link rel="icon" type="image/png" sizes="16x16" href="<%= static_path(@conn, "/favicon-16x16.png") %>">
+  <link rel="manifest" href="<%= static_path(@conn, "/site.webmanifest") %>">
+  <link rel="mask-icon" href="<%= static_path(@conn, "/safari-pinned-tab.svg") %>" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Main styles for this application -->
+  <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
+
+  <script src="//www.google.com/jsapi"></script>
+
+  <!-- Main scripts (leave in header for Turbolinks) -->
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+</head>
+
+<body data-target="admin.body" class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <%= flash_element(@conn) %>
+  <header class="app-header navbar">
+    <button data-action="click->admin#toggleMobileSidebar" class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#"></a>
+    <button data-action="click->admin#toggleSidebar" class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="nav navbar-nav d-md-down-none mr-auto">
+      <li class="nav-item px-3">
+        <%= link "Dashboard", to: dashboard_path(@conn, :index), class: "nav-link" %>
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <img src="<%= current_user_gravatar_url(@conn) %>" class="img-avatar" alt="<%= current_user_email(@conn) %>">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-header text-center">
+            <strong>Account</strong>
+          </div>
+          <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
+          <%= link to: session_path(@conn, :delete), method: :delete, class: "dropdown-item" do %>
+            <i class="fa fa-lock"></i> Logout
+          <% end %>
+        </div>
+      </li>
+      <button data-action="click->admin#toggleAsideMenu" class="navbar-toggler aside-menu-toggler" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </ul>
+  </header>
+  <div class="app-body">
+    <div class="sidebar">
+      <nav class="sidebar-nav">
+        <ul class="nav">
+          <%= if Plug.Conn.get_session(@conn, "admin_user") != nil do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: user_path(
+                  @conn,
+                  :end_masquerade),
+                  class: "nav-link") do %>
+                <i class="icon-speedometer"></i>
+                Leave Masquerade
+              <% end %>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= active_link(@conn, to: dashboard_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-speedometer"></i>
+              Dashboard
+            <% end %>
+          </li>
+          <%= if has_any_role? @conn, ["admin", "developer"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-layers"></i>
+                Properties
+              <% end %>
+            </li>
+          <% end %>
+          <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: campaign_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-rocket"></i>
+                Campaigns
+              <% end %>
+          </li>
+          <% end %>
+          <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: creative_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-eye"></i>
+                Ad Creatives
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: sponsorship_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-energy"></i>
+                Sponsorships
+              <% end %>
+            </li>
+          <% end %>
+          <%= if has_any_role? @conn, ["admin"] do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: template_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-mustache"></i>
+                Templates
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: theme_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-picture"></i>
+                Themes
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: user_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-user"></i>
+                Users
+            <% end %>
+          <% end %>
+          <li class="nav-item">
+            <%= active_link(@conn, to: registration_path(@conn, :show), class: "nav-link") do %>
+              <i class="icon-user"></i>
+              Profile
+            <% end %>
+          </li>
+          </li>
+        </ul>
+      </nav>
+      <button data-action="click->admin#minimizeSidebarAndBrand" class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div>
+
+    <!-- Main content -->
+    <main class="main">
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+
+    <aside class="aside-menu">
+      REAL-TIME CONTENT GOES HERE
+    </aside>
+  </div>
+  <footer class="app-footer">
+    <span>&copy; 2018 <a href="https://consensys.net">ConsenSys</a>. All Rights Reserved</span>
+    <span class="ml-auto">Powered by <a href="https://github.com/gitcoinco/codefund">Open Source</a></span>
+  </footer>
+</body>
+</html>

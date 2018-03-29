@@ -1,4 +1,4 @@
-defmodule CodeSponsor.Repo.Migrations.CreateCoherenceUser do
+defmodule CodeFund.Repo.Migrations.CreateCoherenceUser do
   use Ecto.Migration
   def change do
     create table(:users, primary_key: false) do

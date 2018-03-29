@@ -13,7 +13,7 @@
       "login": "coderberry",
       "name": "Eric Berry",
       "avatar_url": "https://avatars2.githubusercontent.com/u/12481?v=4",
-      "profile": "https://codesponsor.io",
+      "profile": "https://codefund.io",
       "contributions": [
         "code",
         "doc",
@@ -42,6 +42,16 @@
         "doc",
         "ideas",
         "test"
+      ]
+    },
+    {
+      "login": "bakaoh",
+      "name": "bakaoh",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4920000?v=4",
+      "profile": "https://github.com/bakaoh",
+      "contributions": [
+        "code",
+        "doc"
       ]
     }
   ]
