@@ -26,13 +26,13 @@ defmodule CodeFundWeb.ConnCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(CodeFund.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(CodeFund.Repo, {:shared, self()})
     end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

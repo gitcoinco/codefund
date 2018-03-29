@@ -23,20 +23,20 @@ defmodule CodeFund.Sponsorships do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:sponsorships), params["sponsorship"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_sponsorships(filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:sponsorships), params["sponsorship"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_sponsorships(filter, params) do
       {:ok,
-        %{
-          sponsorships: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         sponsorships: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -61,7 +61,7 @@ defmodule CodeFund.Sponsorships do
   """
   def list_sponsorships do
     Sponsorship
-    |> Repo.all
+    |> Repo.all()
     |> Repo.preload([:property, :campaign, :creative])
   end
 
@@ -87,9 +87,13 @@ defmodule CodeFund.Sponsorships do
 
   def get_sponsorship_for_property(%Property{} = property) do
     sponsorship = Repo.preload(property, :sponsorship).sponsorship
+
     case confirm_existing_sponsorship(property, sponsorship) do
-      %Sponsorship{} = sponsorship -> sponsorship |> Repo.preload([:campaign, :property, :creative])
-      nil -> nil
+      %Sponsorship{} = sponsorship ->
+        sponsorship |> Repo.preload([:campaign, :property, :creative])
+
+      nil ->
+        nil
     end
   end
 
@@ -97,41 +101,45 @@ defmodule CodeFund.Sponsorships do
     # Determine if there is an available campaign
     campaign =
       Repo.one(
-        from c in Campaign,
-        join: s in assoc(c, :sponsorships),
-        join: b in assoc(c, :budgeted_campaign),
-        where: c.status == 1,
-        where: s.property_id == ^property.id,
-        where: b.day_remain > 0,
-        where: b.month_remain > 0,
-        where: b.total_remain > 0,
-        order_by: [desc: c.bid_amount]
+        from(
+          c in Campaign,
+          join: s in assoc(c, :sponsorships),
+          join: b in assoc(c, :budgeted_campaign),
+          where: c.status == 1,
+          where: s.property_id == ^property.id,
+          where: b.day_remain > 0,
+          where: b.month_remain > 0,
+          where: b.total_remain > 0,
+          order_by: [desc: c.bid_amount]
+        )
       )
 
     if is_nil(campaign) do
-      Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update
+      Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update()
       nil
     else
       sponsorship =
         Repo.one(
-          from s in Sponsorship,
-          where: s.property_id == ^property.id,
-          where: s.campaign_id == ^campaign.id
+          from(
+            s in Sponsorship,
+            where: s.property_id == ^property.id,
+            where: s.campaign_id == ^campaign.id
+          )
         )
-      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update
+
+      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
       sponsorship
     end
   end
 
   def confirm_existing_sponsorship(%Property{} = property, %Sponsorship{} = sponsorship) do
     campaign = Repo.preload(sponsorship, :campaign).campaign |> Repo.preload(:budgeted_campaign)
+
     case Campaigns.has_remaining_budget?(campaign) do
       true -> sponsorship
       false -> confirm_existing_sponsorship(property, nil)
     end
   end
-
-
 
   @doc """
   Creates a sponsorship.
@@ -184,10 +192,12 @@ defmodule CodeFund.Sponsorships do
   def delete_sponsorship(%Sponsorship{} = sponsorship) do
     from(
       p in Property,
-      join: s in Sponsorship, on: p.sponsorship_id == s.id
+      join: s in Sponsorship,
+      on: p.sponsorship_id == s.id
     )
-    |> update([set: [sponsorship_id: nil]])
+    |> update(set: [sponsorship_id: nil])
     |> Repo.update_all([])
+
     Repo.delete(sponsorship)
   end
 
@@ -206,8 +216,8 @@ defmodule CodeFund.Sponsorships do
 
   defp filter_config(:sponsorships) do
     defconfig do
-      text :redirect_url
-      number :bid_amount
+      text(:redirect_url)
+      number(:bid_amount)
     end
   end
 end

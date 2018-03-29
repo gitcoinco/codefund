@@ -1,4 +1,3 @@
-
 defmodule CodeFundWeb.TableView do
   @moduledoc """
   Helpers for rendering tables.

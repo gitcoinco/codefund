@@ -43,7 +43,7 @@ defmodule Coherence.Redirects do
   """
   use Redirects
   # Uncomment the import below if adding overrides
-  
+
   import CodeFundWeb.Router.Helpers
 
   # Add function overrides below
@@ -55,5 +55,4 @@ defmodule Coherence.Redirects do
   def session_create(conn, _), do: redirect(conn, to: dashboard_path(conn, :index))
 
   def session_delete(conn, _), do: redirect(conn, to: session_path(conn, :new))
-
 end

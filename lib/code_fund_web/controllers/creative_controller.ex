@@ -5,12 +5,13 @@ defmodule CodeFundWeb.CreativeController do
   alias CodeFund.Schema.Creative
   alias CodeFundWeb.CreativeType
 
-  plug CodeFundWeb.Plugs.RequireAnyRole, [roles: ["admin", "sponsor"]]
+  plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
   def index(conn, params) do
     case Creatives.paginate_creatives(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering creatives. #{inspect(error)}")
@@ -27,16 +28,17 @@ defmodule CodeFundWeb.CreativeController do
     current_user = conn.assigns.current_user
 
     CreativeType
-      |> create_form(%Creative{}, creative_params, user: current_user)
-      |> insert_form_data
-      |> case do
-        {:ok, creative} ->
-          conn
-          |> put_flash(:info, "Creative created successfully.")
-          |> redirect(to: creative_path(conn, :show, creative))
-        {:error, form} ->
-          render(conn, "new.html", form: form)
-      end
+    |> create_form(%Creative{}, creative_params, user: current_user)
+    |> insert_form_data
+    |> case do
+      {:ok, creative} ->
+        conn
+        |> put_flash(:info, "Creative created successfully.")
+        |> redirect(to: creative_path(conn, :show, creative))
+
+      {:error, form} ->
+        render(conn, "new.html", form: form)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -55,16 +57,17 @@ defmodule CodeFundWeb.CreativeController do
     creative = Creatives.get_creative!(id)
 
     CreativeType
-      |> create_form(creative, creative_params, user: current_user)
-      |> update_form_data
-      |> case do
-        {:ok, creative} ->
-          conn
-          |> put_flash(:info, "Creative updated successfully.")
-          |> redirect(to: creative_path(conn, :show, creative))
-        {:error, form} ->
-          render(conn, "edit.html", creative: creative, form: form)
-      end
+    |> create_form(creative, creative_params, user: current_user)
+    |> update_form_data
+    |> case do
+      {:ok, creative} ->
+        conn
+        |> put_flash(:info, "Creative updated successfully.")
+        |> redirect(to: creative_path(conn, :show, creative))
+
+      {:error, form} ->
+        render(conn, "edit.html", creative: creative, form: form)
+    end
   end
 
   def delete(conn, %{"id" => id}) do

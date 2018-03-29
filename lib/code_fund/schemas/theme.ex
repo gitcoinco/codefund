@@ -6,11 +6,11 @@ defmodule CodeFund.Schema.Theme do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "themes" do
-    belongs_to :template, CodeFund.Schema.Template
-    field :body, :string
-    field :name, :string
-    field :slug, :string
-    field :description, :string
+    belongs_to(:template, CodeFund.Schema.Template)
+    field(:body, :string)
+    field(:name, :string)
+    field(:slug, :string)
+    field(:description, :string)
 
     timestamps()
   end

@@ -11,10 +11,20 @@ config :coherence,
   logged_out_url: "/",
   email_from_name: "CodeFund Team",
   email_from_email: "team@codesponsor.io",
-  opts: [:authenticatable, :recoverable, :lockable, :trackable, :unlockable_with_token, :invitable, :registerable, :rememberable]
+  opts: [
+    :authenticatable,
+    :recoverable,
+    :lockable,
+    :trackable,
+    :unlockable_with_token,
+    :invitable,
+    :registerable,
+    :rememberable
+  ]
 
 config :coherence, CodeFundWeb.Coherence.Mailer,
   adapter: Swoosh.Adapters.Mailgun,
-  api_key: (System.get_env("MAILGUN_API_KEY") || "__MISSING__"),
-  domain: (System.get_env("MAILGUN_DOMAIN") || "__MISSING__")
+  api_key: System.get_env("MAILGUN_API_KEY") || "__MISSING__",
+  domain: System.get_env("MAILGUN_DOMAIN") || "__MISSING__"
+
 # %% End Coherence Configuration %%

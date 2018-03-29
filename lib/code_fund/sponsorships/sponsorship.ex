@@ -4,20 +4,19 @@ defmodule CodeFund.Sponsorships.Sponsorship do
   import Ecto.Changeset
   alias CodeFund.Sponsorships.Sponsorship
 
-
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "sponsorships" do
-    has_many :impressions, CodeFund.Schema.Impression
-    has_many :clicks, CodeFund.Schema.Click
-    belongs_to :creative, CodeFund.Schema.Creative
-    belongs_to :property, CodeFund.Schema.Property
-    belongs_to :campaign, CodeFund.Schema.Campaign
+    has_many(:impressions, CodeFund.Schema.Impression)
+    has_many(:clicks, CodeFund.Schema.Click)
+    belongs_to(:creative, CodeFund.Schema.Creative)
+    belongs_to(:property, CodeFund.Schema.Property)
+    belongs_to(:campaign, CodeFund.Schema.Campaign)
 
-    field :redirect_url, :string
-    field :bid_amount, :decimal
-    field :override_revenue_rate, :decimal
-    
+    field(:redirect_url, :string)
+    field(:bid_amount, :decimal)
+    field(:override_revenue_rate, :decimal)
+
     timestamps()
   end
 

@@ -19,7 +19,11 @@ defmodule CodeFundWeb.PaginationView do
   """
   def prev_link(conn, current_page, _num_pages, sort_opts \\ nil) do
     if current_page != 1 do
-      link("< Prev", to: "?" <> querystring(conn, page: current_page - 1, sort_opts: sort_opts), class: "page-link")
+      link(
+        "< Prev",
+        to: "?" <> querystring(conn, page: current_page - 1, sort_opts: sort_opts),
+        class: "page-link"
+      )
     end
   end
 
@@ -34,7 +38,11 @@ defmodule CodeFundWeb.PaginationView do
   """
   def next_link(conn, current_page, num_pages, sort_opts \\ nil) do
     if current_page != num_pages do
-      link("Next >", to: "?" <> querystring(conn, page: current_page + 1, sort_opts: sort_opts), class: "page-link")
+      link(
+        "Next >",
+        to: "?" <> querystring(conn, page: current_page + 1, sort_opts: sort_opts),
+        class: "page-link"
+      )
     end
   end
 

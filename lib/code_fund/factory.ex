@@ -6,14 +6,15 @@ defmodule CodeFund.Factory do
       first_name: "Gilroy",
       last_name: "Greene",
       email: sequence(:email, &"user-#{&1}@example.com"),
-      password_hash: "$2b$12$XgUXHTx3ipopQvWHvjkwPu0khqOmZTYWtT5TMv/PIgbiadFtwBdzi", # 'secret'
+      # 'secret'
+      password_hash: "$2b$12$XgUXHTx3ipopQvWHvjkwPu0khqOmZTYWtT5TMv/PIgbiadFtwBdzi",
       roles: ["sponsor"],
       revenue_rate: Decimal.new("0.600")
     }
   end
 
   def property_factory do
-    %CodeFund.Schema.Property {
+    %CodeFund.Schema.Property{
       name: "Test Website",
       url: sequence(:url, &"https://example.com/#{&1}"),
       property_type: 1,
@@ -35,21 +36,22 @@ defmodule CodeFund.Factory do
   end
 
   def sponsorship_factory do
-    %CodeFund.Schema.Sponsorship {
+    %CodeFund.Schema.Sponsorship{
       property: build(:property),
       campaign: build(:campaign),
       bid_amount: Decimal.new(250.00),
-      redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
+      redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}")
     }
   end
 
   def impression_factory do
-    %CodeFund.Schema.Impression {
+    %CodeFund.Schema.Impression{
       sponsorship: build(:sponsorship),
       property: build(:property),
       campaign: build(:campaign),
       ip: "51.52.53.54",
-      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
+      user_agent:
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
     }
   end
 
@@ -61,7 +63,8 @@ defmodule CodeFund.Factory do
       ip: "51.52.53.54",
       revenue_amount: Decimal.new(0),
       distribution_amount: Decimal.new(0),
-      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
+      user_agent:
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
     }
   end
 end

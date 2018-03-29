@@ -5,7 +5,8 @@ defmodule CodeFundWeb.RegistrationControllerTest do
 
   describe "create" do
     test "sets role of new users as 'developer'", %{conn: conn} do
-      conn = assign conn, :current_user, nil
+      conn = assign(conn, :current_user, nil)
+
       params = %{
         "registration" => %{
           "first_name" => "John",
@@ -14,7 +15,8 @@ defmodule CodeFundWeb.RegistrationControllerTest do
           "password" => "123123"
         }
       }
-      conn = post conn, registration_path(conn, :create), params
+
+      conn = post(conn, registration_path(conn, :create), params)
       assert html_response(conn, 302)
 
       user = User |> Repo.get_by(email: "john.doe@example.com")
@@ -22,5 +24,4 @@ defmodule CodeFundWeb.RegistrationControllerTest do
       assert user.roles == ["developer"]
     end
   end
-
 end

@@ -22,13 +22,13 @@ defmodule CodeFundWeb.Coherence.InvitationController do
 
   require Logger
 
-  plug Coherence.ValidateOption, :invitable
-  plug :scrub_params, "user" when action in [:create_user]
-  plug :layout_view, view: Coherence.InvitationView, caller: __MODULE__
+  plug(Coherence.ValidateOption, :invitable)
+  plug(:scrub_params, "user" when action in [:create_user])
+  plug(:layout_view, view: Coherence.InvitationView, caller: __MODULE__)
 
-  @type schema :: Ecto.Schema.t
-  @type conn :: Plug.Conn.t
-  @type params :: Map.t
+  @type schema :: Ecto.Schema.t()
+  @type conn :: Plug.Conn.t()
+  @type params :: Map.t()
 
   @doc """
   Render the new invitation form.
@@ -46,42 +46,48 @@ defmodule CodeFundWeb.Coherence.InvitationController do
   the invitation email.
   """
   @spec create(conn, params) :: conn
-  def create(conn, %{"invitation" =>  invitation_params} = params) do
+  def create(conn, %{"invitation" => invitation_params} = params) do
     email = invitation_params["email"]
-    cs = Schemas.change_invitation invitation_params
+    cs = Schemas.change_invitation(invitation_params)
     # case repo.one from u in user_schema, where: u.email == ^email do
-    case Schemas.get_user_by_email email do
+    case Schemas.get_user_by_email(email) do
       nil ->
-        token = random_string 48
+        token = random_string(48)
         url = router_helpers().invitation_url(conn, :edit, token)
         cs = put_change(cs, :token, token)
         do_insert(conn, cs, url, params, email)
+
       _ ->
         cs =
           cs
           |> add_error(:email, Messages.backend().user_already_has_an_account())
           |> struct(action: true)
+
         conn
         |> render("new.html", changeset: cs)
     end
   end
 
   defp do_insert(conn, cs, url, params, email) do
-    case Schemas.create cs do
+    case Schemas.create(cs) do
       {:ok, invitation} ->
-        send_user_email :invitation, invitation, url
+        send_user_email(:invitation, invitation, url)
+
         conn
         |> put_flash(:info, Messages.backend().invitation_sent())
         |> redirect_to(:invitation_create, params)
+
       {:error, changeset} ->
         {conn, changeset} =
-          case Schemas.get_by_invitation email: email do
-            nil -> {conn, changeset}
+          case Schemas.get_by_invitation(email: email) do
+            nil ->
+              {conn, changeset}
+
             invitation ->
               {assign(conn, :invitation, invitation),
-                add_error(changeset, :email,
-                  Messages.backend().invitation_already_sent())}
+               add_error(changeset, :email, Messages.backend().invitation_already_sent())}
           end
+
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -95,15 +101,22 @@ defmodule CodeFundWeb.Coherence.InvitationController do
   @spec edit(conn, params) :: conn
   def edit(conn, params) do
     token = params["id"]
-    case Schemas.get_by_invitation token: token do
+
+    case Schemas.get_by_invitation(token: token) do
       nil ->
         conn
         |> put_flash(:error, Messages.backend().invalid_invitation_token())
         |> redirect(to: logged_out_url(conn))
+
       invite ->
-        user_schema = Config.user_schema
-        cs = Helpers.changeset(:invitation, user_schema, user_schema.__struct__,
-          %{email: invite.email, name: invite.name})
+        user_schema = Config.user_schema()
+
+        cs =
+          Helpers.changeset(:invitation, user_schema, user_schema.__struct__, %{
+            email: invite.email,
+            name: invite.name
+          })
+
         conn
         |> render(:edit, changeset: cs, token: invite.token)
     end
@@ -117,24 +130,28 @@ defmodule CodeFundWeb.Coherence.InvitationController do
   @spec create_user(conn, params) :: conn
   def create_user(conn, params) do
     token = params["token"]
-    user_schema = Config.user_schema
-    case Schemas.get_by_invitation token: token do
+    user_schema = Config.user_schema()
+
+    case Schemas.get_by_invitation(token: token) do
       nil ->
         conn
         |> put_flash(:error, Messages.backend().invalid_invitation())
         |> redirect(to: logged_out_url(conn))
+
       invite ->
         :invitation
         |> Helpers.changeset(user_schema, user_schema.__struct__, params["user"])
-        |> Schemas.create
+        |> Schemas.create()
         |> case do
           {:ok, user} ->
-            Schemas.delete invite
+            Schemas.delete(invite)
+
             conn
             |> send_confirmation(user, user_schema)
             |> redirect(to: logged_out_url(conn))
+
           {:error, changeset} ->
-            render conn, "edit.html", changeset: changeset, token: token
+            render(conn, "edit.html", changeset: changeset, token: token)
         end
     end
   end
@@ -146,14 +163,21 @@ defmodule CodeFundWeb.Coherence.InvitationController do
   """
   @spec resend(conn, params) :: conn
   def resend(conn, %{"id" => id} = params) do
-    conn = case Schemas.get_invitation id do
-      nil ->
-        put_flash(conn, :error, Messages.backend().cant_find_that_token())
-      invitation ->
-        send_user_email :invitation, invitation,
-          router_helpers().invitation_url(conn, :edit, invitation.token)
-        put_flash conn, :info, Messages.backend().invitation_sent()
-    end
+    conn =
+      case Schemas.get_invitation(id) do
+        nil ->
+          put_flash(conn, :error, Messages.backend().cant_find_that_token())
+
+        invitation ->
+          send_user_email(
+            :invitation,
+            invitation,
+            router_helpers().invitation_url(conn, :edit, invitation.token)
+          )
+
+          put_flash(conn, :info, Messages.backend().invitation_sent())
+      end
+
     redirect_to(conn, :invitation_resend, params)
   end
 end

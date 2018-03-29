@@ -36,7 +36,10 @@ defmodule CodeFund.ClicksTest do
 
     test "create_click/1 with valid data creates a click" do
       property = insert(:property)
-      assert {:ok, %Click{} = click} = Clicks.create_click(Map.merge(@valid_attrs, %{property_id: property.id}))
+
+      assert {:ok, %Click{} = click} =
+               Clicks.create_click(Map.merge(@valid_attrs, %{property_id: property.id}))
+
       assert click.property_id == property.id
       assert click.ip == @valid_attrs[:ip]
       assert click.revenue_amount == ~n(2.00)
@@ -73,22 +76,22 @@ defmodule CodeFund.ClicksTest do
     end
 
     test "set_status/2 sets the status of the click" do
-      click = insert(:click, %{status: Click.statuses[:pending]})
-      assert click.status == Click.statuses[:pending]
+      click = insert(:click, %{status: Click.statuses()[:pending]})
+      assert click.status == Click.statuses()[:pending]
       assert {:ok, %Click{} = click} = Clicks.set_status(click, :redirected)
-      assert click.status == Click.statuses[:redirected]
+      assert click.status == Click.statuses()[:redirected]
     end
 
     test "is_duplicate?/2 with no duplicate" do
       sponsorship = insert(:sponsorship)
-      days_ago = Timex.shift(Timex.now, days: -10)
+      days_ago = Timex.shift(Timex.now(), days: -10)
       insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, sponsorship: sponsorship})
       refute Clicks.is_duplicate?(sponsorship.id, "1.2.3.4")
     end
 
     test "is_duplicate?/2 with duplicate" do
       sponsorship = insert(:sponsorship)
-      days_ago = Timex.shift(Timex.now, days: -3)
+      days_ago = Timex.shift(Timex.now(), days: -3)
       insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, sponsorship: sponsorship, status: 1})
       assert Clicks.is_duplicate?(sponsorship.id, "1.2.3.4")
     end

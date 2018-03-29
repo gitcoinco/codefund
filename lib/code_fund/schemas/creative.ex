@@ -3,15 +3,14 @@ defmodule CodeFund.Schema.Creative do
   import Ecto.Changeset
   alias CodeFund.Schema.Creative
 
-
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "creatives" do
-    belongs_to :user, CodeFund.Schema.User
-    has_many :sponsorships, CodeFund.Schema.Sponsorship
-    field :name, :string
-    field :body, :string
-    field :image_url, :string
+    belongs_to(:user, CodeFund.Schema.User)
+    has_many(:sponsorships, CodeFund.Schema.Sponsorship)
+    field(:name, :string)
+    field(:body, :string)
+    field(:image_url, :string)
 
     timestamps()
   end

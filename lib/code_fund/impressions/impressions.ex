@@ -23,20 +23,20 @@ defmodule CodeFund.Impressions do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:impressions), params["impression"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_impressions(filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:impressions), params["impression"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_impressions(filter, params) do
       {:ok,
-        %{
-          impressions: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         impressions: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -113,9 +113,10 @@ defmodule CodeFund.Impressions do
   def create_from_sponsorship(params, %Sponsorship{campaign_id: campaign_id, id: sponsorship_id}) do
     params
     |> Map.merge(%{
-      campaign_id:    campaign_id,
+      campaign_id: campaign_id,
       sponsorship_id: sponsorship_id
-    }) |> create_impression()
+    })
+    |> create_impression()
   end
 
   def create_from_sponsorship(params, nil), do: params |> create_impression()
@@ -169,7 +170,7 @@ defmodule CodeFund.Impressions do
 
   defp filter_config(:impressions) do
     defconfig do
-      text :ip
+      text(:ip)
     end
   end
 end

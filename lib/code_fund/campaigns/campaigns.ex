@@ -29,20 +29,20 @@ defmodule CodeFund.Campaigns do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:campaigns), params["campaign"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:campaigns), params["campaign"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params) do
       {:ok,
-        %{
-          campaigns: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         campaigns: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -135,7 +135,6 @@ defmodule CodeFund.Campaigns do
     Repo.delete(campaign)
   end
 
-
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking campaign changes.
 
@@ -151,23 +150,24 @@ defmodule CodeFund.Campaigns do
 
   def has_remaining_budget?(%Campaign{} = campaign) do
     budgeted_campaign = campaign.budgeted_campaign
+
     Enum.all?([
-      (D.cmp(budgeted_campaign.day_remain, D.new(0)) == :gt),
-      (D.cmp(budgeted_campaign.month_remain, D.new(0)) == :gt),
-      (D.cmp(budgeted_campaign.total_remain, D.new(0)) == :gt)
+      D.cmp(budgeted_campaign.day_remain, D.new(0)) == :gt,
+      D.cmp(budgeted_campaign.month_remain, D.new(0)) == :gt,
+      D.cmp(budgeted_campaign.total_remain, D.new(0)) == :gt
     ])
   end
 
   defp filter_config(:campaigns) do
     defconfig do
-      text :name
-      text :redirect_url
-      number :status
-      text :description
-      number :bid_amount_cents
-      number :daily_budget_cents
-      number :monthly_budget_cents
-      number :total_budget_cents
+      text(:name)
+      text(:redirect_url)
+      number(:status)
+      text(:description)
+      number(:bid_amount_cents)
+      number(:daily_budget_cents)
+      number(:monthly_budget_cents)
+      number(:total_budget_cents)
     end
   end
 end
