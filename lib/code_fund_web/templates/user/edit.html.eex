@@ -24,9 +24,8 @@
         <%= formex_row f, :postal_code %>
         <%= formex_row f, :country %>
         <%= formex_row f, :revenue_rate %>
-        
-        <!-- TODO: Insert multi-select roles (array) -->
-        
+        <%= formex_row f, :roles %>
+
         <%= formex_row f, :save %>
       <% end %>
     </div>

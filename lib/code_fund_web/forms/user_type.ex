@@ -13,6 +13,13 @@ defmodule CodeFundWeb.UserType do
     |> add(:postal_code, :text_input, label: "Postal Code", required: false)
     |> add(:country, :text_input, label: "Country", required: false)
     |> add(
+      :roles,
+      :multiple_select,
+      label: "Roles",
+      choices: CodeFund.Users.roles(),
+      validation: [:required]
+    )
+    |> add(
       :revenue_rate,
       :number_input,
       label: "Revenue Rate",
