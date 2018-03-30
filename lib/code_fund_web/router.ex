@@ -84,9 +84,9 @@ defmodule CodeFundWeb.Router do
     resources("/creatives", CreativeController)
     resources("/templates", TemplateController)
     resources("/themes", ThemeController)
-    resources("/users", UserController, only: [:index, :show, :edit, :update])
     get("/users/:id/masquerade", UserController, :masquerade)
     get("/users/end_masquerade", UserController, :end_masquerade)
+    resources("/users", UserController, only: [:index, :show, :edit, :update])
   end
 
   scope "/", CodeFundWeb do
