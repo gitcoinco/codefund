@@ -78,8 +78,11 @@ defmodule CodeFund.Mixfile do
       {:scrivener_ecto, "~> 1.0"},
       {:scrivener_html, "~> 1.7"},
       {:filtrex, "~> 0.4.1"},
-      {:formex, "~> 0.6.0"},
-      {:formex_ecto, "~> 0.1.0"},
+      {:formex, "~> 0.6.3"},
+      # JBEAN TODO: swapping this out until bug is merged
+      # {:formex_ecto, "~> 0.1.0"},
+      {:formex_ecto,
+       github: "StareIntoTheBeard/formex_ecto", ref: "fa00d6ee342cfeb0d62e785e52d7e4829f46ca0b"},
       {:timex, "~> 3.1"},
       {:timex_ecto, "~> 3.0"},
       {:remote_ip, "~> 0.1.0"},

@@ -1,0 +1,21 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Users", to: user_path(@conn, :index) %></li>
+  <li class="breadcrumb-item"><%= link full_name(@user), to: user_path(@conn, :show, @user) %></li>
+  <li class="breadcrumb-item active">Edit User</li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <%= formex_form_for @form, user_path(@conn, :update, @user), [method: :put, class: "form-horizontal"], fn f -> %>
+        <%= if @form.submitted? do %>
+          <div class="alert alert-danger" role="alert">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        <% end %>
+        <%= formex_rows f %>
+      <% end %>
+    </div>
+  </div>
+</div>
