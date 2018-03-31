@@ -354,7 +354,6 @@ defmodule CodeFund.Creatives do
     end
   end
 
-
   @doc """
   Gets a single creative.
 
