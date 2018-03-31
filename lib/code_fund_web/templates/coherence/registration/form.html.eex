@@ -6,54 +6,93 @@
     </div>
   <% end %>
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text"><i class="icon-user"></i></span>
-    </div>
-    <%= text_input f, :first_name, class: "form-control", placeholder: "First Name", required: "" %>
-    <%= error_tag f, :first_name %>
-  </div>
-
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text"><i class="icon-user"></i></span>
-    </div>
-    <%= text_input f, :last_name, class: "form-control", placeholder: "Last Name", required: "" %>
-    <%= error_tag f, :last_name %>
-  </div>
-
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text"><i class="icon-envelope"></i></span>
-    </div>
-    <%= text_input f, :email, class: "form-control", placeholder: "Email", required: "" %>
-    <%= error_tag f, :email %>
-  </div>
-
-  <%= if Coherence.Config.require_current_password and not is_nil(@changeset.data.id) do %>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="icon-lock"></i></span>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-user"></i></span>
+        </div>
+        <%= text_input f, :first_name, class: "form-control", placeholder: "First Name", required: "" %>
+        <%= error_tag f, :first_name %>
       </div>
-      <%= password_input f, :current_password, [class: "form-control", placeholder: "Current Password"] ++ @required %>
-      <%= error_tag f, :current_password %>
-    </div>
-  <% end %>
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text"><i class="icon-lock"></i></span>
-    </div>
-    <%= password_input f, :password, [class: "form-control", placeholder: "Password"] ++ @required %>
-    <%= error_tag f, :password %>
-  </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-user"></i></span>
+        </div>
+        <%= text_input f, :last_name, class: "form-control", placeholder: "Last Name", required: "" %>
+        <%= error_tag f, :last_name %>
+      </div>
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text"><i class="icon-lock"></i></span>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-envelope"></i></span>
+        </div>
+        <%= text_input f, :email, class: "form-control", placeholder: "Email", required: "" %>
+        <%= error_tag f, :email %>
+      </div>
+
+      <%= if Coherence.Config.require_current_password and not is_nil(@changeset.data.id) do %>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="icon-lock"></i></span>
+          </div>
+          <%= password_input f, :current_password, [class: "form-control", placeholder: "Current Password"] ++ @required %>
+          <%= error_tag f, :current_password %>
+        </div>
+      <% end %>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-lock"></i></span>
+        </div>
+        <%= password_input f, :password, [class: "form-control", placeholder: "Password"] ++ @required %>
+        <%= error_tag f, :password %>
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-lock"></i></span>
+        </div>
+        <%= password_input f, :password_confirmation, [class: "form-control", placeholder: "Password Confirmation"] ++ @required %>
+        <%= error_tag f, :password_confirmation %>
+      </div>
     </div>
-    <%= password_input f, :password_confirmation, [class: "form-control", placeholder: "Password Confirmation"] ++ @required %>
-    <%= error_tag f, :password_confirmation %>
+
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="icon-envelope"></i></span>
+        </div>
+        <%= text_input f, :paypal_email, class: "form-control", placeholder: "PayPal email (to receive distributions)", required: "" %>
+        <%= error_tag f, :paypal_email %>
+      </div>
+
+      <div class="input-group mb-3">
+        <%= text_input f, :address_1, class: "form-control", placeholder: "Street Address" %>
+        <%= error_tag f, :address_1 %>
+      </div>
+
+      <div class="input-group mb-3">
+        <%= text_input f, :city, class: "form-control", placeholder: "City/Region" %>
+        <%= error_tag f, :city %>
+      </div>
+
+      <div class="input-group mb-3">
+        <%= text_input f, :region, class: "form-control", placeholder: "State/Province" %>
+        <%= error_tag f, :region %>
+      </div>
+
+      <div class="input-group mb-3">
+        <%= text_input f, :postal_code, class: "form-control", placeholder: "Postal Code" %>
+        <%= error_tag f, :postal_code %>
+      </div>
+
+      <div class="input-group mb-3">
+        <%= text_input f, :country, class: "form-control", placeholder: "Country" %>
+        <%= error_tag f, :country %>
+      </div>
+    </div>
   </div>
 
   <div class="form-group">

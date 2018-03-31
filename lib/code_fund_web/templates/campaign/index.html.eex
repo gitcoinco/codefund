@@ -26,7 +26,7 @@
                 <th class="text-right"><%= table_link(@conn, "Daily Budget", :budget_daily_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Monthly Budget", :budget_monthly_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Total Budget", :budget_total_amount) %></th>
-                <th class="text-center">Available?</th>
+                <th class="text-center">Funds?</th>
                 <th></th>
               </tr>
             </thead>

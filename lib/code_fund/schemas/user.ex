@@ -22,6 +22,7 @@ defmodule CodeFund.Schema.User do
     field(:country, :string)
     field(:roles, {:array, :string})
     field(:revenue_rate, :decimal)
+    field(:paypal_email, :string)
 
     coherence_schema()
 

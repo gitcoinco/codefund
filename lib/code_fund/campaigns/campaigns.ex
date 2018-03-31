@@ -50,11 +50,20 @@ defmodule CodeFund.Campaigns do
   end
 
   defp do_paginate_campaigns(%User{} = user, _filter, params) do
-    Campaign
-    |> where([p], p.user_id == ^user.id)
-    |> preload([:user, :budgeted_campaign])
-    |> order_by(^sort(params))
-    |> paginate(Repo, params, @pagination)
+    case Enum.member?(user.roles, "admin") do
+      true ->
+        Campaign
+        |> preload([:user, :budgeted_campaign])
+        |> order_by(^sort(params))
+        |> paginate(Repo, params, @pagination)
+
+      false ->
+        Campaign
+        |> where([p], p.user_id == ^user.id)
+        |> preload([:user, :budgeted_campaign])
+        |> order_by(^sort(params))
+        |> paginate(Repo, params, @pagination)
+    end
   end
 
   @doc """

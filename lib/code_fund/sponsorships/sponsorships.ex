@@ -5,7 +5,7 @@ defmodule CodeFund.Sponsorships do
 
   use CodeFundWeb, :query
 
-  alias CodeFund.Schema.{Sponsorship, Property, Campaign}
+  alias CodeFund.Schema.{Sponsorship, Property, Campaign, User}
   alias CodeFund.Campaigns
 
   @pagination [page_size: 15]
@@ -14,7 +14,7 @@ defmodule CodeFund.Sponsorships do
   @doc """
   Paginate the list of sponsorships using filtrex filters.
   """
-  def paginate_sponsorships(params \\ %{}) do
+  def paginate_sponsorships(%User{} = user, params \\ %{}) do
     params =
       params
       |> Map.put_new("sort_direction", "desc")
@@ -25,7 +25,7 @@ defmodule CodeFund.Sponsorships do
 
     with {:ok, filter} <-
            Filtrex.parse_params(filter_config(:sponsorships), params["sponsorship"] || %{}),
-         %Scrivener.Page{} = page <- do_paginate_sponsorships(filter, params) do
+         %Scrivener.Page{} = page <- do_paginate_sponsorships(user, filter, params) do
       {:ok,
        %{
          sponsorships: page.entries,
@@ -43,11 +43,22 @@ defmodule CodeFund.Sponsorships do
     end
   end
 
-  defp do_paginate_sponsorships(_filter, params) do
-    Sponsorship
-    |> order_by(^sort(params))
-    |> preload([:campaign, :property, :creative])
-    |> paginate(Repo, params, @pagination)
+  defp do_paginate_sponsorships(%User{} = user, _filter, params) do
+    case Enum.member?(user.roles, "admin") do
+      true ->
+        Sponsorship
+        |> order_by(^sort(params))
+        |> preload([:campaign, :property, :creative])
+        |> paginate(Repo, params, @pagination)
+
+      false ->
+        Sponsorship
+        |> join(:inner, [sponsorship], property in assoc(sponsorship, :property))
+        |> where([sponsorship, property], property.user_id == ^user.id)
+        |> order_by(^sort(params))
+        |> preload([:campaign, :property, :creative])
+        |> paginate(Repo, params, @pagination)
+    end
   end
 
   @doc """
