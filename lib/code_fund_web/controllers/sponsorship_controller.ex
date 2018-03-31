@@ -8,7 +8,9 @@ defmodule CodeFundWeb.SponsorshipController do
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
   def index(conn, params) do
-    case Sponsorships.paginate_sponsorships(params) do
+    current_user = conn.assigns.current_user
+
+    case Sponsorships.paginate_sponsorships(current_user, params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
 
@@ -25,8 +27,10 @@ defmodule CodeFundWeb.SponsorshipController do
   end
 
   def create(conn, %{"sponsorship" => sponsorship_params}) do
+    current_user = conn.assigns.current_user
+
     SponsorshipType
-    |> create_form(%Sponsorship{}, sponsorship_params)
+    |> create_form(%Sponsorship{}, sponsorship_params, user: current_user)
     |> insert_form_data
     |> case do
       {:ok, sponsorship} ->
@@ -51,10 +55,11 @@ defmodule CodeFundWeb.SponsorshipController do
   end
 
   def update(conn, %{"id" => id, "sponsorship" => sponsorship_params}) do
+    current_user = conn.assigns.current_user
     sponsorship = Sponsorships.get_sponsorship!(id)
 
     SponsorshipType
-    |> create_form(sponsorship, sponsorship_params)
+    |> create_form(sponsorship, sponsorship_params, user: current_user)
     |> update_form_data
     |> case do
       {:ok, sponsorship} ->

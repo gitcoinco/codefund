@@ -11,9 +11,10 @@ defmodule CodeFund.SponsorshipsTest do
     @update_attrs %{bid_amount: 2.25, redirect_url: "https://codesponsor.io"}
     @invalid_attrs %{bid_amount: nil, redirect_url: "consensys.net"}
 
-    test "paginate_sponsorships/1 returns paginated results" do
+    test "paginate_sponsorships/3 returns paginated results" do
       insert_list(25, :sponsorship)
-      {:ok, results} = Sponsorships.paginate_sponsorships()
+      user = insert(:user, roles: ["admin"])
+      {:ok, results} = Sponsorships.paginate_sponsorships(user)
       assert results.distance == 5
       assert results.page_number == 1
       assert results.page_size == 15

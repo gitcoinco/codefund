@@ -8,7 +8,9 @@ defmodule CodeFundWeb.CreativeController do
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
   def index(conn, params) do
-    case Creatives.paginate_creatives(params) do
+    current_user = conn.assigns.current_user
+
+    case Creatives.paginate_creatives(current_user, params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
 

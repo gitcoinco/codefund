@@ -1,40 +1,76 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card mx-4">
-        <div class="card-body p-4">
-          <h2><%= dgettext "coherence", "Show account" %></h2>
-          <ul>
-            <li>
-              <strong><%= dgettext "coherence", "First Name:" %></strong>
-              <%= @user.first_name %>
-            </li>
-            <li>
-              <strong><%= dgettext "coherence", "Last Name:" %></strong>
-              <%= @user.last_name %>
-            </li>
-
-            <%= unless (login_field = Coherence.Config.login_field) == :email do %>
-              <li>
-                <strong><%= humanize login_field %></strong>
-                <%= Map.get(@user, login_field) %>
-              </li>
-            <% end %>
-
-            <li>
-              <strong><%= dgettext "coherence", "Email:" %></strong>
-              <%= @user.email %>
-            </li>
-
-          </ul>
-
-          <%= link dgettext("coherence", "Edit"), to: registration_path(@conn, :edit) %> |
-          <%= link dgettext("coherence", "Delete"),
-                  to: registration_path(@conn, :delete),
-                  method: :delete,
-                  data: [confirm: dgettext("coherence", "Are you sure?")] %>
-        </div>
-      </div>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Profile</li>
+  
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: registration_path(@conn, :edit), class: "btn" do %>
+        <i class="fa fa-edit"></i> Edit Profile
+      <% end %>
     </div>
+  </li>
+</ol>
+
+<div class="container-fluid">
+  <div class="email-app mb-4">
+    <nav>
+      <div class="text-center">
+        <img src="<%= gravatar_url(current_user(@conn).email) %>" class="img-responsive rounded" alt="">
+      </div>
+      <div class="h5 text-center mt-2 mb-0"><%= full_name current_user(@conn) %></div>
+      <p class="text-center mb-4"><%= current_user(@conn).email %></p>
+    </nav>
+    <main class="inbox">
+      <div class="toolbar">
+        <h4 class="mb-0">Details</h4>
+      </div>
+
+      <ul class="list-group list-group-flush list-group-kv">
+        <li class="list-group-item">
+          <strong>ID</strong>
+          <span><%= current_user(@conn).id %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Name</strong>
+          <span><%= full_name current_user(@conn) %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Email</strong>
+          <span><%= current_user(@conn).email %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>PayPal Email</strong>
+          <span><%= current_user(@conn).paypal_email %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Address</strong>
+          <span><%= current_user(@conn).address_1 %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>City</strong>
+          <span><%= current_user(@conn).city %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>State/Region</strong>
+          <span><%= current_user(@conn).region %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Postal Code</strong>
+          <span><%= current_user(@conn).postal_code %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Country</strong>
+          <span><%= current_user(@conn).country %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Revenue Rate</strong>
+          <span><%=
+            current_user(@conn).revenue_rate
+            |> Decimal.mult(Decimal.new(100))
+            |> Decimal.to_integer()
+          %>%</span>
+        </li>
+      </ul>
+    </main>
   </div>
 </div>
