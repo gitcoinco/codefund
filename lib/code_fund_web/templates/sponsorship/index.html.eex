@@ -21,6 +21,7 @@
           <table class="table table-responsive-sm table-striped">
             <thead>
               <tr>
+                <th><%= table_link(@conn, "User", :user_id) %></th>
                 <th><%= table_link(@conn, "Campaign", :campaign_id) %></th>
                 <th>Property</th>
                 <th><%= table_link(@conn, "Creative", :creative_id) %></th>
@@ -31,6 +32,7 @@
             <tbody>
               <%= for sponsorship <- @sponsorships do %>
                 <tr>
+                  <td><%= full_name(sponsorship.user) %></td>
                   <td><%= link sponsorship.campaign.name, to: campaign_path(@conn, :show, sponsorship.campaign) %></td>
                   <td><%= link sponsorship.property.name, to: property_path(@conn, :show, sponsorship.property) %></td>
                   <td>

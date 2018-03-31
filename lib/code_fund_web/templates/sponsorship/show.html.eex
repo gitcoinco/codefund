@@ -14,40 +14,46 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <div class="card">
         <div class="card-header">
           Details
         </div>
         <div class="card-body">
-          <div class="details-table">
-            <table class="table table-responsive-sm">
-              <thead>
-                <tr>
-                  <th>Field</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>ID</strong></td>
-                  <td><%= @sponsorship.id %></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          Embed Instructions
-        </div>
-        <div class="card-body">
-          <p>See https://badge.fury.io/for/rb/dotenv</p>
-
-          
+          <ul class="list-group list-group-flush list-group-kv">
+            <li class="list-group-item">
+              <strong>ID</strong>
+              <span><%= @sponsorship.id %></span>
+            </li>
+            <li class="list-group-item">
+              <strong>User</strong>
+              <span><%= full_name @sponsorship.user %></span>
+            </li>
+            <li class="list-group-item">
+              <strong>Property</strong>
+              <span><%= link @sponsorship.property.name, to: property_path(@conn, :show, @sponsorship.property) %></span>
+            </li>
+            <li class="list-group-item">
+              <strong>Campaign</strong>
+              <span><%= link @sponsorship.campaign.name, to: campaign_path(@conn, :show, @sponsorship.campaign) %></span>
+            </li>
+            <li class="list-group-item">
+              <strong>Creative</strong>
+              <span><%= link @sponsorship.creative.name, to: creative_path(@conn, :show, @sponsorship.creative) %></span>
+            </li>
+            <li class="list-group-item">
+              <strong>Redirect URL</strong>
+              <span><%= @sponsorship.redirect_url %></span>
+            </li>
+            <li class="list-group-item">
+              <strong>Bid Amount</strong>
+              <span><%= pretty_money @sponsorship.bid_amount %></span>
+            </li>
+            <li class="list-group-item">
+              <strong>Revenue Rate</strong>
+              <span><%= @sponsorship.override_revenue_rate %></span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

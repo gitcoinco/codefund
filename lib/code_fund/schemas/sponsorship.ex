@@ -6,6 +6,7 @@ defmodule CodeFund.Schema.Sponsorship do
   schema "sponsorships" do
     has_many(:impressions, CodeFund.Schema.Impression)
     has_many(:clicks, CodeFund.Schema.Click)
+    belongs_to(:user, CodeFund.Schema.User)
     belongs_to(:property, CodeFund.Schema.Property)
     belongs_to(:campaign, CodeFund.Schema.Campaign)
     belongs_to(:creative, CodeFund.Schema.Creative)

@@ -45,8 +45,11 @@ defmodule CodeFundWeb.ViewHelpers do
     end
   end
 
-  def full_name(%CodeFund.Schema.User{} = user) do
-    "#{user.first_name} #{user.last_name}"
+  def full_name(user) do
+    case user do
+      nil -> ""
+      _ -> "#{user.first_name} #{user.last_name}"
+    end
   end
 
   def gravatar_url(email) do
