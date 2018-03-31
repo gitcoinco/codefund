@@ -13,31 +13,72 @@
 </ol>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          Details
-        </div>
-        <div class="card-body">
-          <div class="details-table">
-            <table class="table table-responsive-sm">
-              <thead>
-                <tr>
-                  <th>Field</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>ID</strong></td>
-                  <td><%= @user.id %></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+  <div class="email-app mb-4">
+    <nav>
+      <div class="text-center">
+        <img src="<%= gravatar_url(@user.email) %>" class="img-responsive rounded" alt="">
       </div>
-    </div>
+      <div class="h5 text-center mt-2 mb-0"><%= full_name @user %></div>
+      <p class="text-center mb-4"><%= @user.email %></p>
+      <!--
+      <a href="page-inbox-compose.html" class="btn btn-danger btn-block">New Email</a>
+      -->
+      <ul class="nav">
+        <li class="nav-item">
+          <%= active_link(@conn, to: user_path(@conn, :show, @user), class: "nav-link") do %>
+            <i class="icon-user"></i>
+            Details
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+    <main class="inbox">
+      <div class="toolbar">
+        <h4 class="mb-0">Details</h4>
+      </div>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>ID</strong>
+          <span><%= @user.id %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Name</strong>
+          <span><%= full_name @user %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Email</strong>
+          <span><%= @user.email %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Address</strong>
+          <span><%= @user.address_1 %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>City</strong>
+          <span><%= @user.city %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>State/Region</strong>
+          <span><%= @user.region %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Postal Code</strong>
+          <span><%= @user.postal_code %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Country</strong>
+          <span><%= @user.country %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Roles</strong>
+          <span><%= Enum.join(@user.roles, ", ") %></span>
+        </li>
+        <li class="list-group-item">
+          <strong>Revenue Rate</strong>
+          <span><%= @user.revenue_rate %></span>
+        </li>
+      </ul>
+    </main>
   </div>
 </div>
