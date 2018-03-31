@@ -7,7 +7,7 @@ defmodule CodeFund.Creatives do
   import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeFund.Repo
-  alias CodeFund.Schema.{Creative, Template, Theme}
+  alias CodeFund.Schema.{Creative, Template, Theme, User}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -309,7 +309,7 @@ defmodule CodeFund.Creatives do
   @doc """
   Paginate the list of creatives using filtrex filters.
   """
-  def paginate_creatives(params \\ %{}) do
+  def paginate_creatives(%User{} = user, params \\ %{}) do
     params =
       params
       |> Map.put_new("sort_direction", "desc")
@@ -320,7 +320,7 @@ defmodule CodeFund.Creatives do
 
     with {:ok, filter} <-
            Filtrex.parse_params(filter_config(:creatives), params["creative"] || %{}),
-         %Scrivener.Page{} = page <- do_paginate_creatives(filter, params) do
+         %Scrivener.Page{} = page <- do_paginate_creatives(user, filter, params) do
       {:ok,
        %{
          creatives: page.entries,
@@ -338,11 +338,20 @@ defmodule CodeFund.Creatives do
     end
   end
 
-  defp do_paginate_creatives(filter, params) do
-    Creative
-    |> Filtrex.query(filter)
-    |> order_by(^sort(params))
-    |> paginate(Repo, params, @pagination)
+  defp do_paginate_creatives(%User{} = user, _filter, params) do
+    case Enum.member?(user.roles, "admin") do
+      true ->
+        Creative
+        |> preload(:user)
+        |> order_by(^sort(params))
+        |> paginate(Repo, params, @pagination)
+
+      false ->
+        Creative
+        |> where([p], p.user_id == ^user.id)
+        |> order_by(^sort(params))
+        |> paginate(Repo, params, @pagination)
+    end
   end
 
   @doc """
@@ -359,7 +368,7 @@ defmodule CodeFund.Creatives do
       ** (Ecto.NoResultsError)
 
   """
-  def get_creative!(id), do: Repo.get!(Creative, id)
+  def get_creative!(id), do: Repo.get!(Creative, id) |> Repo.preload(:user)
 
   @doc """
   Creates a creative.

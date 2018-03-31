@@ -20,24 +20,13 @@
       </div>
       <div class="h5 text-center mt-2 mb-0"><%= full_name @user %></div>
       <p class="text-center mb-4"><%= @user.email %></p>
-      <!--
-      <a href="page-inbox-compose.html" class="btn btn-danger btn-block">New Email</a>
-      -->
-      <ul class="nav">
-        <li class="nav-item">
-          <%= active_link(@conn, to: user_path(@conn, :show, @user), class: "nav-link") do %>
-            <i class="icon-user"></i>
-            Details
-          <% end %>
-        </li>
-      </ul>
     </nav>
     <main class="inbox">
       <div class="toolbar">
         <h4 class="mb-0">Details</h4>
       </div>
 
-      <ul class="list-group list-group-flush">
+      <ul class="list-group list-group-flush list-group-kv">
         <li class="list-group-item">
           <strong>ID</strong>
           <span><%= @user.id %></span>

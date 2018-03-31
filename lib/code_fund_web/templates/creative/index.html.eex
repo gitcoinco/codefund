@@ -20,6 +20,9 @@
           <table class="table table-responsive-sm table-striped">
             <thead>
               <tr>
+                <%= if has_any_role? @conn, ["admin"] do %>
+                  <th>User</th>
+                <% end %>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th>Text</th>
                 <th></th>
@@ -28,6 +31,9 @@
             <tbody>
               <%= for creative <- @creatives do %>
                 <tr>
+                  <%= if has_any_role? @conn, ["admin"] do %>
+                  <td><%= link full_name(creative.user), to: user_path(@conn, :show, creative.user) %></td>
+                  <% end %>
                   <td><%= creative.name %></td>
                   <td><%= creative.body %></td>
                   <td class="text-right p-2">

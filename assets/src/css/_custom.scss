@@ -25,3 +25,13 @@
     }
   }
 }
+
+ul.list-group-kv li.list-group-item {
+  strong {
+    display: inline-block;
+    width: 20%;
+  }
+  span: {
+    display: inline-block;
+  }
+}
