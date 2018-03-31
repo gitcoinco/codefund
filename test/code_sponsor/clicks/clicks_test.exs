@@ -78,8 +78,12 @@ defmodule CodeFund.ClicksTest do
     test "set_status/2 sets the status of the click" do
       click = insert(:click, %{status: Click.statuses()[:pending]})
       assert click.status == Click.statuses()[:pending]
+      assert {:ok, %Click{} = click} = Clicks.set_status(click, :fraud)
+      assert click.status == Click.statuses()[:fraud]
+      assert click.is_fraud
       assert {:ok, %Click{} = click} = Clicks.set_status(click, :redirected)
       assert click.status == Click.statuses()[:redirected]
+      refute click.is_fraud
     end
 
     test "is_duplicate?/2 with no duplicate" do

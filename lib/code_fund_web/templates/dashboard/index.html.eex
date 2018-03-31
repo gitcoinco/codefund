@@ -35,7 +35,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-12">
-              <h4 class="card-title mb-0">Clicks</h4>
+              <h4 class="card-title mb-0">Payable Clicks</h4>
               <div class="small text-muted">
                 <%= pretty_date_range(@start_date, @end_date) %>
               </div>
