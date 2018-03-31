@@ -91,6 +91,7 @@ defmodule CodeFund.Stats.Clicks do
   def count_by_day(start_date, end_date) when start_date <= end_date do
     from(
       c in Click,
+      where: c.status == ^Click.statuses()[:redirected],
       where: c.is_bot == false,
       where: c.is_duplicate == false,
       where: c.is_fraud == false,
@@ -105,6 +106,7 @@ defmodule CodeFund.Stats.Clicks do
   def count_by_day(%Property{} = property, start_date, end_date) when start_date <= end_date do
     from(
       c in Click,
+      where: c.status == ^Click.statuses()[:redirected],
       where: c.is_bot == false,
       where: c.is_duplicate == false,
       where: c.is_fraud == false,
@@ -121,6 +123,7 @@ defmodule CodeFund.Stats.Clicks do
       when start_date <= end_date do
     from(
       c in Click,
+      where: c.status == ^Click.statuses()[:redirected],
       where: c.is_bot == false,
       where: c.is_duplicate == false,
       where: c.is_fraud == false,
@@ -136,6 +139,7 @@ defmodule CodeFund.Stats.Clicks do
   def count_by_day(%Campaign{} = campaign, start_date, end_date) when start_date <= end_date do
     from(
       c in Click,
+      where: c.status == ^Click.statuses()[:redirected],
       where: c.is_bot == false,
       where: c.is_duplicate == false,
       where: c.is_fraud == false,
@@ -159,6 +163,7 @@ defmodule CodeFund.Stats.Clicks do
 
     from(
       c in Click,
+      where: c.status == ^Click.statuses()[:redirected],
       where: c.is_bot == false,
       where: c.is_duplicate == false,
       where: c.is_fraud == false,

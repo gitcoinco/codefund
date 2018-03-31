@@ -113,7 +113,17 @@ defmodule CodeFund.Clicks do
 
   def set_status(%Click{} = click, status, attrs \\ %{}) do
     status_int = Click.statuses()[status]
-    attrs = Map.merge(attrs, %{status: status_int})
+
+    attrs =
+      Map.merge(attrs, %{status: status_int, is_bot: false, is_duplicate: false, is_fraud: false})
+
+    attrs =
+      case status do
+        :bot -> Map.merge(attrs, %{is_bot: true})
+        :duplicate -> Map.merge(attrs, %{is_duplicate: true})
+        :fraud -> Map.merge(attrs, %{is_fraud: true})
+        _ -> attrs
+      end
 
     click
     |> Click.changeset(attrs)
