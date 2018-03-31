@@ -48,15 +48,14 @@ defmodule CodeFund.Sponsorships do
       true ->
         Sponsorship
         |> order_by(^sort(params))
-        |> preload([:campaign, :property, :creative])
+        |> preload([:campaign, :property, :creative, :user])
         |> paginate(Repo, params, @pagination)
 
       false ->
         Sponsorship
-        |> join(:inner, [sponsorship], property in assoc(sponsorship, :property))
-        |> where([sponsorship, property], property.user_id == ^user.id)
+        |> where([sponsorship], sponsorship.user_id == ^user.id)
         |> order_by(^sort(params))
-        |> preload([:campaign, :property, :creative])
+        |> preload([:campaign, :property, :creative, :user])
         |> paginate(Repo, params, @pagination)
     end
   end
@@ -73,7 +72,7 @@ defmodule CodeFund.Sponsorships do
   def list_sponsorships do
     Sponsorship
     |> Repo.all()
-    |> Repo.preload([:property, :campaign, :creative])
+    |> Repo.preload([:property, :campaign, :creative, :user])
   end
 
   @doc """
@@ -93,7 +92,7 @@ defmodule CodeFund.Sponsorships do
   def get_sponsorship!(id) do
     Sponsorship
     |> Repo.get!(id)
-    |> Repo.preload([:property, :campaign, :creative])
+    |> Repo.preload([:property, :campaign, :creative, :user])
   end
 
   def get_sponsorship_for_property(%Property{} = property) do
@@ -101,7 +100,7 @@ defmodule CodeFund.Sponsorships do
 
     case confirm_existing_sponsorship(property, sponsorship) do
       %Sponsorship{} = sponsorship ->
-        sponsorship |> Repo.preload([:campaign, :property, :creative])
+        sponsorship |> Repo.preload([:campaign, :property, :creative, :user])
 
       nil ->
         nil
