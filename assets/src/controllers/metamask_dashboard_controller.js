@@ -22,7 +22,7 @@ export default class extends Controller {
       }
     };
     const token = jwt.sign(payload, secretKey);
-    const iframeUrl = `${siteUrl}/embed/dashboard/${token}#bordered=false&titled=false`;
+    const iframeUrl = `${siteUrl}/embed/dashboard/${token}#bordered=false&titled=true`;
     this.iframeTarget.src = iframeUrl;
   }
 }
