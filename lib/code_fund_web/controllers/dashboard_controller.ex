@@ -10,8 +10,8 @@ defmodule CodeFundWeb.DashboardController do
     secret_key = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_secret_key]
 
     payload = %{
-      resource: %{ dashboard: 2 },
-      params: %{ user_id: current_user.id }
+      resource: %{dashboard: 2},
+      params: %{user_id: current_user.id}
     }
 
     metabase_token =
@@ -21,7 +21,8 @@ defmodule CodeFundWeb.DashboardController do
       |> sign
       |> get_compact
 
-    iframe_url = "#{metabase_site_url}/embed/dashboard/#{metabase_token}#bordered=false&titled=true"
+    iframe_url =
+      "#{metabase_site_url}/embed/dashboard/#{metabase_token}#bordered=false&titled=true"
 
     render(
       conn,
