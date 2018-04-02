@@ -7,7 +7,23 @@
 <div class="container-fluid"
      data-controller="dashboard"
      data-impressions-by-day='<%= @impressions_by_day %>'
-     data-clicks-by-day='<%= @clicks_by_day %>'>
+     data-clicks-by-day='<%= @clicks_by_day %>'
+     data-start-date='<%= @start_date %>'
+     data-end-date='<%= @end_date %>'>
+     
+  <div class="card">
+    <div class="card-body">
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-prepend">
+            <span class="input-group-text"><i class="icon-calendar"></i></span>
+          </span>
+          <input data-target="dashboard.dateRange" name="daterange" class="form-control" type="text"
+            >
+        </div>
+      </fieldset>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-6">
       <div class="card">

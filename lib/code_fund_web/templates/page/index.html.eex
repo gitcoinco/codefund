@@ -42,7 +42,7 @@
   <!-- Theme CSS -->
   <link href="<%= static_path(@conn, "/home/css/theme.css") %>" rel="stylesheet" type="text/css">
   <link href="<%= static_path(@conn, "/home/css/style.css") %>" rel="stylesheet" type="text/css">
-  
+
   <!-- Color Scheme CSS -->
   <link href="<%= static_path(@conn, "/home/css/color_pink.css") %>" rel="stylesheet" type="text/css">
 
