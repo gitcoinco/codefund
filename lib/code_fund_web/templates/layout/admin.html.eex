@@ -19,6 +19,7 @@
   <!-- Main styles for this application -->
   <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
 
+  <!-- CDN -->
   <script src="//www.google.com/jsapi"></script>
 
   <!-- Main scripts (leave in header for Turbolinks) -->

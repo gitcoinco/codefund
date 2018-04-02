@@ -5,5 +5,5 @@
 </ol>
 
 <div class="metamask-container">
-  <iframe src="<%= @iframe_url %>" class="metamask-iframe" frameBorder="0" height="1200" allowTransparency />
+  <iframe src="<%= @iframe_url %>" frameBorder="0" scrolling="no" allowTransparency />
 </div>

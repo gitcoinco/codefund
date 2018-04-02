@@ -9,10 +9,19 @@ defmodule CodeFundWeb.DashboardController do
     metabase_site_url = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_site_url]
     secret_key = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_secret_key]
 
-    payload = %{
-      resource: %{dashboard: 2},
-      params: %{user_id: current_user.id}
-    }
+    payload =
+      case Enum.member?(current_user.roles, "admin") do
+        true ->
+          %{
+            resource: %{dashboard: 1},
+            params: %{}
+          }
+        false ->
+          %{
+            resource: %{dashboard: 2},
+            params: %{user_id: current_user.id}
+          }
+      end
 
     metabase_token =
       payload
