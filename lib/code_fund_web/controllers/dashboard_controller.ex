@@ -1,27 +1,33 @@
 defmodule CodeFundWeb.DashboardController do
   use CodeFundWeb, :controller
+  import Joken
 
   def index(conn, _params) do
     current_user = conn.assigns.current_user
-    end_date = ~D[2018-03-31]
-    start_date = ~D[2018-03-01]
 
-    impressions_by_day =
-      CodeFund.Stats.Impressions.count_by_day(current_user, start_date, end_date)
+    # Build URL for Metabase
+    metabase_site_url = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_site_url]
+    secret_key = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_secret_key]
 
-    clicks_by_day = CodeFund.Stats.Clicks.count_by_day(current_user, start_date, end_date)
-    total_impressions = Enum.map(impressions_by_day, fn {_, v} -> v end) |> Enum.sum()
-    total_clicks = Enum.map(clicks_by_day, fn {_, v} -> v end) |> Enum.sum()
+    payload = %{
+      resource: %{dashboard: 2},
+      params: %{user_id: current_user.id}
+    }
+
+    metabase_token =
+      payload
+      |> token
+      |> with_signer(hs256(secret_key))
+      |> sign
+      |> get_compact
+
+    iframe_url =
+      "#{metabase_site_url}/embed/dashboard/#{metabase_token}#bordered=false&titled=true"
 
     render(
       conn,
       "index.html",
-      start_date: start_date,
-      end_date: end_date,
-      impressions_by_day: Poison.encode!(impressions_by_day),
-      clicks_by_day: Poison.encode!(clicks_by_day),
-      total_impressions: total_impressions,
-      total_clicks: total_clicks
+      iframe_url: iframe_url
     )
   end
 end

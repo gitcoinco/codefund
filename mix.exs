@@ -88,6 +88,7 @@ defmodule CodeFund.Mixfile do
       {:remote_ip, "~> 0.1.0"},
       {:rollbax, "0.9.0"},
       {:corsica, "~> 1.0"},
+      {:joken, "~> 1.5.0"},
       {:mock, "~> 0.3.0", only: :test},
       {:excoveralls, "~> 0.8", only: :test}
     ]
