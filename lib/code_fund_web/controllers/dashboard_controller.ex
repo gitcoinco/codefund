@@ -16,6 +16,7 @@ defmodule CodeFundWeb.DashboardController do
             resource: %{dashboard: 1},
             params: %{}
           }
+
         false ->
           %{
             resource: %{dashboard: 2},
