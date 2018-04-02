@@ -17,25 +17,21 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
 
-  <!-- Bootstrap CSS -->
-  <link href="<%= static_path(@conn, "/home/css/bootstrap.min.css") %>" rel="stylesheet" type="text/css">
-  
-  <!-- Font Awesome CSS -->
-  <link href="<%= static_path(@conn, "/home/css/font-awesome.min.css") %>" rel="stylesheet" type="text/css">
-  
-  <!-- Include all css plugins (below), or include individual files as needed -->
-  <link href="<%= static_path(@conn, "/home/css/flickity.min.css") %>" rel="stylesheet" type="text/css">
-  <link href="<%= static_path(@conn, "/home/css/magnific-popup.css") %>" rel="stylesheet" type="text/css">
-  
-  <!-- BG Video - YouTube -->
-  <link href="<%= static_path(@conn, "/home/css/jquery.mb.YTPlayer.min.css") %>" rel="stylesheet" type="text/css">
-  
-  <!-- Theme CSS -->
-  <link href="<%= static_path(@conn, "/home/css/theme.css") %>" rel="stylesheet" type="text/css">
-  <link href="<%= static_path(@conn, "/home/css/style.css") %>" rel="stylesheet" type="text/css">
-  
-  <!-- Color Scheme CSS -->
-  <link href="<%= static_path(@conn, "/home/css/color_pink.css") %>" rel="stylesheet" type="text/css">
+  <!-- Google Fonts -->
+  <link href="//fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+
+  <!-- Magnific-popup -->
+  <link rel="stylesheet" href="<%= static_path(@conn, "/home/css/magnific-popup.css") %>">
+
+  <!-- Bootstrap core CSS -->
+  <link href="<%= static_path(@conn, "/home/css/bootstrap.min.css") %>" rel="stylesheet">
+
+  <!-- materialdesign icons CSS -->
+  <link href="<%= static_path(@conn, "/home/css/materialdesignicons.min.css") %>" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="<%= static_path(@conn, "/home/css/menu.css") %>" rel="stylesheet">
+  <link href="<%= static_path(@conn, "/home/css/style.css") %>" rel="stylesheet">
 
   <style>
     .navbar-brand img {
@@ -50,147 +46,638 @@
 </head>
 
 <body id="page-top">
-        
-  <!-- Navigation Start -->
-  <nav id="navigation" class="navbar navbar-dark navbar-expand-lg bg-dark fixed-top">
-      <div class="container">
-          <div class="navbar-header">
-              <a class="navbar-brand page-scroll" href="#page-top">
-                  <img src="<%= static_path(@conn, "/images/codefund-logo.png") %>" alt="" class="logo-text-black"/>
-                  <img src="<%= static_path(@conn, "/images/codefund-logo-light.png") %>" alt="" class="logo-text-white"/>
-              </a>
-              
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-kania" aria-controls="navbar-kania" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-          </div>
-          <!-- //.navbar-header -->
-          
-          <div class="navbar-collapse collapse flex-row-reverse" id="navbar-kania">
-              <ul class="navbar-nav">
-                  <li class="nav-item">
-                      <a href="https://twitter.com/codesponsor" class="nav-link">Twitter</a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="https://github.com/gitcoinco/codefund" class="nav-link">GitHub</a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="https://slack.codesponsor.io" class="nav-link">Slack</a>
-                  </li>
-                  <li class="nav-item">
-                    <%= if Coherence.logged_in?(@conn) do %>
-                      <%= link "Dashboard", to: dashboard_path(@conn, :index), class: "nav-link" %>
-                    <% else %>
-                      <%= link "Login", to: session_path(@conn, :new), class: "nav-link" %>
-                    <% end %>
-                  </li>
-              </ul>
-          </div>
-          <!-- //.navbar-collapse -->
-      </div>
-      <!-- //.container -->
-  </nav>
-  <!-- //Navigation End -->
-  
-  
-  <!-- Section - Home Start -->
-  <section id="home-bg-video" class="bg-cover bg-gray bg-overlay-black-6 h-100 p-0 w-100">
-      <!-- BG Video - YouTube -->
-      <div id="bgndVideoYouTube" class="player bg-overlay-black-6 h-100 w-100" 
-            data-property="{videoURL:'https://www.youtube.com/watch?v=x1DRnv4yYU0'}"
-            data-video-poster="assets/images/bg-home-1.jpg">
-      </div>
-      <!-- //.player -->
-      
-      <div class="h-100 left-0 position-absolute top-0 w-100">
-          <div class="container h-100">
-              <div class="row align-items-center h-100">
-                  <div class="col-lg-9 col-xl-7">
-                      <span class="font-alt font-w-600 letter-spacing-2 opacity-9-5 text-large text-uppercase text-white">
-                        What do we do?
-                      </span>
 
-                      <h2 class="font-alt font-w-700 letter-spacing-2 m-0 mt-3 text-uppercase text-white title-xs-extra-large title-sm-extra-large-3 title-extra-large-4">
-                          We help sustain open source through Ethical Advertising
-                      </h2>
-
-                      <span class="bg-base-color d-block mt-4 sep-line-extra-thick-long"></span>
-                  </div>
-                  <!-- //.col-lg-9 -->
-              </div>
-              <!-- //.row -->
-          </div>
-          <!-- //.container -->
-      </div>
-      <!-- //.h-100 -->
-  </section>
-  <!-- //Section - Home End -->
-
-  <!-- Section - About Start -->
-  <section id="about" class="bg-white">
-    <div class="container">
-        <div class="row justify-content-center pb-4 pb-lg-5">
-            <div class="col-lg-6 text-center">
-                <h3 class="font-alt font-w-600 letter-spacing-2 m-0 mt-1 text-uppercase title-xs-small title-medium title-underline-thick-base-color">
-                  What is CodeFund?
-                </h3>
-                <p class="mt-4 text-xs-large text-extra-large">
-                  We provide a way for open source developers to get paid by placing ethical ads on their websites.
-                </p>
-            </div>
-            <!-- //.col-lg-6 -->
-        </div>
-        <!-- //.row -->
-        
-        <div class="row">
-            <div class="col-lg-6">
-                <a href="https://jsbin.com" target="_blank"><img src="<%= static_path(@conn, "/home/images/jsbin.png") %>" alt="" class="img-fluid"/></a>
-            </div>
-            <!-- //.col-lg-6 -->
-            
-            <div class="col-lg-6">
-                <div class="pl-lg-5 pt-5 pt-lg-0">
-                    <p class="font-alt text-extra-large">
-                      For so long, developers have struggled finding funding for their open source projects without needing to change their role as a developer.
-                    </p>
-                    <p class="font-alt text-extra-large">
-                      By connecting developers with companies that market to the developer pool, we've created a seamless way to raise funding without taking on a support role or licensing software.
-                    </p>
-                    <p class="mt-2 text-extra-large">
-                      If you are a developer who would like to monetize their open source projects, or a company which needs to be able to reach a normally hard-to-reach audience of developers, contact us!
-                    </p>
-                    <a href="mailto:team@codesponsor.io" class="btn btn-base-color btn-shadow mt-1">Contact Us</a>
+  <!-- TAGLINE HEADER START-->
+        <div class="topbar tagline-light"> 
+            <div class="container"> 
+                <div class="float-left"> 
+                    <div class="phone-topbar text-dark">
+                        <p class="mb-0">Help +1 123 456 78 90</p> 
+                    </div>                  
                 </div>
-                <!-- //.pl-lg-5 -->
+                <div class="float-right">
+                    <ul class="list-inline social pb-0 pt-2">
+                        <li class="list-inline-item pl-2"><a href="#"><i class="mdi mdi-facebook"></i></a></li>
+                        <li class="list-inline-item pl-2"><a href="#"><i class="mdi mdi-twitter"></i></a></li>
+                        <li class="list-inline-item pl-2"><a href="#"><i class="mdi mdi-instagram"></i></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <!-- //.col-lg-6 -->
         </div>
-        <!-- //.row -->
-    </div>
-    <!-- //.container -->
-  </section>
-  <!-- //Section - About End -->
-  
+        <!-- Static navbar -->
 
-  
-  
-  <!-- Footer Start -->
-  <footer class="bg-white py-5">
-      <div class="container">          
-          <div class="row align-items-center border-top pt-5">
-              <div class="col text-center">
-                  <span class="font-alt font-w-600 letter-spacing-1 text-gray-dark text-small text-uppercase">
-                    &copy; 2018 Consensus Systems. All rights reserved.
-                  </span>
-              </div>
-              <!-- //.col -->
-          </div>
-          <!-- //.row -->
-      </div>
-      <!-- //.container -->
-  </footer>
-  <!-- //Footer End -->
-  
+
+
+        <!-- Navigation Bar-->
+        <header id="topnav" class="defaultscroll topnav-light sticky fixed-top">
+            <div class="container">
+                <!-- Logo container-->
+                <div>
+                    <a href="index_1.html" class="logo">
+                        Canvab
+                    </a>
+                </div>
+                <!-- End Logo container-->
+                <div class="menu-extras">
+
+                    <div class="menu-item">
+                        <!-- Mobile menu toggle-->
+                        <a class="navbar-toggle">
+                            <div class="lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </a>
+                        <!-- End mobile menu toggle-->
+                    </div>
+                </div>
+
+                <div id="navigation">
+                    <!-- Navigation Menu-->
+                    <ul class="navigation-menu ">
+                        <li class="has-submenu active">
+                            <a href="#home">Home</a>
+                            <span class="menu-arrow"></span>
+                            <ul class="submenu">
+                                <li>
+                                    <a href="index_1.html">Home Default</a>
+                                </li>
+                                <li>
+                                    <a href="index_2.html">Home Text-Typed</a>
+                                </li>
+                                <li>
+                                    <a href="index_3.html">Home Text-Rotate </a>
+                                </li>
+                                <li>
+                                    <a href="index_4.html">Home Image</a>
+                                </li>
+                                <li>
+                                    <a href="index_5.html">Home Video</a>
+                                </li>
+                                <li>
+                                    <a href="index_6.html">Home Half-Screen</a>
+                                </li>
+                                <li>
+                                    <a href="index_7.html">Home Slider</a>
+                                </li>
+                                <li>
+                                    <a href="index_8.html">Home Animate</a>
+                                </li>                                
+                                <li>
+                                    <a href="index_9.html">Home Lightbar</a>
+                                </li>                                
+                                <li>
+                                    <a href="index_10.html">Home Animation</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="has-submenu ">
+                            <a href="#features">Features</a>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="#services">Services</a>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="#pricing">Pricing</a>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="#client">Client</a>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="#faq">FAQ</a>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="#contact">Contact</a>
+                        </li>
+                        <li class="has-submenu mobile-block">
+                            <a href="login.html">Log in</a>
+                        </li>
+
+                        <li class="has-submenu mobile-block">
+                            <a href="signup.html">Try It Free</a>
+                        </li>
+                    </ul>
+                    <ul class="navigation-menu menu-right">
+                        <li class="mobile-none">
+                            <a href="login.html">Log in</a>
+                        </li>
+                        <li class="mobile-none">
+                            <a href="signup.html">Try It Free</a>
+                        </li>
+                    </ul>
+                    <!-- End navigation menu-->
+                </div>
+            </div>
+        </header>
+        <!-- End Navigation Bar-->
+
+
+        <!-- START HOME  -->
+        <section class="home-bg-color" id="home">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 text-center text-white">
+                        <h1 class="mt-5 pt-5 home-title">We help startups launch their awesome website</h1>
+                        <p class="home-subtitle mx-auto pt-2">It is a long established fact that a reader will be of a page when looking at its layout.</p>
+                        <div class="mt-5">
+                            <a href="#" class="btn btn-custom">Free Signup</a>
+                        </div>
+                        <a href="https://vimeo.com/108096448" class="pt-4 video-play-icon watch-overview d-inline-block text-white">Watch the overview &nbsp;<i class="mdi mdi-chevron-right"></i></a>
+                        <div class=""> 
+                            <img src="images/macbook.png" alt="" class="img-fluid center-block home-dashboard">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END HOME -->
+
+        <!-- START FEATURES -->
+        <section class="section" id="features">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <div class="title-icon">
+                            <i class="mdi mdi-note-multiple-outline"></i>
+                        </div>
+                        <h3 class="section-title pt-5">Our Features</h3>
+                        <p class="section-subtitle text-dark pt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+                <div class="row vertical-content">
+                    <div class="col-md-6 pt-4">
+                        <img src="images/service-1.png" alt="" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="features-box">
+                            <div class="features-icon">
+                                <i class="mdi mdi-eye text-custom"></i>
+                            </div>
+                            <div class="features-desc">
+                                <h5>Digital Design</h5>
+                                <p class="pt-2">Lorem ipsum dolor sit amet, Ut enim ad minim veniam, nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <a href="#" class="text-custom features-more">Read More <i class="mdi mdi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row vertical-content">
+                    <div class="col-md-6">
+                        <div class="features-box">
+                            <div class="features-icon">
+                                <i class="mdi mdi-chart-bubble text-custom"></i>
+                            </div>
+                            <div class="features-desc">
+                                <h5>Unlimited Colors</h5>
+                                <p class="pt-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                <a href="#" class="text-custom features-more">Read More <i class="mdi mdi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pt-4">
+                        <img src="images/service-2.png" alt="" class="img-fluid rounded">
+                    </div>
+                </div>
+                <div class="row vertical-content">
+                    <div class="col-md-6 pt-4">
+                        <img src="images/service-3.png" alt="" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="features-box">
+                            <div class="features-icon">
+                                <i class="mdi mdi-fingerprint text-custom"></i>
+                            </div>
+                            <div class="features-desc">
+                                <h5>Strategy Solutions</h5>
+                                <p class="pt-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit,ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                <a href="#" class="text-custom features-more">Read More <i class="mdi mdi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END FEATURES -->
+
+        <!-- START COUNTER -->
+        <section class="section bg-custom">
+            <div class="container">
+                <div class="row justify-content-center" id="counter">
+                    <div class="col-md-3 text-white text-center pt-3 pb-3">
+                        <div class="counter-icon">
+                            <i class="mdi mdi-timer"></i>
+                        </div>
+                        <h1 class="counter-value" data-count="1200">0</h1>
+                        <h5 class="counter-name">Working Hours</h5>
+                    </div>
+
+                    <div class="col-md-3 text-white text-center pt-3 pb-3">
+                        <div class="counter-icon">
+                            <i class="mdi mdi-briefcase"></i>
+                        </div>
+                        <h1 class="counter-value" data-count="4900">10</h1>
+                        <h5 class="counter-name">Completed Projects</h5>
+                    </div>
+
+                    <div class="col-md-3 text-white text-center pt-3 pb-3">
+                        <div class="counter-icon">
+                            <i class="mdi mdi-account"></i>
+                        </div>
+                        <h1 class="counter-value" data-count="5645">608</h1>
+                        <h5 class="counter-name">No. of Clients</h5>
+                    </div>
+                    <div class="col-md-3 text-white text-center pt-3 pb-3"> 
+                        <div class="counter-icon">
+                            <i class="mdi mdi-account-multiple"></i>
+                        </div>                       
+                        <h1 class="counter-value" data-count="800">2</h1>
+                        <h5 class="counter-name">team Member</h5>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- END COUNTER -->
+
+        <!-- START SERVICES -->
+        <section class="section" id="services">
+            <div class="container">
+                <div class="row justify-content-center pt-5">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <div class="title-icon">
+                                <i class="mdi mdi-all-inclusive text-custom"></i>
+                            </div>
+                            <h3 class="section-title pt-5">Our Services</h3>
+                            <p class="section-subtitle pt-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <div class="service-box text-center p-4 mt-3">
+                            <div class="service-icon">
+                                <i class="mdi mdi-cube-outline text-custom"></i>
+                            </div>
+                            <div class="service-desc pt-4">
+                                <h5>Digital Design</h5>
+                                <p class="pt-2 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-box text-center p-4 mt-3">
+                            <div class="service-icon">
+                                <i class="mdi mdi-headset text-custom"></i>
+                            </div>
+                            <div class="service-desc pt-4">
+                                <h5>Unlimited Colors</h5>
+                                <p class="pt-2 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-box text-center p-4 mt-3">
+                            <div class="service-icon">
+                                <i class="mdi mdi-monitor text-custom"></i>
+                            </div>
+                            <div class="service-desc pt-4">
+                                <h5>Strategy Solutions</h5>
+                                <p class="pt-2 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="service-box text-center p-4 mt-3">
+                            <div class="service-icon">
+                                <i class="mdi mdi-cloud-outline text-custom"></i>
+                            </div>
+                            <div class="service-desc pt-4">
+                                <h5>Awesome Support</h5>
+                                <p class="pt-2 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-box text-center p-4 mt-3">
+                            <div class="service-icon">
+                                <i class="mdi mdi-cellphone-android text-custom"></i>
+                            </div>
+                            <div class="service-desc pt-4">
+                                <h5>Truly Multipurpose</h5>
+                                <p class="pt-2 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-box text-center p-4 mt-3">
+                            <div class="service-icon">
+                                <i class="mdi mdi-eyedropper text-custom"></i>
+                            </div>
+                            <div class="service-desc pt-4">
+                                <h5>Easy to customize</h5>
+                                <p class="pt-2 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END SERVICES -->
+
+        <!-- START PRICING -->
+        <section class="section bg-light" id="pricing">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <div class="title-icon">
+                                <i class="mdi mdi-note-multiple-outline"></i>
+                            </div>
+                            <h3 class="section-title pt-5">Our Pricing</h3>
+                            <p class="section-subtitle pt-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-4">
+                        <div class="price-box p-5 bg-white text-center mt-4">
+                            <div class="plan-price">
+                                <h2><sup>$</sup>00</h2>
+                            </div>
+                            <div class="plan-name mt-4">
+                                <h6>Free</h6>
+                            </div>
+                            <div class="plan-desc mt-4">
+                                <p class="mb-0 text-muted">Basic version with unique design & strong sound quality.</p>
+                            </div>
+                            <div class="mt-5">
+                                <a href="#" class="btn btn-custom btn-rounded">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="price-box p-5 bg-white text-center mt-1">
+                            <div class="plan-lable">
+                                <p class="mb-3 text-uppercase">Popular</p>
+                            </div>
+                            <div class="plan-price">
+                                <h2><sup>$</sup>190</h2>
+                            </div>
+                            <div class="plan-name mt-4">
+                                <h6>Deluxe</h6>
+                            </div>
+                            <div class="plan-desc mt-4">
+                                <p class="mb-0 text-muted">Basic version with unique design & strong sound quality.</p>
+                            </div>
+                            <div class="mt-5">
+                                <a href="#" class="btn btn-custom btn-rounded">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="price-box p-5 bg-white text-center mt-4">
+                            <div class="plan-price">
+                                <h2><sup>$</sup>290</h2>
+                            </div>
+                            <div class="plan-name mt-4">
+                                <h6>Ultimate</h6>
+                            </div>
+                            <div class="plan-desc mt-4">
+                                <p class="mb-0 text-muted">Basic version with unique design & strong sound quality.</p>
+                            </div>
+                            <div class="mt-5">
+                                <a href="#" class="btn btn-custom btn-rounded">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END PRICING -->
+
+        <!-- START TESTIMONIAL -->
+        <section class="section bg-gray" id="client">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <div class="title-icon">
+                                <i class="mdi mdi-account-circle"></i>
+                            </div>
+                            <h3 class="section-title pt-5">Our Client</h3>
+                            <p class="section-subtitle pt-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <div class="testimonial-box">
+                            <div class="testimonial-desc bg-light p-4">
+                                <p class="text-center text-muted"><span>"</span>Lorem ipsum dolor sit amet, consectetur sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<span>"</span></p>
+                                <p class="text-center mb-0 quote-icon text-custom"><i class="mdi mdi-format-quote-open"></i></p>
+                            </div>
+                            <div class="mt-4 testi-img">
+                                <img src="images/image-1.png" alt="" class="img-fluid rounded-circle d-block mx-auto">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="testimonial-box">
+                            <div class="testimonial-desc bg-light p-4">
+                                <p class="text-center text-muted"><span>"</span>Lorem ipsum dolor sit amet, consectetur sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<span>"</span></p>
+                                <p class="text-center mb-0 quote-icon text-custom"><i class="mdi mdi-format-quote-open"></i></p>
+                            </div>
+                            <div class="mt-4 testi-img">
+                                <img src="images/image-2.png" alt="" class="img-fluid rounded-circle d-block mx-auto">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="testimonial-box">
+                            <div class="testimonial-desc bg-light p-4">
+                                <p class="text-center text-muted"><span>"</span>Lorem ipsum dolor sit amet, consectetur sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<span>"</span></p>
+                                <p class="text-center mb-0 quote-icon text-custom"><i class="mdi mdi-format-quote-open"></i></p>
+                            </div>
+                            <div class="mt-4 testi-img">
+                                <img src="images/image-3.png" alt="" class="img-fluid rounded-circle d-block mx-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END TESTIMONIAL -->
+
+        <!-- START FAQ -->
+        <section class="section bg-light" id="faq">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <div class="title-icon">
+                                <i class="mdi mdi-comment-question-outline"></i>
+                            </div>
+                            <h3 class="section-title pt-5">Frequently Asked Questions</h3>
+                            <p class="section-subtitle pt-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-5">
+                    <div class="col-lg-6 faq-side"> 
+                        <div class="faq pt-5">
+                            <p class="text-uppercase user-title mb-1">for user</p>
+                            <div class="faq-ans">
+                                <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> What is Lorem Ipsum?</h3>
+                                <p class="faq-sub-title text-muted pt-2">You want customer to your store. Easily publish your coupans and when a user has manage to catch one of your coupens, the coupens will be deducted from your coupens account at Clooger.</p>
+                            </div>
+                        </div> 
+                        <div class="faq pt-5">
+                            <p class="text-uppercase user-title mb-1 mb-1">for user</p>
+                            <div class="faq-ans">
+                                <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> Why use Lorem Ipsum?</h3>
+                                <p class="faq-sub-title text-muted pt-2">You want customer to your store. Easily publish your coupans and when a user has manage to catch one of your coupens, the coupens will be deducted from your coupens account at Clooger.</p>
+                            </div>
+                        </div>
+                        <div class="faq pt-5">
+                            <p class="text-uppercase user-title mb-1">for user</p>
+                            <div class="faq-ans">
+                                <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> How many variations exist?</h3>
+                                <p class="faq-sub-title text-muted pt-2">You want customer to your store. Easily publish your coupans and when a user has manage to catch one of your coupens, the coupens will be deducted from your coupens account at Clooger.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 faq-side "> 
+                        <div class="faq pt-5">
+                            <p class="text-uppercase user-title mb-1">for advertiser</p>
+                            <div class="faq-ans">
+                                <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> What is Lorem Ipsum?</h3>
+                                <p class="faq-sub-title text-muted pt-2">You want customer to your store. Easily publish your coupans and when a user has manage to catch one of your coupens, the coupens will be deducted from your coupens account at Clooger.</p>
+                            </div>
+                        </div> 
+                        <div class="faq pt-5">
+                            <p class="text-uppercase user-title mb-1">for advertiser</p>
+                            <div class="faq-ans">
+                                <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> Is safe use Lorem Ipsum?</h3>
+                                <p class="faq-sub-title text-muted pt-2">You want customer to your store. Easily publish your coupans and when a user has manage to catch one of your coupens, the coupens will be deducted from your coupens account at Clooger.</p>
+                            </div>
+                        </div>
+                        <div class="faq pt-5">
+                            <p class="text-uppercase user-title mb-1">for advertiser</p>
+                            <div class="faq-ans">
+                                <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> When can be used?</h3>
+                                <p class="faq-sub-title text-muted pt-2">You want customer to your store. Easily publish your coupans and when a user has manage to catch one of your coupens, the coupens will be deducted from your coupens account at Clooger.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END FAQ -->
+
+        <!-- START CONTACT/FOOTER -->
+        <section class="pt-5 bg-dark" id="contact">
+            <div class="container">
+                <div class="row justify-content-center pt-5">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <div class="title-icon">
+                                <i class="mdi mdi-lock-open-outline"></i>
+                            </div>
+                            <h3 class="section-title text-white pt-5">Contact us</h3>
+                            <p class="section-subtitle pt-3 text-whte">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row mt-5">
+                            <div class="col-lg-4">
+                                <div class="single-contact text-center text-white"> 
+                                    <i class="mdi mdi-cellphone"></i>
+                                    <h4>Phone</h4>
+                                    <p>000-111-222 333</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="single-contact text-center text-white"> 
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <h4>Address</h4>
+                                    <p>011, Williams Lane USA</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="single-contact text-center text-white"> 
+                                    <i class="mdi mdi-email-outline"></i>
+                                    <h4>Email</h4>
+                                    <p>info@example.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-5">
+                    <div class="col-lg-8 bg-white p-5 mt-4 rounded">
+                        <form class="form-custom">
+                            <div class="row">
+                                <div class="col-lg-6 mt-3">
+                                    <input type="text" class="form-control" placeholder="First name" required >
+                                </div>
+                                <div class="col-lg-6 mt-3">
+                                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" required >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mt-3">
+                                    <input type="text" class="form-control" id="subject" placeholder="Your Subject.." />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mt-3">
+                                    <textarea name="comments" id="comments" rows="6" class="form-control" placeholder="Your message..."></textarea>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <button class="btn btn-custom" >Submit</button>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <p class="text-center submit-terms mb-0 mt-3">Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-5 pt-5 pb-2">
+                    <div class="col-md-12">
+                        <div class="text-white footer-alt">
+                            <div class="float-left">
+                                <p class="copyright-desc pb-0">2017 © Canvab. All Rights Reserved</p>
+                            </div>
+                            <div class="float-right">
+                                <ul class="list-inline social pb-0">
+                                    <li class="list-inline-item pl-2"><a href="#" class="text-white"><i class="mdi mdi-facebook"></i></a></li>
+                                    <li class="list-inline-item pl-2"><a href="#" class="text-white"><i class="mdi mdi-twitter"></i></a></li>
+                                    <li class="list-inline-item pl-2"><a href="#" class="text-white"><i class="mdi mdi-instagram"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END CONTACT/FOOTER -->
   
   <!-- Scroll to top -->
   <a href="#page-top" class="page-scroll scroll-to-top"><i class="fa fa-angle-up"></i></a>
@@ -202,19 +689,11 @@
   <script src="<%= static_path(@conn, "/home/js/bootstrap.min.js") %>"></script>
   
   <!-- Include all js plugins (below) -->
-  <script src="<%= static_path(@conn, "/home/js/pace.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/home/js/jquery.easing.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/home/js/jquery.matchHeight.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/home/js/jquery.inview.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/home/js/jquery.countTo.js") %>"></script>
-  <script src="<%= static_path(@conn, "/home/js/imagesloaded.pkgd.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/home/js/flickity.pkgd.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/home/js/isotope.pkgd.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/home/js/scrollspy.min.js") %>" type="text/javascript"></script>
   <script src="<%= static_path(@conn, "/home/js/jquery.magnific-popup.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/home/js/jquery.validate.min.js") %>"></script>
-  
-  <!-- BG Video - YouTube -->
-  <script src="<%= static_path(@conn, "/home/js/jquery.mb.YTPlayer.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/home/js/waypoints.min.js") %>" type="text/javascript"></script>
+  <script src="<%= static_path(@conn, "/home/js/jquery.counterup.min.js") %>" type="text/javascript"></script>
   
   <!-- Theme JS -->
   <script src="<%= static_path(@conn, "/home/js/theme.js") %>"></script>
