@@ -1,5 +1,6 @@
 defmodule CodeFundWeb.UpdateClickGeolocationWorker do
   alias CodeFund.Clicks
+  import CodeFund.Reporter
 
   def perform(click_id) do
     click = Clicks.get_click!(click_id)
@@ -18,6 +19,7 @@ defmodule CodeFundWeb.UpdateClickGeolocationWorker do
         Clicks.update_click(click, location_data)
 
       {:error, %GeoIP.Error{reason: _reason}} ->
+        report(:error)
         IO.puts("Unable to find geolocation for IP: #{click.ip}")
     end
   end

@@ -16,6 +16,8 @@ defmodule CodeFundWeb.PropertyController do
         render(conn, "index.html", assigns)
 
       error ->
+        report(:error)
+
         conn
         |> put_flash(:error, "There was an error rendering Properties. #{inspect(error)}")
         |> redirect(to: property_path(conn, :index))
@@ -41,6 +43,7 @@ defmodule CodeFundWeb.PropertyController do
         |> redirect(to: property_path(conn, :show, property))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "new.html", form: form)
     end
   end
@@ -77,6 +80,7 @@ defmodule CodeFundWeb.PropertyController do
         |> redirect(to: property_path(conn, :show, property))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "edit.html", property: property, form: form)
     end
   end

@@ -15,6 +15,8 @@ defmodule CodeFundWeb.CreativeController do
         render(conn, "index.html", assigns)
 
       error ->
+        report(:error)
+
         conn
         |> put_flash(:error, "There was an error rendering creatives. #{inspect(error)}")
         |> redirect(to: creative_path(conn, :index))
@@ -39,6 +41,7 @@ defmodule CodeFundWeb.CreativeController do
         |> redirect(to: creative_path(conn, :show, creative))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "new.html", form: form)
     end
   end
@@ -68,6 +71,7 @@ defmodule CodeFundWeb.CreativeController do
         |> redirect(to: creative_path(conn, :show, creative))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "edit.html", creative: creative, form: form)
     end
   end

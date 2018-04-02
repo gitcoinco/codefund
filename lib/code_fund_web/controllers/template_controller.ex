@@ -13,6 +13,8 @@ defmodule CodeFundWeb.TemplateController do
         render(conn, "index.html", assigns)
 
       error ->
+        report(:error)
+
         conn
         |> put_flash(:error, "There was an error rendering templates. #{inspect(error)}")
         |> redirect(to: template_path(conn, :index))
@@ -35,6 +37,7 @@ defmodule CodeFundWeb.TemplateController do
         |> redirect(to: template_path(conn, :show, template))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "new.html", form: form)
     end
   end
@@ -63,6 +66,7 @@ defmodule CodeFundWeb.TemplateController do
         |> redirect(to: template_path(conn, :show, template))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "edit.html", template: template, form: form)
     end
   end

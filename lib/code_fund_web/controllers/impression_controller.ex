@@ -12,6 +12,8 @@ defmodule CodeFundWeb.ImpressionController do
         render(conn, "index.html", assigns)
 
       error ->
+        report(:error)
+
         conn
         |> put_flash(:error, "There was an error rendering Impressions. #{inspect(error)}")
         |> redirect(to: impression_path(conn, :index))
@@ -31,6 +33,7 @@ defmodule CodeFundWeb.ImpressionController do
         |> redirect(to: impression_path(conn, :show, impression))
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        report(:warn, "Changeset Error")
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -56,6 +59,7 @@ defmodule CodeFundWeb.ImpressionController do
         |> redirect(to: impression_path(conn, :show, impression))
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        report(:warn, "Changeset Error")
         render(conn, "edit.html", impression: impression, changeset: changeset)
     end
   end

@@ -15,6 +15,8 @@ defmodule CodeFundWeb.CampaignController do
         render(conn, "index.html", assigns)
 
       error ->
+        report(:error)
+
         conn
         |> put_flash(:error, "There was an error rendering Campaigns. #{inspect(error)}")
         |> redirect(to: campaign_path(conn, :index))
@@ -39,6 +41,7 @@ defmodule CodeFundWeb.CampaignController do
         |> redirect(to: campaign_path(conn, :show, campaign))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "new.html", form: form)
     end
   end
@@ -68,6 +71,7 @@ defmodule CodeFundWeb.CampaignController do
         |> redirect(to: campaign_path(conn, :show, campaign))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "edit.html", campaign: campaign, form: form)
     end
   end
