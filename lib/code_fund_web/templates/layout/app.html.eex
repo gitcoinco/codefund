@@ -26,5 +26,6 @@
 <body class="<%= body_class @conn, "app mt-5" %>">
   <%= flash_element(@conn) %>
   <%= render @view_module, @view_template, assigns %>
+  <%= ga_tag() %>
 </body>
 </html>

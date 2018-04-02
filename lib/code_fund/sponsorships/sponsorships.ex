@@ -115,12 +115,13 @@ defmodule CodeFund.Sponsorships do
           c in Campaign,
           join: s in assoc(c, :sponsorships),
           join: b in assoc(c, :budgeted_campaign),
-          where: c.status == 1,
+          where: c.status == 2,
           where: s.property_id == ^property.id,
           where: b.day_remain > 0,
           where: b.month_remain > 0,
           where: b.total_remain > 0,
-          order_by: [desc: c.bid_amount]
+          order_by: [desc: c.bid_amount],
+          limit: 1
         )
       )
 
@@ -133,7 +134,8 @@ defmodule CodeFund.Sponsorships do
           from(
             s in Sponsorship,
             where: s.property_id == ^property.id,
-            where: s.campaign_id == ^campaign.id
+            where: s.campaign_id == ^campaign.id,
+            limit: 1
           )
         )
 

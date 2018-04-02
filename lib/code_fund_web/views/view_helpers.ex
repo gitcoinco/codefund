@@ -62,4 +62,24 @@ defmodule CodeFundWeb.ViewHelpers do
 
     "https://www.gravatar.com/avatar/#{hash}?s=150&d=identicon"
   end
+
+  def ga_tag do
+    ga_tracking_id = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:ga_tracking_id]
+
+    html = """
+    <script async src="https://www.googletagmanager.com/gtag/js?id=#{ga_tracking_id}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '#{ga_tracking_id}');
+    </script>
+    """
+
+    case ga_tracking_id do
+      nil -> {:safe, ""}
+      _   -> {:safe, html}
+    end
+  end
 end
