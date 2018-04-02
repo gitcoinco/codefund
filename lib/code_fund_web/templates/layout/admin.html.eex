@@ -156,5 +156,6 @@
     <span>&copy; 2018 <a href="https://consensys.net">ConsenSys</a>. All Rights Reserved</span>
     <span class="ml-auto">Powered by <a href="https://github.com/gitcoinco/codefund">Open Source</a></span>
   </footer>
+  <%= ga_tag() %>
 </body>
 </html>

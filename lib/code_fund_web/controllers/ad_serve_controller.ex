@@ -42,7 +42,7 @@ defmodule CodeFundWeb.AdServeController do
             )
 
           true ->
-            details_url = "//#{conn.host}/t/s/#{property.id}/details.json"
+            details_url = "https://#{conn.host}/t/s/#{property.id}/details.json"
 
             conn
             |> put_resp_content_type("application/javascript")

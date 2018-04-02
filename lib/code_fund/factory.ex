@@ -26,11 +26,11 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Campaign{
       name: "Test Campaign",
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
-      status: 1,
-      bid_amount: Decimal.new(2.00),
-      budget_daily_amount: Decimal.new(25.00),
-      budget_monthly_amount: Decimal.new(500.00),
-      budget_total_amount: Decimal.new(2500.00),
+      status: 2,
+      bid_amount: Decimal.new(2),
+      budget_daily_amount: Decimal.new(25),
+      budget_monthly_amount: Decimal.new(500),
+      budget_total_amount: Decimal.new(2500),
       user: build(:user)
     }
   end
@@ -39,7 +39,7 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Sponsorship{
       property: build(:property),
       campaign: build(:campaign),
-      bid_amount: Decimal.new(250.00),
+      bid_amount: Decimal.new(250),
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}")
     }
   end
