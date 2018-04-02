@@ -4,15 +4,6 @@
   <li class="breadcrumb-item active">Dashboard</li>
 </ol>
 
-<div class="metamask-container" data-controller="metamask-dashboard">
-  <iframe
-    class="metamask-iframe"
-    data-target="metamask-dashboard.iframe"
-    data-user-id="<%= Coherence.current_user(@conn).id %>"
-    data-site-url="<%= Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_site_url] %>"
-    data-secret-key="<%= Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_secret_key] %>"
-    frameBorder="0"
-    height="1200"
-    allowTransparency
-  />
+<div class="metamask-container">
+  <iframe src="<%= @iframe_url %>" class="metamask-iframe" frameBorder="0" height="1200" allowTransparency />
 </div>
