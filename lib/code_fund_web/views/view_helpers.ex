@@ -79,7 +79,7 @@ defmodule CodeFundWeb.ViewHelpers do
 
     case ga_tracking_id do
       nil -> {:safe, ""}
-      _   -> {:safe, html}
+      _ -> {:safe, html}
     end
   end
 end
