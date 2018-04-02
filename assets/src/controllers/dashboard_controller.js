@@ -5,9 +5,6 @@ import Chart from "chart.js";
 import daterangepicker from "bootstrap-daterangepicker";
 
 import $ from "jquery/dist/jquery";
-/* 
-import jQuery from "detached-jquery-1.10.2";
-const $ = jQuery.getJQuery(); */
 
 export default class extends Controller {
   static get targets() {
@@ -15,11 +12,26 @@ export default class extends Controller {
   }
 
   connect() {
-    const impressionsByDay = JSON.parse(this.element.dataset.impressionsByDay);
-    const clicksByDay = JSON.parse(this.element.dataset.clicksByDay);
+    this.impressionsByDay = JSON.parse(this.element.dataset.impressionsByDay);
+    this.clicksByDay = JSON.parse(this.element.dataset.clicksByDay);
 
-    this.loadTrafficImpressionsChart(impressionsByDay);
-    this.loadTrafficClicksChart(clicksByDay);
+    this.impressionsByDay = {
+      "03/01/2018": 4,
+      "03/02/2018": 5,
+      "03/03/2018": 2,
+      "03/31/2018": 4
+    };
+    this.clicksByDay = {
+      "03/01/2018": 1,
+      "03/02/2018": 6,
+      "03/10/2018": 3,
+      "03/31/2018": 10
+    };
+
+    this.impressionChart = this.loadTrafficImpressionsChart(
+      this.impressionsByDay
+    );
+    this.clicksChart = this.loadTrafficClicksChart(this.clicksByDay);
 
     this.initDatePicker();
 
@@ -27,30 +39,61 @@ export default class extends Controller {
   }
 
   initDatePicker() {
-    const startDate = this.element.dataset.startDate;
-    const endDate = this.element.dataset.endDate;
+    const { startDate } = this.element.dataset;
+    const { endDate } = this.element.dataset;
 
     const picker = $(this.dateRangeTarget);
     picker.daterangepicker(
       {
         startDate: moment(startDate),
-        endDate: moment(endDate)
+        endDate: moment(endDate),
+        minDate: moment(startDate),
+        maxDate: moment(endDate)
       },
       (start, end) => {
-        console.log(start, end);
+        this.updateCharts(start, end);
       }
     );
-
-    console.log(startDate);
-    console.log(endDate);
-
-    picker.on("apply.daterangepicker", (ev, picker) => {
-      console.log("APPLYING");
-    });
   }
 
   strToDate(str) {
     return moment(str);
+  }
+
+  updateCharts(start, end) {
+    const newImpressions = this.filterData(this.impressionsByDay, start, end);
+    const newClicks = this.filterData(this.clicksByDay, start, end);
+
+    this.replaceDatasets(this.clicksChart, newClicks);
+    this.replaceDatasets(this.impressionChart, newImpressions);
+
+    this.impressionChart.update();
+    this.clicksChart.update();
+  }
+
+  replaceDatasets(chart, newData) {
+    console.log(newData);
+    chart.data.labels.pop();
+    chart.data.labels.push(newData.labels);
+    chart.data.datasets.forEach(dataset => {
+      dataset.data.pop();
+      dataset.data.push(newData.data);
+    });
+    return chart;
+  }
+
+  filterData(raw, start, end) {
+    const newLabels = [];
+    this.filtered = Object.keys(raw).filter(time => {
+      if (moment(time) > moment(start) && moment(time) < moment(end)) {
+        newLabels.push(moment(time));
+        return raw[time];
+      }
+    });
+    return {
+      data: this.filtered,
+      labels: newLabels
+    };
   }
 
   loadTrafficImpressionsChart(impressionsByDay) {
