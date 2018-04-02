@@ -22,7 +22,9 @@ config :code_fund, CodeFundWeb.Endpoint,
       ~r{lib/code_fund_web/plugs/.*(ex)$}
     ]
   ],
-  ga_tracking_id: System.get_env("GA_TRACKING_ID")
+  ga_tracking_id: System.get_env("GA_TRACKING_ID"),
+  metabase_site_url: System.get_env("METABASE_SITE_URL"),
+  metabase_secret_key: System.get_env("METABASE_SECRET_KEY")
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
