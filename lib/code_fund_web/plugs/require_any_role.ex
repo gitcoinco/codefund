@@ -1,5 +1,6 @@
 defmodule CodeFundWeb.Plugs.RequireAnyRole do
   import Plug.Conn
+  import CodeFund.Reporter
 
   def init(opts), do: opts
 
@@ -19,6 +20,8 @@ defmodule CodeFundWeb.Plugs.RequireAnyRole do
       conn
     else
       _ ->
+        report(:error)
+
         conn
         |> Phoenix.Controller.redirect(to: opts[:to])
         |> Phoenix.Controller.put_flash(:error, opts[:flash])

@@ -1,5 +1,6 @@
 defmodule CodeFundWeb.UpdateImpressionGeolocationWorker do
   alias CodeFund.Impressions
+  import CodeFund.Reporter
 
   def perform(impression_id) do
     impression = Impressions.get_impression!(impression_id)
@@ -18,6 +19,7 @@ defmodule CodeFundWeb.UpdateImpressionGeolocationWorker do
         Impressions.update_impression(impression, location_data)
 
       {:error, %GeoIP.Error{reason: _reason}} ->
+        report(:error)
         IO.puts("Unable to find geolocation for IP: #{impression.ip}")
     end
   end

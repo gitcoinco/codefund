@@ -6,6 +6,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
   use Coherence.Web, :controller
   use Timex
   use Coherence.Config
+  import CodeFund.Reporter
 
   import Coherence.TrackableService
   import Ecto.Query
@@ -91,12 +92,16 @@ defmodule CodeFundWeb.Coherence.SessionController do
           user_schema.lockable?() and user_schema.locked?(user)
         )
       else
+        report(:error)
+
         conn
         |> put_flash(:error, Messages.backend().you_must_confirm_your_account())
         |> put_status(406)
         |> render(:new, new_bindings)
       end
     else
+      report(:error)
+
       conn
       |> track_failed_login(user, user_schema.trackable_table?())
       |> failed_login(user, lockable?)
@@ -264,6 +269,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
       {:error, :invalid_token} ->
         # this is a case of potential fraud
         Logger.warn("Invalid token. Potential Fraud.")
+        Rollbax.report(:error, :invalid_token, System.stacktrace())
 
         conn
         |> delete_req_header(opts[:login_key])

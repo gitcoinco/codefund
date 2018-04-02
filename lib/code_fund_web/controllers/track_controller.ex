@@ -16,6 +16,7 @@ defmodule CodeFundWeb.TrackController do
             impression.id
 
           {:error, _} ->
+            report(:warn)
             nil
         end
 
@@ -30,6 +31,7 @@ defmodule CodeFundWeb.TrackController do
     rescue
       Ecto.NoResultsError ->
         :ok
+        report(:error)
 
         conn
         |> put_resp_content_type("image/png")
@@ -49,6 +51,7 @@ defmodule CodeFundWeb.TrackController do
             impression.id
 
           {:error, _} ->
+            report(:warn)
             nil
         end
 
@@ -62,6 +65,7 @@ defmodule CodeFundWeb.TrackController do
       |> send_resp(200, @transparent_png)
     rescue
       Ecto.NoResultsError ->
+        report(:error)
         :ok
 
         conn
@@ -121,8 +125,12 @@ defmodule CodeFundWeb.TrackController do
 
                 distribution =
                   case Money.mult(revenue, revenue_rate) do
-                    {:ok, amount} -> Money.round(amount).amount
-                    {:error, _} -> 0
+                    {:ok, amount} ->
+                      Money.round(amount).amount
+
+                    {:error, _} ->
+                      report(:warn)
+                      0
                   end
 
                 Clicks.set_status(click, :redirected, %{
@@ -143,6 +151,7 @@ defmodule CodeFundWeb.TrackController do
       end
     rescue
       Ecto.NoResultsError ->
+        report(:error)
         IO.puts("Property is missing with ID [#{property_id}]")
         redirect(conn, external: "/?utm_content=no-property")
     end
@@ -198,8 +207,12 @@ defmodule CodeFundWeb.TrackController do
 
                 distribution =
                   case Money.mult(revenue, revenue_rate) do
-                    {:ok, amount} -> Money.round(amount).amount
-                    {:error, _} -> 0
+                    {:ok, amount} ->
+                      Money.round(amount).amount
+
+                    {:error, _} ->
+                      report(:warn)
+                      0
                   end
 
                 Clicks.set_status(click, :redirected, %{
@@ -210,6 +223,7 @@ defmodule CodeFundWeb.TrackController do
           end
 
         {:error, %Ecto.Changeset{} = changeset} ->
+          report(:warn, "Unable to save click: #{inspect(changeset)}")
           IO.puts("Unable to save click: #{inspect(changeset)}")
       end
 
@@ -240,8 +254,12 @@ defmodule CodeFundWeb.TrackController do
 
     distribution =
       case Money.mult(revenue, revenue_rate) do
-        {:ok, amount} -> Money.round(amount).amount
-        {:error, _} -> 0
+        {:ok, amount} ->
+          Money.round(amount).amount
+
+        {:error, _} ->
+          report(:warn)
+          0
       end
 
     Clicks.set_status(click, :redirected, %{
@@ -365,6 +383,7 @@ defmodule CodeFundWeb.TrackController do
         {:ok, click}
 
       {:error, %Ecto.Changeset{}} ->
+        report(:error)
         {:error, nil}
     end
   end

@@ -13,6 +13,8 @@ defmodule CodeFundWeb.ThemeController do
         render(conn, "index.html", assigns)
 
       error ->
+        report(:error)
+
         conn
         |> put_flash(:error, "There was an error rendering themes. #{inspect(error)}")
         |> redirect(to: theme_path(conn, :index))
@@ -35,6 +37,7 @@ defmodule CodeFundWeb.ThemeController do
         |> redirect(to: theme_path(conn, :show, theme))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "new.html", form: form)
     end
   end
@@ -63,6 +66,7 @@ defmodule CodeFundWeb.ThemeController do
         |> redirect(to: theme_path(conn, :show, theme))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "edit.html", theme: theme, form: form)
     end
   end

@@ -14,6 +14,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
 
   alias Coherence.ControllerHelpers, as: Helpers
   alias Coherence.{Messages, Schemas}
+  import CodeFund.Reporter
 
   require Logger
 
@@ -62,6 +63,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
         |> redirect_or_login(user, params, Config.allow_unconfirmed_access_for())
 
       {:error, changeset} ->
+        report(:error)
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -121,6 +123,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
         |> redirect_to(:registration_update, params, user)
 
       {:error, changeset} ->
+        report(:error)
         render(conn, "edit.html", user: user, changeset: changeset)
     end
   end
@@ -128,7 +131,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   @doc """
   Delete a registration.
   """
-  @spec update(conn, params) :: conn
+  @spec delete(conn, params) :: conn
   def delete(conn, params) do
     user = Coherence.current_user(conn)
     conn = Helpers.logout_user(conn)
