@@ -60,6 +60,15 @@ export default class extends Controller {
     return moment(str);
   }
 
+  updateAxes(chart) {
+    this.xId = chart.options.scales.xAxes[0].id;
+    this.yId = chart.options.scales.yAxes[0].id;
+    chart.scales[this.xId];
+    chart.scales[this.yId];
+    this.impressionChart.update();
+    this.clicksChart.update();
+  }
+
   updateCharts(start, end) {
     const newImpressions = this.filterData(this.impressionsByDay, start, end);
     const newClicks = this.filterData(this.clicksByDay, start, end);
@@ -67,29 +76,37 @@ export default class extends Controller {
     this.replaceDatasets(this.clicksChart, newClicks);
     this.replaceDatasets(this.impressionChart, newImpressions);
 
+    this.updateAxes(this.impressionChart);
+    this.updateAxes(this.clicksChart);
+
     this.impressionChart.update();
     this.clicksChart.update();
   }
 
   replaceDatasets(chart, newData) {
-    console.log(newData);
-    chart.data.labels.pop();
-    chart.data.labels.push(newData.labels);
-    chart.data.datasets.forEach(dataset => {
-      dataset.data.pop();
-      dataset.data.push(newData.data);
+    this.currentChart = chart;
+    this.currentChart.data.labels = [];
+    newData.labels.forEach(label => this.currentChart.data.labels.push(label));
+    this.currentChart.data.datasets.forEach(dataset => {
+      dataset.data = [];
+      newData.data.forEach(point => dataset.data.push(point));
     });
-    return chart;
+    return this.currentChart;
   }
 
   filterData(raw, start, end) {
     const newLabels = [];
-    this.filtered = Object.keys(raw).filter(time => {
-      if (moment(time) > moment(start) && moment(time) < moment(end)) {
-        newLabels.push(moment(time));
-        return raw[time];
-      }
-    });
+    this.filtered = Object.keys(raw)
+      .filter(time => {
+        if (
+          moment(time).isAfter(start, "day") &&
+          moment(time).isBefore(end, "day")
+        ) {
+          newLabels.push(moment(time));
+          return raw[time];
+        }
+      })
+      .map(time => raw[time]);
     return {
       data: this.filtered,
       labels: newLabels
