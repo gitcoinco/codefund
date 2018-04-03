@@ -96,9 +96,10 @@ defmodule CodeFund.Sponsorships do
   end
 
   def get_sponsorship_for_property(%Property{} = property) do
-    sponsorship = Repo.preload(property, :sponsorship).sponsorship
+    # sponsorship = Repo.preload(property, :sponsorship).sponsorship
 
-    case confirm_existing_sponsorship(property, sponsorship) do
+    # case confirm_existing_sponsorship(property, sponsorship) do
+    case confirm_existing_sponsorship(property, nil) do
       %Sponsorship{} = sponsorship ->
         sponsorship |> Repo.preload([:campaign, :property, :creative, :user])
 
