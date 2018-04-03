@@ -1,3 +1,13 @@
+//custom color scheme for date picker that suits codefund colors
+.daterangepicker{
+  .applyBtn{
+    background-color: #26CD7E;
+  }
+  td.active{
+    background-color: $blue;
+  }
+}
+
 .money-subtract-wrapper {
   width: 100px;
   display: block;

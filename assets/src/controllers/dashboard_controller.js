@@ -15,19 +15,6 @@ export default class extends Controller {
     this.impressionsByDay = JSON.parse(this.element.dataset.impressionsByDay);
     this.clicksByDay = JSON.parse(this.element.dataset.clicksByDay);
 
-    this.impressionsByDay = {
-      "03/01/2018": 4,
-      "03/02/2018": 5,
-      "03/03/2018": 2,
-      "03/31/2018": 4
-    };
-    this.clicksByDay = {
-      "03/01/2018": 1,
-      "03/02/2018": 6,
-      "03/10/2018": 3,
-      "03/31/2018": 10
-    };
-
     this.impressionChart = this.loadTrafficImpressionsChart(
       this.impressionsByDay
     );
@@ -60,24 +47,12 @@ export default class extends Controller {
     return moment(str);
   }
 
-  updateAxes(chart) {
-    this.xId = chart.options.scales.xAxes[0].id;
-    this.yId = chart.options.scales.yAxes[0].id;
-    chart.scales[this.xId];
-    chart.scales[this.yId];
-    this.impressionChart.update();
-    this.clicksChart.update();
-  }
-
   updateCharts(start, end) {
     const newImpressions = this.filterData(this.impressionsByDay, start, end);
     const newClicks = this.filterData(this.clicksByDay, start, end);
 
     this.replaceDatasets(this.clicksChart, newClicks);
     this.replaceDatasets(this.impressionChart, newImpressions);
-
-    this.updateAxes(this.impressionChart);
-    this.updateAxes(this.clicksChart);
 
     this.impressionChart.update();
     this.clicksChart.update();
@@ -107,6 +82,7 @@ export default class extends Controller {
         }
       })
       .map(time => raw[time]);
+
     return {
       data: this.filtered,
       labels: newLabels
