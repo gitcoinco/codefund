@@ -124,7 +124,8 @@ defmodule CodeFund.Sponsorships do
             where: s.campaign_id == ^campaign.id,
             limit: 1
           )
-        ) |> Repo.preload([:campaign, :property, :creative, :user])
+        )
+        |> Repo.preload([:campaign, :property, :creative, :user])
 
       Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
       sponsorship
