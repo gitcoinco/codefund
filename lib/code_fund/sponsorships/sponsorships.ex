@@ -96,19 +96,6 @@ defmodule CodeFund.Sponsorships do
   end
 
   def get_sponsorship_for_property(%Property{} = property) do
-    sponsorship = Repo.preload(property, :sponsorship).sponsorship
-
-    case confirm_existing_sponsorship(property, sponsorship) do
-      %Sponsorship{} = sponsorship ->
-        sponsorship |> Repo.preload([:campaign, :property, :creative, :user])
-
-      nil ->
-        nil
-    end
-  end
-
-  def confirm_existing_sponsorship(%Property{} = property, nil) do
-    # Determine if there is an available campaign
     campaign =
       Repo.one(
         from(
@@ -138,18 +125,10 @@ defmodule CodeFund.Sponsorships do
             limit: 1
           )
         )
+        |> Repo.preload([:campaign, :property, :creative, :user])
 
       Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
       sponsorship
-    end
-  end
-
-  def confirm_existing_sponsorship(%Property{} = property, %Sponsorship{} = sponsorship) do
-    campaign = Repo.preload(sponsorship, :campaign).campaign |> Repo.preload(:budgeted_campaign)
-
-    case Campaigns.has_remaining_budget?(campaign) do
-      true -> sponsorship
-      false -> confirm_existing_sponsorship(property, nil)
     end
   end
 
