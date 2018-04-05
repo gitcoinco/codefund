@@ -8,7 +8,12 @@ import $ from "jquery/dist/jquery";
 
 export default class extends Controller {
   static get targets() {
-    return ["trafficImpressionsChart", "trafficClicksChart", "dateRange"];
+    return [
+      "trafficImpressionsChart",
+      "trafficClicksChart",
+      "dateRange",
+      "datePicker"
+    ];
   }
 
   connect() {
@@ -21,15 +26,13 @@ export default class extends Controller {
     this.clicksChart = this.loadTrafficClicksChart(this.clicksByDay);
 
     this.initDatePicker();
-
-    console.log("Loaded dashboard");
   }
 
   initDatePicker() {
-    const { startDate } = this.element.dataset;
-    const { endDate } = this.element.dataset;
+    const { startDate, endDate } = this.element.dataset;
 
-    const picker = $(this.dateRangeTarget);
+    const picker = $(this.datePickerTarget);
+
     picker.daterangepicker(
       {
         startDate: moment(startDate),
@@ -38,9 +41,17 @@ export default class extends Controller {
         maxDate: moment(endDate)
       },
       (start, end) => {
+        $(this.dateRangeTarget).innerHTML = `${start} - ${end}`;
         this.updateCharts(start, end);
       }
     );
+
+    picker.on("show.daterangepicker", () => {
+      $(".main").css("opacity", 0.5);
+    });
+    picker.on("hide.daterangepicker", () => {
+      $(".main").css("opacity", 1);
+    });
   }
 
   strToDate(str) {
