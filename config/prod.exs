@@ -43,5 +43,5 @@ config :exq,
   shutdown_timeout: 5000
 
 config :rollbax,
-  access_token: {:system, "ROLLBAR_ACCESS_TOKEN"},
+  access_token: System.get_env("ROLLBAR_ACCESS_TOKEN"),
   environment: "production"
