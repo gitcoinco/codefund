@@ -8,7 +8,8 @@ use Mix.Config
 # General application configuration
 config :code_fund,
   ecto_repos: [CodeFund.Repo],
-  generators: [binary_id: true]
+  generators: [binary_id: true],
+  metabase_dashboard_mappings: [admin: 1, sponsor: 3, user: 2]
 
 # Configures the endpoint
 config :code_fund, CodeFundWeb.Endpoint,
