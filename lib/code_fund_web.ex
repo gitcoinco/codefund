@@ -24,6 +24,7 @@ defmodule CodeFundWeb do
       use Formex.Ecto.Controller
       import Plug.Conn
       plug(RemoteIp)
+      import CodeFund.Reporter
       import CodeFundWeb.Router.Helpers
       import CodeFundWeb.Gettext
     end

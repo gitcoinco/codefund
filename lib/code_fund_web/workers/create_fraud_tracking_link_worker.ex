@@ -1,5 +1,6 @@
 defmodule CodeFundWeb.CreateFraudTrackingLinkWorker do
   alias CodeFund.Campaigns
+  import CodeFund.Reporter
 
   def perform(campaign_id) do
     campaign =
@@ -63,7 +64,12 @@ defmodule CodeFundWeb.CreateFraudTrackingLinkWorker do
            |> Campaigns.update_campaign(%{fraud_check_url: body["anywhere"]["short_link"]}),
          do: IO.puts("Updated campaign")
   else
-    {:error, %{reason: reason}} -> %{"status" => "error", "message" => reason}
-    {:error, %Ecto.Changeset{}} -> IO.puts("Unable to update campaign")
+    {:error, %{reason: reason}} ->
+      report(:warn)
+      %{"status" => "error", "message" => reason}
+
+    {:error, %Ecto.Changeset{}} ->
+      report(:warn)
+      IO.puts("Unable to update campaign")
   end
 end

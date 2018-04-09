@@ -5,7 +5,6 @@ defmodule CodeFund.Stats.Clicks do
   alias CodeFund.Schema.Campaign
   alias CodeFund.Schema.Sponsorship
   alias CodeFund.Schema.Click
-  alias CodeFund.Schema.Impression
   alias CodeFund.Schema.User
 
   def with_sponsorship_details(nil, params), do: params

@@ -15,6 +15,8 @@ defmodule CodeFundWeb.SponsorshipController do
         render(conn, "index.html", assigns)
 
       error ->
+        report(:error)
+
         conn
         |> put_flash(:error, "There was an error rendering sponsorships. #{inspect(error)}")
         |> redirect(to: sponsorship_path(conn, :index))
@@ -39,6 +41,7 @@ defmodule CodeFundWeb.SponsorshipController do
         |> redirect(to: sponsorship_path(conn, :show, sponsorship))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "new.html", form: form)
     end
   end
@@ -68,6 +71,7 @@ defmodule CodeFundWeb.SponsorshipController do
         |> redirect(to: sponsorship_path(conn, :show, sponsorship))
 
       {:error, form} ->
+        report(:warn, "Changeset Error")
         render(conn, "edit.html", sponsorship: sponsorship, form: form)
     end
   end

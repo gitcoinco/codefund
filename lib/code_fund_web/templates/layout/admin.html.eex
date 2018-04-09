@@ -19,13 +19,15 @@
   <!-- Main styles for this application -->
   <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
 
+  <!-- CDN -->
   <script src="//www.google.com/jsapi"></script>
 
   <!-- Main scripts (leave in header for Turbolinks) -->
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 </head>
 
-<body data-target="admin.body" class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+<body data-target="admin.body"
+      class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <%= flash_element(@conn) %>
   <header class="app-header navbar">
     <button data-action="click->admin#toggleMobileSidebar" class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">

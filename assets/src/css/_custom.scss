@@ -35,3 +35,19 @@ ul.list-group-kv li.list-group-item {
     display: inline-block;
   }
 }
+
+.metamask-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.metamask-container iframe,
+.metamask-container object,
+.metamask-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
