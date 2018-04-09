@@ -6,7 +6,6 @@ defmodule CodeFund.Sponsorships do
   use CodeFundWeb, :query
 
   alias CodeFund.Schema.{Sponsorship, Property, Campaign, User}
-  alias CodeFund.Campaigns
 
   @pagination [page_size: 15]
   @pagination_distance 5
