@@ -14,7 +14,7 @@ defmodule CodeFundWeb.PropertyType do
     |> add(
       :property_type,
       :select,
-      label: "Propety Type",
+      label: "Property Type",
       choices: [Website: 1, Repository: 2, Newsletter: 3],
       validation: [:required]
     )
