@@ -3,35 +3,14 @@ defmodule CodeFundWeb.DashboardController do
   import Joken
 
   def index(conn, _params) do
-    current_user = conn.assigns.current_user
-
     # Build URL for Metabase
     metabase_site_url = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_site_url]
     secret_key = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:metabase_secret_key]
 
-    payload =
-      cond do
-        Enum.member?(current_user.roles, "admin") ->
-          %{
-            resource: %{dashboard: 1},
-            params: %{}
-          }
-
-        Enum.member?(current_user.roles, "sponsor") ->
-          %{
-            resource: %{dashboard: 3},
-            params: %{user_id: current_user.id}
-          }
-
-        true ->
-          %{
-            resource: %{dashboard: 2},
-            params: %{user_id: current_user.id}
-          }
-      end
-
     metabase_token =
-      payload
+      conn.assigns.current_user
+      |> Map.put(:roles, conn.assigns.current_user.roles |> Enum.sort())
+      |> Metabase.Helpers.dashboard_map()
       |> token
       |> with_signer(hs256(secret_key))
       |> sign
