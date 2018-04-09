@@ -1,5 +1,6 @@
 defmodule CodeFundWeb.SponsorshipController do
   use CodeFundWeb, :controller
+  import Ecto.Query
 
   alias CodeFund.Sponsorships
   alias CodeFund.Schema.Sponsorship
@@ -24,7 +25,12 @@ defmodule CodeFundWeb.SponsorshipController do
   end
 
   def new(conn, _params) do
-    form = create_form(SponsorshipType, %Sponsorship{})
+    current_user = conn.assigns.current_user
+
+    form =
+      create_form(SponsorshipType, %Sponsorship{})
+      |> form_treatment(current_user)
+
     render(conn, "new.html", form: form)
   end
 
@@ -33,6 +39,7 @@ defmodule CodeFundWeb.SponsorshipController do
 
     SponsorshipType
     |> create_form(%Sponsorship{}, sponsorship_params, user: current_user)
+    |> form_treatment(current_user)
     |> insert_form_data
     |> case do
       {:ok, sponsorship} ->
@@ -52,8 +59,13 @@ defmodule CodeFundWeb.SponsorshipController do
   end
 
   def edit(conn, %{"id" => id}) do
+    current_user = conn.assigns.current_user
     sponsorship = Sponsorships.get_sponsorship!(id)
-    form = create_form(SponsorshipType, sponsorship)
+
+    form =
+      create_form(SponsorshipType, sponsorship)
+      |> form_treatment(current_user)
+
     render(conn, "edit.html", form: form, sponsorship: sponsorship)
   end
 
@@ -63,6 +75,7 @@ defmodule CodeFundWeb.SponsorshipController do
 
     SponsorshipType
     |> create_form(sponsorship, sponsorship_params, user: current_user)
+    |> form_treatment(current_user)
     |> update_form_data
     |> case do
       {:ok, sponsorship} ->
@@ -83,5 +96,33 @@ defmodule CodeFundWeb.SponsorshipController do
     conn
     |> put_flash(:info, "Sponsorship deleted successfully.")
     |> redirect(to: sponsorship_path(conn, :index))
+  end
+
+  defp new_select_field(type, id_key, current_user_id) do
+    %Formex.Field{
+      custom_value: nil,
+      data: [
+        choices:
+          from(o in Module.concat([CodeFund, Schema, type]), where: o.user_id == ^current_user_id)
+          |> CodeFund.Repo.all()
+          |> Enum.map(fn object -> {object.name, object.id} end)
+      ],
+      label: "#{type}",
+      name: id_key,
+      phoenix_opts: [class: ""],
+      required: true,
+      struct_name: id_key,
+      type: :select,
+      validation: [:required]
+    }
+  end
+
+  defp form_treatment(form, current_user) do
+    form_items =
+      form.items
+      |> List.insert_at(0, new_select_field(Campaign, :campaign_id, current_user.id))
+      |> List.insert_at(2, new_select_field(Creative, :creative_id, current_user.id))
+
+    Map.put(form, :items, form_items)
   end
 end

@@ -3,9 +3,7 @@ defmodule CodeFundWeb.SponsorshipType do
 
   def build_form(form) do
     form
-    |> add(:campaign_id, SelectAssoc, label: "Campaign", validation: [:required])
     |> add(:property_id, SelectAssoc, label: "Property", validation: [:required])
-    |> add(:creative_id, SelectAssoc, label: "Ad Creative", validation: [:required])
     |> add(
       :bid_amount,
       :number_input,
