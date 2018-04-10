@@ -47,7 +47,7 @@ defmodule CodeFundWeb.SponsorshipType do
       label: override_field_label(form.struct.current_user),
       validation: [:required],
       phoenix_opts: [
-        value: set_overrate_revenue_rate_default(form.struct),
+        value: set_override_revenue_rate_default(form.struct),
         step: "0.001",
         min: "0"
       ]
@@ -82,15 +82,15 @@ defmodule CodeFundWeb.SponsorshipType do
     end
   end
 
-  defp set_overrate_revenue_rate_default(%Sponsorship{
+  defp set_override_revenue_rate_default(%Sponsorship{
          override_revenue_rate: override_revenue_rate
        })
        when not is_nil(override_revenue_rate),
        do: override_revenue_rate
 
-  defp set_overrate_revenue_rate_default(%Sponsorship{user: %User{revenue_rate: revenue_rate}})
+  defp set_override_revenue_rate_default(%Sponsorship{user: %User{revenue_rate: revenue_rate}})
        when not is_nil(revenue_rate),
        do: revenue_rate
 
-  defp set_overrate_revenue_rate_default(_), do: 0.5
+  defp set_override_revenue_rate_default(_), do: 0.5
 end
