@@ -1,6 +1,7 @@
 defmodule CodeFundWeb.Plugs.RequireAnyRole do
   import Plug.Conn
   import CodeFund.Reporter
+  alias CodeFund.Users
 
   def init(opts), do: opts
 
@@ -16,7 +17,7 @@ defmodule CodeFundWeb.Plugs.RequireAnyRole do
       )
 
     with %CodeFund.Schema.User{} = user <- conn.assigns[:current_user],
-         true <- user_has_role?(user.roles, opts[:roles]) do
+         true <- Users.has_role?(user.roles, opts[:roles]) do
       conn
     else
       _ ->
@@ -27,11 +28,5 @@ defmodule CodeFundWeb.Plugs.RequireAnyRole do
         |> Phoenix.Controller.put_flash(:error, opts[:flash])
         |> halt
     end
-  end
-
-  defp user_has_role?(existing_roles, target_roles) do
-    Enum.any?(target_roles, fn role ->
-      Enum.member?(existing_roles, role)
-    end)
   end
 end
