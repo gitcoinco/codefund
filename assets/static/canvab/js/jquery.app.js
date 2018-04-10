@@ -107,7 +107,7 @@
         this.initAnimatedScrollMenu();
         this.initMainMenu();
         this.initScrollspy();
-        this.initCounterNumber();
+        // this.initCounterNumber();
     },
     //init
     $.CanvabApp = new CanvabApp, $.CanvabApp.Constructor = CanvabApp

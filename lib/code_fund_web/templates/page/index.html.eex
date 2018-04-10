@@ -65,7 +65,9 @@
     <div class="container"> 
       <div class="float-left"> 
         <div class="phone-topbar text-dark">
-          <p class="mb-0">Help +1 801 633 9555</p> 
+          <p class="mb-0">
+            <a class="text-secondary" href="https://medium.com/gitcoin/code-sponsor-gitcoin-oss-sustainability-5684c4adf4b4" target="_blank">CodeFund + Gitcoin = OSS Sustainability</a>
+          </p> 
         </div>
       </div>
       <div class="float-right">
@@ -107,17 +109,17 @@
 
       <div id="navigation">
         <!-- Navigation Menu-->
-        <ul class="navigation-menu ">
+        <ul class="navigation-menu">
           <li class="has-submenu ">
             <a href="#home">Home</a>
           </li>
 
           <li class="has-submenu ">
-            <a href="#why_codefund">Why CodeFund?</a>
+            <a href="#features">Why CodeFund?</a>
           </li>
 
           <li class="has-submenu">
-            <a href="#advertisers">Advertisers</a>
+            <a href="#ethical_advertising">Ethical Advertising</a>
           </li>
 
           <li class="has-submenu">
@@ -156,20 +158,21 @@
   </header>
   <!-- End Navigation Bar-->
 
-
   <!-- START HOME  -->
   <section class="home-bg-color" id="home">
-    <div class="container">
+    <div class="container slidero">
       <div class="row justify-content-center">
         <div class="col-md-10 text-center text-white">
           <h1 class="mt-5 pt-5 home-title">
-            Funding OSS Developers through advertising
+            Connect with software developers
           </h1>
           <p class="home-subtitle mx-auto pt-2">
-            We display relevant, ethical ads on developer websites and applications
+            CodeFund is an open source ad network connecting highly qualified audiences with highly relevant
+            services, products, and brands. The result is an increased ROI + brand exposure for
+            advertisers and a better experience for readers.
           </p>
           <div class="mt-5">
-            <%= link "Sign Up", to: registration_path(@conn, :new), class: "btn btn-custom" %>
+            <%= link "Sign Up", to: registration_path(@conn, :new), class: "btn btn-outline-light" %>
           </div>
           <%# <a href="https://vimeo.com/108096448" class="pt-4 video-play-icon watch-overview d-inline-block text-white">Watch the overview &nbsp;<i class="mdi mdi-chevron-right"></i></a> %>
           <div id="macbook-slideshow">
@@ -184,16 +187,15 @@
   </section>
   <!-- END HOME -->
 
-  <!-- START SERVICES -->
-  <section class="section" id="why_codefund">
+
+  <!-- START FEATURES -->
+  <section class="section" id="features">
     <div class="container">
-      <div class="row justify-content-center pt-5">
+      <div class="row justify-content-center">
         <div class="col-md-8">
-          <div class="text-center">
-            <h3 class="section-title pt-5">Why CodeFund?</h3>
-            <p class="section-subtitle pt-3 text-muted">
-              CodeFund is an advertising platform to help fund open source projects and developers.
-            </p>
+          <div class="text-center pt-5">
+            <h3 class="section-title">Why CodeFund?</h3>
+            <p class="section-subtitle pt-3 text-muted">Here are some of the features that make CodeFund a must-use advertising channel</p>
           </div>
         </div>
       </div>
@@ -232,7 +234,7 @@
             <div class="service-desc pt-4">
               <h5>Competitive Rates</h5>
               <p class="pt-2 text-muted">
-                We typically pay much higher publisher rates than the competition, which brings loyalty.
+                Publishers receive anywhere from 50% to 68% of the revenue recognized by CodeFund.
               </p>
             </div>
           </div>
@@ -281,27 +283,50 @@
       </div>
     </div>
   </section>
-  <!-- END SERVICES -->
+  <!-- END FEATURES -->
 
-
-  <!-- START PRICING -->
-  <section class="section bg-light" id="advertisers">
+  <!-- START ADVERTISERS
+  <section class="section pt-7 pb-4" id="advertisers">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="text-center">
-            <h3 class="section-title pt-5">Our Advertisers</h3>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-5">
+      <div class="row">
         <div class="col-md-4 text-center"><img src="<%= static_path(@conn, "/images/rollbar-gray.png") %>" style="height: 100px;" /></div>
         <div class="col-md-4 text-center"><img src="<%= static_path(@conn, "/images/sentry-gray.png") %>" style="height: 100px;" /></div>
         <div class="col-md-4 text-center"><img src="<%= static_path(@conn, "/images/gitcoin-gray.png") %>" style="height: 100px;" /></div>
       </div>
     </div>
   </section>
-  <!-- END PRICING -->
+  END ADVERTISERS -->
+
+  <!-- START ETHICAL ADVERTISING -->
+  <section class="section bg-light" id="ethical_advertising">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h3 class="section-title pb-3">What is Ethical Advertising?</h3>
+          <p>
+            CodeFund has adopted and applied many of the ideas from
+            <a target="_blank" href="http://docs.readthedocs.io/en/latest/ethical-advertising.html">Read the Docs</a>
+            on Ethical Advertising.
+          </p>
+          <p>
+            <strong>Ethical Ads</strong> respect users while providing value to advertisers. We don't track you, sell
+            your data, or anything else. We simply show ads to users, based on the content of the
+            pages you look at.
+          </p>
+          <p>
+            Think of Ethical Advertising as <strong>newspaper advertising, on the internet</strong>.
+            For a hundred years, newspapers put an ad on the page, some folks would see it, and 
+            advertisers would pay for this. This is our model.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center pb-3 pt-5"><em>this is an actual ad:</em></div>
+          <div id="codefund_ad"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END ETHICAL ADVERTISING -->
 
   <!-- START TESTIMONIAL -->
   <section class="section bg-gray" id="testimonials">
@@ -309,8 +334,8 @@
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="text-center">
-            <h3 class="section-title pt-5">Testimonials</h3>
-            <p class="section-subtitle pt-3 text-muted">Don't take our word for it. This is what our clients are saying about CodeFund (formerly Code Sponsor).</p>
+            <h3 class="section-title">Testimonials</h3>
+            <p class="section-subtitle pt-3 text-muted">Don't take our word for it. This is what our clients are saying about CodeFund<br/><small>(formerly Code Sponsor)</small></p>
           </div>
         </div>
       </div>
@@ -341,13 +366,13 @@
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="text-center">
-            <h3 class="section-title pt-5">Frequently Asked Questions</h3>
+            <h3 class="section-title">Frequently Asked Questions</h3>
           </div>
         </div>
       </div>
       <div class="row justify-content-center mt-5">
         <div class="col-lg-6 faq-side"> 
-          <div class="faq pt-5">
+          <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for publishers</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> How much can I make?</h3>
@@ -356,9 +381,13 @@
                 Typically we see around a 0.4% click rate (1 click per 250 impressions). Average earnings
                 per click is around $0.50 but can fluctuate based on advertiser demand.
               </p>
+              <p class="faq-sub-title text-muted">
+                For example, a moderately popular website with 500,000 impressions per month at a 0.4%
+                click rate with $.50 per click rate would generate approx $1,000/month.
+              </p>
             </div>
           </div> 
-          <div class="faq pt-5">
+          <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1 mb-1">for publishers</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> How often am I paid?</h3>
@@ -368,7 +397,7 @@
               </p>
             </div>
           </div>
-          <div class="faq pt-5">
+          <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for publishers</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> How do I get started?</h3>
@@ -383,19 +412,21 @@
         </div>
 
         <div class="col-lg-6 faq-side "> 
-          <div class="faq pt-5">
+          <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for advertiser</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> Which publisher websites are available?</h3>
               <p class="faq-sub-title text-muted pt-2">
-                We have amazing, high-traffic websites like jsbin.com, devhints.io and codesandbox.io, along with
+                We have amazing, high-traffic websites like <a target="_blank" href="https://jsbin.com">jsbin.com</a>,
+                <a target="_blank" href="https://devhints.io">devhints.io</a> and
+                <a target="_blank" href="https://codesandbox.io">codesandbox.io</a>, along with
                 many others. Each property is pre-approved based on their impression volume and content. Once you
                 have an advertiser account, you will be able to search and bid on individual websites for maximum
                 ROI.
               </p>
             </div>
           </div> 
-          <div class="faq pt-5">
+          <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for advertiser</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> What is the minimum monthly ad spend?</h3>
@@ -405,7 +436,7 @@
               </p>
             </div>
           </div>
-          <div class="faq pt-5">
+          <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for advertiser</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> Why would I use you over the other guys?</h3>
@@ -425,10 +456,10 @@
   <!-- START CONTACT/FOOTER -->
   <section class="pt-5 bg-dark" id="contact">
     <div class="container">
-      <div class="row justify-content-center pt-5">
+      <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="text-center">
-            <h3 class="section-title text-white pt-5">Contact us</h3>
+            <h3 class="section-title text-white pt-4">Contact us</h3>
             <p class="section-subtitle pt-3 text-whte">Fill out the form below to contact us.</p>
           </div>
         </div>
@@ -462,27 +493,27 @@
       </div>
       <div class="row justify-content-center mt-5">
         <div class="col-lg-8 bg-white p-5 mt-4 rounded">
-          <form class="form-custom">
+          <form class="custom_form">
             <div class="row">
               <div class="col-lg-6 mt-3">
-                <input type="text" class="form-control" placeholder="First name" required >
+                <input type="text" name="name" class="form-control" placeholder="Name" required >
               </div>
               <div class="col-lg-6 mt-3">
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" required >
+                <input type="email" name="email" class="form-control" placeholder="Enter email" required >
               </div>
             </div>
             <div class="row">
               <div class="col-lg-12 mt-3">
-                <input type="text" class="form-control" id="subject" placeholder="Your Subject.." />
+                <input type="text" name="subject" class="form-control" id="subject" placeholder="Your Subject.." />
               </div>
             </div>
             <div class="row">
               <div class="col-lg-12 mt-3">
-                <textarea name="comments" id="comments" rows="6" class="form-control" placeholder="Your message..."></textarea>
+                <textarea name="body" id="comments" rows="6" class="form-control" placeholder="Your message..."></textarea>
               </div>
             </div>
             <div class="mt-4 text-center">
-              <button class="btn btn-custom">Submit</button>
+              <button type="submit" class="btn btn-custom">Submit</button>
             </div>
             <div class="row justify-content-center">
               <div class="col-md-8">
@@ -529,11 +560,14 @@
   <script src="<%= static_path(@conn, "/canvab/js/jquery.magnific-popup.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/canvab/js/waypoints.min.js") %>" type="text/javascript"></script>
   <script src="<%= static_path(@conn, "/canvab/js/jquery.counterup.min.js") %>" type="text/javascript"></script>
+  <script src="<%= static_path(@conn, "/canvab/js/particles.js") %>"></script>  
+  <script src="<%= static_path(@conn, "/canvab/js/particles.app.js") %>"></script>
   
   <!-- Theme JS -->
   <script src="<%= static_path(@conn, "/canvab/js/jquery.app.js") %>"></script>
 
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script async src="https://codefund.io/scripts/51b2fb2d-92c0-4c1a-b60b-825eb76e2a2f/embed.js?template=image-centered"></script>
 
   <script>
   $(function() {
@@ -548,6 +582,8 @@
     }
   });
   </script>
+
+  <script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us16.list-manage.com","uuid":"e95ff716114dbc939f8ef6100","lid":"f036681f65"}) })</script>
 
   <%= ga_tag() %>
 </body>
