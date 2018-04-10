@@ -8,7 +8,7 @@ defmodule CodeFundWeb.SponsorshipType do
     form
     |> add(
       :campaign_id,
-      SelectAssoc,
+      :select,
       label: "Campaign",
       validation: [:required],
       choices: object_query_for_user("Campaign", form.struct.user)
@@ -16,7 +16,7 @@ defmodule CodeFundWeb.SponsorshipType do
     |> add(:property_id, SelectAssoc, label: "Property", validation: [:required])
     |> add(
       :creative_id,
-      SelectAssoc,
+      :select,
       label: "Creative",
       validation: [:required],
       choices: object_query_for_user("Creative", form.struct.user)
