@@ -69,7 +69,7 @@ defmodule CodeFundWeb.PropertyType do
           label: "Programming Languages",
           choices: CodeFund.Properties.programming_languages(),
           phoenix_opts: [
-            class: "form-contol selectize"
+            class: "form-control selectize"
           ]
         )
         |> add(
@@ -78,7 +78,7 @@ defmodule CodeFundWeb.PropertyType do
           label: "Topic Categories",
           choices: CodeFund.Properties.topic_categories(),
           phoenix_opts: [
-            class: "form-contol selectize"
+            class: "form-control selectize"
           ]
         )
         |> add(
