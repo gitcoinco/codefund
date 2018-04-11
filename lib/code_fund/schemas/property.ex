@@ -22,6 +22,13 @@ defmodule CodeFund.Schema.Property do
     field(:property_type, :integer)
     field(:url, :string)
     field(:status, :integer, default: 0)
+    field(:estimated_monthly_page_views, :integer)
+    field(:estimated_monthly_visitors, :integer)
+    field(:alexa_site_rank, :integer)
+    field(:language, :string)
+    field(:programming_languages, {:array, :string})
+    field(:topic_categories, {:array, :string})
+    field(:screenshot_url, :string)
 
     timestamps()
   end

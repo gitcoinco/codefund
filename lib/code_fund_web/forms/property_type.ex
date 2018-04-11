@@ -42,6 +42,40 @@ defmodule CodeFundWeb.PropertyType do
       ]
     )
     |> add(
+      :estimated_monthly_page_views,
+      :number_input,
+      label: "Est. Monthly Page Views"
+    )
+    |> add(
+      :estimated_monthly_visitors,
+      :number_input,
+      label: "Est. Monthly Visitors"
+    )
+    |> add(
+      :alexa_site_rank,
+      :number_input,
+      label: "Alexa Ranking"
+    )
+    |> add(
+      :language,
+      :text_input,
+      label: "Language"
+    )
+    |> add(
+      :programming_languages,
+      :multiple_select,
+      label: "Programming Languages",
+      choices: CodeFund.Properties.programming_languages()
+    )
+    |> add(
+      :screenshot_url,
+      :text_input,
+      label: "Screenshot URL",
+      phoenix_opts: [
+        placeholder: "https://"
+      ]
+    )
+    |> add(
       :save,
       :submit,
       label: "Submit",
