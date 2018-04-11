@@ -17,7 +17,10 @@ defmodule CodeFundWeb.UserType do
       :multiple_select,
       label: "Roles",
       choices: CodeFund.Users.roles(),
-      validation: [:required]
+      validation: [:required],
+      phoenix_opts: [
+        class: "form-contol selectize"
+      ]
     )
     |> add(
       :revenue_rate,

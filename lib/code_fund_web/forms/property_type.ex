@@ -51,8 +51,17 @@ defmodule CodeFundWeb.PropertyType do
       :programming_languages,
       :multiple_select,
       label: "Programming Languages",
-      choices: CodeFund.Properties.programming_languages()
+      choices: CodeFund.Properties.programming_languages(),
+      phoenix_opts: [
+        class: "form-contol selectize"
+      ]
     )
+    # |> add(
+    #   :topic_categories,
+    #   :multiple_select,
+    #   label: "Topic Categories",
+    #   choices: CodeFund.Properties.topic_categories()
+    # )
     |> add(
       :screenshot_url,
       :text_input,

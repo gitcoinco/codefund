@@ -25,8 +25,8 @@ defmodule CodeFund.Schema.Property do
     field(:estimated_monthly_visitors, :integer)
     field(:alexa_site_rank, :integer)
     field(:language, :string)
-    field(:programming_languages, {:array, :string})
-    field(:topic_categories, {:array, :string})
+    field(:programming_languages, {:array, :string}, default: [])
+    field(:topic_categories, {:array, :string}, default: [])
     field(:screenshot_url, :string)
 
     timestamps()
