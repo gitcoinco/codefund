@@ -56,12 +56,15 @@ defmodule CodeFundWeb.PropertyType do
         class: "form-contol selectize"
       ]
     )
-    # |> add(
-    #   :topic_categories,
-    #   :multiple_select,
-    #   label: "Topic Categories",
-    #   choices: CodeFund.Properties.topic_categories()
-    # )
+    |> add(
+      :topic_categories,
+      :multiple_select,
+      label: "Topic Categories",
+      choices: CodeFund.Properties.topic_categories(),
+      phoenix_opts: [
+        class: "form-contol selectize"
+      ]
+    )
     |> add(
       :screenshot_url,
       :text_input,

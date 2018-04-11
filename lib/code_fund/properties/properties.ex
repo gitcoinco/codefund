@@ -62,8 +62,36 @@ defmodule CodeFund.Properties do
     "Other"
   ]
 
+  @topic_categories [
+    "Frontend Concepts",
+    "Frontend Frameworks & Tools",
+    "Frontend Workflow & Tooling",
+    "React",
+    "HTML5",
+    "CSS & Design",
+    "Languages & Frameworks",
+    "Database",
+    "Backend Services",
+    "Dev Ops",
+    "Shell",
+    "Git",
+    "Docker",
+    "Hybrid & Mobile Web",
+    "IOS Development",
+    "Android Development",
+    "Game Development",
+    "Resources",
+    "Computer Science"
+  ]
+
   def programming_languages do
     @programming_languages
+    |> Enum.chunk(1)
+    |> Enum.map(fn [a] -> {a, a} end)
+  end
+
+  def topic_categories do
+    @topic_categories
     |> Enum.chunk(1)
     |> Enum.map(fn [a] -> {a, a} end)
   end
