@@ -183,9 +183,8 @@
             Connect with software developers
           </h1>
           <p class="home-subtitle mx-auto pt-2">
-            CodeFund is an open source ad network connecting highly qualified audiences with highly relevant
-            services, products, and brands. The result is an increased ROI + brand exposure for
-            advertisers and a better experience for readers.
+            CodeFund is an open source ad platform that connects software developers with highly
+            relevant products, services, and brands through ethical advertising.
           </p>
           <div class="mt-5">
             <%= link "Sign Up", to: registration_path(@conn, :new), class: "btn btn-outline-light" %>
@@ -211,7 +210,9 @@
         <div class="col-md-8">
           <div class="text-center pt-5">
             <h3 class="section-title">Why CodeFund?</h3>
-            <p class="section-subtitle pt-3 text-muted">Here are some of the features that make CodeFund a must-use advertising channel</p>
+            <p class="section-subtitle pt-3 text-muted">
+              Here are some of the features that make CodeFund a must-use advertising channel
+            </p>
           </div>
         </div>
       </div>
