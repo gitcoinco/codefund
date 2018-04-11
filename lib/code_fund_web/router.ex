@@ -2,6 +2,10 @@ defmodule CodeFundWeb.Router do
   use CodeFundWeb, :router
   use Coherence.Router
 
+  if Mix.env() == :dev do
+    forward("/sent_emails", Bamboo.EmailPreviewPlug)
+  end
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -56,13 +60,11 @@ defmodule CodeFundWeb.Router do
     coherence_routes(:protected)
   end
 
-  # LEGACY IMPRESSION LINK: https://codesponsor.io/t/l/653d56e083fec2a9ae1b6c7cde4e5f5f/pixel.png
-  # LEGACY CLICK LINK: https://codesponsor.io/t/c/653d56e083fec2a9ae1b6c7cde4e5f5f/
-
   scope "/", CodeFundWeb do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    post("/", PageController, :deliver_contact_form)
     get("/t/p/:sponsorship_id/pixel.png", TrackController, :pixel)
     get("/t/l/:property_id/pixel.png", TrackController, :pixel)
     get("/t/l/:property_id/logo.png", TrackController, :logo)

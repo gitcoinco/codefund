@@ -42,5 +42,7 @@ config :code_fund, CodeFund.Repo,
   database: "code_fund_dev",
   pool_size: 10
 
+config :code_fund, CodeFund.Mailer, adapter: Bamboo.LocalAdapter
+
 # Uncomment when developing locally
 # import_config "dev.secret.exs"

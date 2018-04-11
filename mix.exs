@@ -41,7 +41,8 @@ defmodule CodeFund.Mixfile do
         :timex,
         :timex_ecto,
         :rollbax,
-        :corsica
+        :corsica,
+        :bamboo
       ]
     ]
   end
@@ -89,6 +90,7 @@ defmodule CodeFund.Mixfile do
       {:rollbax, "0.9.0"},
       {:corsica, "~> 1.0"},
       {:joken, "~> 1.5.0"},
+      {:bamboo, "~> 0.8"},
       {:mock, "~> 0.3.0", only: :test},
       {:excoveralls, "~> 0.8", only: :test}
     ]

@@ -1,6 +1,8 @@
 defmodule CodeFundWeb.PageController do
   use CodeFundWeb, :controller
 
+  alias CodeFund.{Mailer, Emails}
+
   def index(conn, _params) do
     conn = put_layout(conn, false)
 
@@ -12,5 +14,13 @@ defmodule CodeFundWeb.PageController do
     }
 
     render(conn, "index.html", stats: stats)
+  end
+
+  def deliver_contact_form(conn, params) do
+    Emails.contact_form_email(params) |> Mailer.deliver_now()
+
+    conn
+    |> put_flash(:info, "Your request was submitted successfully")
+    |> redirect(to: page_path(conn, :index))
   end
 end
