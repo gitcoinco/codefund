@@ -1,5 +1,6 @@
 %{
   "abnf2": {:hex, :abnf2, "0.1.2", "6f8792b8ac3288dba5fc889c2bceae9fe78f74e1a7b36bea9726ffaa9d7bef95", [:mix], []},
+  "bamboo": {:hex, :bamboo, "0.8.0", "573889a3efcb906bb9d25a1c4caa4ca22f479235e1b8cc3260d8b88dabeb4b14", [:mix], [{:hackney, "~> 1.6", [hex: :hackney, repo: "hexpm", optional: false]}, {:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: false]}, {:poison, ">= 1.5.0", [hex: :poison, repo: "hexpm", optional: false]}], "hexpm"},
   "base64url": {:hex, :base64url, "0.0.1", "36a90125f5948e3afd7be97662a1504b934dd5dac78451ca6e9abf85a10286be", [:rebar], [], "hexpm"},
   "browser": {:hex, :browser, "0.1.5", "50670574b1fd78ac3ca44173aef0e3cbf4322e42627dcab351d40d5420f525c1", [:mix], []},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], []},

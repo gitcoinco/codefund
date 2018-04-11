@@ -18,6 +18,11 @@ config :code_fund, CodeFundWeb.Endpoint,
   render_errors: [view: CodeFundWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: CodeFund.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :code_fund, CodeFund.Mailer,
+  adapter: Bamboo.MailgunAdapter,
+  api_key: System.get_env("MAILGUN_API_KEY") || "MISSING",
+  domain: System.get_env("MAILGUN_DOMAIN") || "MISSING"
+
 import_config "./configs/*.exs"
 
 # Import environment specific config. This must remain at the bottom
