@@ -28,6 +28,7 @@ defmodule CodeFund.Schema.Property do
     field(:programming_languages, {:array, :string})
     field(:topic_categories, {:array, :string})
     field(:screenshot_url, :string)
+    field(:status, :integer, default: 0)
 
     timestamps()
   end
@@ -37,13 +38,13 @@ defmodule CodeFund.Schema.Property do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> put_assoc(:user, user)
-    |> validate_required(~w(name url property_type)a)
+    |> validate_required(~w(name url property_type status)a)
   end
 
   def changeset(%Property{} = property, params) do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> validate_required(~w(user_id name url property_type)a)
+    |> validate_required(~w(user_id name url property_type status)a)
   end
 
   def property_types, do: @property_types

@@ -26,7 +26,10 @@ defmodule CodeFundWeb.PropertyController do
 
   def new(conn, _params) do
     current_user = conn.assigns.current_user
-    form = create_form(PropertyType, %Property{}, %{}, user: current_user)
+
+    form =
+      create_form(PropertyType, %Property{}, %{}, user: current_user, current_user: current_user)
+
     render(conn, "new.html", form: form)
   end
 
@@ -34,7 +37,7 @@ defmodule CodeFundWeb.PropertyController do
     current_user = conn.assigns.current_user
 
     PropertyType
-    |> create_form(%Property{}, property_params, user: current_user)
+    |> create_form(%Property{}, property_params, user: current_user, current_user: current_user)
     |> insert_form_data
     |> case do
       {:ok, property} ->
@@ -62,7 +65,7 @@ defmodule CodeFundWeb.PropertyController do
 
   def edit(conn, %{"id" => id}) do
     property = Properties.get_property!(id)
-    form = create_form(PropertyType, property)
+    form = create_form(PropertyType, property, %{}, current_user: conn.assigns.current_user)
     render(conn, "edit.html", form: form, property: property)
   end
 
@@ -71,7 +74,7 @@ defmodule CodeFundWeb.PropertyController do
     property = Properties.get_property!(id)
 
     PropertyType
-    |> create_form(property, property_params, user: current_user)
+    |> create_form(property, property_params, user: current_user, current_user: current_user)
     |> update_form_data
     |> case do
       {:ok, property} ->

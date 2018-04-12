@@ -30,11 +30,11 @@ This is the software behind [codefund.io](https://codefund.io/t/s/76674f2b-a37b-
 
 ## Why is it open source?
 
-A few reasons:
-
-1. We _love_ open source. Our careers (and livelihoods) wouldn't be possible without open source. Keeping it closed just feels _wrong_.
-2. Phoenix is really great, but it's young enough in its lifecycle that there aren't _too many_ in-production, open source sites for people to refer to as examples or inspiration. We want to throw our hat into that ring and hopefully others will follow.
-3. We know open sourcing the platform will lead to good things from y'all (such as bug reports, feature requests, and pull requests).
+We have built our careers on open source. We all owe a great debt to all open source developers who
+given so much of their free time and talents to help others. We were also inspired by [The Changelog](https://github.com/thechangelog/changelog.com),
+who released their platform open source. Finally, we want to be a trusted partner to the developer
+community. To us, ad networks have always felt a bit shady. By being open source, we invite all to
+critique our code and ensure we are being honest.
 
 ## Development
 

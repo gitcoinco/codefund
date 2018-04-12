@@ -18,6 +18,7 @@ defmodule CodeFund.Factory do
       name: "Test Website",
       url: sequence(:url, &"https://example.com/#{&1}"),
       property_type: 1,
+      status: 1,
       user: build(:user)
     }
   end
@@ -41,6 +42,14 @@ defmodule CodeFund.Factory do
       campaign: build(:campaign),
       bid_amount: Decimal.new(250),
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}")
+    }
+  end
+
+  def creative_factory do
+    %CodeFund.Schema.Creative{
+      name: "Test Creative",
+      body: "This is a Test Creative",
+      image_url: "http://example.com/some.png"
     }
   end
 

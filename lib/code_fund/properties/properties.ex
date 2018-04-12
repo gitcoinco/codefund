@@ -71,6 +71,16 @@ defmodule CodeFund.Properties do
   @pagination [page_size: 15]
   @pagination_distance 5
 
+  @statuses [
+    Pending: 0,
+    Active: 1,
+    Rejected: 2,
+    Archived: 3,
+    Blacklisted: 4
+  ]
+
+  def statuses, do: @statuses
+
   @doc """
   Paginate the list of properties using filtrex filters.
   """

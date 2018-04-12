@@ -194,7 +194,7 @@
           </h1>
           <p class="home-subtitle mx-auto pt-2">
             CodeFund is an open source ad platform that connects software developers with highly
-            relevant products, services, and brands through ethical advertising.
+            relevant products, services, and brands through <span class="text-light">ethical advertising</span>.
           </p>
           <div class="mt-5">
             <%= link "Sign Up", to: registration_path(@conn, :new), class: "btn btn-outline-light" %>
@@ -248,7 +248,8 @@
             <div class="service-desc pt-4">
               <h5>Open Source</h5>
               <p class="pt-2 text-muted">
-                We love open source. We've built our careers on open source. Keeping it closed just feels wrong.
+                Our platform is <a href="https://github.com/gitcoinco/codefund" target="_blank">100% open source</a>.
+                We are a team of developers and believe trust comes with openness.
               </p>
             </div>
           </div>
@@ -336,18 +337,15 @@
             on Ethical Advertising.
           </p>
           <p>
-            <strong>Ethical Ads</strong> respect users while providing value to advertisers. We don't track you, sell
-            your data, or anything else. We simply show ads to users, based on the content of the
-            pages you look at.
+            <strong>We do not track, profile, or sell information</strong>. We do not use cookies. We only show
+            ads that are relevant and meaningful to the users.
           </p>
           <p>
-            Think of Ethical Advertising as <strong>newspaper advertising, on the internet</strong>.
-            For a hundred years, newspapers put an ad on the page, some folks would see it, and 
-            advertisers would pay for this. This is our model.
+            These are not just words. Our platform is open source. We have no secrets on how we do things.
           </p>
         </div>
         <div class="col-md-4">
-          <div class="text-center pb-3 pt-5"><em>this is an actual ad:</em></div>
+          <div class="text-center pb-3 pt-3"><em>this is an actual ad:</em></div>
           <div id="codefund_ad"></div>
         </div>
       </div>
@@ -738,6 +736,16 @@
 
   <script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us16.list-manage.com","uuid":"e95ff716114dbc939f8ef6100","lid":"f036681f65"}) })</script>
 
+  <!-- CHATLIO -->
+  <script type="text/javascript">
+    window._chatlio = window._chatlio||[];
+    !function(){ var t=document.getElementById("chatlio-widget-embed");if(t&&window.ChatlioReact&&_chatlio.init)return void _chatlio.init(t,ChatlioReact);for(var e=function(t){return function(){_chatlio.push([t].concat(arguments)) }},i=["configure","identify","track","show","hide","isShown","isOnline", "page", "open", "showOrHide"],a=0;a<i.length;a++)_chatlio[i[a]]||(_chatlio[i[a]]=e(i[a]));var n=document.createElement("script"),c=document.getElementsByTagName("script")[0];n.id="chatlio-widget-embed",n.src="https://w.chatlio.com/w.chatlio-widget.js",n.async=!0,n.setAttribute("data-embed-version","2.3");
+       n.setAttribute('data-widget-id','48b71b24-9e24-49c1-7058-6df28f028637');
+       c.parentNode.insertBefore(n,c);
+    }();
+  </script>
+  <!-- END CHATLIO -->
+  
   <%= ga_tag() %>
 </body>
 </html>
