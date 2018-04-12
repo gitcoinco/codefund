@@ -45,6 +45,11 @@ defmodule CodeFundWeb.ViewHelpers do
     end
   end
 
+  @spec return_key_for_value(Keyword.t(), integer | String.t()) :: String.t()
+  def return_key_for_value(enum, match_value) when is_list(enum) do
+    enum |> Enum.find(fn enum_tuple -> enum_tuple |> elem(1) == match_value end) |> elem(0)
+  end
+
   def full_name(user) do
     case user do
       nil -> ""
