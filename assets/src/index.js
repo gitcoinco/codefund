@@ -4,6 +4,7 @@ import "jquery/dist/jquery";
 import "popper.js";
 import "bootstrap/dist/js/bootstrap";
 import "phoenix_html";
+import "./onload";
 
 import { Application } from "stimulus";
 import { definitionsFromContext } from "stimulus/webpack-helpers";
