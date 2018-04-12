@@ -15,7 +15,11 @@ defmodule CodeFundWeb.PropertyType do
       :property_type,
       :select,
       label: "Property Type",
-      choices: [Website: 1, Repository: 2, Newsletter: 3],
+      choices: [
+        Website: 1,
+        "Repository (not yet supported)": 2,
+        "Newsletter (not yet supported)": 3
+      ],
       validation: [:required]
     )
     |> add(
