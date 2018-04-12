@@ -2,7 +2,7 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item active">Properties</li>
-  
+
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
       <%= link to: property_path(@conn, :new), class: "btn" do %>
@@ -23,6 +23,9 @@
                 <th></th>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th><%= table_link(@conn, "URL", :url) %></th>
+                <%= if has_any_role? @conn, ["admin"] do %>
+                  <th><%= table_link(@conn, "Status", :status) %></th>
+                <% end %>
                 <th>Advertiser</th>
                 <th></th>
               </tr>
@@ -33,7 +36,9 @@
                   <td><img src="<%= favicon_image_url(property.url) %>" width="16" height="16" /></td>
                   <td><%= property.name %></td>
                   <td><%= link property.url, to: property.url, target: "_blank" %></td>
-                  
+                  <%= if has_any_role? @conn, ["admin"] do %>
+                    <td><%= CodeFund.Properties.statuses |> return_key_for_value(property.status) %></td>
+                  <% end %>
                   <!-- TODO: Refactor -->
                   <td>
                     <%= if property.sponsorship do %>

@@ -18,6 +18,20 @@ defmodule CodeFundWeb.PropertyType do
       choices: [Website: 1, Repository: 2, Newsletter: 3],
       validation: [:required]
     )
+    |> CodeFundWeb.Form.Helpers.add_if_role(
+      Keyword.fetch!(form.opts, :current_user).roles,
+      ["admin"],
+      fn form ->
+        add(
+          form,
+          :status,
+          :select,
+          label: "Status",
+          choices: CodeFund.Properties.statuses(),
+          validation: [:required]
+        )
+      end
+    )
     |> add(
       :url,
       :text_input,
