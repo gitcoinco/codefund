@@ -26,11 +26,13 @@ defmodule CodeFundWeb.SponsorshipController do
   def new(conn, _params) do
     current_user = conn.assigns.current_user
 
-    sponsorship =
-      %Sponsorship{user: current_user}
-      |> Map.put(:current_user, current_user)
-
-    form = create_form(SponsorshipType, sponsorship)
+    form =
+      create_form(
+        SponsorshipType,
+        %Sponsorship{user: current_user},
+        %{},
+        current_user: current_user
+      )
 
     render(conn, "new.html", form: form)
   end
@@ -38,12 +40,12 @@ defmodule CodeFundWeb.SponsorshipController do
   def create(conn, %{"sponsorship" => sponsorship_params}) do
     current_user = conn.assigns.current_user
 
-    sponsorship =
-      %Sponsorship{user: current_user}
-      |> Map.put(:current_user, current_user)
-
     SponsorshipType
-    |> create_form(sponsorship, sponsorship_params, user: current_user)
+    |> create_form(
+      %Sponsorship{user: current_user},
+      sponsorship_params,
+      current_user: current_user
+    )
     |> insert_form_data
     |> case do
       {:ok, sponsorship} ->
@@ -64,25 +66,24 @@ defmodule CodeFundWeb.SponsorshipController do
 
   def edit(conn, %{"id" => id}) do
     current_user = conn.assigns.current_user
+    sponsorship = Sponsorships.get_sponsorship!(id)
 
-    sponsorship =
-      Sponsorships.get_sponsorship!(id)
-      |> Map.put(:current_user, current_user)
-
-    form = create_form(SponsorshipType, sponsorship)
+    form = create_form(SponsorshipType, sponsorship, %{}, current_user: current_user)
 
     render(conn, "edit.html", form: form, sponsorship: sponsorship)
   end
 
   def update(conn, %{"id" => id, "sponsorship" => sponsorship_params}) do
     current_user = conn.assigns.current_user
-
-    sponsorship =
-      Sponsorships.get_sponsorship!(id)
-      |> Map.put(:current_user, current_user)
+    sponsorship = Sponsorships.get_sponsorship!(id)
 
     SponsorshipType
-    |> create_form(sponsorship, sponsorship_params, user: current_user)
+    |> create_form(
+      sponsorship,
+      sponsorship_params,
+      user: current_user,
+      current_user: current_user
+    )
     |> update_form_data
     |> case do
       {:ok, sponsorship} ->
