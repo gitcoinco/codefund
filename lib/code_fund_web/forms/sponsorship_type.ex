@@ -43,8 +43,8 @@ defmodule CodeFundWeb.SponsorshipType do
     )
     |> add(
       :override_revenue_rate,
-      override_field_type(form.struct.current_user),
-      label: override_field_label(form.struct.current_user),
+      form.opts |> Keyword.fetch!(:current_user) |> override_field_type(),
+      label: form.opts |> Keyword.fetch!(:current_user) |> override_field_label(),
       validation: [:required],
       phoenix_opts: [
         value: set_override_revenue_rate_default(form.struct),
