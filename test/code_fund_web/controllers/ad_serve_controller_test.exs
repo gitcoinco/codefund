@@ -1,6 +1,5 @@
 defmodule CodeFundWeb.AdServeControllerTest do
   use CodeFundWeb.ConnCase
-  import CodeFund.Factory
 
   describe "details" do
     test "serves an ad if property has a sponsorship", %{conn: conn} do
@@ -34,7 +33,7 @@ defmodule CodeFundWeb.AdServeControllerTest do
     end
 
     test "returns an error if a sponsored property has no creative", %{conn: conn} do
-      sponsorship = insert(:sponsorship, %{property: insert(:property)})
+      sponsorship = insert(:sponsorship, %{property: insert(:property), creative: nil})
 
       conn = get(conn, ad_serve_path(conn, :details, sponsorship.property))
 

@@ -20,6 +20,8 @@ defmodule CodeFundWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import CodeFundWeb.Router.Helpers
+      import SharedExample.ControllerTests
+      import CodeFund.Factory
 
       # The default endpoint for testing
       @endpoint CodeFundWeb.Endpoint

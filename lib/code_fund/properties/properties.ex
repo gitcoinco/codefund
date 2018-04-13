@@ -188,7 +188,7 @@ defmodule CodeFund.Properties do
   def get_property!(id) do
     try do
       case Ecto.UUID.cast(id) do
-        {:ok, _} -> Repo.get!(Property, id) |> Repo.preload(:user)
+        {:ok, _} -> Repo.get!(Property, id) |> Repo.preload([:user, sponsorship: :campaign])
         :error -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :sponsorship])
       end
     rescue
