@@ -8,6 +8,94 @@ defmodule CodeFund.Properties do
   alias CodeFund.Schema.Property
   alias CodeFund.Schema.User
 
+  @programming_languages [
+    "Java",
+    "C",
+    "C++",
+    "C#",
+    "Python",
+    "Visual Basic .NET",
+    "PHP",
+    "JavaScript",
+    "Delphi/Object Pascal	2.544%	+0.54%",
+    "Swift",
+    "Perl",
+    "Ruby",
+    "Assembly language",
+    "R",
+    "Visual Basic",
+    "Objective-C",
+    "Go",
+    "MATLAB",
+    "PL/SQL",
+    "Scratch",
+    "SAS",
+    "D",
+    "Dart",
+    "ABAP",
+    "COBOL",
+    "Ada",
+    "Fortran",
+    "Transact-SQL",
+    "Lua",
+    "Scala",
+    "Logo",
+    "F#",
+    "Lisp",
+    "LabVIEW",
+    "Prolog",
+    "Haskell",
+    "Scheme",
+    "Groovy",
+    "RPG (OS/400)",
+    "Apex",
+    "Erlang",
+    "MQL4",
+    "Rust",
+    "Bash",
+    "Ladder Logic",
+    "Q",
+    "Julia",
+    "Alice",
+    "VHDL",
+    "Awk",
+    "Other"
+  ]
+
+  @topic_categories [
+    "Frontend Concepts",
+    "Frontend Frameworks & Tools",
+    "Frontend Workflow & Tooling",
+    "React",
+    "HTML5",
+    "CSS & Design",
+    "Languages & Frameworks",
+    "Database",
+    "Backend Services",
+    "Dev Ops",
+    "Shell",
+    "Git",
+    "Docker",
+    "Hybrid & Mobile Web",
+    "IOS Development",
+    "Android Development",
+    "Game Development",
+    "Resources",
+    "Computer Science"
+  ]
+
+  def programming_languages do
+    @programming_languages
+    |> Enum.chunk(1)
+    |> Enum.map(fn [a] -> {a, a} end)
+  end
+
+  def topic_categories do
+    @topic_categories
+    |> Enum.chunk(1)
+    |> Enum.map(fn [a] -> {a, a} end)
+  end
+
   @pagination [page_size: 15]
   @pagination_distance 5
 
