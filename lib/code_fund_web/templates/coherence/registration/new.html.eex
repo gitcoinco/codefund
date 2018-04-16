@@ -4,7 +4,7 @@
       <div class="card mx-4">
         <div class="card-body p-4">
           <h1><%= dgettext "coherence", "Register Account" %></h1>
-          <p class="text-muted">Create your account</p>
+          <p class="text-muted">We are still in beta. If you would like to be advertise with CodeFund, please email <%= link("eric@codefund.io", to: "mailto:eric@codefund.io")%></p>
           <%= render "form.html", changeset: @changeset,
                         label: dgettext("coherence", "Register"), required: [required: ""],
                         action: registration_path(@conn, :create) %>
