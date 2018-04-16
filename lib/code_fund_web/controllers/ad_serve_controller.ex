@@ -63,7 +63,7 @@ defmodule CodeFundWeb.AdServeController do
   def details(conn, %{"property_id" => property_id}) do
     with %Property{status: 1} = property <- Properties.get_property!(property_id),
          %Sponsorship{creative: %Creative{}} = sponsorship <-
-           Sponsorships.get_sponsorship_for_property(property) do
+           Sponsorships.get_and_update_sponsorship_for_property(property, :random) do
       %{
         image: sponsorship.creative.image_url,
         link: "https://#{conn.host}/t/s/#{sponsorship.id}",

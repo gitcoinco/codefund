@@ -1,10 +1,37 @@
-# defmodule CodeFund.CampaignsTest do
-#   use CodeFund.DataCase
+defmodule CodeFund.CampaignsTest do
+  use CodeFund.DataCase
+  import CodeFund.Factory
 
-#   alias CodeFund.Campaigns
+  alias CodeFund.Campaigns
 
-#   describe "campaigns" do
-#     alias CodeFund.Schema.Campaign
+  describe "campaigns" do
+    test "get_active_campaign_for_property_with_biggest_bid_amount/1 returns the campaign for a property with largest bid amount" do
+      property = insert(:property)
+
+      campaign = insert(:campaign, bid_amount: Decimal.new(10.00))
+      insert(:sponsorship, campaign: campaign, property: property)
+
+      insert(:campaign, bid_amount: Decimal.new(1.00))
+      insert(:sponsorship, campaign: campaign, property: property)
+
+      assert Campaigns.get_active_campaign_for_property_with_biggest_bid_amount(property).id ==
+               campaign.id
+    end
+
+    test "get_random_active_campaign_for_property/1 returns a random campaign for the property" do
+      property = insert(:property)
+      insert(:sponsorship, property: property)
+      insert(:sponsorship, property: property)
+
+      found_campaign =
+        Campaigns.get_random_active_campaign_for_property(property)
+        |> CodeFund.Repo.preload(sponsorships: :property)
+
+      assert found_campaign.__struct__ == CodeFund.Schema.Campaign
+      assert found_campaign.sponsorships |> List.first() |> Map.get(:property_id) == property.id
+    end
+  end
+end
 
 #     @valid_attrs %{bid_amount_cents: 42, daily_budget_cents: 42, description: "some description", monthly_budget_cents: 42, name: "some name", redirect_url: "some redirect_url", status: 42}
 #     @update_attrs %{bid_amount_cents: 43, daily_budget_cents: 43, description: "some updated description", monthly_budget_cents: 43, name: "some updated name", redirect_url: "some updated redirect_url", status: 43}

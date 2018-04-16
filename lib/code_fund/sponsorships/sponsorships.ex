@@ -6,6 +6,7 @@ defmodule CodeFund.Sponsorships do
   use CodeFundWeb, :query
 
   alias CodeFund.Schema.{Sponsorship, Property, Campaign, User}
+  alias CodeFund.Campaigns
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -94,41 +95,53 @@ defmodule CodeFund.Sponsorships do
     |> Repo.preload([:property, :campaign, :creative, :user])
   end
 
-  def get_sponsorship_for_property(%Property{} = property) do
-    campaign =
-      Repo.one(
-        from(
-          c in Campaign,
-          join: s in assoc(c, :sponsorships),
-          join: b in assoc(c, :budgeted_campaign),
-          where: c.status == 2,
-          where: s.property_id == ^property.id,
-          where: b.day_remain > 0,
-          where: b.month_remain > 0,
-          where: b.total_remain > 0,
-          order_by: [desc: c.bid_amount],
-          limit: 1
-        )
-      )
+  def get_and_update_sponsorship_for_property(
+        %Property{} = property,
+        campaign_order \\ :bid_amount
+      ) do
+    case campaign_order do
+      :bid_amount ->
+        property
+        |> Campaigns.get_active_campaign_for_property_with_biggest_bid_amount()
+        |> get_and_update_sponsorship_for_property_by_campaign(property)
 
-    if is_nil(campaign) do
-      Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update()
-      nil
-    else
-      sponsorship =
-        Repo.one(
-          from(
-            s in Sponsorship,
-            where: s.property_id == ^property.id,
-            where: s.campaign_id == ^campaign.id,
-            limit: 1
-          )
-        )
-        |> Repo.preload([:campaign, :property, :creative, :user])
-
-      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
-      sponsorship
+      :random ->
+        property
+        |> Campaigns.get_random_active_campaign_for_property()
+        |> get_and_update_sponsorship_for_property_by_campaign(property)
     end
+  end
+
+  defp get_and_update_sponsorship_for_property_by_campaign(
+         %Campaign{} = campaign,
+         %Property{} = property
+       ) do
+    %Sponsorship{} = sponsorship = get_sponsorships_by_campaign_and_property(campaign, property)
+
+    {:ok, %Property{}} =
+      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
+
+    sponsorship
+  end
+
+  defp get_and_update_sponsorship_for_property_by_campaign(nil, %Property{} = property) do
+    Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update()
+    nil
+  end
+
+  def get_sponsorships_by_campaign_and_property(
+        %Campaign{} = campaign,
+        %Property{} = property,
+        limit \\ 1
+      ) do
+    from(
+      s in Sponsorship,
+      where: s.property_id == ^property.id,
+      where: s.campaign_id == ^campaign.id,
+      limit: ^limit
+    )
+    |> Repo.one()
+    |> Repo.preload([:campaign, :property, :creative, :user])
   end
 
   @doc """

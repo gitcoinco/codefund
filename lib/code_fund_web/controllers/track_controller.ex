@@ -8,7 +8,7 @@ defmodule CodeFundWeb.TrackController do
   def pixel(conn, %{"property_id" => property_id} = params) do
     try do
       property = Properties.get_property!(property_id)
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
+      sponsorship = Sponsorships.get_and_update_sponsorship_for_property(property)
 
       impression_id =
         case track_impression(conn, property, sponsorship, params) do
@@ -79,7 +79,7 @@ defmodule CodeFundWeb.TrackController do
   def click(conn, %{"property_id" => property_id} = params) do
     try do
       property = Properties.get_property!(property_id)
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
+      sponsorship = Sponsorships.get_and_update_sponsorship_for_property(property)
 
       case track_click(conn, property, sponsorship, params) do
         {:ok, click} ->

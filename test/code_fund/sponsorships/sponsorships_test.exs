@@ -36,28 +36,48 @@ defmodule CodeFund.SponsorshipsTest do
       assert Sponsorships.get_sponsorship!(sponsorship.id).id == sponsorship.id
     end
 
-    test "get_sponsorship_for_property/1 with linked sponsorship returns sponsorship" do
+    test "get_and_update_sponsorship_for_property/1 with linked sponsorship updates sponsorships on property and returns sponsorship" do
       property = insert(:property)
-      sponsorship = insert(:sponsorship, property: property)
-      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
+
+      insert(
+        :sponsorship,
+        property: property,
+        campaign: insert(:campaign, bid_amount: Decimal.new(10))
+      )
+
+      sponsorship =
+        insert(
+          :sponsorship,
+          property: property,
+          campaign: insert(:campaign, bid_amount: Decimal.new(100))
+        )
+
+      Sponsorships.get_and_update_sponsorship_for_property(property)
       property = Properties.get_property!(property.id)
 
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
       assert sponsorship.id == property.sponsorship_id
     end
 
-    test "get_sponsorship_for_property/1 with non-linked sponsorship returns sponsorship" do
+    test "get_and_update_sponsorship_for_property/1 with non-linked sponsorship returns nil" do
       property = insert(:property)
 
+      Sponsorships.get_and_update_sponsorship_for_property(property)
+
+      property = Properties.get_property!(property.id)
+
+      refute property.sponsorship_id
+    end
+
+    test "get_and_update_sponsorship_for_property/2 allows you to return a random sponsorship" do
+      property = insert(:property)
+      sponsorship = insert(:sponsorship, property: property)
       insert(:sponsorship, property: property)
-
-      property = Properties.get_property!(property.id)
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
-
-      # refresh
+      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
       property = Properties.get_property!(property.id)
 
-      assert sponsorship.id == property.sponsorship_id
+      sponsorship = Sponsorships.get_and_update_sponsorship_for_property(property, :random)
+      assert sponsorship.__struct__ == Sponsorship
+      assert sponsorship.property_id == property.id
     end
 
     test "create_sponsorship/1 with valid data creates a sponsorship" do
