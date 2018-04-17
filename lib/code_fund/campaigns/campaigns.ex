@@ -149,7 +149,16 @@ defmodule CodeFund.Campaigns do
   end
 
   def get_random_active_campaign_for_property(%Property{} = property) do
-    get_active_campaign_for_property(property) |> order_by(fragment("RANDOM()")) |> Repo.one()
+    case get_active_campaign_for_property_with_biggest_bid_amount(property) do
+      nil ->
+        nil
+
+      %Campaign{bid_amount: bid_amount} ->
+        get_active_campaign_for_property(property)
+        |> where([c], c.bid_amount == ^bid_amount)
+        |> order_by(fragment("RANDOM()"))
+        |> Repo.one()
+    end
   end
 
   @doc """

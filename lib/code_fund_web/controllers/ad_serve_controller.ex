@@ -2,7 +2,7 @@ defmodule CodeFundWeb.AdServeController do
   use CodeFundWeb, :controller
 
   alias CodeFund.{Properties, Sponsorships, Creatives}
-  alias CodeFund.Schema.{Property, Sponsorship, Creative}
+  alias CodeFund.Schema.{Property, Sponsorship, Campaign, Creative}
 
   def embed(conn, %{"property_id" => property_id} = params) do
     property = Properties.get_property!(property_id)
@@ -62,7 +62,7 @@ defmodule CodeFundWeb.AdServeController do
 
   def details(conn, %{"property_id" => property_id}) do
     with %Property{status: 1} = property <- Properties.get_property!(property_id),
-         %Sponsorship{creative: %Creative{}} = sponsorship <-
+         %Sponsorship{creative: %Creative{}, campaign: %Campaign{}} = sponsorship <-
            Sponsorships.get_and_update_sponsorship_for_property(property, :random) do
       %{
         image: sponsorship.creative.image_url,
