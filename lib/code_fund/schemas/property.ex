@@ -21,7 +21,6 @@ defmodule CodeFund.Schema.Property do
     field(:name, :string)
     field(:property_type, :integer)
     field(:url, :string)
-    field(:status, :integer, default: 0)
     field(:estimated_monthly_page_views, :integer)
     field(:estimated_monthly_visitors, :integer)
     field(:alexa_site_rank, :integer)
@@ -29,7 +28,7 @@ defmodule CodeFund.Schema.Property do
     field(:programming_languages, {:array, :string}, default: [])
     field(:topic_categories, {:array, :string}, default: [])
     field(:screenshot_url, :string)
-
+    field(:status, :integer, default: 0)
     timestamps()
   end
 
