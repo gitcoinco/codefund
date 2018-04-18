@@ -106,7 +106,7 @@ defmodule CodeFund.Sponsorships do
           where: b.day_remain > 0,
           where: b.month_remain > 0,
           where: b.total_remain > 0,
-          order_by: [desc: c.bid_amount],
+          order_by: [desc: s.bid_amount],
           limit: 1
         )
       )
