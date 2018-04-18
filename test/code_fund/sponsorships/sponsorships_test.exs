@@ -36,28 +36,31 @@ defmodule CodeFund.SponsorshipsTest do
       assert Sponsorships.get_sponsorship!(sponsorship.id).id == sponsorship.id
     end
 
-    test "get_sponsorship_for_property/1 with linked sponsorship returns sponsorship" do
+    test "get_sponsorship_for_property/1 returns sponsorship with highest bid_amount and updates the association to property" do
       property = insert(:property)
-      sponsorship = insert(:sponsorship, property: property)
+      insert(:sponsorship, property: property, bid_amount: "10.00")
+      sponsorship = insert(:sponsorship, property: property, bid_amount: "20.00")
       Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
       property = Properties.get_property!(property.id)
 
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
+      found_sponsorship = Sponsorships.get_sponsorship_for_property(property)
       assert sponsorship.id == property.sponsorship_id
+      assert found_sponsorship.id == sponsorship.id
     end
 
-    test "get_sponsorship_for_property/1 with non-linked sponsorship returns sponsorship" do
-      property = insert(:property)
+    test "get_sponsorship_for_property/1 returns nil and breaks the association to property by updating property.sponsorship_id to nil" do
+      property = insert(:property, sponsorship: build(:sponsorship))
 
-      insert(:sponsorship, property: property)
+      refute is_nil(property.sponsorship_id)
 
-      property = Properties.get_property!(property.id)
+      insert(:sponsorship, property: property, campaign: nil)
+
       sponsorship = Sponsorships.get_sponsorship_for_property(property)
 
-      # refresh
       property = Properties.get_property!(property.id)
 
-      assert sponsorship.id == property.sponsorship_id
+      refute property.sponsorship_id
+      refute sponsorship
     end
 
     test "create_sponsorship/1 with valid data creates a sponsorship" do
