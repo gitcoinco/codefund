@@ -2,8 +2,8 @@ defmodule CodeFundWeb.ThemeController do
   use CodeFundWeb, :controller
 
   alias CodeFund.Creatives
-  alias CodeFund.Schema.Theme
   alias CodeFundWeb.ThemeType
+  use Framework.CRUDControllerFunctions, ["Theme", [:new, :create]]
 
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin"])
 
@@ -18,27 +18,6 @@ defmodule CodeFundWeb.ThemeController do
         conn
         |> put_flash(:error, "There was an error rendering themes. #{inspect(error)}")
         |> redirect(to: theme_path(conn, :index))
-    end
-  end
-
-  def new(conn, _params) do
-    form = create_form(ThemeType, %Theme{})
-    render(conn, "new.html", form: form)
-  end
-
-  def create(conn, %{"theme" => theme_params}) do
-    ThemeType
-    |> create_form(%Theme{}, theme_params)
-    |> insert_form_data
-    |> case do
-      {:ok, theme} ->
-        conn
-        |> put_flash(:info, "Theme created successfully.")
-        |> redirect(to: theme_path(conn, :show, theme))
-
-      {:error, form} ->
-        report(:warn, "Changeset Error")
-        render(conn, "new.html", form: form)
     end
   end
 

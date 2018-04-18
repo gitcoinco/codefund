@@ -1,5 +1,5 @@
 defmodule CodeFund.Reporter do
-  @spec report(atom, String.t()) :: atom
+  @spec report(atom, String.t()) :: tuple
   defmacro report(level, message \\ "Runtime Error")
 
   defmacro report(:warn, message) do

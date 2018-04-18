@@ -40,7 +40,10 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Sponsorship{
       property: build(:property),
       campaign: build(:campaign),
+      creative: build(:creative),
       bid_amount: Decimal.new(250),
+      override_revenue_rate: "0.3",
+      user: build(:user),
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}")
     }
   end
@@ -49,7 +52,24 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Creative{
       name: "Test Creative",
       body: "This is a Test Creative",
-      image_url: "http://example.com/some.png"
+      image_url: "http://example.com/some.png",
+      user: build(:user)
+    }
+  end
+
+  def theme_factory do
+    %CodeFund.Schema.Theme{
+      name: "Test Theme",
+      body: "This is a Test Theme",
+      slug: "some html"
+    }
+  end
+
+  def template_factory do
+    %CodeFund.Schema.Template{
+      name: "Test Theme",
+      body: "This is a Test Theme",
+      slug: "some html"
     }
   end
 

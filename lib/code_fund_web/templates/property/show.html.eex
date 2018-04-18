@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                   <td><strong>Current Advertiser</strong></td>
-                  <td><%= if (@sponsorship), do: @sponsorship.campaign.name, else: "None" %></td>
+                  <td><%= if (@property.sponsorship), do: @property.sponsorship.campaign.name, else: "None" %></td>
                 </tr>
                 <tr>
                   <td><strong>Developer</strong></td>

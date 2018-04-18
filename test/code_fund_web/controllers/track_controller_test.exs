@@ -1,6 +1,5 @@
 defmodule CodeFundWeb.TrackControllerTest do
   use CodeFundWeb.ConnCase
-  import CodeFund.Factory
 
   # import Mock
 

@@ -1,5 +1,0 @@
-<h2>New Impression</h2>
-
-<%= render "form.html", Map.put(assigns, :action, impression_path(@conn, :create)) %>
-
-<span><%= link "Back", to: impression_path(@conn, :index) %></span>
