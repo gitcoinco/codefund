@@ -7,7 +7,7 @@ const initSelectize = () => {
     delimiter: ",",
     persist: false
   });
-}
+};
 
 document.addEventListener("turbolinks:load", () => {
   initSelectize();
