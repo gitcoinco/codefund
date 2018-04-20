@@ -68,6 +68,8 @@
       padding: 10px;
     }
   </style>
+
+  <script src="https://wchat.freshchat.com/js/widget.js"></script>
 </head>
 
 <body id="page-top">
@@ -746,6 +748,7 @@
   </script>
   <!-- END CHATLIO -->
   
+  <%= chat_tag(Coherence.current_user(@conn)) %>
   <%= ga_tag() %>
 </body>
 </html>
