@@ -36,7 +36,7 @@ defmodule CodeFund.SponsorshipsTest do
       assert Sponsorships.get_sponsorship!(sponsorship.id).id == sponsorship.id
     end
 
-    test "get_and_update_sponsorship_for_property/1 returns sponsorship with highest bid_amount" do
+    test "get_sponsorship_for_property/1 returns sponsorship with highest bid_amount" do
       property = insert(:property)
       insert(:sponsorship, property: property, bid_amount: "10.00")
       sponsorship = insert(:sponsorship, property: property, bid_amount: "20.00")
@@ -48,7 +48,7 @@ defmodule CodeFund.SponsorshipsTest do
       assert found_sponsorship.id == sponsorship.id
     end
 
-    test "get_and_update_sponsorship_for_property/1 will return a random sponsorship if there are two with the same highest bid_amount" do
+    test "get_sponsorship_for_property/1 will return a random sponsorship if there are two with the same highest bid_amount" do
       property = insert(:property)
       insert(:sponsorship, property: property, bid_amount: "10.00")
       insert(:sponsorship, property: property, bid_amount: "10.00")
@@ -60,7 +60,7 @@ defmodule CodeFund.SponsorshipsTest do
       assert sponsorship.bid_amount == Decimal.new("10.00")
     end
 
-    test "get_and_update_sponsorship_for_property/1 returns nil if no campaign is found for the sponsorship" do
+    test "get_sponsorship_for_property/1 returns nil if no campaign is found for the sponsorship" do
       property = insert(:property, sponsorship: build(:sponsorship))
 
       refute is_nil(property.sponsorship_id)

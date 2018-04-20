@@ -68,6 +68,44 @@ defmodule CodeFundWeb.ViewHelpers do
     "https://www.gravatar.com/avatar/#{hash}?s=150&d=identicon"
   end
 
+  def chat_tag(nil) do
+    token = Application.get_env(:code_fund, :freshchat_token)
+
+    html = """
+      <script>
+        window.fcWidget.init({
+          token: "#{token}",
+          host: "https://wchat.freshchat.com"
+        });
+      </script>
+    """
+
+    {:safe, html}
+  end
+
+  def chat_tag(%CodeFund.Schema.User{} = user) do
+    token = Application.get_env(:code_fund, :freshchat_token)
+    roles = Enum.join(user.roles, ",")
+
+    html = """
+      <script>
+        window.fcWidget.setExternalId("#{user.id}");
+        window.fcWidget.user.setFirstName("#{user.first_name}");
+        window.fcWidget.user.setEmail("#{user.email}");
+        window.fcWidget.setTags(#{Poison.encode!(user.roles)});
+        window.fcWidget.user.setProperties({
+          roles: "#{roles}",
+        });
+        window.fcWidget.init({
+          token: "#{token}",
+          host: "https://wchat.freshchat.com"
+        });
+      </script>
+    """
+
+    {:safe, html}
+  end
+
   def ga_tag do
     ga_tracking_id = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:ga_tracking_id]
 

@@ -94,6 +94,7 @@ defmodule CodeFund.Sponsorships do
     |> Repo.preload([:property, :campaign, :creative, :user])
   end
 
+  @spec get_sponsorship_for_property(%Property{}, integer) :: %Sponsorship{}
   def get_sponsorship_for_property(
         %Property{} = property,
         limit \\ 1
@@ -104,28 +105,6 @@ defmodule CodeFund.Sponsorships do
     |> order_by(fragment("RANDOM()"))
     |> Repo.one()
     |> Repo.preload([:campaign, :property, :creative, :user])
-  end
-
-  def highest_bid_amount_by_property(property) do
-    base_query(property)
-    |> select([s], s.bid_amount)
-    |> limit(1)
-    |> order_by([s], desc: s.bid_amount)
-    |> Repo.one() || 0.00
-  end
-
-  def base_query(property) do
-    from(
-      s in Sponsorship,
-      join: c in assoc(s, :campaign),
-      join: b in assoc(c, :budgeted_campaign),
-      where: c.status == 2,
-      where: s.property_id == ^property.id,
-      where: b.day_remain > 0,
-      where: b.month_remain > 0,
-      where: b.total_remain > 0,
-      where: s.property_id == ^property.id
-    )
   end
 
   @doc """
@@ -199,6 +178,28 @@ defmodule CodeFund.Sponsorships do
   """
   def change_sponsorship(%Sponsorship{} = sponsorship) do
     Sponsorship.changeset(sponsorship, %{})
+  end
+
+  defp highest_bid_amount_by_property(property) do
+    base_query(property)
+    |> select([s], s.bid_amount)
+    |> limit(1)
+    |> order_by([s], desc: s.bid_amount)
+    |> Repo.one() || 0.00
+  end
+
+  defp base_query(property) do
+    from(
+      s in Sponsorship,
+      join: c in assoc(s, :campaign),
+      join: b in assoc(c, :budgeted_campaign),
+      where: c.status == 2,
+      where: s.property_id == ^property.id,
+      where: b.day_remain > 0,
+      where: b.month_remain > 0,
+      where: b.total_remain > 0,
+      where: s.property_id == ^property.id
+    )
   end
 
   defp filter_config(:sponsorships) do
