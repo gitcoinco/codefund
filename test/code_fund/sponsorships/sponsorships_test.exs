@@ -36,48 +36,40 @@ defmodule CodeFund.SponsorshipsTest do
       assert Sponsorships.get_sponsorship!(sponsorship.id).id == sponsorship.id
     end
 
-    test "get_and_update_sponsorship_for_property/1 with linked sponsorship updates sponsorships on property and returns sponsorship" do
+    test "get_and_update_sponsorship_for_property/1 returns sponsorship with highest bid_amount" do
       property = insert(:property)
+      insert(:sponsorship, property: property, bid_amount: "10.00")
+      sponsorship = insert(:sponsorship, property: property, bid_amount: "20.00")
 
-      insert(
-        :sponsorship,
-        property: property,
-        campaign: insert(:campaign, bid_amount: Decimal.new(10))
-      )
-
-      sponsorship =
-        insert(
-          :sponsorship,
-          property: property,
-          campaign: insert(:campaign, bid_amount: Decimal.new(100))
-        )
-
-      Sponsorships.get_and_update_sponsorship_for_property(property)
       property = Properties.get_property!(property.id)
 
-      assert sponsorship.id == property.sponsorship_id
+      found_sponsorship = Sponsorships.get_sponsorship_for_property(property)
+      assert sponsorship.property_id == property.id
+      assert found_sponsorship.id == sponsorship.id
     end
 
-    test "get_and_update_sponsorship_for_property/1 with non-linked sponsorship returns nil" do
+    test "get_and_update_sponsorship_for_property/1 will return a random sponsorship if there are two with the same highest bid_amount" do
       property = insert(:property)
+      insert(:sponsorship, property: property, bid_amount: "10.00")
+      insert(:sponsorship, property: property, bid_amount: "10.00")
+      insert(:sponsorship, property: property, bid_amount: "5.00")
 
-      Sponsorships.get_and_update_sponsorship_for_property(property)
-
-      property = Properties.get_property!(property.id)
-
-      refute property.sponsorship_id
-    end
-
-    test "get_and_update_sponsorship_for_property/2 allows you to return a random sponsorship" do
-      property = insert(:property)
-      sponsorship = insert(:sponsorship, property: property)
-      insert(:sponsorship, property: property)
-      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
-      property = Properties.get_property!(property.id)
-
-      sponsorship = Sponsorships.get_and_update_sponsorship_for_property(property, :random)
+      sponsorship = Sponsorships.get_sponsorship_for_property(property)
       assert sponsorship.__struct__ == Sponsorship
       assert sponsorship.property_id == property.id
+      assert sponsorship.bid_amount == Decimal.new("10.00")
+    end
+
+    test "get_and_update_sponsorship_for_property/1 returns nil if no campaign is found for the sponsorship" do
+      property = insert(:property, sponsorship: build(:sponsorship))
+
+      refute is_nil(property.sponsorship_id)
+
+      insert(:sponsorship, property: property, campaign: nil)
+
+      sponsorship = Sponsorships.get_sponsorship_for_property(property)
+
+      refute sponsorship
     end
 
     test "create_sponsorship/1 with valid data creates a sponsorship" do

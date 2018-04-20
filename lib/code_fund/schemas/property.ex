@@ -29,7 +29,6 @@ defmodule CodeFund.Schema.Property do
     field(:topic_categories, {:array, :string}, default: [])
     field(:screenshot_url, :string)
     field(:status, :integer, default: 0)
-
     timestamps()
   end
 

@@ -5,8 +5,7 @@ defmodule CodeFund.Sponsorships do
 
   use CodeFundWeb, :query
 
-  alias CodeFund.Schema.{Sponsorship, Property, Campaign, User}
-  alias CodeFund.Campaigns
+  alias CodeFund.Schema.{Sponsorship, Property, User}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -95,53 +94,38 @@ defmodule CodeFund.Sponsorships do
     |> Repo.preload([:property, :campaign, :creative, :user])
   end
 
-  def get_and_update_sponsorship_for_property(
-        %Property{} = property,
-        campaign_order \\ :bid_amount
-      ) do
-    case campaign_order do
-      :bid_amount ->
-        property
-        |> Campaigns.get_active_campaign_for_property_with_biggest_bid_amount()
-        |> get_and_update_sponsorship_for_property_by_campaign(property)
-
-      :random ->
-        property
-        |> Campaigns.get_random_active_campaign_for_property()
-        |> get_and_update_sponsorship_for_property_by_campaign(property)
-    end
-  end
-
-  defp get_and_update_sponsorship_for_property_by_campaign(
-         %Campaign{} = campaign,
-         %Property{} = property
-       ) do
-    %Sponsorship{} = sponsorship = get_sponsorships_by_campaign_and_property(campaign, property)
-
-    {:ok, %Property{}} =
-      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
-
-    sponsorship
-  end
-
-  defp get_and_update_sponsorship_for_property_by_campaign(nil, %Property{} = property) do
-    Property.changeset(property, %{sponsorship_id: nil}) |> Repo.update()
-    nil
-  end
-
-  def get_sponsorships_by_campaign_and_property(
-        %Campaign{} = campaign,
+  def get_sponsorship_for_property(
         %Property{} = property,
         limit \\ 1
       ) do
-    from(
-      s in Sponsorship,
-      where: s.property_id == ^property.id,
-      where: s.campaign_id == ^campaign.id,
-      limit: ^limit
-    )
+    base_query(property)
+    |> where([s], s.bid_amount == ^highest_bid_amount_by_property(property))
+    |> limit(^limit)
+    |> order_by(fragment("RANDOM()"))
     |> Repo.one()
     |> Repo.preload([:campaign, :property, :creative, :user])
+  end
+
+  def highest_bid_amount_by_property(property) do
+    base_query(property)
+    |> select([s], s.bid_amount)
+    |> limit(1)
+    |> order_by([s], desc: s.bid_amount)
+    |> Repo.one() || 0.00
+  end
+
+  def base_query(property) do
+    from(
+      s in Sponsorship,
+      join: c in assoc(s, :campaign),
+      join: b in assoc(c, :budgeted_campaign),
+      where: c.status == 2,
+      where: s.property_id == ^property.id,
+      where: b.day_remain > 0,
+      where: b.month_remain > 0,
+      where: b.total_remain > 0,
+      where: s.property_id == ^property.id
+    )
   end
 
   @doc """

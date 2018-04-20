@@ -2,8 +2,8 @@ defmodule CodeFundWeb.TemplateController do
   use CodeFundWeb, :controller
 
   alias CodeFund.Creatives
-  alias CodeFund.Schema.Template
   alias CodeFundWeb.TemplateType
+  use Framework.CRUDControllerFunctions, ["Template", [:new, :create]]
 
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin"])
 
@@ -18,27 +18,6 @@ defmodule CodeFundWeb.TemplateController do
         conn
         |> put_flash(:error, "There was an error rendering templates. #{inspect(error)}")
         |> redirect(to: template_path(conn, :index))
-    end
-  end
-
-  def new(conn, _params) do
-    form = create_form(TemplateType, %Template{})
-    render(conn, "new.html", form: form)
-  end
-
-  def create(conn, %{"template" => template_params}) do
-    TemplateType
-    |> create_form(%Template{}, template_params)
-    |> insert_form_data
-    |> case do
-      {:ok, template} ->
-        conn
-        |> put_flash(:info, "Template created successfully.")
-        |> redirect(to: template_path(conn, :show, template))
-
-      {:error, form} ->
-        report(:warn, "Changeset Error")
-        render(conn, "new.html", form: form)
     end
   end
 

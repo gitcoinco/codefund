@@ -6,7 +6,7 @@ defmodule CodeFund.Campaigns do
   use CodeFundWeb, :query
 
   alias Decimal, as: D
-  alias CodeFund.Schema.{Campaign, Property, User}
+  alias CodeFund.Schema.{Campaign, User}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -144,23 +144,6 @@ defmodule CodeFund.Campaigns do
     Repo.delete(campaign)
   end
 
-  def get_active_campaign_for_property_with_biggest_bid_amount(%Property{} = property) do
-    get_active_campaign_for_property(property) |> order_by(desc: :bid_amount) |> Repo.one()
-  end
-
-  def get_random_active_campaign_for_property(%Property{} = property) do
-    case get_active_campaign_for_property_with_biggest_bid_amount(property) do
-      nil ->
-        nil
-
-      %Campaign{bid_amount: bid_amount} ->
-        get_active_campaign_for_property(property)
-        |> where([c], c.bid_amount == ^bid_amount)
-        |> order_by(fragment("RANDOM()"))
-        |> Repo.one()
-    end
-  end
-
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking campaign changes.
 
@@ -195,19 +178,5 @@ defmodule CodeFund.Campaigns do
       number(:monthly_budget_cents)
       number(:total_budget_cents)
     end
-  end
-
-  defp get_active_campaign_for_property(%Property{} = property, limit \\ 1) do
-    from(
-      c in Campaign,
-      join: s in assoc(c, :sponsorships),
-      join: b in assoc(c, :budgeted_campaign),
-      where: c.status == 2,
-      where: s.property_id == ^property.id,
-      where: b.day_remain > 0,
-      where: b.month_remain > 0,
-      where: b.total_remain > 0,
-      limit: ^limit
-    )
   end
 end

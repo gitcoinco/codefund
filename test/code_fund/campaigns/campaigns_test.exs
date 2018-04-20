@@ -1,53 +1,5 @@
 defmodule CodeFund.CampaignsTest do
   use CodeFund.DataCase
-  import CodeFund.Factory
-
-  alias CodeFund.Campaigns
-
-  describe "campaigns" do
-    test "get_active_campaign_for_property_with_biggest_bid_amount/1 returns the campaign for a property with largest bid amount" do
-      property = insert(:property)
-
-      campaign = insert(:campaign, bid_amount: Decimal.new(10.00))
-      insert(:sponsorship, campaign: campaign, property: property)
-
-      insert(:campaign, bid_amount: Decimal.new(1.00))
-      insert(:sponsorship, campaign: campaign, property: property)
-
-      assert Campaigns.get_active_campaign_for_property_with_biggest_bid_amount(property).id ==
-               campaign.id
-    end
-
-    test "get_random_active_campaign_for_property/1 returns a random campaign from all campaigns with highest bid_value for the property" do
-      property = insert(:property)
-      campaign_1 = insert(:campaign, bid_amount: Decimal.new(25.00))
-      campaign_2 = insert(:campaign, bid_amount: Decimal.new(25.00))
-
-      insert(:sponsorship, property: property, campaign: campaign_1)
-      insert(:sponsorship, property: property, campaign: campaign_2)
-
-      insert(
-        :sponsorship,
-        property: property,
-        campaign: insert(:campaign, bid_amount: Decimal.new(10.00))
-      )
-
-      found_campaign =
-        Campaigns.get_random_active_campaign_for_property(property)
-        |> CodeFund.Repo.preload(sponsorships: :property)
-
-      assert found_campaign.__struct__ == CodeFund.Schema.Campaign
-      assert found_campaign.bid_amount == Decimal.new("25.00")
-      assert found_campaign.sponsorships |> List.first() |> Map.get(:property_id) == property.id
-    end
-
-    test "get_random_active_campaign_for_property/1 returns nil if the campaign doesn't have an active campaign" do
-      property = insert(:property)
-
-      insert(:sponsorship, property: property, campaign: nil)
-      refute Campaigns.get_random_active_campaign_for_property(property)
-    end
-  end
 end
 
 #     @valid_attrs %{bid_amount_cents: 42, daily_budget_cents: 42, description: "some description", monthly_budget_cents: 42, name: "some name", redirect_url: "some redirect_url", status: 42}

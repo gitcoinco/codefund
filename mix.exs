@@ -80,6 +80,7 @@ defmodule CodeFund.Mixfile do
       {:scrivener_html, "~> 1.7"},
       {:filtrex, "~> 0.4.1"},
       {:formex, "~> 0.6.3"},
+      {:inflex, "~> 1.10.0"},
       # JBEAN TODO: swapping this out until bug is merged
       # {:formex_ecto, "~> 0.1.0"},
       {:formex_ecto,
