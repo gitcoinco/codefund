@@ -156,9 +156,6 @@
             <li class="has-submenu mobile-block">
               <%= link "Log In", to: session_path(@conn, :new) %>
             </li>
-            <li class="has-submenu mobile-block">
-              <%= link "Sign Up", to: registration_path(@conn, :new) %>
-            </li>
           <% end %>
         </ul>
         
@@ -170,9 +167,6 @@
           <% else %>
             <li class="mobile-none">
               <%= link "Log In", to: session_path(@conn, :new) %>
-            </li>
-            <li class="mobile-none">
-              <%= link "Sign Up", to: registration_path(@conn, :new) %>
             </li>
           <% end %>
         </ul>
@@ -199,7 +193,10 @@
             relevant products, services, and brands through <span class="text-light">ethical advertising</span>.
           </p>
           <div class="mt-5">
-            <%= link "Sign Up", to: registration_path(@conn, :new), class: "btn btn-outline-light" %>
+            <a class="typeform-share button btn btn-outline-light mr-2" href="https://codefund.typeform.com/to/krKyBP" data-mode="popup" target="_blank">Create a Campaign</a> 
+            <script>(function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })()</script>
+            <a class="typeform-share button btn btn-outline-light ml-2" href="https://codefund.typeform.com/to/C1voZl" data-mode="popup" target="_blank">Become a Publisher</a>
+            <script>(function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })()</script>
           </div>
           <%# <a href="https://vimeo.com/108096448" class="pt-4 video-play-icon watch-overview d-inline-block text-white">Watch the overview &nbsp;<i class="mdi mdi-chevron-right"></i></a> %>
           <div id="macbook-slideshow">

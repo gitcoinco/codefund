@@ -85,7 +85,7 @@ defmodule CodeFundWeb.Coherence.ViewHelpers do
     [
       recover_link(conn, user_schema, recover_link),
       unlock_link(conn, user_schema, unlock_link),
-      register_link(conn, user_schema, register_link),
+      # register_link(conn, user_schema, register_link),
       confirmation_link(conn, user_schema, confirm_link)
     ]
     |> List.flatten()
