@@ -36,6 +36,26 @@ ul.list-group-kv li.list-group-item {
   }
 }
 
+.card-list.card {
+  height: 340px;
+
+  p.card-text {
+    height: 33px;
+  }
+  .detail-group{
+    margin-top: 80px;
+   .detail {
+      display: inline-block;
+      background: lightgrey;
+      padding-top: 4px;
+      border: 1px solid black;
+    }
+  }
+  .actions {
+    margin-top: 18px;
+  }
+}
+
 .metamask-container {
   position: relative;
   height: 100%;

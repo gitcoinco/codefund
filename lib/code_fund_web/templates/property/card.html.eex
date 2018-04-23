@@ -1,0 +1,40 @@
+<div class="card card-list border-primary mb-3">
+  <div class="card-body">
+    <div class="card-header">
+      <h5 class="card-title">
+        <img src="<%= favicon_image_url(@property.url) %>" width="16" height="16" />
+        <%= @property.name %>
+      </h5>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><%= truncate(@property.description || "", 150) %></p>
+      <div class="row detail-group">
+        <div class="detail col-sm-4 text-center">
+          <div><strong>Rank</strong></div>
+          <%= @property.alexa_site_rank %>
+        </div>
+        <div class="detail  col-sm-4 text-center">
+          <div><strong>Visits</strong></div>
+          <%= @property.estimated_monthly_visitors %>
+        </div>
+        <div class="detail col-sm-4  text-center">
+          <div><strong>Views</strong></div>
+          <%= @property.estimated_monthly_page_views %>
+        </div>
+      </div>
+      <div class="actions offset-sm-2">
+        <%= if((@conn.assigns.current_user.id == @property.user_id) || has_any_role? @conn, ["admin"]) do %>
+          <%= link to: property_path(@conn, :edit, @property), class: "btn btn-sm btn-primary" do %>
+            <i class="fa fa-pencil"></i> Edit
+          <% end %>
+          <%= link to: property_path(@conn, :edit , @property), class: "btn btn-sm btn-danger" do %>
+            <i class="fa fa-pencil"></i> Delete
+          <% end %>
+        <% end %>
+        <%= link to: property_path(@conn, :show, @property), class: "btn btn-sm btn-primary" do %>
+          <i class="fa fa-plus"></i> Details
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

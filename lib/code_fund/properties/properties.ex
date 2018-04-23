@@ -141,8 +141,8 @@ defmodule CodeFund.Properties do
     end
   end
 
-  defp do_paginate_properties(%User{} = user, _filter, params) do
-    case Enum.member?(user.roles, "admin") do
+  defp do_paginate_properties(%User{roles: user_roles, id: user_id}, _filter, params) do
+    case CodeFund.Users.has_role?(user_roles, ["admin", "sponsor"]) do
       true ->
         Property
         |> preload(:sponsorship)
@@ -151,7 +151,7 @@ defmodule CodeFund.Properties do
 
       false ->
         Property
-        |> where([p], p.user_id == ^user.id)
+        |> where([p], p.user_id == ^user_id)
         |> preload(:sponsorship)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)

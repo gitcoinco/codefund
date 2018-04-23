@@ -82,14 +82,12 @@
               Dashboard
             <% end %>
           </li>
-          <%= if has_any_role? @conn, ["admin", "developer"] do %>
-            <li class="nav-item">
-              <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
-                <i class="icon-layers"></i>
-                Properties
-              <% end %>
-            </li>
-          <% end %>
+          <li class="nav-item">
+            <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
+              <i class="icon-layers"></i>
+              Properties
+            <% end %>
+          </li>
           <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
             <li class="nav-item">
               <%= active_link(@conn, to: campaign_path(@conn, :index), class: "nav-link") do %>

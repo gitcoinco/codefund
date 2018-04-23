@@ -77,7 +77,11 @@ defmodule CodeFundWeb.Router do
     pipe_through(:protected)
 
     get("/dashboard", DashboardController, :index)
-    resources("/properties", PropertyController)
+
+    resources("/properties", PropertyController) do
+      resources("/sponsorships", Property.SponsorshipController, only: [:new, :create])
+    end
+
     get("/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url)
     resources("/campaigns", CampaignController)
     resources("/sponsorships", SponsorshipController)
