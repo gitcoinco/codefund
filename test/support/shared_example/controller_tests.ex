@@ -79,6 +79,12 @@ defmodule SharedExample.ControllerTests do
     end
   end
 
+  defmacro behaves_like(method, [:authenticated], endpoint) do
+    quote bind_quoted: [endpoint: endpoint], unquote: true do
+      authenticated(endpoint, unquote(method))
+    end
+  end
+
   defmacro behaves_like(method, [:authenticated, :admin], endpoint) do
     quote bind_quoted: [endpoint: endpoint], unquote: true do
       authenticated(endpoint, unquote(method))
