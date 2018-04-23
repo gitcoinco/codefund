@@ -193,10 +193,8 @@
             relevant products, services, and brands through <span class="text-light">ethical advertising</span>.
           </p>
           <div class="mt-5">
-            <a class="typeform-share button btn btn-outline-light mr-2" href="https://codefund.typeform.com/to/krKyBP" data-mode="popup" target="_blank">Create a Campaign</a> 
-            <script>(function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })()</script>
-            <a class="typeform-share button btn btn-outline-light ml-2" href="https://codefund.typeform.com/to/C1voZl" data-mode="popup" target="_blank">Become a Publisher</a>
-            <script>(function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })()</script>
+            <%= link "Advertise with CodeFund", to: page_path(@conn, :advertiser), class: "btn btn-outline-light mr-2" %>
+            <%= link "Become a Publisher", to: page_path(@conn, :publisher), class: "btn btn-outline-light ml-2" %>
           </div>
           <%# <a href="https://vimeo.com/108096448" class="pt-4 video-play-icon watch-overview d-inline-block text-white">Watch the overview &nbsp;<i class="mdi mdi-chevron-right"></i></a> %>
           <div id="macbook-slideshow">

@@ -16,6 +16,14 @@ defmodule CodeFundWeb.PageController do
     render(conn, "index.html", stats: stats)
   end
 
+  def advertiser(conn, _params) do
+    render(conn, "advertiser.html")
+  end
+
+  def publisher(conn, _params) do
+    render(conn, "publisher.html")
+  end
+
   def deliver_contact_form(conn, params) do
     Emails.contact_form_email(params) |> Mailer.deliver_now()
 
