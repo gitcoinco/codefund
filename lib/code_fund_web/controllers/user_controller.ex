@@ -12,7 +12,7 @@ defmodule CodeFundWeb.UserController do
 
   plug(
     CodeFundWeb.Plugs.RequireAnyRole,
-    [roles: ["admin"]] when action in [:index, :masquerade, :end_masquerade]
+    [roles: ["admin"]] when action in [:index, :masquerade]
   )
 
   use Coherence.Config

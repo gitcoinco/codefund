@@ -133,7 +133,7 @@ defmodule CodeFundWeb.UserControllerTest do
     fn conn, _context ->
       get(conn, user_path(conn, :end_masquerade))
     end
-    |> behaves_like([:authenticated, :admin], "GET /users/end_masquerade")
+    |> behaves_like([:authenticated], "GET /users/end_masquerade")
 
     test "it allows admin users to return to their previous user login", %{
       conn: conn,
