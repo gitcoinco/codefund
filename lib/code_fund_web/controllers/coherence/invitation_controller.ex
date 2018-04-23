@@ -36,7 +36,7 @@ defmodule CodeFundWeb.Coherence.InvitationController do
   @spec new(conn, params) :: conn
   def new(conn, _params) do
     changeset = Schemas.change_invitation()
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, layout: {CodeFundWeb.LayoutView, "admin.html"})
   end
 
   @doc """
@@ -114,11 +114,17 @@ defmodule CodeFundWeb.Coherence.InvitationController do
         cs =
           Helpers.changeset(:invitation, user_schema, user_schema.__struct__, %{
             email: invite.email,
-            name: invite.name
+            first_name: invite.first_name,
+            last_name: invite.last_name
           })
 
         conn
-        |> render(:edit, changeset: cs, token: invite.token)
+        |> render(
+          :edit,
+          changeset: cs,
+          token: invite.token,
+          layout: {CodeFundWeb.LayoutView, "admin.html"}
+        )
     end
   end
 

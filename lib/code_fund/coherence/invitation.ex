@@ -1,14 +1,16 @@
-defmodule CodeFund.Schema.Invitation do
+defmodule CodeFund.Coherence.Invitation do
   @moduledoc """
   Schema to support inviting a someone to create an account.
   """
-  use CodeFundWeb, :schema
+  use Ecto.Schema
+  import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
   schema "invitations" do
-    field(:name, :string)
+    field(:first_name, :string)
+    field(:last_name, :string)
     field(:email, :string)
     field(:token, :string)
 
@@ -25,7 +27,7 @@ defmodule CodeFund.Schema.Invitation do
   def changeset(model, params \\ %{}) do
     model
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> validate_required([:name, :email])
+    |> validate_required([:first_name, :last_name, :email])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
   end
