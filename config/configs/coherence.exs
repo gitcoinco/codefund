@@ -9,6 +9,7 @@ config :coherence,
   router: CodeFundWeb.Router,
   messages_backend: CodeFundWeb.Coherence.Messages,
   logged_out_url: "/",
+  login_field: :email,
   email_from_name: "CodeFund Team",
   email_from_email: "team@codesponsor.io",
   opts: [

@@ -2,6 +2,13 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item active">Users</li>
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: invitation_path(@conn, :new), class: "btn" do %>
+        <i class="fa fa-edit"></i> Invite a User
+      <% end %>
+    </div>
+  </li>
 </ol>
 
 <div class="container-fluid">
