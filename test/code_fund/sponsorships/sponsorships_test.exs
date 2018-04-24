@@ -36,19 +36,31 @@ defmodule CodeFund.SponsorshipsTest do
       assert Sponsorships.get_sponsorship!(sponsorship.id).id == sponsorship.id
     end
 
-    test "get_sponsorship_for_property/1 returns sponsorship with highest bid_amount and updates the association to property" do
+    test "get_sponsorship_for_property/1 returns sponsorship with highest bid_amount" do
       property = insert(:property)
       insert(:sponsorship, property: property, bid_amount: "10.00")
       sponsorship = insert(:sponsorship, property: property, bid_amount: "20.00")
-      Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
+
       property = Properties.get_property!(property.id)
 
       found_sponsorship = Sponsorships.get_sponsorship_for_property(property)
-      assert sponsorship.id == property.sponsorship_id
+      assert sponsorship.property_id == property.id
       assert found_sponsorship.id == sponsorship.id
     end
 
-    test "get_sponsorship_for_property/1 returns nil and breaks the association to property by updating property.sponsorship_id to nil" do
+    test "get_sponsorship_for_property/1 will return a random sponsorship if there are two with the same highest bid_amount" do
+      property = insert(:property)
+      insert(:sponsorship, property: property, bid_amount: "10.00")
+      insert(:sponsorship, property: property, bid_amount: "10.00")
+      insert(:sponsorship, property: property, bid_amount: "5.00")
+
+      sponsorship = Sponsorships.get_sponsorship_for_property(property)
+      assert sponsorship.__struct__ == Sponsorship
+      assert sponsorship.property_id == property.id
+      assert sponsorship.bid_amount == Decimal.new("10.00")
+    end
+
+    test "get_sponsorship_for_property/1 returns nil if no campaign is found for the sponsorship" do
       property = insert(:property, sponsorship: build(:sponsorship))
 
       refute is_nil(property.sponsorship_id)
@@ -57,9 +69,6 @@ defmodule CodeFund.SponsorshipsTest do
 
       sponsorship = Sponsorships.get_sponsorship_for_property(property)
 
-      property = Properties.get_property!(property.id)
-
-      refute property.sponsorship_id
       refute sponsorship
     end
 
