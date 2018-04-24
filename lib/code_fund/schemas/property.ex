@@ -1,11 +1,19 @@
 defmodule CodeFund.Schema.Property do
   use CodeFundWeb, :schema_with_formex
+  import CodeFund.Validation.URL
 
   @property_types %{
     website: 1,
     repository: 2,
     newsletter: 3
   }
+
+  @required [
+    :name,
+    :url,
+    :property_type,
+    :status
+  ]
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -32,18 +40,24 @@ defmodule CodeFund.Schema.Property do
     timestamps()
   end
 
+  def required, do: @required
+
   @doc false
   def changeset(%Property{} = property, %{user: user} = params) do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> put_assoc(:user, user)
-    |> validate_required(~w(name url property_type status)a)
+    |> validate_required(@required)
+    |> validate_url(:url)
+    |> validate_url(:screenshot_url)
   end
 
   def changeset(%Property{} = property, params) do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> validate_required(~w(user_id name url property_type status)a)
+    |> validate_required(@required |> List.insert_at(-1, :user_id))
+    |> validate_url(:url)
+    |> validate_url(:screenshot_url)
   end
 
   def property_types, do: @property_types

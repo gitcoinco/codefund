@@ -16,13 +16,13 @@ defmodule CodeFund.PropertiesTest do
       description: "some description",
       name: "some name",
       property_type: 42,
-      url: "some url"
+      url: "http://google.com"
     }
     @update_attrs %{
       description: "some updated description",
       name: "some updated name",
       property_type: 43,
-      url: "some updated url"
+      url: "http://aol.com"
     }
     @invalid_attrs %{description: nil, name: nil, property_type: nil, url: nil}
 
@@ -41,7 +41,7 @@ defmodule CodeFund.PropertiesTest do
       assert property.description == "some description"
       assert property.name == "some name"
       assert property.property_type == 42
-      assert property.url == "some url"
+      assert property.url == "http://google.com"
       assert property.user_id == user.id
     end
 
@@ -62,7 +62,7 @@ defmodule CodeFund.PropertiesTest do
       assert property.description == "some updated description"
       assert property.name == "some updated name"
       assert property.property_type == 43
-      assert property.url == "some updated url"
+      assert property.url == "http://aol.com"
     end
 
     test "update_property/2 with invalid data returns error changeset", %{property: property} do
