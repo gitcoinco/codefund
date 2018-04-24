@@ -77,7 +77,6 @@ defmodule CodeFundWeb.Coherence.ViewHelpers do
   def coherence_links(conn, :new_session, opts) do
     recover_link = Keyword.get(opts, :recover, @recover_link)
     unlock_link = Keyword.get(opts, :unlock, @unlock_link)
-    # register_link = Keyword.get(opts, :register, @register_link)
     confirm_link = Keyword.get(opts, :confirm, @confirm_link)
 
     user_schema = Coherence.Config.user_schema()

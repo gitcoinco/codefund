@@ -1,7 +1,8 @@
 defmodule CodeFundWeb.PageController do
   use CodeFundWeb, :controller
 
-  alias CodeFund.{Mailer, Emails}
+  alias CodeFund.{Mailer}
+  alias CodeFundWeb.Email.Contact
 
   def index(conn, _params) do
     conn = put_layout(conn, false)
@@ -16,35 +17,24 @@ defmodule CodeFundWeb.PageController do
     render(conn, "index.html", stats: stats)
   end
 
-  def advertiser(conn, _params) do
-    render(conn, "advertiser.html")
+  def contact(conn, %{"type" => type}) when type in ["advertiser", "publisher"] do
+    render(conn, "#{type}.html")
   end
 
-  def publisher(conn, _params) do
-    render(conn, "publisher.html")
+  def contact(conn, _) do
+    redirect(conn, to: page_path(conn, :index))
   end
 
-  def deliver_contact_form(conn, params) do
-    Emails.contact_form_email(params) |> Mailer.deliver_now()
+  def deliver_form(conn, %{"type" => type, "form" => form})
+      when type in ["advertiser", "publisher"] do
+    Contact.email(form, type) |> Mailer.deliver_now()
 
     conn
     |> put_flash(:info, "Your request was submitted successfully")
     |> redirect(to: page_path(conn, :index))
   end
 
-  def deliver_advertiser_form(conn, %{"form" => form}) do
-    Emails.advertiser_form_email(form) |> Mailer.deliver_now()
-
-    conn
-    |> put_flash(:info, "Your information was submitted successfully")
-    |> redirect(to: page_path(conn, :index))
-  end
-
-  def deliver_publisher_form(conn, %{"form" => form}) do
-    Emails.publisher_form_email(form) |> Mailer.deliver_now()
-
-    conn
-    |> put_flash(:info, "Your information was submitted successfully")
-    |> redirect(to: page_path(conn, :index))
+  def deliver_form(conn, _) do
+    redirect(conn, to: page_path(conn, :index))
   end
 end

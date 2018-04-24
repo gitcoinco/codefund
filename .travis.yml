@@ -10,14 +10,9 @@ services:
   - postgresql
   - redis-server
 
-before_script:
-  - cp config/travis.exs config/test.exs
-  - mix do ecto.create, ecto.migrate
-
 script:
-  - mix format --check-formatted
-  - mix credo list --ignore readability,design,refactor
-  - mix test
+  - MIX_ENV=test mix format --check-formatted
+  - MIX_ENV=test mix credo list --ignore readability,design,refactor
   - MIX_ENV=test mix do compile, coveralls.json
 
 after_success:

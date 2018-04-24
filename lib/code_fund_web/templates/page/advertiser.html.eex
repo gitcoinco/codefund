@@ -1,4 +1,4 @@
-<%= form_tag(page_path(@conn, :deliver_advertiser_form)) do %>
+<%= form_tag page_path(@conn, :deliver_form, :advertiser), [method: :post] do %>
   <div class="container pb-5">
     <h2 class="text-center">Advertise with CodeFund</h2>
     <p class="lead text-center mb-3">
@@ -99,7 +99,7 @@
                   <option value="Other">Other</option>
                 </select>
                 <span class="help-block text-muted">
-                  CodeFund is ideal for getting your message in front of software developers. It will 
+                  CodeFund is ideal for getting your message in front of software developers. It will
                   help us to know which programming languages your product caters to.
                 </span>
               </div>
