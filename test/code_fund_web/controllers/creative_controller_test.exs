@@ -4,7 +4,7 @@ defmodule CodeFundWeb.CreativeControllerTest do
   import CodeFund.Factory
 
   setup do
-    valid_params = string_params_with_assocs(:creative)
+    valid_params = string_params_with_assocs(:creative, user: nil)
 
     {:ok, %{valid_params: valid_params, users: stub_users()}}
   end

@@ -64,13 +64,25 @@ defmodule CodeFundWeb.CampaignControllerTest do
     end
     |> behaves_like([:authenticated, :sponsor], "POST /campaigns/create")
 
-    test "creates a campaign", %{conn: conn, users: users, valid_params: valid_params} do
+    test "creates a campaign", %{conn: conn, users: users} do
       conn = assign(conn, :current_user, users.sponsor)
-      conn = post(conn, campaign_path(conn, :create, %{"campaign" => valid_params}))
-      assert conn |> Phoenix.Controller.get_flash(:info) == "Campaign created successfully."
+
+      params = %{
+        "bid_amount" => "2.0",
+        "budget_daily_amount" => "25.0",
+        "budget_monthly_amount" => "25.0",
+        "budget_total_amount" => "25.0",
+        "name" => "Test Campaign",
+        "redirect_url" => "https://example.com/0",
+        "status" => 2
+      }
+
+      conn = post(conn, campaign_path(conn, :create, %{"campaign" => params}))
 
       assert redirected_to(conn, 302) ==
                campaign_path(conn, :show, CodeFund.Schema.Campaign |> CodeFund.Repo.one())
+
+      assert conn |> Phoenix.Controller.get_flash(:info) == "Campaign created successfully."
     end
 
     test "returns an error on invalid params for a campaign", %{

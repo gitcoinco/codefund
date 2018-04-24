@@ -1,5 +1,6 @@
 defmodule CodeFund.Schema.Campaign do
   use CodeFundWeb, :schema_with_formex
+  import CodeFund.Validation.URL
 
   alias CodeFund.Schema.{Impression, Click, BudgetedCampaign, User, Sponsorship}
 
@@ -26,7 +27,6 @@ defmodule CodeFund.Schema.Campaign do
   end
 
   @required [
-    :user_id,
     :name,
     :redirect_url,
     :status,
@@ -36,10 +36,14 @@ defmodule CodeFund.Schema.Campaign do
     :budget_total_amount
   ]
 
+  def required, do: @required
+
   @doc false
   def changeset(%Campaign{} = campaign, params) do
     campaign
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
+    |> validate_url(:redirect_url)
+    |> validate_url(:fraud_check_url)
   end
 end

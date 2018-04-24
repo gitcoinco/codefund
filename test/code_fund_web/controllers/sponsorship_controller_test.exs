@@ -5,7 +5,7 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
     users = stub_users()
 
     valid_params =
-      string_params_with_assocs(:sponsorship)
+      string_params_with_assocs(:sponsorship, user: nil)
       |> Map.merge(%{
         "bid_amount" => "2.0",
         "override_revenue_rate" => "0.20",

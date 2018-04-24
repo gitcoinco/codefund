@@ -68,6 +68,7 @@ defmodule CodeFundWeb do
       use Ecto.Schema
       import Ecto.Query
       import Ecto.Changeset
+      import CodeFund.Validation.URL
       alias __MODULE__
     end
   end
