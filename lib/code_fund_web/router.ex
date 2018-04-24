@@ -67,6 +67,8 @@ defmodule CodeFundWeb.Router do
     post("/", PageController, :deliver_contact_form)
     get("/register/advertiser", PageController, :advertiser)
     get("/register/publisher", PageController, :publisher)
+    post("/register/advertiser", PageController, :deliver_advertiser_form)
+    post("/register/publisher", PageController, :deliver_publisher_form)
     get("/t/p/:sponsorship_id/pixel.png", TrackController, :pixel)
     get("/t/l/:property_id/pixel.png", TrackController, :pixel)
     get("/t/l/:property_id/logo.png", TrackController, :logo)

@@ -31,4 +31,20 @@ defmodule CodeFundWeb.PageController do
     |> put_flash(:info, "Your request was submitted successfully")
     |> redirect(to: page_path(conn, :index))
   end
+
+  def deliver_advertiser_form(conn, %{"form" => form}) do
+    Emails.advertiser_form_email(form) |> Mailer.deliver_now()
+
+    conn
+    |> put_flash(:info, "Your information was submitted successfully")
+    |> redirect(to: page_path(conn, :index))
+  end
+
+  def deliver_publisher_form(conn, %{"form" => form}) do
+    Emails.publisher_form_email(form) |> Mailer.deliver_now()
+
+    conn
+    |> put_flash(:info, "Your information was submitted successfully")
+    |> redirect(to: page_path(conn, :index))
+  end
 end

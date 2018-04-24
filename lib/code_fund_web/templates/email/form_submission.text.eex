@@ -1,0 +1,6 @@
+<%= for {k, v} <- @attrs do %>
+------- <%= Phoenix.Naming.humanize(k) %> -------
+<%= "\n" %>
+<%= [v] |> List.flatten |> Enum.join("/\n") %>
+<%= "\n" %>
+<% end %>
