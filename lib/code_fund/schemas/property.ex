@@ -55,7 +55,7 @@ defmodule CodeFund.Schema.Property do
   def changeset(%Property{} = property, params) do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> validate_required(@required |> List.insert_at(-1, :user_id))
+    |> validate_required(@required)
     |> validate_url(:url)
     |> validate_url(:screenshot_url)
   end
