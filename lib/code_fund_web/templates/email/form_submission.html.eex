@@ -1,0 +1,10 @@
+<table class="table table-striped table-bordered">
+<tbody>
+<%= for {k, v} <- @attrs do %>
+  <tr>
+    <th><%= Phoenix.Naming.humanize(k) %></th>
+    <td><%= raw([v] |> List.flatten |> Enum.join("<br/>")) %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>

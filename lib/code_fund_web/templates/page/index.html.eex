@@ -75,13 +75,13 @@
 <body id="page-top">
 
   <!-- TAGLINE HEADER START-->
-  <div class="topbar tagline-light"> 
-    <div class="container"> 
-      <div class="float-left"> 
+  <div class="topbar tagline-light">
+    <div class="container">
+      <div class="float-left">
         <div class="phone-topbar text-dark">
           <p class="mb-0">
             <a class="text-secondary" href="https://medium.com/gitcoin/code-sponsor-gitcoin-oss-sustainability-5684c4adf4b4" target="_blank">CodeFund + Gitcoin = OSS Sustainability</a>
-          </p> 
+          </p>
         </div>
       </div>
       <div class="float-right">
@@ -106,7 +106,7 @@
         </a>
       </div>
       <!-- End Logo container-->
-      
+
       <div class="menu-extras">
         <div class="menu-item">
           <!-- Mobile menu toggle-->
@@ -147,7 +147,7 @@
           <li class="has-submenu">
             <a href="#contact">Contact</a>
           </li>
-          
+
           <%= if Coherence.logged_in?(@conn) do %>
             <li class="has-submenu mobile-block">
               <%= link "Dashboard", to: dashboard_path(@conn, :index) %>
@@ -156,12 +156,9 @@
             <li class="has-submenu mobile-block">
               <%= link "Log In", to: session_path(@conn, :new) %>
             </li>
-            <li class="has-submenu mobile-block">
-              <%= link "Sign Up", to: registration_path(@conn, :new) %>
-            </li>
           <% end %>
         </ul>
-        
+
         <ul class="navigation-menu menu-right">
           <%= if Coherence.logged_in?(@conn) do %>
             <li class="mobile-none">
@@ -170,9 +167,6 @@
           <% else %>
             <li class="mobile-none">
               <%= link "Log In", to: session_path(@conn, :new) %>
-            </li>
-            <li class="mobile-none">
-              <%= link "Sign Up", to: registration_path(@conn, :new) %>
             </li>
           <% end %>
         </ul>
@@ -199,7 +193,8 @@
             relevant products, services, and brands through <span class="text-light">ethical advertising</span>.
           </p>
           <div class="mt-5">
-            <%= link "Sign Up", to: registration_path(@conn, :new), class: "btn btn-outline-light" %>
+            <%= link "Advertise with CodeFund", to: page_path(@conn, :contact, :advertiser), class: "btn btn-outline-light mr-2" %>
+            <%= link "Become a Publisher", to: page_path(@conn, :contact, :publisher), class: "btn btn-outline-light ml-2" %>
           </div>
           <%# <a href="https://vimeo.com/108096448" class="pt-4 video-play-icon watch-overview d-inline-block text-white">Watch the overview &nbsp;<i class="mdi mdi-chevron-right"></i></a> %>
           <div id="macbook-slideshow">
@@ -398,7 +393,7 @@
         </div>
       </div>
       <div class="row justify-content-center mt-5">
-        <div class="col-lg-6 faq-side"> 
+        <div class="col-lg-6 faq-side">
           <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for publishers</p>
             <div class="faq-ans">
@@ -413,7 +408,7 @@
                 click rate with $.50 per click rate would generate approx $1,000/month.
               </p>
             </div>
-          </div> 
+          </div>
           <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1 mb-1">for publishers</p>
             <div class="faq-ans">
@@ -438,7 +433,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 faq-side "> 
+        <div class="col-lg-6 faq-side ">
           <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for advertiser</p>
             <div class="faq-ans">
@@ -452,7 +447,7 @@
                 ROI.
               </p>
             </div>
-          </div> 
+          </div>
           <div class="faq pt-4">
             <p class="text-uppercase user-title mb-1">for advertiser</p>
             <div class="faq-ans">
@@ -495,21 +490,21 @@
         <div class="col-lg-8">
           <div class="row mt-5">
             <div class="col-lg-4">
-              <div class="single-contact text-center text-white"> 
+              <div class="single-contact text-center text-white">
                 <i class="mdi mdi-slack"></i>
                 <h4>Slack</h4>
                 <p><a class="text-light" href="https://gitcoin.co/slack" target="_blank">gitcoin.co/slack</a></p>
               </div>
             </div>
             <div class="col-lg-4">
-              <div class="single-contact text-center text-white"> 
+              <div class="single-contact text-center text-white">
                 <i class="mdi mdi-map-marker"></i>
                 <h4>Address</h4>
                 <p>49 Bogart Street Unit 22<br/>Brooklyn, NY 11206 USA</p>
               </div>
             </div>
             <div class="col-lg-4">
-              <div class="single-contact text-center text-white"> 
+              <div class="single-contact text-center text-white">
                 <i class="mdi mdi-email-outline"></i>
                 <h4>Email</h4>
                 <p>team@codefund.io</p>
@@ -520,23 +515,26 @@
       </div>
       <div class="row justify-content-center mt-5">
         <div class="col-lg-8 bg-white p-5 mt-4 rounded">
-          <%= form_tag page_path(@conn, :deliver_contact_form), [method: :post, class: "custom_form"] do %>
+          <%= form_tag page_path(@conn, :deliver_form, :contact), [method: :post, class: "custom_form"] do %>
             <div class="row">
               <div class="col-lg-6 mt-3">
-                <input type="text" name="name" class="form-control" placeholder="Name" required >
+                <input type="text" name="form[first_name]" class="form-control" placeholder="First Name" required >
               </div>
               <div class="col-lg-6 mt-3">
-                <input type="email" name="email" class="form-control" placeholder="Enter email" required >
+                <input type="text" name="form[last_name]" class="form-control" placeholder="Last Name" required >
+              </div>
+              <div class="col-lg-6 mt-3">
+                <input type="email" name="form[email]" class="form-control" placeholder="Enter email" required >
               </div>
             </div>
             <div class="row">
               <div class="col-lg-12 mt-3">
-                <input type="text" name="subject" class="form-control" id="subject" placeholder="Your Subject.." />
+                <input type="text" name="form[subject]" class="form-control" id="subject" placeholder="Your Subject.." />
               </div>
             </div>
             <div class="row">
               <div class="col-lg-12 mt-3">
-                <textarea name="body" id="comments" rows="6" class="form-control" placeholder="Your message..."></textarea>
+                <textarea name="form[body]" id="comments" rows="6" class="form-control" placeholder="Your message..."></textarea>
               </div>
             </div>
             <div class="mt-4 text-center">
@@ -697,25 +695,25 @@
     </div>
   </section>
   <!-- END CONTACT/FOOTER -->
-  
+
   <!-- Scroll to top -->
   <a href="#page-top" class="page-scroll scroll-to-top"><i class="fa fa-angle-up"></i></a>
-  
-  
+
+
   <!-- Main JS -->
   <script src="<%= static_path(@conn, "/canvab/js/jquery.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/canvab/js/popper.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/canvab/js/bootstrap.min.js") %>"></script>
-  
+
   <!-- Include all js plugins (below) -->
   <script src="<%= static_path(@conn, "/canvab/js/jquery.easing.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/canvab/js/scrollspy.min.js") %>" type="text/javascript"></script>
   <script src="<%= static_path(@conn, "/canvab/js/jquery.magnific-popup.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/canvab/js/waypoints.min.js") %>" type="text/javascript"></script>
   <script src="<%= static_path(@conn, "/canvab/js/jquery.counterup.min.js") %>" type="text/javascript"></script>
-  <script src="<%= static_path(@conn, "/canvab/js/particles.js") %>"></script>  
+  <script src="<%= static_path(@conn, "/canvab/js/particles.js") %>"></script>
   <script src="<%= static_path(@conn, "/canvab/js/particles.app.js") %>"></script>
-  
+
   <!-- Theme JS -->
   <script src="<%= static_path(@conn, "/canvab/js/jquery.app.js") %>"></script>
 
@@ -747,7 +745,7 @@
     }();
   </script>
   <!-- END CHATLIO -->
-  
+
   <%= chat_tag(Coherence.current_user(@conn)) %>
   <%= ga_tag() %>
 </body>

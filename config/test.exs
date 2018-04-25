@@ -17,3 +17,5 @@ config :code_fund, CodeFund.Repo,
   database: "code_fund_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :code_fund, CodeFund.Mailer, adapter: Bamboo.TestAdapter
