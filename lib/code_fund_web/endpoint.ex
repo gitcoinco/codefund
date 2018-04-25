@@ -70,4 +70,13 @@ defmodule CodeFundWeb.Endpoint do
       {:ok, config}
     end
   end
+
+  defoverridable url: 0
+  @spec url() :: String.t()
+  def url() do
+    case Mix.env() == :prod do
+      true -> super() |> URI.parse() |> Map.put(:port, nil) |> to_string
+      false -> super()
+    end
+  end
 end
