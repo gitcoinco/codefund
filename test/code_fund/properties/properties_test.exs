@@ -45,11 +45,6 @@ defmodule CodeFund.PropertiesTest do
       assert property.user_id == user.id
     end
 
-    test "create_property/1 without a user raises ecto changeset error" do
-      assert {:error, %Ecto.Changeset{} = changeset} = Properties.create_property(@valid_attrs)
-      assert changeset.errors == [user_id: {"can't be blank", [validation: :required]}]
-    end
-
     test "create_property/1 with invalid data returns error changeset" do
       {:error, changeset} = Properties.create_property(@invalid_attrs)
       assert changeset.__struct__ == Ecto.Changeset
