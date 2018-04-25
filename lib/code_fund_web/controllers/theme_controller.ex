@@ -45,7 +45,7 @@ defmodule CodeFundWeb.ThemeController do
         |> redirect(to: theme_path(conn, :show, theme))
 
       {:error, form} ->
-        report(:warn, "Changeset Error")
+        report(:warning, "Changeset Error")
         render(conn, "edit.html", theme: theme, form: form)
     end
   end

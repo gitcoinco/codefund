@@ -2,7 +2,16 @@ defmodule CodeFund.Reporter do
   @spec report(atom, String.t()) :: tuple
   defmacro report(level, message \\ "Runtime Error")
 
-  defmacro report(:warn, message) do
+  defmacro report(:info, message) do
+    quote do
+      fn ->
+        Rollbax.report_message(:info, unquote(message), %{})
+      end
+      |> CodeFund.Reporter.check_env()
+    end
+  end
+
+  defmacro report(:warning, message) do
     quote do
       fn ->
         {function_name, arity} = __ENV__.function

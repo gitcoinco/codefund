@@ -78,7 +78,7 @@ defmodule Framework.CRUDControllerFunctions do
         |> redirect(to: path(schema, conn, :show, object))
 
       {:error, form} ->
-        report(:warn, "Changeset Error")
+        report(:warning, "Changeset Error")
 
         conn
         |> put_status(422)
@@ -134,7 +134,7 @@ defmodule Framework.CRUDControllerFunctions do
         |> redirect(to: path(schema, conn, :show, object))
 
       {:error, form} ->
-        report(:warn, "Changeset Error")
+        report(:warning, "Changeset Error")
 
         conn
         |> put_status(422)
