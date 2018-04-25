@@ -123,7 +123,7 @@ defmodule CodeFundWeb.Coherence.InvitationController do
           :edit,
           changeset: cs,
           token: invite.token,
-          layout: {CodeFundWeb.LayoutView, "admin.html"}
+          layout: {CodeFundWeb.LayoutView, "app.html"}
         )
     end
   end
