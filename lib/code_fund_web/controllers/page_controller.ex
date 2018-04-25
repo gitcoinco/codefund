@@ -5,16 +5,9 @@ defmodule CodeFundWeb.PageController do
   alias CodeFundWeb.Email.Contact
 
   def index(conn, _params) do
-    conn = put_layout(conn, false)
-
-    stats = %{
-      impression_count: CodeFund.Repo.aggregate(CodeFund.Schema.Impression, :count, :id),
-      click_count: CodeFund.Repo.aggregate(CodeFund.Schema.Click, :count, :id),
-      property_count: CodeFund.Repo.aggregate(CodeFund.Schema.Property, :count, :id),
-      funding_total: 1333.25
-    }
-
-    render(conn, "index.html", stats: stats)
+    conn
+    |> put_layout(false)
+    |> render("index.html")
   end
 
   def contact(conn, %{"type" => type}) when type in ["advertiser", "publisher"] do

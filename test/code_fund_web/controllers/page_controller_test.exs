@@ -1,24 +1,12 @@
 defmodule CodeFundWeb.PageControllerTest do
   use CodeFundWeb.ConnCase
-  import CodeFund.Factory
 
   describe "GET index" do
     test "renders the home page", %{conn: conn} do
-      insert(:impression)
-      insert(:impression)
-      insert(:click)
-      insert(:property)
-
       conn = get(conn, page_path(conn, :index))
 
       assert html_response(conn, 200) =~ "Connect with software developers"
-
-      assert conn.assigns.stats == %{
-               impression_count: 2,
-               click_count: 1,
-               property_count: 7,
-               funding_total: 1333.25
-             }
+      assert conn.private.phoenix_layout == false
     end
   end
 
