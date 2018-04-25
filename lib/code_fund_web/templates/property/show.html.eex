@@ -5,8 +5,15 @@
 
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
-      <%= link to: property_path(@conn, :edit, @property), class: "btn" do %>
-        <i class="fa fa-edit"></i> Edit Property
+      <%= if((@conn.assigns.current_user.id == @property.user_id) || has_any_role? @conn, ["admin"]) do %>
+        <%= link to: property_path(@conn, :edit, @property), class: "btn" do %>
+          <i class="fa fa-edit"></i> Edit Property
+        <% end %>
+      <% end %>
+      <%= if(has_any_role? @conn, ["sponsor"]) do %>
+        <%= link to: property_sponsorship_path(@conn, :new, @property), class: "btn" do %>
+          <i class="fa fa-edit"></i> Sponsor This Property
+        <% end %>
       <% end %>
     </div>
   </li>
@@ -33,10 +40,12 @@
                     <% end %>
                   </td>
                 </tr>
-                <tr>
-                  <td><strong>Current Advertiser</strong></td>
-                  <td><%= if (@property.sponsorship), do: @property.sponsorship.campaign.name, else: "None" %></td>
-                </tr>
+                <%= if((@conn.assigns.current_user.id == @property.user_id) || has_any_role? @conn, ["admin"]) do %>
+                  <tr>
+                    <td><strong>Current Advertiser</strong></td>
+                    <td><%= if (@property.sponsorship), do: @property.sponsorship.campaign.name, else: "None" %></td>
+                  </tr>
+                <% end %>
                 <tr>
                   <td><strong>Developer</strong></td>
                   <td><%= full_name @property.user %></td>

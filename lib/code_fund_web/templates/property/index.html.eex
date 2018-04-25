@@ -5,63 +5,26 @@
 
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
-      <%= link to: property_path(@conn, :new), class: "btn" do %>
-        <i class="fa fa-plus"></i> Add Property
+      <%= if has_any_role? @conn, ["admin", "developer"] do %>
+        <%= link to: property_path(@conn, :new), class: "btn" do %>
+          <i class="fa fa-plus"></i> Add Property
+        <% end %>
       <% end %>
     </div>
   </li>
 </ol>
 
 <div class="container-fluid">
-  <div class="card">
-    <div class="card-body">
-      <section>
-        <%= if length(@properties) > 0 do %>
-          <table class="table table-responsive-sm table-striped">
-            <thead>
-              <tr>
-                <th></th>
-                <th><%= table_link(@conn, "Name", :name) %></th>
-                <th><%= table_link(@conn, "URL", :url) %></th>
-                <%= if has_any_role? @conn, ["admin"] do %>
-                  <th><%= table_link(@conn, "Status", :status) %></th>
-                <% end %>
-                <th>Advertiser</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <%= for property <- @properties do %>
-                <tr>
-                  <td><img src="<%= favicon_image_url(property.url) %>" width="16" height="16" /></td>
-                  <td><%= property.name %></td>
-                  <td><%= link property.url, to: property.url, target: "_blank" %></td>
-                  <%= if has_any_role? @conn, ["admin"] do %>
-                    <td><%= CodeFund.Properties.statuses |> return_key_for_value(property.status) %></td>
-                  <% end %>
-                  <!-- TODO: Refactor -->
-                  <td>
-                    <%= if property.sponsorship do %>
-                      <%= CodeFund.Repo.preload(property.sponsorship, :campaign).campaign.name %>
-                    <% else %>
-                      <span class="text-muted">None</span>
-                    <% end %>
-                  </td>
-
-                  <td class="text-right p-2">
-                    <%= link 'Show', to: property_path(@conn, :show, property), class: "btn btn-outline-info btn-sm" %>
-                    <%= link 'Edit', to: property_path(@conn, :edit, property), class: "btn btn-outline-primary btn-sm" %>
-                    <%= link 'Delete', to: property_path(@conn, :delete, property), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-          <%= render CodeFundWeb.PaginationView, "_pagination.html", assigns %>
-        <% else %>
-          <p>No data matches your search</p>
-        <% end %>
-      </section>
-    </div>
-  </div>
+    <section>
+      <%= if length(@properties) > 0 do %>
+        <div class="card-columns">
+          <%= for property <- @properties do %>
+            <%= render("card.html", property: property, conn: @conn) %>
+          <% end %>
+        </div>
+        <%= render CodeFundWeb.PaginationView, "_pagination.html", assigns %>
+      <% else %>
+        <p>No data matches your search</p>
+      <% end %>
+    </section>
 </div>

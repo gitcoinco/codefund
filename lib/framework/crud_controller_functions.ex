@@ -1,18 +1,14 @@
 defmodule Framework.CRUDControllerFunctions do
   use CodeFundWeb, :controller
 
-  defmacro __using__([schema, :all]) do
-    all_actions = [
-      :index,
-      :new,
-      :create,
-      :show,
-      :edit,
-      :update,
-      :delete
-    ]
+  defmacro __using__([schema, :all, except: list]) do
+    for action <- all() -- list do
+      build_action(schema, action)
+    end
+  end
 
-    for action <- all_actions do
+  defmacro __using__([schema, :all]) do
+    for action <- all() do
       build_action(schema, action)
     end
   end
@@ -21,6 +17,18 @@ defmodule Framework.CRUDControllerFunctions do
     for action <- actions do
       build_action(schema, action)
     end
+  end
+
+  def all() do
+    [
+      :index,
+      :new,
+      :create,
+      :show,
+      :edit,
+      :update,
+      :delete
+    ]
   end
 
   def build_action(schema, action) do

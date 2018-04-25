@@ -1,5 +1,6 @@
 defmodule CodeFundWeb.SponsorshipType do
   use CodeFundWeb.BaseType
+  alias CodeFund.Schema.Property
   alias CodeFund.Schema.Sponsorship
   alias CodeFund.Schema.User
   import Ecto.Query
@@ -13,7 +14,7 @@ defmodule CodeFundWeb.SponsorshipType do
       validation: [:required],
       choices: object_query_for_user("Campaign", form.opts |> Keyword.fetch!(:user))
     )
-    |> add(:property_id, SelectAssoc, label: "Property", validation: [:required])
+    |> property_field
     |> add(
       :creative_id,
       :select,
@@ -60,6 +61,24 @@ defmodule CodeFundWeb.SponsorshipType do
         class: "btn-primary"
       ]
     )
+  end
+
+  defp property_field(form) do
+    case form.opts |> Keyword.fetch(:property) do
+      :error ->
+        form |> add(:property_id, SelectAssoc, label: "Property", validation: [:required])
+
+      {:ok, %Property{id: property_id}} ->
+        form
+        |> add(
+          :property_id,
+          :hidden_input,
+          label: "",
+          phoenix_opts: [
+            value: property_id
+          ]
+        )
+    end
   end
 
   defp object_query_for_user(type, %User{id: id}) do

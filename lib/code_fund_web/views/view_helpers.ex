@@ -1,4 +1,12 @@
 defmodule CodeFundWeb.ViewHelpers do
+  @spec truncate(String.t(), integer, String.t()) :: String.t()
+  def truncate(text_to_trim, length, trailing_text \\ "...") do
+    case text_to_trim |> String.length() > length do
+      true -> (text_to_trim |> String.slice(0, length) |> String.trim_trailing()) <> trailing_text
+      false -> text_to_trim
+    end
+  end
+
   @doc ~S"""
   Converts a Decimal to a formatted currency amount
 
