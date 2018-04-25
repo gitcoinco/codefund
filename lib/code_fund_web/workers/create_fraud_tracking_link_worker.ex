@@ -58,18 +58,21 @@ defmodule CodeFundWeb.CreateFraudTrackingLinkWorker do
     #
 
     with {:ok, %{status_code: 200, body: body}} <- HTTPoison.post(url, payload, headers),
-         %CodeFund.Schema.Campaign{} = campaign <- body |> Poison.decode!(),
+         %{"anywhere" => %{"short_link" => short_link}} <- body |> Poison.decode!(),
          {:ok, %CodeFund.Schema.Campaign{}} <-
            campaign
-           |> Campaigns.update_campaign(%{fraud_check_url: body["anywhere"]["short_link"]}),
-         do: IO.puts("Updated campaign")
+           |> Campaigns.update_campaign(%{fraud_check_url: short_link}),
+         do: :ok
   else
+    :ok ->
+      report(:info, "Campaign updated with fraud check url")
+
     {:error, %{reason: reason}} ->
-      report(:warn)
+      report(:warning)
       %{"status" => "error", "message" => reason}
 
     {:error, %Ecto.Changeset{}} ->
-      report(:warn)
+      report(:warning)
       IO.puts("Unable to update campaign")
   end
 end

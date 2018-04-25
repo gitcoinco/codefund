@@ -16,7 +16,7 @@ defmodule CodeFundWeb.TrackController do
             impression.id
 
           {:error, _} ->
-            report(:warn)
+            report(:warning)
             nil
         end
 
@@ -51,7 +51,7 @@ defmodule CodeFundWeb.TrackController do
             impression.id
 
           {:error, _} ->
-            report(:warn)
+            report(:warning)
             nil
         end
 
@@ -129,7 +129,7 @@ defmodule CodeFundWeb.TrackController do
                       Money.round(amount).amount
 
                     {:error, _} ->
-                      report(:warn)
+                      report(:warning)
                       0
                   end
 
@@ -211,7 +211,7 @@ defmodule CodeFundWeb.TrackController do
                       Money.round(amount).amount
 
                     {:error, _} ->
-                      report(:warn)
+                      report(:warning)
                       0
                   end
 
@@ -223,7 +223,7 @@ defmodule CodeFundWeb.TrackController do
           end
 
         {:error, %Ecto.Changeset{} = changeset} ->
-          report(:warn, "Unable to save click: #{inspect(changeset)}")
+          report(:warning, "Unable to save click: #{inspect(changeset)}")
           IO.puts("Unable to save click: #{inspect(changeset)}")
       end
 
@@ -258,7 +258,7 @@ defmodule CodeFundWeb.TrackController do
           Money.round(amount).amount
 
         {:error, _} ->
-          report(:warn)
+          report(:warning)
           0
       end
 

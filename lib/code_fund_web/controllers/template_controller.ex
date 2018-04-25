@@ -45,7 +45,7 @@ defmodule CodeFundWeb.TemplateController do
         |> redirect(to: template_path(conn, :show, template))
 
       {:error, form} ->
-        report(:warn, "Changeset Error")
+        report(:warning, "Changeset Error")
         render(conn, "edit.html", template: template, form: form)
     end
   end

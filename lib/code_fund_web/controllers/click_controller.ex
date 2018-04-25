@@ -22,7 +22,7 @@ defmodule CodeFundWeb.ClickController do
         |> redirect(to: click_path(conn, :show, click))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        report(:warn, "Changeset Error")
+        report(:warning, "Changeset Error")
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -48,7 +48,7 @@ defmodule CodeFundWeb.ClickController do
         |> redirect(to: click_path(conn, :show, click))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        report(:warn, "Changeset Error")
+        report(:warning, "Changeset Error")
         render(conn, "edit.html", click: click, changeset: changeset)
     end
   end
