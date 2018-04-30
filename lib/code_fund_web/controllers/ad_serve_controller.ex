@@ -1,20 +1,20 @@
 defmodule CodeFundWeb.AdServeController do
   use CodeFundWeb, :controller
 
-  alias CodeFund.{Properties, Sponsorships, Creatives}
+  alias CodeFund.{Properties, Sponsorships, Templates, Themes}
   alias CodeFund.Schema.{Property, Sponsorship, Campaign, Creative}
 
   def embed(conn, %{"property_id" => property_id} = params) do
     property = Properties.get_property!(property_id)
     template_slug = params["template"] || "default"
     theme_slug = params["theme"] || "light"
-    template = Creatives.get_template_by_slug(template_slug)
+    template = Templates.get_template_by_slug(template_slug)
     targetId = params["target"] || "codefund_ad"
 
     # TODO: refactor this into two different methods, and use if is_nil(template) to invoke the correct one
     cond do
       template == nil ->
-        templates = Creatives.list_templates()
+        templates = Templates.list_templates()
         template_slugs = Enum.map(templates, fn c -> c.slug end)
 
         conn
@@ -31,7 +31,7 @@ defmodule CodeFundWeb.AdServeController do
 
         cond do
           theme == nil ->
-            themes = Creatives.list_themes()
+            themes = Themes.list_themes()
             theme_slugs = Enum.map(themes, fn c -> c.slug end)
 
             conn

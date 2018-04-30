@@ -1,6 +1,6 @@
 defmodule CodeFund.Schema.Property do
-  use CodeFundWeb, :schema_with_formex
-  import CodeFund.Validation.URL
+  use CodeFundWeb, :schema
+  import Validation.URL
 
   @property_types %{
     website: 1,

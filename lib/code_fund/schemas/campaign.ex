@@ -1,6 +1,6 @@
 defmodule CodeFund.Schema.Campaign do
-  use CodeFundWeb, :schema_with_formex
-  import CodeFund.Validation.URL
+  use CodeFundWeb, :schema
+  import Validation.URL
 
   alias CodeFund.Schema.{Impression, Click, BudgetedCampaign, User, Sponsorship}
 

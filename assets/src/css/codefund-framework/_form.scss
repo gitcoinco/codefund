@@ -1,0 +1,31 @@
+@import "./theme/theme";
+
+.input-currency {
+  display: flex;
+  align-items: center;
+  padding: .375rem .75rem;
+  margin-bottom: 0;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #3e515b;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #f1f3f8;
+  border: 1px solid #e3e8ec;
+}
+
+.input-group {
+  >div {
+    display: inherit;
+  }
+  >input, >div>input, >div>.form_control {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 1px;
+  }
+  input {
+    @extend .form-control;
+  }
+}

@@ -1,8 +1,11 @@
-<%= formex_form_for @form, @action, [method: @method, class: "form-horizontal"], fn f -> %>
-  <%= if @form.submitted? do %>
-    <div class="alert alert-danger" role="alert">
-      Oops, something went wrong! Please check the errors below.
-    </div>
-  <% end %>
-  <%= formex_rows f %>
-<% end %>
+<%= [
+    name: [type: :text_input, label: "Name"],
+    redirect_url: [type: :text_input, label: "Redirect URL", opts: [placeholder: "https://"]],
+    status: [type: :select, label: "Status", opts: [choices: [Pending: 1, Active: 2, Archived: 3]]],
+    description: [type: :textarea, label: "Description"],
+    bid_amount: [type: :currency_input, label: "Bid Amount"],
+    budget_daily_amount: [type: :currency_input, label: "Daily Budget"],
+    budget_monthly_amount: [type: :currency_input, label: "Monthly Budget"],
+    budget_total_amount: [type: :currency_input, label: "Total Budget"]
+  ] |> render_fields(@form)
+%>

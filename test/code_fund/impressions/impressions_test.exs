@@ -102,7 +102,15 @@ defmodule CodeFund.ImpressionsTest do
     end
 
     test "create_impression/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Impressions.create_impression(@invalid_attrs)
+      {:error, %Ecto.Changeset{errors: errors} = changeset} =
+        Impressions.create_impression(@invalid_attrs)
+
+      assert errors == [
+               property_id: {"can't be blank", [validation: :required]},
+               ip: {"can't be blank", [validation: :required]}
+             ]
+
+      assert changeset.valid? == false
     end
 
     test "create_from_sponsorship/1 merges attributes of a sponsorship before saving" do
@@ -154,21 +162,15 @@ defmodule CodeFund.ImpressionsTest do
     test "update_impression/2 with invalid data returns error changeset" do
       impression = CodeFund.Support.Fixture.generate(:impression)
 
-      assert {:error, %Ecto.Changeset{}} =
-               Impressions.update_impression(impression, @invalid_attrs)
+      {:error, %Ecto.Changeset{}} = Impressions.update_impression(impression, @invalid_attrs)
 
-      assert impression == Impressions.get_impression!(impression.id)
+      assert impression.browser == Impressions.get_impression!(impression.id).browser
     end
 
     test "delete_impression/1 deletes the impression" do
       impression = CodeFund.Support.Fixture.generate(:impression)
-      assert {:ok, %Impression{}} = Impressions.delete_impression(impression)
+      {:ok, %Impression{}} = Impressions.delete_impression(impression)
       assert_raise Ecto.NoResultsError, fn -> Impressions.get_impression!(impression.id) end
-    end
-
-    test "change_impression/1 returns a impression changeset" do
-      impression = CodeFund.Support.Fixture.generate(:impression)
-      assert %Ecto.Changeset{} = Impressions.change_impression(impression)
     end
   end
 end

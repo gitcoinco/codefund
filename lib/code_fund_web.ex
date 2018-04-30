@@ -20,8 +20,6 @@ defmodule CodeFundWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: CodeFundWeb
-      use Formex.Controller
-      use Formex.Ecto.Controller
       import Plug.Conn
       plug(RemoteIp)
       import CodeFund.Reporter
@@ -42,8 +40,9 @@ defmodule CodeFundWeb do
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+      import Framework.Phoenix.Form.Helpers
 
-      use Formex.View
+      import Framework.Module
 
       import CodeFundWeb.Router.Helpers
       import CodeFundWeb.ErrorHelpers
@@ -68,15 +67,8 @@ defmodule CodeFundWeb do
       use Ecto.Schema
       import Ecto.Query
       import Ecto.Changeset
-      import CodeFund.Validation.URL
+      import Validation.URL
       alias __MODULE__
-    end
-  end
-
-  def schema_with_formex do
-    quote do
-      use CodeFundWeb, :schema
-      use Formex.Ecto.Schema
     end
   end
 

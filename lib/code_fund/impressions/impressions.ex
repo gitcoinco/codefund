@@ -155,19 +155,6 @@ defmodule CodeFund.Impressions do
     Repo.delete(impression)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking impression changes.
-
-  ## Examples
-
-      iex> change_impression(impression)
-      %Ecto.Changeset{source: %Impression{}}
-
-  """
-  def change_impression(%Impression{} = impression) do
-    Impression.changeset(impression, %{})
-  end
-
   defp filter_config(:impressions) do
     defconfig do
       text(:ip)

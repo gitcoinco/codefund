@@ -1,4 +1,4 @@
-defmodule CodeFund.Validation.URL do
+defmodule Validation.URL do
   import Ecto.Changeset
 
   @spec validate_url(Ecto.Changeset.t(), atom) :: Ecto.Changeset.t()

@@ -2,12 +2,6 @@ defmodule CodeFundWeb.PropertyView do
   use CodeFundWeb, :view
 
   import CodeFundWeb.TableView
-  # import CodeFundWeb.FilterView
-
-  def title(:index), do: "CodeFund | My Properties"
-  def title(:new), do: "CodeFund | Add Property"
-  def title(:edit), do: "CodeFund | Edit Property"
-  def title(:show), do: "CodeFund | View Property"
 
   def body_class(_), do: "app flex-row align-items-center"
 

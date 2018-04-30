@@ -128,6 +128,11 @@ defmodule CodeFund.Campaigns do
     |> Repo.update()
   end
 
+  def by_user(%User{id: id}) do
+    from(o in Campaign, where: o.user_id == ^id)
+    |> CodeFund.Repo.all()
+  end
+
   @doc """
   Deletes a Campaign.
 
