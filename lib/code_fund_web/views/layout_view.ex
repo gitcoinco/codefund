@@ -5,13 +5,22 @@ defmodule CodeFundWeb.LayoutView do
   Calls the `title` fn of the current `view_module` with the performed `:action` as arg.
   If no fun exists/matches the `default` title is returned instead.
   """
-  def title(conn, default) do
+  def title(conn) do
     try do
       apply(view_module(conn), :title, [action_name(conn)])
     rescue
-      _ -> default
+      _ -> conn.assigns |> Map.get(:schema) |> build_title(action_name(conn))
     end
   end
+
+  # TODO JBEAN - Figure out what to do here
+  defp build_title(nil, _), do: "CodeFund"
+  defp build_title(schema, :index), do: "CodeFund | #{pretty(schema, :upcase, :plural)}"
+  defp build_title(schema, :new), do: "CodeFund | Add #{pretty(schema, :upcase, :plural)}"
+  defp build_title(schema, :create), do: build_title(schema, :new)
+  defp build_title(schema, :edit), do: "CodeFund | Edit #{pretty(schema, :upcase, :singular)}"
+  defp build_title(schema, :update), do: build_title(schema, :edit)
+  defp build_title(schema, :show), do: "CodeFund | View #{pretty(schema, :upcase, :singular)}"
 
   @doc """
   Calls the `body_class` fn of the current `view_module` with the performed `:action` as arg.

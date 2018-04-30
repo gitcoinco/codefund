@@ -66,7 +66,7 @@ defmodule CodeFundWeb.UserControllerTest do
       patch(
         conn,
         user_path(conn, :update, context.users.sponsor, %{
-          "user" => context.valid_params |> Map.put("first_name", "New Name")
+          "params" => %{"user" => context.valid_params |> Map.put("first_name", "New Name")}
         })
       )
     end
@@ -79,7 +79,7 @@ defmodule CodeFundWeb.UserControllerTest do
         patch(
           conn,
           user_path(conn, :update, users.developer, %{
-            "user" => valid_params |> Map.put("first_name", "New Name")
+            "params" => %{"user" => valid_params |> Map.put("first_name", "New Name")}
           })
         )
 
@@ -98,15 +98,18 @@ defmodule CodeFundWeb.UserControllerTest do
         patch(
           conn,
           user_path(conn, :update, users.developer, %{
-            "user" => valid_params |> Map.delete("first_name")
+            "params" => %{"user" => valid_params |> Map.put("first_name", nil)}
           })
         )
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
 
-      assert conn.assigns.form.errors == [first_name: ["can't be blank"]]
-      assert conn.private.phoenix_template == "edit.html"
+      assert conn.assigns.changeset.errors == [
+               first_name: {"can't be blank", [validation: :required]}
+             ]
+
+      assert conn.private.phoenix_template == "form_container.html"
     end
   end
 

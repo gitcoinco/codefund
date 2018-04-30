@@ -8,6 +8,10 @@ defmodule CodeFundWeb.ErrorHelpers do
   @doc """
   Generates tag for inlined form input errors.
   """
+  def error_tag(nil, _field) do
+    []
+  end
+
   def error_tag(form, field) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
       content_tag(:div, translate_error(error), class: "invalid-feedback")

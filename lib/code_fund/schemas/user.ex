@@ -1,6 +1,6 @@
 defmodule CodeFund.Schema.User do
   @moduledoc false
-  use CodeFundWeb, :schema_with_formex
+  use CodeFundWeb, :schema
   use Coherence.Schema
 
   @primary_key {:id, :binary_id, autogenerate: true}

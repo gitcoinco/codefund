@@ -1,6 +1,6 @@
 defmodule CodeFund.Schema.Sponsorship do
-  use CodeFundWeb, :schema_with_formex
-  import CodeFund.Validation.URL
+  use CodeFundWeb, :schema
+  import Validation.URL
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

@@ -53,7 +53,7 @@ defmodule CodeFund.PropertiesTest do
     test "update_property/2 with valid data updates the property" do
       property = CodeFund.Support.Fixture.generate(:property)
       assert {:ok, property} = Properties.update_property(property, @update_attrs)
-      assert %Property{} = property
+      assert Property == property.__struct__
       assert property.description == "some updated description"
       assert property.name == "some updated name"
       assert property.property_type == 43

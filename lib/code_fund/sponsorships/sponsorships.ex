@@ -167,19 +167,6 @@ defmodule CodeFund.Sponsorships do
     Repo.delete(sponsorship)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking sponsorship changes.
-
-  ## Examples
-
-      iex> change_sponsorship(sponsorship)
-      %Ecto.Changeset{source: %Sponsorship{}}
-
-  """
-  def change_sponsorship(%Sponsorship{} = sponsorship) do
-    Sponsorship.changeset(sponsorship, %{})
-  end
-
   defp highest_bid_amount_by_property(property) do
     base_query(property)
     |> select([s], s.bid_amount)

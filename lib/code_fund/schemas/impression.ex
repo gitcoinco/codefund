@@ -1,5 +1,5 @@
 defmodule CodeFund.Schema.Impression do
-  use CodeFundWeb, :schema_with_formex
+  use CodeFundWeb, :schema
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

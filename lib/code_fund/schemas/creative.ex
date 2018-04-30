@@ -2,7 +2,7 @@ defmodule CodeFund.Schema.Creative do
   use Ecto.Schema
   import Ecto.Changeset
   alias CodeFund.Schema.Creative
-  import CodeFund.Validation.URL
+  import Validation.URL
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

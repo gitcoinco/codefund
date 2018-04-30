@@ -60,7 +60,10 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
   describe "create" do
     fn conn, context ->
-      post(conn, campaign_path(conn, :create, %{"campaign" => context.valid_params}))
+      post(
+        conn,
+        campaign_path(conn, :create, %{"params" => %{"campaign" => context.valid_params}})
+      )
     end
     |> behaves_like([:authenticated, :sponsor], "POST /campaigns/create")
 
@@ -77,7 +80,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
         "status" => 2
       }
 
-      conn = post(conn, campaign_path(conn, :create, %{"campaign" => params}))
+      conn = post(conn, campaign_path(conn, :create, %{"params" => %{"campaign" => params}}))
 
       assert redirected_to(conn, 302) ==
                campaign_path(conn, :show, CodeFund.Schema.Campaign |> CodeFund.Repo.one())
@@ -95,14 +98,16 @@ defmodule CodeFundWeb.CampaignControllerTest do
       conn =
         post(
           conn,
-          campaign_path(conn, :create, %{"campaign" => valid_params |> Map.delete("name")})
+          campaign_path(conn, :create, %{
+            "params" => %{"campaign" => valid_params |> Map.put("name", nil)}
+          })
         )
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
 
-      assert conn.assigns.form.errors == [name: ["can't be blank"]]
-      assert conn.private.phoenix_template == "new.html"
+      assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
+      assert conn.private.phoenix_template == "form_container.html"
     end
   end
 
@@ -152,7 +157,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
         patch(
           conn,
           campaign_path(conn, :update, campaign, %{
-            "campaign" => valid_params |> Map.put("name", "New Name")
+            "params" => %{"campaign" => valid_params |> Map.put("name", "New Name")}
           })
         )
 
@@ -165,19 +170,22 @@ defmodule CodeFundWeb.CampaignControllerTest do
       users: users,
       valid_params: valid_params
     } do
+      campaign = insert(:campaign)
       conn = assign(conn, :current_user, users.sponsor)
 
       conn =
-        post(
+        patch(
           conn,
-          campaign_path(conn, :create, %{"campaign" => valid_params |> Map.delete("name")})
+          campaign_path(conn, :update, campaign, %{
+            "params" => %{"campaign" => valid_params |> Map.put("name", nil)}
+          })
         )
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
 
-      assert conn.assigns.form.errors == [name: ["can't be blank"]]
-      assert conn.private.phoenix_template == "new.html"
+      assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
+      assert conn.private.phoenix_template == "form_container.html"
     end
   end
 

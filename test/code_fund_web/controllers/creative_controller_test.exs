@@ -53,13 +53,19 @@ defmodule CodeFundWeb.CreativeControllerTest do
 
   describe "create" do
     fn conn, context ->
-      post(conn, creative_path(conn, :create, %{"creative" => context.valid_params}))
+      post(
+        conn,
+        creative_path(conn, :create, %{"params" => %{"creative" => context.valid_params}})
+      )
     end
     |> behaves_like([:authenticated, :sponsor], "POST /creatives/create")
 
     test "creates a creative", %{conn: conn, users: users, valid_params: valid_params} do
       conn = assign(conn, :current_user, users.sponsor)
-      conn = post(conn, creative_path(conn, :create, %{"creative" => valid_params}))
+
+      conn =
+        post(conn, creative_path(conn, :create, %{"params" => %{"creative" => valid_params}}))
+
       assert conn |> Phoenix.Controller.get_flash(:info) == "Creative created successfully."
 
       assert redirected_to(conn, 302) ==
@@ -76,14 +82,16 @@ defmodule CodeFundWeb.CreativeControllerTest do
       conn =
         post(
           conn,
-          creative_path(conn, :create, %{"creative" => valid_params |> Map.delete("name")})
+          creative_path(conn, :create, %{
+            "params" => %{"creative" => valid_params |> Map.put("name", nil)}
+          })
         )
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
 
-      assert conn.assigns.form.errors == [name: ["can't be blank"]]
-      assert conn.private.phoenix_template == "new.html"
+      assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
+      assert conn.private.phoenix_template == "form_container.html"
     end
   end
 
@@ -133,7 +141,7 @@ defmodule CodeFundWeb.CreativeControllerTest do
         patch(
           conn,
           creative_path(conn, :update, creative, %{
-            "creative" => valid_params |> Map.put("name", "New Name")
+            "params" => %{"creative" => valid_params |> Map.put("name", "New Name")}
           })
         )
 
@@ -149,16 +157,18 @@ defmodule CodeFundWeb.CreativeControllerTest do
       conn = assign(conn, :current_user, users.sponsor)
 
       conn =
-        post(
+        patch(
           conn,
-          creative_path(conn, :create, %{"creative" => valid_params |> Map.delete("name")})
+          creative_path(conn, :update, insert(:creative), %{
+            "params" => %{"creative" => valid_params |> Map.put("name", nil)}
+          })
         )
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
 
-      assert conn.assigns.form.errors == [name: ["can't be blank"]]
-      assert conn.private.phoenix_template == "new.html"
+      assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
+      assert conn.private.phoenix_template == "form_container.html"
     end
   end
 

@@ -15,14 +15,14 @@ defmodule Schema.Stub do
   end
 end
 
-defmodule CodeFund.Validation.URLTest do
+defmodule Validation.URLTest do
   use CodeFund.DataCase
-  import CodeFund.Validation.URL
+  import Validation.URL
 
   describe "validate_url" do
     test "it validates the url" do
       changeset = Schema.Stub.changeset(%Schema.Stub{}, %{url: "http://google.com"})
-      assert CodeFund.Validation.URL.validate_url(changeset, :url).valid?
+      assert Validation.URL.validate_url(changeset, :url).valid?
     end
 
     test "it returns an error if there is no scheme in the url" do

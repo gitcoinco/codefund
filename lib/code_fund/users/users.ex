@@ -1,6 +1,7 @@
 defmodule CodeFund.Users do
   @roles [Admin: "admin", Developer: "developer", Sponsor: "sponsor"]
   alias CodeFund.Repo
+  alias CodeFund.Schema.User
 
   @doc """
   Gets a single user.
@@ -22,6 +23,12 @@ defmodule CodeFund.Users do
   end
 
   def roles, do: @roles
+
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
 
   def has_role?(existing_roles, target_roles) do
     Enum.any?(target_roles, fn role ->

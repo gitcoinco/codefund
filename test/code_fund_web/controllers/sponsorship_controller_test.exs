@@ -4,6 +4,14 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
   setup do
     users = stub_users()
 
+    objects = %{
+      user_campaign: insert(:campaign, user: users.sponsor),
+      campaign: insert(:campaign),
+      user_creative: insert(:creative, user: users.sponsor),
+      creative: insert(:creative),
+      property: insert(:property)
+    }
+
     valid_params =
       string_params_with_assocs(:sponsorship, user: nil)
       |> Map.merge(%{
@@ -13,7 +21,7 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
         "creative_id" => insert(:creative, user: users.admin).id
       })
 
-    {:ok, %{valid_params: valid_params, users: users}}
+    {:ok, %{valid_params: valid_params, users: users, objects: objects}}
   end
 
   describe "index" do
@@ -50,9 +58,50 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
     end
     |> behaves_like([:authenticated, :sponsor], "GET /sponsorships/new")
 
-    test "renders the new template", %{conn: conn} do
-      conn = assign(conn, :current_user, insert(:user))
+    test "renders the new template as a sponsor", %{conn: conn, users: users, objects: objects} do
+      conn = assign(conn, :current_user, users.sponsor)
       conn = get(conn, sponsorship_path(conn, :new))
+
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :campaign_id,
+               :property_id,
+               :creative_id,
+               :bid_amount,
+               :redirect_url,
+               :override_revenue_rate
+             ]
+
+      assert conn.assigns.fields |> get_in([:campaign_id, :opts, :choices]) == [
+               {:"#{objects.user_campaign.name}", objects.user_campaign.id}
+             ]
+
+      assert conn.assigns.fields |> get_in([:creative_id, :opts, :choices]) == [
+               {:"#{objects.user_creative.name}", objects.user_creative.id}
+             ]
+
+      assert conn.assigns.fields |> get_in([:property_id, :opts, :choices]) ==
+               CodeFund.Properties.list_properties()
+               |> Framework.Phoenix.Form.Helpers.repo_objects_to_options()
+
+      assert conn.assigns.fields |> get_in([:override_revenue_rate, :type]) == :hidden_input
+
+      assert html_response(conn, 200) =~ "Sponsorship"
+    end
+
+    test "renders the new template as a admin", %{conn: conn, users: users} do
+      conn = assign(conn, :current_user, users.admin)
+      conn = get(conn, sponsorship_path(conn, :new))
+
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :campaign_id,
+               :property_id,
+               :creative_id,
+               :bid_amount,
+               :redirect_url,
+               :override_revenue_rate
+             ]
+
+      assert conn.assigns.fields |> get_in([:override_revenue_rate, :type]) == :currency_input
 
       assert html_response(conn, 200) =~ "Sponsorship"
     end
@@ -60,13 +109,22 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
 
   describe "create" do
     fn conn, context ->
-      post(conn, sponsorship_path(conn, :create, %{"sponsorship" => context.valid_params}))
+      post(
+        conn,
+        sponsorship_path(conn, :create, %{"params" => %{"sponsorship" => context.valid_params}})
+      )
     end
     |> behaves_like([:authenticated, :sponsor], "POST /sponsorships/create")
 
     test "creates a sponsorship", %{conn: conn, users: users, valid_params: valid_params} do
       conn = assign(conn, :current_user, users.admin)
-      conn = post(conn, sponsorship_path(conn, :create, %{"sponsorship" => valid_params}))
+
+      conn =
+        post(
+          conn,
+          sponsorship_path(conn, :create, %{"params" => %{"sponsorship" => valid_params}})
+        )
+
       assert conn |> Phoenix.Controller.get_flash(:info) == "Sponsorship created successfully."
 
       assert redirected_to(conn, 302) ==
@@ -84,15 +142,27 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
         post(
           conn,
           sponsorship_path(conn, :create, %{
-            "sponsorship" => valid_params |> Map.delete("bid_amount")
+            "params" => %{"sponsorship" => valid_params |> Map.put("bid_amount", nil)}
           })
         )
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
 
-      assert conn.assigns.form.errors == [bid_amount: ["can't be blank"]]
-      assert conn.private.phoenix_template == "new.html"
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :campaign_id,
+               :property_id,
+               :creative_id,
+               :bid_amount,
+               :redirect_url,
+               :override_revenue_rate
+             ]
+
+      assert conn.assigns.changeset.errors == [
+               bid_amount: {"can't be blank", [validation: :required]}
+             ]
+
+      assert conn.private.phoenix_template == "form_container.html"
     end
   end
 
@@ -125,6 +195,15 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
 
       assert html_response(conn, 200) =~ "Sponsorship"
       assert html_response(conn, 200) =~ sponsorship.bid_amount |> Decimal.to_string()
+
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :campaign_id,
+               :property_id,
+               :creative_id,
+               :bid_amount,
+               :redirect_url,
+               :override_revenue_rate
+             ]
     end
   end
 
@@ -156,7 +235,9 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
       conn =
         patch(
           conn,
-          sponsorship_path(conn, :update, sponsorship, %{"sponsorship" => sponsorship_params})
+          sponsorship_path(conn, :update, sponsorship, %{
+            "params" => %{"sponsorship" => sponsorship_params}
+          })
         )
 
       assert redirected_to(conn, 302) == sponsorship_path(conn, :show, sponsorship)
@@ -172,19 +253,37 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
     } do
       conn = assign(conn, :current_user, users.admin)
 
+      campaign = insert(:campaign, user: users.admin)
+      creative = insert(:creative, user: users.admin)
+
+      sponsorship =
+        insert(:sponsorship, %{campaign: campaign, creative: creative, user: users.admin})
+
       conn =
-        post(
+        patch(
           conn,
-          sponsorship_path(conn, :create, %{
-            "sponsorship" => valid_params |> Map.delete("bid_amount")
+          sponsorship_path(conn, :update, sponsorship, %{
+            "params" => %{"sponsorship" => valid_params |> Map.put("bid_amount", nil)}
           })
         )
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
 
-      assert conn.assigns.form.errors == [bid_amount: ["can't be blank"]]
-      assert conn.private.phoenix_template == "new.html"
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :campaign_id,
+               :property_id,
+               :creative_id,
+               :bid_amount,
+               :redirect_url,
+               :override_revenue_rate
+             ]
+
+      assert conn.assigns.changeset.errors == [
+               bid_amount: {"can't be blank", [validation: :required]}
+             ]
+
+      assert conn.private.phoenix_template == "form_container.html"
     end
   end
 

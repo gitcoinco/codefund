@@ -1,5 +1,5 @@
 defmodule CodeFund.Schema.Click do
-  use CodeFundWeb, :schema_with_formex
+  use CodeFundWeb, :schema
 
   @statuses %{
     pending: 0,

@@ -1,8 +1,7 @@
-<%= formex_form_for @form, @action, [method: @method, class: "form-horizontal"], fn f -> %>
-  <%= if @form.submitted? do %>
-    <div class="alert alert-danger" role="alert">
-      Oops, something went wrong! Please check the errors below.
-    </div>
-  <% end %>
-  <%= formex_rows f %>
-<% end %>
+<%= [
+    name: [type: :text_input, label: "Name"],
+    slug: [type: :text_input, label: "Slug"],
+    description: [type: :textarea, label: "Description", opts: [rows: 2]],
+    body: [type: :textarea, label: "HTML", opts: [rows: 20]],
+  ] |> render_fields(@form)
+%>

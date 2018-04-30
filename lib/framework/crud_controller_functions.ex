@@ -1,41 +1,71 @@
 defmodule Framework.CRUDControllerFunctions do
+  import Framework.Module
   use CodeFundWeb, :controller
 
+  @all_actions [
+    :index,
+    :new,
+    :create,
+    :show,
+    :edit,
+    :update,
+    :delete
+  ]
+
   defmacro __using__([schema, :all]) do
-    all_actions = [
-      :index,
-      :new,
-      :create,
-      :show,
-      :edit,
-      :update,
-      :delete
-    ]
-
-    for action <- all_actions do
-      build_action(schema, action)
-    end
+    build_actions(schema, @all_actions)
   end
 
-  defmacro __using__([schema, actions]) do
+  defmacro __using__([schema, :all, except: exclusions]) when is_list(exclusions) do
+    build_actions(schema, @all_actions -- exclusions)
+  end
+
+  defmacro __using__([schema, actions]) when is_list(actions) do
+    build_actions(schema, actions)
+  end
+
+  @spec build_actions(String.t(), list) :: Macro.t()
+  def build_actions(schema, actions) when is_list(actions) do
     for action <- actions do
-      build_action(schema, action)
+      build_action(schema, action, [])
     end
   end
 
-  def build_action(schema, action) do
+  @spec build_action(String.t(), atom, list) :: Macro.t()
+  def build_action(schema, action, block) when is_list(block) do
     quote do
       def unquote(action)(conn, params) do
+        block = unquote(block)
+
+        conn =
+          case Keyword.has_key?(block, :hooks) do
+            true -> Framework.CRUDControllerFunctions.assign(conn, block[:hooks].(conn, params))
+            false -> conn
+          end
+          |> Framework.CRUDControllerFunctions.assign(block[:assigns] || [])
+
         Framework.CRUDControllerFunctions.stubs(unquote(action), unquote(schema), conn, params)
       end
     end
+  end
+
+  @spec assign(Plug.Conn.t(), list) :: Plug.Conn.t()
+  def assign(conn, assigns) do
+    assigns = assigns |> Enum.into(%{}) |> Map.merge(conn.assigns)
+    Map.put(conn, :assigns, assigns)
+  end
+
+  @spec assign(atom, list) :: Macro.t()
+  defmacro defstub(definition, do: block) when is_list(block) do
+    {function, [schema]} = Macro.decompose_call(definition)
+    build_action(schema, function, block)
   end
 
   @spec stubs(atom, String.t(), %Plug.Conn{}, map) :: %Plug.Conn{}
   def stubs(:index, schema, conn, params) do
     case apply(module_name(schema, :context), paginate(schema), [current_user(conn), params]) do
       {:ok, assigns} ->
-        render(conn, "index.html", assigns)
+        render(conn, "index.html", Map.merge(assigns, %{schema: schema}))
 
       error ->
         report(:error)
@@ -52,37 +82,38 @@ defmodule Framework.CRUDControllerFunctions do
   def stubs(:new, schema, conn, _params) do
     render(
       conn,
-      "new.html",
-      form:
-        new_formex(
-          schema,
-          false,
-          %{},
-          associations(schema, current_user(conn), [])
-        )
+      CodeFundWeb.SharedView,
+      "form_container.html",
+      schema: schema,
+      action: :create,
+      conn: conn
     )
   end
 
   def stubs(:create, schema, conn, params) do
-    new_formex(
-      schema,
-      false,
-      fetch_object_params(schema, params),
-      associations(schema, current_user(conn), [])
-    )
-    |> insert_form_data
+    module_name(schema, :context)
+    |> apply(:"create_#{pretty(schema, :downcase, :singular)}", [
+      fetch_post_params(schema, params)
+    ])
     |> case do
       {:ok, object} ->
         conn
         |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} created successfully.")
         |> redirect(to: path(schema, conn, :show, object))
 
-      {:error, form} ->
+      {:error, changeset} ->
         report(:warning, "Changeset Error")
 
         conn
         |> put_status(422)
-        |> render("new.html", form: form)
+        |> render(
+          CodeFundWeb.SharedView,
+          "form_container.html",
+          schema: schema,
+          conn: conn,
+          action: :create,
+          changeset: changeset
+        )
     end
   end
 
@@ -90,7 +121,10 @@ defmodule Framework.CRUDControllerFunctions do
     render(
       conn,
       "show.html",
-      Keyword.new([{pretty(schema, :downcase, :singular) |> String.to_atom(), get!(schema, id)}])
+      Keyword.new([
+        {pretty(schema, :downcase, :singular) |> String.to_atom(), get!(schema, id)},
+        {:schema, schema}
+      ])
     )
   end
 
@@ -100,17 +134,15 @@ defmodule Framework.CRUDControllerFunctions do
 
     render(
       conn,
-      "edit.html",
+      CodeFundWeb.SharedView,
+      "form_container.html",
       Keyword.new([
         {pretty(schema, :downcase, :singular) |> String.to_atom(), object},
-        {:form,
-         new_formex(
-           schema,
-           object,
-           %{},
-           user: object |> Map.get(:user) || object,
-           current_user: current_user
-         )}
+        {:schema, schema},
+        {:object, object},
+        {:action, :update},
+        {:conn, conn},
+        {:current_user, current_user}
       ])
     )
   end
@@ -119,30 +151,33 @@ defmodule Framework.CRUDControllerFunctions do
     object = get!(schema, id)
     current_user = current_user(conn)
 
-    new_formex(
-      schema,
+    module_name(schema, :context)
+    |> apply(:"update_#{pretty(schema, :downcase, :singular)}", [
       object,
-      fetch_object_params(schema, params),
-      user: object |> Map.get(:user) || object,
-      current_user: current_user
-    )
-    |> update_form_data
+      fetch_post_params(schema, params)
+    ])
     |> case do
       {:ok, object} ->
         conn
         |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} updated successfully.")
         |> redirect(to: path(schema, conn, :show, object))
 
-      {:error, form} ->
+      {:error, changeset} ->
         report(:warning, "Changeset Error")
 
         conn
         |> put_status(422)
         |> render(
-          "edit.html",
+          CodeFundWeb.SharedView,
+          "form_container.html",
           Keyword.new([
             {pretty(schema, :downcase, :singular) |> String.to_atom(), object},
-            {:form, form}
+            {:schema, schema},
+            {:object, object},
+            {:action, :update},
+            {:conn, conn},
+            {:current_user, current_user},
+            {:changeset, changeset}
           ])
         )
     end
@@ -158,24 +193,16 @@ defmodule Framework.CRUDControllerFunctions do
     |> redirect(to: path(schema, conn, :index))
   end
 
-  @spec current_user(%Plug.Conn{}) :: %CodeFund.Schema.User{}
-  defp current_user(conn), do: conn.assigns.current_user
-
-  @spec paginate(String.t()) :: atom
-  defp paginate(schema), do: :"paginate_#{schema |> String.downcase() |> Inflex.pluralize()}"
-
   @spec get!(String.t(), UUID.t()) :: struct
   defp get!(schema, id),
     do:
       apply(module_name(schema, :context), :"get_#{pretty(schema, :downcase, :singular)}!", [id])
 
-  @spec pretty(String.t(), atom, atom) :: String.t()
-  defp pretty(schema, :upcase, :singular), do: schema
-  defp pretty(schema, :upcase, :plural), do: schema |> Inflex.pluralize()
-  defp pretty(schema, :downcase, :singular), do: "#{schema |> String.downcase()}"
+  @spec current_user(%Plug.Conn{}) :: %CodeFund.Schema.User{}
+  defp current_user(conn), do: conn.assigns.current_user
 
-  defp pretty(schema, :downcase, :plural),
-    do: pretty(schema, :downcase, :singular) |> Inflex.pluralize()
+  @spec paginate(String.t()) :: atom
+  defp paginate(schema), do: :"paginate_#{schema |> String.downcase() |> Inflex.pluralize()}"
 
   @spec path(String.t(), %Plug.Conn{}, atom) :: String.t()
   defp path(schema, conn, action),
@@ -194,52 +221,11 @@ defmodule Framework.CRUDControllerFunctions do
         object
       ])
 
-  @spec module_name(String.t(), atom) :: atom
-  defp module_name(schema, :context),
-    do: Module.concat([CodeFund, "#{schema |> Inflex.pluralize()}"])
-
-  defp module_name(schema, :formex_type),
-    do: Module.concat([CodeFundWeb, "#{schema}Type" |> String.to_atom()])
-
-  defp module_name(schema, :struct_name),
-    do: Module.concat([CodeFund, Schema, schema |> String.to_atom()])
-
-  defp module_name(schema, :struct), do: schema |> module_name(:struct_name) |> struct()
-
   @spec fetch_object_params(String.t(), map) :: any()
   defp fetch_object_params(schema, params), do: params[schema |> String.downcase()]
 
-  @spec new_formex(String.t(), false | Ecto.Schema.t(), map, Keyword.t()) :: struct
-  defp new_formex(schema, false, params, opts) do
-    new_formex(
-      schema,
-      module_name(schema, :struct),
-      params,
-      opts
-    )
-  end
-
-  defp new_formex(schema, object, params, opts) do
-    apply(Formex.Builder, :create_form, [
-      module_name(schema, :formex_type),
-      object,
-      params,
-      opts
-    ])
-  end
-
-  @spec associations(String.t(), %CodeFund.Schema.User{}, Keyword.t()) :: Keyword.t()
-  defp associations(schema, user, opts), do: associations(schema, user, user, opts)
-
-  @spec associations(String.t(), %CodeFund.Schema.User{}, %CodeFund.Schema.User{}, Keyword.t()) ::
-          Keyword.t()
-  defp associations(schema, user, current_user, opts) do
-    opts = Enum.concat(opts, current_user: current_user)
-
-    case apply(module_name(schema, :struct_name), :__schema__, [:associations])
-         |> Enum.member?(:user) do
-      true -> [user: user] |> Enum.concat(opts)
-      false -> opts
-    end
+  @spec fetch_post_params(String.t(), map) :: any()
+  defp fetch_post_params(schema, params) do
+    fetch_object_params(schema, params["params"])
   end
 end

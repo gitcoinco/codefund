@@ -86,7 +86,7 @@ defmodule CodeFund.SponsorshipsTest do
       assert {:ok, sponsorship} = Sponsorships.update_sponsorship(sponsorship, @update_attrs)
       # reload
       sponsorship = Sponsorships.get_sponsorship!(sponsorship.id)
-      assert %Sponsorship{} = sponsorship
+      assert Sponsorship == sponsorship.__struct__
       assert sponsorship.bid_amount == Decimal.new(2.25)
     end
 
@@ -107,17 +107,12 @@ defmodule CodeFund.SponsorshipsTest do
       sponsorship = insert(:sponsorship, property: property)
       Property.changeset(property, %{sponsorship_id: sponsorship.id}) |> Repo.update()
 
-      assert {:ok, %Sponsorship{}} = Sponsorships.delete_sponsorship(sponsorship)
+      {:ok, %Sponsorship{}} = Sponsorships.delete_sponsorship(sponsorship)
 
       property = Properties.get_property!(property.id)
 
       assert property.sponsorship_id == nil
       assert_raise Ecto.NoResultsError, fn -> Sponsorships.get_sponsorship!(sponsorship.id) end
-    end
-
-    test "change_sponsorship/1 returns a sponsorship changeset" do
-      sponsorship = insert(:sponsorship)
-      assert %Ecto.Changeset{} = Sponsorships.change_sponsorship(sponsorship)
     end
   end
 end
