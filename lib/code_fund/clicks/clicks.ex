@@ -64,6 +64,7 @@ defmodule CodeFund.Clicks do
     from(
       c in CodeFund.Schema.Click,
       join: p in CodeFund.Schema.Property,
+      on: c.property_id == p.id,
       where:
         p.user_id == ^user_id and c.inserted_at >= ^parse(start_date) and
           c.inserted_at <= ^parse(end_date) and c.status == 1 and is_nil(c.distribution_id)

@@ -5,7 +5,6 @@ defmodule CodeFund.Distributions do
 
   use CodeFundWeb, :query
   alias CodeFund.Schema.Distribution
-  import Framework.Date
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -19,7 +18,7 @@ defmodule CodeFund.Distributions do
   @doc """
   Paginate the list of distributions using filtrex filters.
   """
-  def paginate_distributions(user, params \\ %{}) do
+  def paginate_distributions(_user, params \\ %{}) do
     params =
       params
       |> Map.put_new("sort_direction", "desc")
