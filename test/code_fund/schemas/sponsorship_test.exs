@@ -5,7 +5,7 @@ defmodule CodeFund.Schema.SponsorshipTest do
 
   describe "sponsorships" do
     setup do
-      valid_attrs = build(:sponsorship) |> Map.from_struct()
+      valid_attrs = build(:sponsorship, user_id: insert(:user).id) |> Map.from_struct()
       {:ok, %{valid_attrs: valid_attrs}}
     end
 

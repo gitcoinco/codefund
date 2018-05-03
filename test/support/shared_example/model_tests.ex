@@ -1,7 +1,7 @@
 defmodule SharedExample.ModelTests do
   import ExUnit.Assertions
 
-  @spec required_attribute_test(atom, list, map) :: boolean
+  @spec required_attribute_test(atom, list, map) :: list
   def required_attribute_test(schema, required_attributes, valid_attrs) do
     for required_attribute <- required_attributes do
       invalid_attrs = valid_attrs |> Map.put(required_attribute, nil)

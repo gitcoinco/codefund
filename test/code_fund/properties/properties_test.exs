@@ -1,6 +1,5 @@
 defmodule CodeFund.PropertiesTest do
   use CodeFund.DataCase
-
   alias CodeFund.Properties
 
   setup do
@@ -36,7 +35,7 @@ defmodule CodeFund.PropertiesTest do
     end
 
     test "create_property/1 with valid data creates a property", %{user: user} do
-      valid_attrs = @valid_attrs |> Map.put(:user, user)
+      valid_attrs = @valid_attrs |> Map.put(:user_id, user.id)
       {:ok, %Property{} = property} = Properties.create_property(valid_attrs)
       assert property.description == "some description"
       assert property.name == "some name"

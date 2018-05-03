@@ -43,6 +43,7 @@ defmodule CodeFundWeb do
       import Framework.Phoenix.Form.Helpers
 
       import Framework.Module
+      import Framework.Path
 
       import CodeFundWeb.Router.Helpers
       import CodeFundWeb.ErrorHelpers

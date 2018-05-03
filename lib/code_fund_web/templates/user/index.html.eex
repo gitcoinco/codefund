@@ -35,9 +35,10 @@
                   <td class="text-center"><%= user.properties |> Enum.count %></td>
                   <td><%= Enum.join user.roles, "," %></td>
                   <td class="text-right p-2">
-                    <%= link 'Masquerade', to: user_path(@conn, :masquerade, user), class: "btn btn-outline-warning btn-sm" %>
-                    <%= link 'Show', to: user_path(@conn, :show, user), class: "btn btn-outline-info btn-sm" %>
-                    <%= link 'Edit', to: user_path(@conn, :edit, user), class: "btn btn-outline-primary btn-sm" %>
+                    <%= if(CodeFund.Users.has_role?(user.roles, ["developer"]), do: link("Make Distributions", to: user_distribution_path(@conn, :search, user), class: "btn btn-outline-info btn-sm"))%>
+                    <%= link "Masquerade", to: user_path(@conn, :masquerade, user), class: "btn btn-outline-warning btn-sm" %>
+                    <%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-outline-info btn-sm" %>
+                    <%= link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-outline-primary btn-sm" %>
                   </td>
                 </tr>
               <% end %>

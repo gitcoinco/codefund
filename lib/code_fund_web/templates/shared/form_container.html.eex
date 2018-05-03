@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
-  <li class="breadcrumb-item"><%= link pretty(@schema, :upcase, :singular), to: apply(CodeFundWeb.Router.Helpers, :"#{pretty(@schema, :downcase, :singular)}_path", [@conn, :index]) %></li>
+  <li class="breadcrumb-item"><%= link pretty(@schema, :upcase, :singular), to: construct_path(@conn, :index) %></li>
   <%= if @conn.private.phoenix_action == :edit do %>
-    <li class="breadcrumb-item"><%= link @conn.assigns.object |> Map.get(:name) || "Show", to: apply(CodeFundWeb.Router.Helpers, :"#{pretty(@schema, :downcase, :singular)}_path", [@conn, :show, @conn.assigns.object]) %></li>
+    <li class="breadcrumb-item"><%= link @conn.assigns.object |> Map.get(:name) || "Show", to: construct_path(@conn, :show) %></li>
   <% end %>
   <li class="breadcrumb-item active"><%= "#{pretty(@conn.private.phoenix_action |> to_string, :upcase, :singular)} #{pretty(@schema, :upcase, :singular)}" %></li>
 </ol>
@@ -15,9 +15,9 @@
           Oops, something went wrong! Please check the errors below.
         </div>
       <% end %>
-      <%= form_for @conn, apply(CodeFundWeb.Router.Helpers, :"#{pretty(@schema, :downcase, :singular)}_path" , [@conn, @conn.assigns.action, @conn.assigns |> Map.get(:object) || []]), [method: rest_method(@conn.assigns.action), as: :params], fn f -> %>
+      <%= form_for @conn, construct_path(@conn), [method: rest_method(@conn.assigns.action), as: :params], fn f -> %>
         <%= inputs_for f, :"#{pretty(@schema, :downcase, :singular)}", [default: @conn.assigns |> Map.get(:object) || struct(Module.concat([CodeFund, Schema, "#{@conn.assigns.schema}"]))], fn fp -> %>
-          <%= render(Module.concat([CodeFundWeb, "#{@conn.assigns.schema}View"]), "form.html", (@conn.assigns |> Map.merge(%{form: fp, layout: false}))) %>
+          <%= render(Module.concat([CodeFundWeb, "#{fully_qualified(@conn)}View"]), "form.html", (@conn.assigns |> Map.merge(%{form: fp, layout: false}))) %>
         <% end %>
       <% end %>
     </div>

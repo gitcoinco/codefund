@@ -1,7 +1,5 @@
 defmodule CodeFundWeb.CampaignControllerTest do
   use CodeFundWeb.ConnCase
-  import SharedExample.ControllerTests
-  import CodeFund.Factory
 
   setup do
     valid_params =

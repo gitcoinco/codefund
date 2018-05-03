@@ -73,7 +73,12 @@ defmodule CodeFund.SponsorshipsTest do
     end
 
     test "create_sponsorship/1 with valid data creates a sponsorship" do
-      assert {:ok, %Sponsorship{} = sponsorship} = Sponsorships.create_sponsorship(@valid_attrs)
+      assert {:ok, %Sponsorship{} = sponsorship} =
+               Sponsorships.create_sponsorship(
+                 @valid_attrs
+                 |> Map.put(:user_id, insert(:user).id)
+               )
+
       assert sponsorship.bid_amount == Decimal.new(1.50)
     end
 

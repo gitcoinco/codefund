@@ -1,25 +1,26 @@
 defmodule CodeFundWeb.PropertyController do
   @module "Property"
-
   use CodeFundWeb, :controller
-  use Framework.CRUDControllerFunctions, [@module, [:index, :show, :delete]]
-  import Framework.CRUDControllerFunctions, only: [defstub: 2]
+  use Framework.Controller
+
+  use Framework.Controller.Stub.Definitions, [@module, [:index, :show, :delete]]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "developer"])
 
   defstub new(@module) do
-    [hooks: fn conn, params -> fields(conn, params) end]
+    before_hook(&fields/2)
   end
 
   defstub create(@module) do
-    [hooks: fn conn, params -> fields(conn, params) end]
+    inject_params(&CodeFundWeb.Hooks.Shared.join_to_user_id/2)
+    |> error(&fields/2)
   end
 
   defstub edit(@module) do
-    [hooks: fn conn, params -> fields(conn, params) end]
+    before_hook(&fields/2)
   end
 
   defstub update(@module) do
-    [hooks: fn conn, params -> fields(conn, params) end]
+    before_hook(&fields/2)
   end
 
   defp fields(conn, _params) do

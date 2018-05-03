@@ -1,0 +1,40 @@
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Users</li>
+</ol>
+
+<div class="container-fluid" data-controller="distribution">
+  <div class="card">
+    <div class="card-body">
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <div class="input-group">
+            <%= "Make a Distribution for #{@user.first_name} #{@user.last_name}" %>
+          </div>
+        </div>
+      </div>
+      <%= form_for @conn, user_distribution_path(@conn, :new, @user), [method: :get, as: :params], fn f -> %>
+        <%= inputs_for f, :distribution, fn fp -> %>
+          <div class="form-group row">
+            <label class="control-label col-sm-2">Choose Dates</label>
+            <div class="col-sm-2">
+              <div class="input-group">
+                <%= text_input fp, :dates, "data-target": "distribution.datePicker", class: "form-control" %>
+              </div>
+            </div>
+          </div>
+          <%= hidden_input fp, :click_range_start, "data-target": "distribution.startDate" %>
+          <%= hidden_input fp, :click_range_end, "data-target": "distribution.endDate"  %>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <div class="input-group">
+                <%= submit "Search", class: "btn btn-primary" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

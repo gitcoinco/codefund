@@ -12,7 +12,8 @@ defmodule CodeFund.Schema.Property do
     :name,
     :url,
     :property_type,
-    :status
+    :status,
+    :user_id
   ]
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -43,15 +44,6 @@ defmodule CodeFund.Schema.Property do
   def required, do: @required
 
   @doc false
-  def changeset(%Property{} = property, %{user: user} = params) do
-    property
-    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
-    |> put_assoc(:user, user)
-    |> validate_required(@required)
-    |> validate_url(:url)
-    |> validate_url(:screenshot_url)
-  end
-
   def changeset(%Property{} = property, params) do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))

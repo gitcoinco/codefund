@@ -19,7 +19,8 @@ defmodule CodeFund.Schema.Creative do
   @required [
     :name,
     :body,
-    :image_url
+    :image_url,
+    :user_id
   ]
 
   def required, do: @required

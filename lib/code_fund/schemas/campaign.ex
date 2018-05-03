@@ -33,7 +33,8 @@ defmodule CodeFund.Schema.Campaign do
     :bid_amount,
     :budget_daily_amount,
     :budget_monthly_amount,
-    :budget_total_amount
+    :budget_total_amount,
+    :user_id
   ]
 
   def required, do: @required
