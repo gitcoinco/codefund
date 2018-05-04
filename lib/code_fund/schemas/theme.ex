@@ -1,7 +1,7 @@
 defmodule CodeFund.Schema.Theme do
   use Ecto.Schema
   import Ecto.Changeset
-  alias CodeFund.Schema.Theme
+  alias __MODULE__
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

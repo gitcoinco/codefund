@@ -4,7 +4,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
   setup do
     users = stub_users()
 
-    valid_params = string_params_with_assocs(:property)
+    valid_params = string_params_with_assocs(:property, user: nil)
 
     {:ok, %{valid_params: valid_params, users: users}}
   end

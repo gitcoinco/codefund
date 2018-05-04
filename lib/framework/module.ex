@@ -19,4 +19,10 @@ defmodule Framework.Module do
     do: Module.concat([CodeFund, Schema, pretty(module, :upcase, :singular)])
 
   def module_name(module, :struct), do: module |> module_name(:struct_name) |> struct()
+
+  def fully_qualified(conn) do
+    (conn.assigns |> Map.get(:nested) || [])
+    |> Enum.concat([conn.assigns.schema])
+    |> Module.concat()
+  end
 end

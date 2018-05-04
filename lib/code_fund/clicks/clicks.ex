@@ -5,6 +5,7 @@ defmodule CodeFund.Clicks do
 
   use CodeFundWeb, :query
   alias CodeFund.Schema.Click
+  import Framework.Date
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -57,6 +58,26 @@ defmodule CodeFund.Clicks do
   """
   def list_clicks do
     Repo.all(Click)
+  end
+
+  def by_user_in_date_range(user_id, start_date, end_date) do
+    from(
+      c in CodeFund.Schema.Click,
+      join: p in CodeFund.Schema.Property,
+      on: c.property_id == p.id,
+      where:
+        p.user_id == ^user_id and c.inserted_at >= ^parse(start_date) and
+          c.inserted_at <= ^parse(end_date) and c.status == 1 and is_nil(c.distribution_id)
+    )
+  end
+
+  def distribution_amount(user_id, start_date, end_date) do
+    by_user_in_date_range(user_id, start_date, end_date)
+    |> select([c], %{
+      "distribution_amount" => sum(c.distribution_amount),
+      "click_count" => count(c.id)
+    })
+    |> CodeFund.Repo.one()
   end
 
   @doc """

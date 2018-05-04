@@ -88,7 +88,16 @@ defmodule CodeFundWeb.Router do
     resources("/themes", ThemeController)
     get("/users/:id/masquerade", UserController, :masquerade)
     get("/users/end_masquerade", UserController, :end_masquerade)
-    resources("/users", UserController, only: [:index, :show, :edit, :update])
+
+    resources("/users", UserController, only: [:index, :show, :edit, :update]) do
+      get("/distributions/search", User.DistributionController, :search)
+
+      resources(
+        "/distributions",
+        User.DistributionController,
+        only: [:index, :new, :create, :show]
+      )
+    end
   end
 
   scope "/", CodeFundWeb do

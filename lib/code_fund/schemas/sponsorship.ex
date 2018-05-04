@@ -4,7 +4,7 @@ defmodule CodeFund.Schema.Sponsorship do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  @required [:bid_amount, :redirect_url]
+  @required [:bid_amount, :redirect_url, :user_id]
   schema "sponsorships" do
     has_many(:impressions, CodeFund.Schema.Impression)
     has_many(:clicks, CodeFund.Schema.Click)

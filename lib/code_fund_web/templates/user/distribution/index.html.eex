@@ -1,0 +1,39 @@
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Distributions</li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <section>
+        <%= if length(@distributions) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th><%= table_link(@conn, "Amount", :amount) %></th>
+                <th><%= table_link(@conn, "Clicks Starting with Date", :click_range_start) %></th>
+                <th><%= table_link(@conn, "Clicks Ending with Date", :click_range_end) %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for distribution <- @distributions do %>
+                <tr>
+                  <td><%= distribution.amount %></td>
+                  <td><%= distribution.click_range_start %></td>
+                  <td><%= distribution.click_range_end %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= render CodeFundWeb.PaginationView, "_pagination.html", assigns %>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

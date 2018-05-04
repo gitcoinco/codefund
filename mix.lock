@@ -17,7 +17,7 @@
   "db_connection": {:hex, :db_connection, "1.1.3", "89b30ca1ef0a3b469b1c779579590688561d586694a3ce8792985d4d7e575a61", [:mix], [{:connection, "~> 1.0.2", [hex: :connection, optional: false]}, {:poolboy, "~> 1.5", [hex: :poolboy, optional: true]}, {:sbroker, "~> 1.0", [hex: :sbroker, optional: true]}]},
   "decimal": {:hex, :decimal, "1.5.0", "b0433a36d0e2430e3d50291b1c65f53c37d56f83665b43d79963684865beab68", [:mix], []},
   "decimal_arithmetic": {:hex, :decimal_arithmetic, "0.1.1", "15f651ace567474d1d332f3cbf55e9203acb296a26591aa0f3fee346de4ff775", [:mix], [{:decimal, "~> 1.1", [hex: :decimal, optional: false]}]},
-  "dialyxir": {:hex, :dialyxir, "0.5.1", "b331b091720fd93e878137add264bac4f644e1ddae07a70bf7062c7862c4b952", [:mix], []},
+  "dialyxir": {:git, "https://github.com/asummers/dialyxir.git", "bafce75646770df8c94ffb86f629786fd35a4f2d", [branch: "elixir-formatter"]},
   "ecto": {:hex, :ecto, "2.2.9", "031d55df9bb430cb118e6f3026a87408d9ce9638737bda3871e5d727a3594aae", [:mix], [{:db_connection, "~> 1.1", [hex: :db_connection, optional: true]}, {:decimal, "~> 1.2", [hex: :decimal, optional: false]}, {:mariaex, "~> 0.8.0", [hex: :mariaex, optional: true]}, {:poison, "~> 2.2 or ~> 3.0", [hex: :poison, optional: true]}, {:poolboy, "~> 1.5", [hex: :poolboy, optional: false]}, {:postgrex, "~> 0.13.0", [hex: :postgrex, optional: true]}, {:sbroker, "~> 1.0", [hex: :sbroker, optional: true]}]},
   "elixir_make": {:hex, :elixir_make, "0.4.1", "6628b86053190a80b9072382bb9756a6c78624f208ec0ff22cb94c8977d80060", [:mix], []},
   "eternal": {:hex, :eternal, "1.2.0", "e2a6b6ce3b8c248f7dc31451aefca57e3bdf0e48d73ae5043229380a67614c41", [:mix], []},

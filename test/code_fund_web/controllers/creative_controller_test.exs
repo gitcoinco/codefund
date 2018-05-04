@@ -1,7 +1,5 @@
 defmodule CodeFundWeb.CreativeControllerTest do
   use CodeFundWeb.ConnCase
-  import SharedExample.ControllerTests
-  import CodeFund.Factory
 
   setup do
     valid_params = string_params_with_assocs(:creative, user: nil)

@@ -3,7 +3,7 @@ defmodule CodeFundWeb.UserController do
   import Ecto.Query
   alias CodeFund.Repo
   alias CodeFund.Schema.User
-  use Framework.CRUDControllerFunctions, ["User", [:show, :edit, :update]]
+  use Framework.Controller.Stub.Definitions, ["User", [:show, :edit, :update]]
 
   plug(
     CodeFundWeb.Plugs.RequireOwnership,

@@ -56,7 +56,12 @@ defmodule CodeFund.Mixfile do
   defp deps do
     [
       {:credo, "~> 0.9.0", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      # {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:dialyxir,
+       github: "asummers/dialyxir",
+       branch: "elixir-formatter",
+       runtime: false,
+       only: [:dev, :test]},
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},

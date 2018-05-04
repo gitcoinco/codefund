@@ -25,14 +25,17 @@ defmodule Framework.Phoenix.Form.Helpers do
           Phoenix.HTML.safe()
   defp input_group(field_html, label, error_tag, col_class \\ "col-sm-10") do
     form_field_contents =
-      content_tag(:div, content_tag(:div, field_html, class: "input-group"), class: col_class)
+      content_tag(
+        :div,
+        [content_tag(:div, field_html, class: "input-group"), error_tag],
+        class: col_class
+      )
 
     content_tag(
       :div,
       [
         content_tag(:label, label, class: "control-label col-sm-2"),
-        form_field_contents,
-        error_tag
+        form_field_contents
       ],
       class: "form-group row"
     )

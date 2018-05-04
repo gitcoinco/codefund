@@ -1,5 +1,5 @@
-defmodule Framework.CRUDControllerFunctions do
-  import Framework.Module
+defmodule Framework.Controller.Stub.Definitions do
+  import Framework.{Module, Path}
   use CodeFundWeb, :controller
 
   @all_actions [
@@ -25,26 +25,58 @@ defmodule Framework.CRUDControllerFunctions do
   end
 
   @spec build_actions(String.t(), list) :: Macro.t()
-  def build_actions(schema, actions) when is_list(actions) do
+  defp build_actions(schema, actions) when is_list(actions) do
     for action <- actions do
       build_action(schema, action, [])
     end
   end
 
   @spec build_action(String.t(), atom, list) :: Macro.t()
-  def build_action(schema, action, block) when is_list(block) do
+  def build_action(schema, action, block) do
     quote do
       def unquote(action)(conn, params) do
         block = unquote(block)
 
-        conn =
-          case Keyword.has_key?(block, :hooks) do
-            true -> Framework.CRUDControllerFunctions.assign(conn, block[:hooks].(conn, params))
-            false -> conn
-          end
-          |> Framework.CRUDControllerFunctions.assign(block[:assigns] || [])
+        after_hooks = [
+          success: block[:after_hooks][:success] || fn _object, _params -> [] end,
+          error: block[:after_hooks][:error] || fn _conn, _params -> [] end
+        ]
 
-        Framework.CRUDControllerFunctions.stubs(unquote(action), unquote(schema), conn, params)
+        params =
+          case Keyword.has_key?(block, :params) do
+            true ->
+              {key, value} = block[:params].(conn, params)
+
+              put_in(
+                params,
+                ["params", pretty(unquote(schema), :downcase, :singular), key],
+                value
+              )
+
+            false ->
+              params
+          end
+
+        conn =
+          case Keyword.has_key?(block, :before_hook) do
+            true ->
+              Framework.Controller.Stub.Definitions.assign(
+                conn,
+                block[:before_hook].(conn, params)
+              )
+
+            false ->
+              conn
+          end
+          |> Framework.Controller.Stub.Definitions.assign(block[:assigns] || [])
+
+        Framework.Controller.Stub.Definitions.action(
+          unquote(action),
+          unquote(schema),
+          conn,
+          params,
+          after_hooks
+        )
       end
     end
   end
@@ -55,14 +87,8 @@ defmodule Framework.CRUDControllerFunctions do
     Map.put(conn, :assigns, assigns)
   end
 
-  @spec assign(atom, list) :: Macro.t()
-  defmacro defstub(definition, do: block) when is_list(block) do
-    {function, [schema]} = Macro.decompose_call(definition)
-    build_action(schema, function, block)
-  end
-
-  @spec stubs(atom, String.t(), %Plug.Conn{}, map) :: %Plug.Conn{}
-  def stubs(:index, schema, conn, params) do
+  @spec action(atom, String.t(), %Plug.Conn{}, map, list) :: %Plug.Conn{}
+  def action(:index, schema, conn, params, _after_hooks) do
     case apply(module_name(schema, :context), paginate(schema), [current_user(conn), params]) do
       {:ok, assigns} ->
         render(conn, "index.html", Map.merge(assigns, %{schema: schema}))
@@ -75,11 +101,11 @@ defmodule Framework.CRUDControllerFunctions do
           :error,
           "There was an error rendering #{pretty(schema, :upcase, :plural)}. #{inspect(error)}"
         )
-        |> redirect(to: path(schema, conn, :index))
+        |> redirect(to: construct_path(conn, :index))
     end
   end
 
-  def stubs(:new, schema, conn, _params) do
+  def action(:new, schema, conn, _params, _after_hooks) do
     render(
       conn,
       CodeFundWeb.SharedView,
@@ -90,34 +116,45 @@ defmodule Framework.CRUDControllerFunctions do
     )
   end
 
-  def stubs(:create, schema, conn, params) do
+  def action(:create, schema, conn, params, after_hooks) do
     module_name(schema, :context)
     |> apply(:"create_#{pretty(schema, :downcase, :singular)}", [
       fetch_post_params(schema, params)
     ])
     |> case do
       {:ok, object} ->
+        after_hooks[:success].(object, params)
+
+        conn =
+          conn
+          |> assign(:schema, schema)
+          |> assign(:object, object)
+
         conn
         |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} created successfully.")
-        |> redirect(to: path(schema, conn, :show, object))
+        |> redirect(to: construct_path(conn, :show))
 
       {:error, changeset} ->
         report(:warning, "Changeset Error")
+        error_assigns = after_hooks[:error].(conn, params)
 
         conn
         |> put_status(422)
         |> render(
           CodeFundWeb.SharedView,
           "form_container.html",
-          schema: schema,
-          conn: conn,
-          action: :create,
-          changeset: changeset
+          Enum.concat(
+            error_assigns,
+            schema: schema,
+            conn: conn,
+            action: :create,
+            changeset: changeset
+          )
         )
     end
   end
 
-  def stubs(:show, schema, conn, %{"id" => id}) do
+  def action(:show, schema, conn, %{"id" => id}, _after_hooks) do
     render(
       conn,
       "show.html",
@@ -128,7 +165,7 @@ defmodule Framework.CRUDControllerFunctions do
     )
   end
 
-  def stubs(:edit, schema, conn, %{"id" => id}) do
+  def action(:edit, schema, conn, %{"id" => id}, _after_hooks) do
     object = get!(schema, id)
     current_user = current_user(conn)
 
@@ -147,7 +184,7 @@ defmodule Framework.CRUDControllerFunctions do
     )
   end
 
-  def stubs(:update, schema, conn, %{"id" => id} = params) do
+  def action(:update, schema, conn, %{"id" => id} = params, after_hooks) do
     object = get!(schema, id)
     current_user = current_user(conn)
 
@@ -158,12 +195,20 @@ defmodule Framework.CRUDControllerFunctions do
     ])
     |> case do
       {:ok, object} ->
+        after_hooks[:success].(object, params)
+
+        conn =
+          conn
+          |> assign(:schema, schema)
+          |> assign(:object, object)
+
         conn
         |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} updated successfully.")
-        |> redirect(to: path(schema, conn, :show, object))
+        |> redirect(to: construct_path(conn, :show))
 
       {:error, changeset} ->
         report(:warning, "Changeset Error")
+        after_hooks[:error].(conn, params)
 
         conn
         |> put_status(422)
@@ -183,14 +228,19 @@ defmodule Framework.CRUDControllerFunctions do
     end
   end
 
-  def stubs(:delete, schema, conn, %{"id" => id}) do
-    {:ok, _object} =
+  def action(:delete, schema, conn, %{"id" => id}, _after_hooks) do
+    {:ok, object} =
       module_name(schema, :context)
       |> apply(:"delete_#{pretty(schema, :downcase, :singular)}", [get!(schema, id)])
 
+    conn =
+      conn
+      |> assign(:schema, schema)
+      |> assign(:object, object)
+
     conn
     |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} deleted successfully.")
-    |> redirect(to: path(schema, conn, :index))
+    |> redirect(to: construct_path(conn, :index))
   end
 
   @spec get!(String.t(), UUID.t()) :: struct
@@ -203,23 +253,6 @@ defmodule Framework.CRUDControllerFunctions do
 
   @spec paginate(String.t()) :: atom
   defp paginate(schema), do: :"paginate_#{schema |> String.downcase() |> Inflex.pluralize()}"
-
-  @spec path(String.t(), %Plug.Conn{}, atom) :: String.t()
-  defp path(schema, conn, action),
-    do:
-      apply(CodeFundWeb.Router.Helpers, :"#{pretty(schema, :downcase, :singular)}_path", [
-        conn,
-        action
-      ])
-
-  @spec path(String.t(), %Plug.Conn{}, atom, Ecto.Schema.t()) :: String.t()
-  defp path(schema, conn, action, object),
-    do:
-      apply(CodeFundWeb.Router.Helpers, :"#{pretty(schema, :downcase, :singular)}_path", [
-        conn,
-        action,
-        object
-      ])
 
   @spec fetch_object_params(String.t(), map) :: any()
   defp fetch_object_params(schema, params), do: params[schema |> String.downcase()]

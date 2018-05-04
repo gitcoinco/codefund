@@ -5,7 +5,7 @@ defmodule CodeFund.Schema.PropertyTest do
 
   describe "properties" do
     setup do
-      valid_attrs = build(:property) |> Map.from_struct()
+      valid_attrs = build(:property, user_id: insert(:user).id) |> Map.from_struct()
       {:ok, %{valid_attrs: valid_attrs}}
     end
 
