@@ -43,9 +43,9 @@ defmodule Framework.Controller.Stub.Definitions do
         ]
 
         params =
-          case Keyword.has_key?(block, :params) do
+          case Keyword.has_key?(block, :inject_params) do
             true ->
-              {key, value} = block[:params].(conn, params)
+              {key, value} = block[:inject_params].(conn, params)
 
               put_in(
                 params,
