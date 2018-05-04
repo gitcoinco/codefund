@@ -2,71 +2,60 @@ defmodule Framework.Controller.AssignsError do
   defexception [:message, :key]
 end
 
-defmodule Framework.Controller.Assigns do
-  @spec assigns(list) :: list
-  def assigns(assigns \\ []) do
-    [assigns: assigns]
+defmodule Framework.Controller.Assigns.DSL do
+  @all_actions [
+    [:before_hook],
+    [:inject_params],
+    [:after_hooks, :success],
+    [:after_hooks, :error]
+  ]
+
+  defmacro __using__(_nothing) do
+    [build_actions(@all_actions), create_assigns()]
   end
 
-  @spec before_hook(list, function) :: list
-  def before_hook(assigns \\ [after_hooks: []], function)
-
-  def before_hook([before_hook: before_hook], _function) when not is_nil(before_hook) do
-    raise exception("before_hook")
-  end
-
-  def before_hook(assigns, function) do
-    wrapper = fn conn, params -> function.(conn, params) end
-
-    assigns
-    |> Keyword.put(:before_hook, wrapper)
-  end
-
-  @spec inject_params(list, function) :: list
-  def inject_params(assigns \\ [after_hooks: []], function)
-
-  def inject_params([params: params], _function) when not is_nil(params) do
-    raise exception("params")
-  end
-
-  def inject_params(assigns, function) do
-    wrapper = fn conn, params ->
-      function.(conn, params)
+  @spec build_actions(list) :: Macro.t()
+  defp build_actions(actions) when is_list(actions) do
+    for action <- actions do
+      build_action(action)
     end
-
-    assigns
-    |> Keyword.put(:params, wrapper)
   end
 
-  @spec success(list, function) :: list
-  def success(assigns \\ [after_hooks: []], function)
-
-  def success([after_hooks: [success: success]], _function) when not is_nil(success) do
-    raise exception("success")
+  @spec build_action(list) :: Macro.t()
+  defp build_action(action) do
+    quote do
+      def unquote(List.last(action))(assigns \\ [after_hooks: []], function),
+        do: Framework.Controller.Assigns.DSL.assign_or_raise(assigns, function, unquote(action))
+    end
   end
 
-  def success(assigns, function) do
-    wrapper = fn object, params -> function.(object, params) end
-
-    assigns
-    |> put_in([:after_hooks, :success], wrapper)
+  defp create_assigns() do
+    quote do
+      @spec assigns(list) :: list
+      def assigns(assigns \\ []) do
+        [assigns: assigns]
+      end
+    end
   end
 
-  @spec error(list, function) :: list
-  def error(assigns \\ [after_hooks: []], function)
+  def assign_or_raise(assigns, function, keys) when is_list(keys) do
+    case is_nil(get_in(assigns, keys)) do
+      true ->
+        wrapper = fn object, params -> function.(object, params) end
 
-  def error([after_hooks: [error: error]], _function) when not is_nil(error) do
-    raise exception("error")
-  end
+        assigns
+        |> put_in(keys, wrapper)
 
-  def error(assigns, function) do
-    wrapper = fn conn, params -> function.(conn, params) end
-
-    assigns
-    |> put_in([:after_hooks, :error], wrapper)
+      false ->
+        raise exception(List.last(keys))
+    end
   end
 
   defp exception(key) do
     %Framework.Controller.AssignsError{message: "#{key} already set on stub assigns", key: key}
   end
+end
+
+defmodule Framework.Controller.Assigns do
+  use Framework.Controller.Assigns.DSL
 end

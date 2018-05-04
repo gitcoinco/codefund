@@ -50,6 +50,69 @@ defmodule CodeFund.ClicksTest do
       assert {:error, %Ecto.Changeset{}} = Clicks.create_click(@invalid_attrs)
     end
 
+    test "by_user_in_date_range/3 generates a query of clicks by property.user_id in date ranges" do
+      property = insert(:property)
+      query = Clicks.by_user_in_date_range(property.user_id, "2018-01-01", "2018-01-03")
+      assert query.__struct__ == Ecto.Query
+      assert query.from == {"clicks", CodeFund.Schema.Click}
+      assert query.joins |> Enum.count() == 1
+      assert query.joins |> List.first() |> Map.get(:source) == {nil, CodeFund.Schema.Property}
+
+      assert query.joins |> List.first() |> Map.get(:on) |> Map.get(:expr) ==
+               {:==, [],
+                [
+                  {{:., [], [{:&, [], [0]}, :property_id]}, [], []},
+                  {{:., [], [{:&, [], [1]}, :id]}, [], []}
+                ]}
+
+      assert query.wheres |> List.first() |> Map.get(:params) == [
+               {property.user_id, {1, :user_id}},
+               {~N[2018-01-01 00:00:00], {0, :inserted_at}},
+               {~N[2018-01-03 00:00:00], {0, :inserted_at}}
+             ]
+
+      assert query.wheres |> List.first() |> Map.get(:op) == :and
+    end
+
+    test "distribution_amount counts up distributions on clicks and the click count" do
+      property = insert(:property)
+
+      insert(
+        :click,
+        property: property,
+        inserted_at: ~N[2018-01-02 00:00:00],
+        distribution_amount: "2.00",
+        status: 1
+      )
+
+      insert(
+        :click,
+        property: property,
+        inserted_at: ~N[2018-01-02 00:00:00],
+        distribution_amount: "2.00",
+        status: 1
+      )
+
+      insert(
+        :click,
+        property: insert(:property, user: property.user),
+        inserted_at: ~N[2018-01-04 00:00:00],
+        distribution_amount: "2.00"
+      )
+
+      insert(
+        :click,
+        property: insert(:property),
+        inserted_at: ~N[2018-01-02 00:00:00],
+        distribution_amount: "2.00"
+      )
+
+      assert Clicks.distribution_amount(property.user_id, "2018-01-01", "2018-01-03") == %{
+               "click_count" => 2,
+               "distribution_amount" => Decimal.new("4.00")
+             }
+    end
+
     test "update_click/2 with valid data updates the click" do
       click = insert(:click, @valid_attrs)
       assert {:ok, click} = Clicks.update_click(click, @update_attrs)
