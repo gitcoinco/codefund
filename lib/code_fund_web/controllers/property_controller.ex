@@ -1,25 +1,28 @@
 defmodule CodeFundWeb.PropertyController do
-  @module "Property"
   use CodeFundWeb, :controller
   use Framework.Controller
 
-  use Framework.Controller.Stub.Definitions, [@module, [:index, :show, :delete]]
+  use Framework.Controller.Stub.Definitions, [:index, :show, :delete]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "developer"])
 
-  defstub new(@module) do
+  defconfig do
+    [schema: "Property"]
+  end
+
+  defstub new do
     before_hook(&fields/2)
   end
 
-  defstub create(@module) do
+  defstub create do
     inject_params(&CodeFundWeb.Hooks.Shared.join_to_user_id/2)
     |> error(&fields/2)
   end
 
-  defstub edit(@module) do
+  defstub edit do
     before_hook(&fields/2)
   end
 
-  defstub update(@module) do
+  defstub update do
     before_hook(&fields/2)
   end
 

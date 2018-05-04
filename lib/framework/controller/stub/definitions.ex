@@ -12,27 +12,36 @@ defmodule Framework.Controller.Stub.Definitions do
     :delete
   ]
 
-  defmacro __using__([schema, :all]) do
-    build_actions(schema, @all_actions)
+  defmacro __using__([:all]) do
+    quote do
+      apply(__MODULE__, :config, [])
+    end
+    |> build_actions(@all_actions)
   end
 
-  defmacro __using__([schema, :all, except: exclusions]) when is_list(exclusions) do
-    build_actions(schema, @all_actions -- exclusions)
+  defmacro __using__([:all, except: exclusions]) when is_list(exclusions) do
+    quote do
+      apply(__MODULE__, :config, [])
+    end
+    |> build_actions(@all_actions -- exclusions)
   end
 
-  defmacro __using__([schema, actions]) when is_list(actions) do
-    build_actions(schema, actions)
+  defmacro __using__(actions) when is_list(actions) do
+    quote do
+      apply(__MODULE__, :config, [])
+    end
+    |> build_actions(actions)
   end
 
-  @spec build_actions(String.t(), list) :: Macro.t()
-  defp build_actions(schema, actions) when is_list(actions) do
+  @spec build_actions(Macro.t(), list) :: Macro.t()
+  defp build_actions(config, actions) when is_list(actions) do
     for action <- actions do
-      build_action(schema, action, [])
+      build_action(config, action, [])
     end
   end
 
-  @spec build_action(String.t(), atom, list) :: Macro.t()
-  def build_action(schema, action, block) do
+  @spec build_action(%Controller.Config{}, atom, list) :: Macro.t()
+  def build_action(config, action, block) do
     quote do
       def unquote(action)(conn, params) do
         block = unquote(block)
@@ -49,7 +58,7 @@ defmodule Framework.Controller.Stub.Definitions do
 
               put_in(
                 params,
-                ["params", pretty(unquote(schema), :downcase, :singular), key],
+                ["params", pretty(unquote(config).schema, :downcase, :singular), key],
                 value
               )
 
@@ -72,8 +81,8 @@ defmodule Framework.Controller.Stub.Definitions do
 
         Framework.Controller.Stub.Definitions.action(
           unquote(action),
-          unquote(schema),
-          conn,
+          unquote(config),
+          conn |> put_private(:controller_config, unquote(config)),
           params,
           after_hooks
         )
@@ -87,11 +96,14 @@ defmodule Framework.Controller.Stub.Definitions do
     Map.put(conn, :assigns, assigns)
   end
 
-  @spec action(atom, String.t(), %Plug.Conn{}, map, list) :: %Plug.Conn{}
-  def action(:index, schema, conn, params, _after_hooks) do
-    case apply(module_name(schema, :context), paginate(schema), [current_user(conn), params]) do
+  @spec action(atom, %Controller.Config{}, %Plug.Conn{}, map, list) :: %Plug.Conn{}
+  def action(:index, config, conn, params, _after_hooks) do
+    case apply(module_name(config.schema, :context), paginate(config.schema), [
+           current_user(conn),
+           params
+         ]) do
       {:ok, assigns} ->
-        render(conn, "index.html", Map.merge(assigns, %{schema: schema}))
+        render(conn, "index.html", assigns)
 
       error ->
         report(:error)
@@ -99,27 +111,29 @@ defmodule Framework.Controller.Stub.Definitions do
         conn
         |> put_flash(
           :error,
-          "There was an error rendering #{pretty(schema, :upcase, :plural)}. #{inspect(error)}"
+          "There was an error rendering #{pretty(config.schema, :upcase, :plural)}. #{
+            inspect(error)
+          }"
         )
         |> redirect(to: construct_path(conn, :index))
     end
   end
 
-  def action(:new, schema, conn, _params, _after_hooks) do
-    render(
-      conn,
+  def action(:new, config, conn, _params, _after_hooks) do
+    conn
+    |> put_private(:controller_config, config)
+    |> render(
       CodeFundWeb.SharedView,
       "form_container.html",
-      schema: schema,
       action: :create,
       conn: conn
     )
   end
 
-  def action(:create, schema, conn, params, after_hooks) do
-    module_name(schema, :context)
-    |> apply(:"create_#{pretty(schema, :downcase, :singular)}", [
-      fetch_post_params(schema, params)
+  def action(:create, config, conn, params, after_hooks) do
+    module_name(config.schema, :context)
+    |> apply(:"create_#{pretty(config.schema, :downcase, :singular)}", [
+      fetch_post_params(config.schema, params)
     ])
     |> case do
       {:ok, object} ->
@@ -127,11 +141,11 @@ defmodule Framework.Controller.Stub.Definitions do
 
         conn =
           conn
-          |> assign(:schema, schema)
+          |> put_private(:controller_config, config)
           |> assign(:object, object)
 
         conn
-        |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} created successfully.")
+        |> put_flash(:info, "#{pretty(config.schema, :upcase, :singular)} created successfully.")
         |> redirect(to: construct_path(conn, :show))
 
       {:error, changeset} ->
@@ -139,13 +153,13 @@ defmodule Framework.Controller.Stub.Definitions do
         error_assigns = after_hooks[:error].(conn, params)
 
         conn
+        |> put_private(:controller_config, config)
         |> put_status(422)
         |> render(
           CodeFundWeb.SharedView,
           "form_container.html",
           Enum.concat(
             error_assigns,
-            schema: schema,
             conn: conn,
             action: :create,
             changeset: changeset
@@ -154,28 +168,28 @@ defmodule Framework.Controller.Stub.Definitions do
     end
   end
 
-  def action(:show, schema, conn, %{"id" => id}, _after_hooks) do
-    render(
-      conn,
+  def action(:show, config, conn, %{"id" => id}, _after_hooks) do
+    conn
+    |> put_private(:controller_config, config)
+    |> render(
       "show.html",
       Keyword.new([
-        {pretty(schema, :downcase, :singular) |> String.to_atom(), get!(schema, id)},
-        {:schema, schema}
+        {pretty(config.schema, :downcase, :singular) |> String.to_atom(), get!(config.schema, id)}
       ])
     )
   end
 
-  def action(:edit, schema, conn, %{"id" => id}, _after_hooks) do
-    object = get!(schema, id)
+  def action(:edit, config, conn, %{"id" => id}, _after_hooks) do
+    object = get!(config.schema, id)
     current_user = current_user(conn)
 
-    render(
-      conn,
+    conn
+    |> put_private(:controller_config, config)
+    |> render(
       CodeFundWeb.SharedView,
       "form_container.html",
       Keyword.new([
-        {pretty(schema, :downcase, :singular) |> String.to_atom(), object},
-        {:schema, schema},
+        {pretty(config.schema, :downcase, :singular) |> String.to_atom(), object},
         {:object, object},
         {:action, :update},
         {:conn, conn},
@@ -184,14 +198,14 @@ defmodule Framework.Controller.Stub.Definitions do
     )
   end
 
-  def action(:update, schema, conn, %{"id" => id} = params, after_hooks) do
-    object = get!(schema, id)
+  def action(:update, config, conn, %{"id" => id} = params, after_hooks) do
+    object = get!(config.schema, id)
     current_user = current_user(conn)
 
-    module_name(schema, :context)
-    |> apply(:"update_#{pretty(schema, :downcase, :singular)}", [
+    module_name(config.schema, :context)
+    |> apply(:"update_#{pretty(config.schema, :downcase, :singular)}", [
       object,
-      fetch_post_params(schema, params)
+      fetch_post_params(config.schema, params)
     ])
     |> case do
       {:ok, object} ->
@@ -199,11 +213,11 @@ defmodule Framework.Controller.Stub.Definitions do
 
         conn =
           conn
-          |> assign(:schema, schema)
+          |> put_private(:controller_config, config)
           |> assign(:object, object)
 
         conn
-        |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} updated successfully.")
+        |> put_flash(:info, "#{pretty(config.schema, :upcase, :singular)} updated successfully.")
         |> redirect(to: construct_path(conn, :show))
 
       {:error, changeset} ->
@@ -211,13 +225,13 @@ defmodule Framework.Controller.Stub.Definitions do
         after_hooks[:error].(conn, params)
 
         conn
+        |> put_private(:controller_config, config)
         |> put_status(422)
         |> render(
           CodeFundWeb.SharedView,
           "form_container.html",
           Keyword.new([
-            {pretty(schema, :downcase, :singular) |> String.to_atom(), object},
-            {:schema, schema},
+            {pretty(config.schema, :downcase, :singular) |> String.to_atom(), object},
             {:object, object},
             {:action, :update},
             {:conn, conn},
@@ -228,18 +242,18 @@ defmodule Framework.Controller.Stub.Definitions do
     end
   end
 
-  def action(:delete, schema, conn, %{"id" => id}, _after_hooks) do
+  def action(:delete, config, conn, %{"id" => id}, _after_hooks) do
     {:ok, object} =
-      module_name(schema, :context)
-      |> apply(:"delete_#{pretty(schema, :downcase, :singular)}", [get!(schema, id)])
+      module_name(config.schema, :context)
+      |> apply(:"delete_#{pretty(config.schema, :downcase, :singular)}", [get!(config.schema, id)])
 
     conn =
       conn
-      |> assign(:schema, schema)
       |> assign(:object, object)
 
     conn
-    |> put_flash(:info, "#{pretty(schema, :upcase, :singular)} deleted successfully.")
+    |> put_private(:controller_config, config)
+    |> put_flash(:info, "#{pretty(config.schema, :upcase, :singular)} deleted successfully.")
     |> redirect(to: construct_path(conn, :index))
   end
 

@@ -1,11 +1,14 @@
 defmodule CodeFundWeb.User.DistributionController do
-  @module "Distribution"
   use CodeFundWeb, :controller
   use Framework.Controller
 
   alias CodeFund.Users
-  use Framework.Controller.Stub.Definitions, [@module, [:index]]
+  use Framework.Controller.Stub.Definitions, [:index]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin"])
+
+  defconfig do
+    [schema: "Distribution", nested: ["User"]]
+  end
 
   def search(conn, %{"user_id" => user_id}) do
     user = Users.get_user!(user_id)
@@ -17,11 +20,11 @@ defmodule CodeFundWeb.User.DistributionController do
     |> redirect(to: user_path(conn, :index))
   end
 
-  defstub new("Distribution") do
+  defstub new do
     before_hook(&assigns_list/2)
   end
 
-  defstub create("Distribution") do
+  defstub create do
     before_hook(&assigns_list/2)
     |> success(&success_callback/2)
     |> error(&assigns_list/2)

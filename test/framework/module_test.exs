@@ -35,17 +35,30 @@ defmodule Framework.ModuleTest do
 
   describe "fully_qualified/1" do
     test "it returns a fully qualified module from a conn if a nested resource is present" do
-      conn = %{assigns: %{nested: ["User"], schema: "Distribution"}}
+      conn = %{
+        private: %{
+          controller_config: %Controller.Config{nested: ["User"], schema: "Distribution"}
+        }
+      }
+
       assert Framework.Module.fully_qualified(conn) == User.Distribution
     end
 
     test "it returns a fully qualified module from a conn if multiple nested resources are present" do
-      conn = %{assigns: %{nested: ["User", "Thingy"], schema: "Distribution"}}
+      conn = %{
+        private: %{
+          controller_config: %Controller.Config{
+            nested: ["User", "Thingy"],
+            schema: "Distribution"
+          }
+        }
+      }
+
       assert Framework.Module.fully_qualified(conn) == User.Thingy.Distribution
     end
 
     test "it returns a fully qualified module from a conn if a nested resource is not present" do
-      conn = %{assigns: %{schema: "Distribution"}}
+      conn = %{private: %{controller_config: %Controller.Config{schema: "Distribution"}}}
       assert Framework.Module.fully_qualified(conn) == Distribution
     end
   end

@@ -1,30 +1,32 @@
 defmodule CodeFundWeb.ThemeController do
-  @module "Theme"
   use CodeFundWeb, :controller
   use Framework.Controller
 
   use Framework.Controller.Stub.Definitions, [
-    @module,
     :all,
     except: [:new, :update, :create, :edit]
   ]
 
+  defconfig do
+    [schema: "Theme"]
+  end
+
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin"])
 
-  defstub new(@module) do
+  defstub new do
     assigns(template_choices: controller_assigns())
   end
 
-  defstub edit(@module) do
+  defstub edit do
     assigns(template_choices: controller_assigns())
   end
 
-  defstub update(@module) do
+  defstub update do
     assigns(template_choices: controller_assigns())
   end
 
-  defstub create(@module) do
+  defstub create do
     assigns(template_choices: controller_assigns())
   end
 

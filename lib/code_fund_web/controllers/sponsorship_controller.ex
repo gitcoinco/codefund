@@ -1,8 +1,7 @@
 defmodule CodeFundWeb.SponsorshipController do
-  @module "Sponsorship"
   use CodeFundWeb, :controller
   use Framework.Controller
-  use Framework.Controller.Stub.Definitions, [@module, [:index, :show, :delete]]
+  use Framework.Controller.Stub.Definitions, [:index, :show, :delete]
 
   alias CodeFund.Schema.{Sponsorship, User}
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
@@ -10,20 +9,24 @@ defmodule CodeFundWeb.SponsorshipController do
 
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
-  defstub new(@module) do
+  defconfig do
+    [schema: "Sponsorship"]
+  end
+
+  defstub new do
     before_hook(&sponsorship/2)
   end
 
-  defstub create(@module) do
+  defstub create do
     inject_params(&CodeFundWeb.Hooks.Shared.join_to_user_id/2)
     |> before_hook(&sponsorship/2)
   end
 
-  defstub edit(@module) do
+  defstub edit do
     before_hook(&sponsorship/2)
   end
 
-  defstub update(@module) do
+  defstub update do
     before_hook(&sponsorship/2)
   end
 
