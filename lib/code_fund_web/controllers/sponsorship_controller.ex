@@ -39,11 +39,15 @@ defmodule CodeFundWeb.SponsorshipController do
   end
 
   defp base(sponsorship, conn) do
-    campaign_choices =
-      Campaigns.by_user(conn.assigns.current_user) |> FormHelpers.repo_objects_to_options()
+    user =
+      case sponsorship.user_id |> is_nil do
+        true -> conn.assigns.current_user
+        false -> sponsorship.user
+      end
 
-    creative_choices =
-      Creatives.by_user(conn.assigns.current_user) |> FormHelpers.repo_objects_to_options()
+    campaign_choices = Campaigns.by_user(user) |> FormHelpers.repo_objects_to_options()
+
+    creative_choices = Creatives.by_user(user) |> FormHelpers.repo_objects_to_options()
 
     property_choices = Properties.list_properties() |> FormHelpers.repo_objects_to_options()
 
