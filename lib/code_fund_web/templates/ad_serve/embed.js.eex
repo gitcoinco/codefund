@@ -87,7 +87,7 @@ var _codefund = {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open("GET", url, true);
-    xobj.onreadystatechange = () => {
+    xobj.onreadystatechange = function () {
       if (xobj.readyState === 4 && xobj.status === 200) {
         const json = JSON.parse(xobj.responseText);
         callback(json);

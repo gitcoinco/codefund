@@ -21,7 +21,6 @@
 
   <!-- CDN -->
   <script src="//www.google.com/jsapi"></script>
-  <script src="https://wchat.freshchat.com/js/widget.js"></script>
 
   <!-- Main scripts (leave in header for Turbolinks) -->
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
@@ -154,7 +153,6 @@
     </span>
   </footer>
 
-  <%= chat_tag(Coherence.current_user(@conn)) %>
   <%= ga_tag() %>
 </body>
 </html>

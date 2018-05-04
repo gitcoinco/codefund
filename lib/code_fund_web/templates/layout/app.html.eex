@@ -21,15 +21,12 @@
 
   <!-- Main scripts (leave in header for Turbolinks) -->
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-
-  <script src="https://wchat.freshchat.com/js/widget.js"></script>
 </head>
 
 <body class="<%= body_class @conn, "app mt-5" %>">
   <%= flash_element(@conn) %>
   <%= render @view_module, @view_template, assigns %>
 
-  <%= chat_tag(Coherence.current_user(@conn)) %>
   <%= ga_tag() %>
 </body>
 </html>

@@ -64,6 +64,16 @@
         "infra",
         "tool"
       ]
+    },
+    {
+      "login": "limonte",
+      "name": "Limon Monte",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6059356?v=4",
+      "profile": "https://limonte.github.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
