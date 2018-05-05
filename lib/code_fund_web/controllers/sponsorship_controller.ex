@@ -55,7 +55,14 @@ defmodule CodeFundWeb.SponsorshipController do
       campaign_id: [type: :select, label: "Campaign", opts: [choices: campaign_choices]],
       property_id: [type: :select, label: "Property", opts: [choices: property_choices]],
       creative_id: [type: :select, label: "Creative", opts: [choices: creative_choices]],
-      bid_amount: [type: :currency_input, label: "CPC"],
+      bid_amount: [
+        type: :currency_input,
+        label: "CPC",
+        opts: [
+          step: "0.01",
+          min: "0"
+        ]
+      ],
       redirect_url: [type: :text_input, label: "URL", opts: [placeholder: "https://"]]
     ]
 
@@ -66,7 +73,11 @@ defmodule CodeFundWeb.SponsorshipController do
             override_revenue_rate: [
               type: :currency_input,
               label: "Override Revenue Rate",
-              opts: [value: set_override_revenue_rate_default(sponsorship)]
+              opts: [
+                value: set_override_revenue_rate_default(sponsorship),
+                step: "0.001",
+                min: "0"
+              ]
             ]
           ]
 
@@ -75,7 +86,11 @@ defmodule CodeFundWeb.SponsorshipController do
             override_revenue_rate: [
               type: :hidden_input,
               label: " ",
-              opts: [value: set_override_revenue_rate_default(sponsorship)]
+              opts: [
+                value: set_override_revenue_rate_default(sponsorship),
+                step: "0.001",
+                min: "0"
+              ]
             ]
           ]
       end
