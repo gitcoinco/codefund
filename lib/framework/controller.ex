@@ -3,6 +3,7 @@ defmodule Framework.Controller do
     quote do
       import Framework.Controller.Stub, only: [defstub: 2]
       import Framework.Controller.Assigns
+      import Framework.Controller.Config
     end
   end
 

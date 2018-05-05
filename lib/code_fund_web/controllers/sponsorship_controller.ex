@@ -1,8 +1,7 @@
 defmodule CodeFundWeb.SponsorshipController do
-  @module "Sponsorship"
   use CodeFundWeb, :controller
   use Framework.Controller
-  use Framework.Controller.Stub.Definitions, [@module, [:index, :show, :delete]]
+  use Framework.Controller.Stub.Definitions, [:index, :show, :delete]
 
   alias CodeFund.Schema.{Sponsorship, User}
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
@@ -10,20 +9,24 @@ defmodule CodeFundWeb.SponsorshipController do
 
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
-  defstub new(@module) do
+  defconfig do
+    [schema: "Sponsorship"]
+  end
+
+  defstub new do
     before_hook(&sponsorship/2)
   end
 
-  defstub create(@module) do
+  defstub create do
     inject_params(&CodeFundWeb.Hooks.Shared.join_to_user_id/2)
     |> before_hook(&sponsorship/2)
   end
 
-  defstub edit(@module) do
+  defstub edit do
     before_hook(&sponsorship/2)
   end
 
-  defstub update(@module) do
+  defstub update do
     before_hook(&sponsorship/2)
   end
 
@@ -36,11 +39,15 @@ defmodule CodeFundWeb.SponsorshipController do
   end
 
   defp base(sponsorship, conn) do
-    campaign_choices =
-      Campaigns.by_user(conn.assigns.current_user) |> FormHelpers.repo_objects_to_options()
+    user =
+      case sponsorship.user_id |> is_nil do
+        true -> conn.assigns.current_user
+        false -> sponsorship.user
+      end
 
-    creative_choices =
-      Creatives.by_user(conn.assigns.current_user) |> FormHelpers.repo_objects_to_options()
+    campaign_choices = Campaigns.by_user(user) |> FormHelpers.repo_objects_to_options()
+
+    creative_choices = Creatives.by_user(user) |> FormHelpers.repo_objects_to_options()
 
     property_choices = Properties.list_properties() |> FormHelpers.repo_objects_to_options()
 
@@ -48,7 +55,14 @@ defmodule CodeFundWeb.SponsorshipController do
       campaign_id: [type: :select, label: "Campaign", opts: [choices: campaign_choices]],
       property_id: [type: :select, label: "Property", opts: [choices: property_choices]],
       creative_id: [type: :select, label: "Creative", opts: [choices: creative_choices]],
-      bid_amount: [type: :currency_input, label: "CPC"],
+      bid_amount: [
+        type: :currency_input,
+        label: "CPC",
+        opts: [
+          step: "0.01",
+          min: "0"
+        ]
+      ],
       redirect_url: [type: :text_input, label: "URL", opts: [placeholder: "https://"]]
     ]
 
@@ -59,7 +73,11 @@ defmodule CodeFundWeb.SponsorshipController do
             override_revenue_rate: [
               type: :currency_input,
               label: "Override Revenue Rate",
-              opts: [value: set_override_revenue_rate_default(sponsorship)]
+              opts: [
+                value: set_override_revenue_rate_default(sponsorship),
+                step: "0.001",
+                min: "0"
+              ]
             ]
           ]
 
@@ -68,7 +86,11 @@ defmodule CodeFundWeb.SponsorshipController do
             override_revenue_rate: [
               type: :hidden_input,
               label: " ",
-              opts: [value: set_override_revenue_rate_default(sponsorship)]
+              opts: [
+                value: set_override_revenue_rate_default(sponsorship),
+                step: "0.001",
+                min: "0"
+              ]
             ]
           ]
       end

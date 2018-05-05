@@ -21,8 +21,8 @@ defmodule Framework.Module do
   def module_name(module, :struct), do: module |> module_name(:struct_name) |> struct()
 
   def fully_qualified(conn) do
-    (conn.assigns |> Map.get(:nested) || [])
-    |> Enum.concat([conn.assigns.schema])
+    conn.private.controller_config.nested
+    |> Enum.concat([conn.private.controller_config.schema])
     |> Module.concat()
   end
 end

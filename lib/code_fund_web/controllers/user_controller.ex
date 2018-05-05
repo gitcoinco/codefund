@@ -3,7 +3,8 @@ defmodule CodeFundWeb.UserController do
   import Ecto.Query
   alias CodeFund.Repo
   alias CodeFund.Schema.User
-  use Framework.Controller.Stub.Definitions, ["User", [:show, :edit, :update]]
+  use Framework.Controller
+  use Framework.Controller.Stub.Definitions, [:show, :edit, :update]
 
   plug(
     CodeFundWeb.Plugs.RequireOwnership,
@@ -16,6 +17,10 @@ defmodule CodeFundWeb.UserController do
   )
 
   use Coherence.Config
+
+  defconfig do
+    [schema: "User"]
+  end
 
   def index(conn, _params) do
     render(

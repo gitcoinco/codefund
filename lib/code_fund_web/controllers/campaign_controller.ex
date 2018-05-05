@@ -2,10 +2,14 @@ defmodule CodeFundWeb.CampaignController do
   use CodeFundWeb, :controller
   use Framework.Controller
   alias CodeFund.Campaigns
-  use Framework.Controller.Stub.Definitions, ["Campaign", :all, except: [:create]]
+  use Framework.Controller.Stub.Definitions, [:all, except: [:create]]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
-  defstub create("Campaign") do
+  defconfig do
+    [schema: "Campaign"]
+  end
+
+  defstub create do
     inject_params(&CodeFundWeb.Hooks.Shared.join_to_user_id/2)
   end
 
