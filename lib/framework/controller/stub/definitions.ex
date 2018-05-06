@@ -33,6 +33,40 @@ defmodule Framework.Controller.Stub.Definitions do
     |> build_actions(actions)
   end
 
+  @spec build_action(%Controller.Config{}, atom, list) :: Macro.t()
+  def build_action(config, action, block) do
+    quote do
+      def unquote(action)(conn, params) do
+        Framework.Controller.Stub.Definitions.define(
+          unquote(action),
+          unquote(block),
+          unquote(config),
+          conn,
+          params
+        )
+      end
+    end
+  end
+
+  def define(action, block, config, conn, params) do
+    after_hooks = [
+      success: block[:after_hooks][:success] || fn _object, _params -> [] end,
+      error: block[:after_hooks][:error] || fn _conn, _params -> [] end
+    ]
+
+    params = merge_params(block, config, conn, params)
+
+    conn = construct_conn(block, config, conn, params)
+
+    action(
+      action,
+      config,
+      conn,
+      params,
+      after_hooks
+    )
+  end
+
   @spec build_actions(Macro.t(), list) :: Macro.t()
   defp build_actions(config, actions) when is_list(actions) do
     for action <- actions do
@@ -40,64 +74,45 @@ defmodule Framework.Controller.Stub.Definitions do
     end
   end
 
-  @spec build_action(%Controller.Config{}, atom, list) :: Macro.t()
-  def build_action(config, action, block) do
-    quote do
-      def unquote(action)(conn, params) do
-        block = unquote(block)
-
-        after_hooks = [
-          success: block[:after_hooks][:success] || fn _object, _params -> [] end,
-          error: block[:after_hooks][:error] || fn _conn, _params -> [] end
-        ]
-
-        params =
-          case Keyword.has_key?(block, :inject_params) do
-            true ->
-              {key, value} = block[:inject_params].(conn, params)
-
-              put_in(
-                params,
-                ["params", pretty(unquote(config).schema, :downcase, :singular), key],
-                value
-              )
-
-            false ->
-              params
-          end
-
-        conn =
-          case Keyword.has_key?(block, :before_hook) do
-            true ->
-              Framework.Controller.Stub.Definitions.assign(
-                conn,
-                block[:before_hook].(conn, params)
-              )
-
-            false ->
-              conn
-          end
-          |> Framework.Controller.Stub.Definitions.assign(block[:assigns] || [])
-
-        Framework.Controller.Stub.Definitions.action(
-          unquote(action),
-          unquote(config),
-          conn |> put_private(:controller_config, unquote(config)),
-          params,
-          after_hooks
+  defp construct_conn(block, config, conn, params) do
+    case Keyword.has_key?(block, :before_hook) do
+      true ->
+        assign(
+          conn,
+          block[:before_hook].(conn, params)
         )
-      end
+
+      false ->
+        conn
+    end
+    |> assign(block[:assigns] || [])
+    |> put_private(:controller_config, config)
+  end
+
+  defp merge_params(block, config, conn, params) do
+    case Keyword.has_key?(block, :inject_params) do
+      true ->
+        {key, value} = block[:inject_params].(conn, params)
+
+        put_in(
+          params,
+          ["params", pretty(config.schema, :downcase, :singular), key],
+          value
+        )
+
+      false ->
+        params
     end
   end
 
   @spec assign(Plug.Conn.t(), list) :: Plug.Conn.t()
-  def assign(conn, assigns) do
+  defp assign(conn, assigns) do
     assigns = assigns |> Enum.into(%{}) |> Map.merge(conn.assigns)
     Map.put(conn, :assigns, assigns)
   end
 
   @spec action(atom, %Controller.Config{}, %Plug.Conn{}, map, list) :: %Plug.Conn{}
-  def action(:index, config, conn, params, _after_hooks) do
+  defp action(:index, config, conn, params, _after_hooks) do
     case apply(module_name(config.schema, :context), paginate(config.schema), [
            current_user(conn),
            params
@@ -119,7 +134,7 @@ defmodule Framework.Controller.Stub.Definitions do
     end
   end
 
-  def action(:new, config, conn, _params, _after_hooks) do
+  defp action(:new, config, conn, _params, _after_hooks) do
     conn
     |> put_private(:controller_config, config)
     |> render(
@@ -130,7 +145,7 @@ defmodule Framework.Controller.Stub.Definitions do
     )
   end
 
-  def action(:create, config, conn, params, after_hooks) do
+  defp action(:create, config, conn, params, after_hooks) do
     module_name(config.schema, :context)
     |> apply(:"create_#{pretty(config.schema, :downcase, :singular)}", [
       fetch_post_params(config.schema, params)
@@ -168,7 +183,7 @@ defmodule Framework.Controller.Stub.Definitions do
     end
   end
 
-  def action(:show, config, conn, %{"id" => id}, _after_hooks) do
+  defp action(:show, config, conn, %{"id" => id}, _after_hooks) do
     conn
     |> put_private(:controller_config, config)
     |> render(
@@ -179,7 +194,7 @@ defmodule Framework.Controller.Stub.Definitions do
     )
   end
 
-  def action(:edit, config, conn, %{"id" => id}, _after_hooks) do
+  defp action(:edit, config, conn, %{"id" => id}, _after_hooks) do
     object = get!(config.schema, id)
     current_user = current_user(conn)
 
@@ -198,7 +213,7 @@ defmodule Framework.Controller.Stub.Definitions do
     )
   end
 
-  def action(:update, config, conn, %{"id" => id} = params, after_hooks) do
+  defp action(:update, config, conn, %{"id" => id} = params, after_hooks) do
     object = get!(config.schema, id)
     current_user = current_user(conn)
 
@@ -242,7 +257,7 @@ defmodule Framework.Controller.Stub.Definitions do
     end
   end
 
-  def action(:delete, config, conn, %{"id" => id}, _after_hooks) do
+  defp action(:delete, config, conn, %{"id" => id}, _after_hooks) do
     {:ok, object} =
       module_name(config.schema, :context)
       |> apply(:"delete_#{pretty(config.schema, :downcase, :singular)}", [get!(config.schema, id)])

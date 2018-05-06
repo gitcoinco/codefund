@@ -2,7 +2,7 @@ defmodule Framework.Path do
   import Framework.Module
   import Plug.Conn
 
-  @spec construct_path(%Plug.Conn{}, atom) :: String.t()
+  # @spec construct_path(%Plug.Conn{}, atom) :: String.t()
   def construct_path(conn, :index) do
     conn
     |> assign(:object, nil)
@@ -13,7 +13,7 @@ defmodule Framework.Path do
   def construct_path(conn, action),
     do: apply(CodeFundWeb.Router.Helpers, path(conn), build_params(conn) |> action(action))
 
-  @spec construct_path(%Plug.Conn{}) :: String.t()
+  # @spec construct_path(%Plug.Conn{}) :: String.t()
   def construct_path(conn),
     do:
       apply(
