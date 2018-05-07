@@ -53,14 +53,14 @@ defmodule CodeFund.Campaigns do
     case Enum.member?(user.roles, "admin") do
       true ->
         Campaign
-        |> preload([:user, :budgeted_campaign])
+        |> preload([:audience, :user, :budgeted_campaign])
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
       false ->
         Campaign
         |> where([p], p.user_id == ^user.id)
-        |> preload([:user, :budgeted_campaign])
+        |> preload([:audience, :user, :budgeted_campaign])
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
     end
@@ -83,13 +83,13 @@ defmodule CodeFund.Campaigns do
   def get_campaign!(id) do
     Campaign
     |> Repo.get!(id)
-    |> Repo.preload([:user, :budgeted_campaign])
+    |> Repo.preload([:audience, :user, :budgeted_campaign])
   end
 
   def get_campaign_by_name!(name) do
     Campaign
     |> Repo.get_by!(name: name)
-    |> Repo.preload([:user, :budgeted_campaign])
+    |> Repo.preload([:audience, :user, :budgeted_campaign])
   end
 
   @doc """

@@ -78,12 +78,12 @@ defmodule CodeFundWeb.Router do
     pipe_through(:protected)
 
     get("/dashboard", DashboardController, :index)
-    resources("/properties", PropertyController)
     get("/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url)
     resources("/campaigns", CampaignController)
-    resources("/sponsorships", SponsorshipController)
     resources("/clicks", ClickController)
     resources("/creatives", CreativeController)
+    resources("/properties", PropertyController)
+    resources("/sponsorships", SponsorshipController)
     resources("/templates", TemplateController)
     resources("/themes", ThemeController)
     get("/users/:id/masquerade", UserController, :masquerade)
@@ -91,6 +91,7 @@ defmodule CodeFundWeb.Router do
 
     resources("/users", UserController, only: [:index, :show, :edit, :update]) do
       get("/distributions/search", User.DistributionController, :search)
+      resources("/audiences", User.AudienceController)
 
       resources(
         "/distributions",

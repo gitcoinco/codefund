@@ -1,2 +1,1 @@
-<%= @fields |> render_fields(@form)
-%>
+<%= @fields |> render_fields(@form)%>

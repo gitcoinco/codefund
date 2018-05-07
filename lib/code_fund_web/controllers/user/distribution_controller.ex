@@ -43,8 +43,6 @@ defmodule CodeFundWeb.User.DistributionController do
     clicks = CodeFund.Clicks.distribution_amount(user_id, start_date, end_date)
 
     [
-      schema: "Distribution",
-      nested: ["User"],
       action: :create,
       clicks: clicks,
       user: user,

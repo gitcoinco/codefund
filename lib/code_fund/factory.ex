@@ -36,6 +36,14 @@ defmodule CodeFund.Factory do
     }
   end
 
+  def audience_factory do
+    %CodeFund.Schema.Audience{
+      name: "Test Audience",
+      programming_languages: ["Ruby"],
+      user: build(:user)
+    }
+  end
+
   def sponsorship_factory do
     %CodeFund.Schema.Sponsorship{
       property: build(:property),

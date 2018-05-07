@@ -5,7 +5,10 @@ defmodule CodeFund.Schema.CampaignTest do
 
   describe "campaigns" do
     setup do
-      valid_attrs = build(:campaign, user_id: insert(:user).id) |> Map.from_struct()
+      valid_attrs =
+        build(:campaign, user_id: insert(:user).id, audience_id: insert(:audience).id)
+        |> Map.from_struct()
+
       {:ok, %{valid_attrs: valid_attrs}}
     end
 

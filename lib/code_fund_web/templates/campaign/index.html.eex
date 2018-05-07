@@ -2,7 +2,7 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item active">Campaigns</li>
-  
+
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
       <%= link to: campaign_path(@conn, :new), class: "btn" do %>
@@ -23,6 +23,7 @@
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
                 <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid_amount) %></th>
+                <th class="text-center"><%= table_link(@conn, "Audience", :audience_id) %></th>
                 <th class="text-right"><%= table_link(@conn, "Daily Budget", :budget_daily_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Monthly Budget", :budget_monthly_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Total Budget", :budget_total_amount) %></th>
@@ -35,6 +36,7 @@
                 <tr>
                   <td><%= campaign.name %></td>
                   <td class="text-center"><%= campaign_status campaign.status %></td>
+                  <td class="text-center"><%= if(not is_nil(campaign.audience), do: campaign.audience.name, else: "None") %></td>
                   <td class="text-center"><%= pretty_money campaign.bid_amount %></td>
                   <td>
                     <%= pretty_subtracted_money_with_total(
