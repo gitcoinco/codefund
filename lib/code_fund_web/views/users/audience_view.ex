@@ -1,4 +1,4 @@
-defmodule CodeFundWeb.User.DistributionView do
+defmodule CodeFundWeb.User.AudienceView do
   use CodeFundWeb, :view
 
   import CodeFundWeb.TableView

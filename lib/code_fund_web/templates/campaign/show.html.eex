@@ -2,7 +2,7 @@
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item"><%= link "Campaigns", to: campaign_path(@conn, :index) %></li>
   <li class="breadcrumb-item active"><%= @campaign.name %></li>
-  
+
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
       <%= link to: campaign_path(@conn, :edit, @campaign), class: "btn" do %>
@@ -46,6 +46,10 @@
             <tr>
               <td><strong>Description</strong></td>
               <td><%= @campaign.description %></td>
+            </tr>
+            <tr>
+              <td><strong>Audience</strong></td>
+              <td><%= if(not is_nil(@campaign.audience), do: @campaign.audience.name, else: "None") %></td>
             </tr>
             <tr>
               <td><strong>Redirect URL</strong></td>

@@ -40,7 +40,7 @@ defmodule SharedExample.ControllerTests do
         conn = method.(conn, context)
 
         desired_conn_status =
-          case conn.method == "PATCH" do
+          case Enum.member?(["PATCH", "POST", "DELETE"], conn.method) do
             true -> 302
             false -> 200
           end
@@ -97,6 +97,15 @@ defmodule SharedExample.ControllerTests do
     quote bind_quoted: [endpoint: endpoint], unquote: true do
       authenticated(endpoint, unquote(method))
       auth_as(endpoint, unquote(method), :sponsor)
+    end
+  end
+
+  defmacro behaves_like(method, [:authenticated, :owned_unless_admin, :sponsor], endpoint) do
+    quote bind_quoted: [endpoint: endpoint], unquote: true do
+      authenticated(endpoint, unquote(method))
+      auth_as(endpoint, unquote(method), :sponsor)
+      owned_admin(endpoint, unquote(method))
+      owned_non_admin(endpoint, unquote(method))
     end
   end
 end

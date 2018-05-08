@@ -60,20 +60,20 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
      }}
   end
 
-  def shared_assigns_test(assigns, user) do
-    assert assigns.schema == "Distribution"
-    assert assigns.nested == ["User"]
-    assert assigns.action == :create
+  def shared_assigns_test(conn, user) do
+    assert conn.private.controller_config.schema == "Distribution"
+    assert conn.private.controller_config.nested == ["User"]
+    assert conn.assigns.action == :create
 
-    assert assigns.clicks == %{
+    assert conn.assigns.clicks == %{
              "click_count" => 2,
              "distribution_amount" => Decimal.new("4.00")
            }
 
-    assert assigns.user == user
-    assert assigns.start_date == "2018-01-01"
-    assert assigns.end_date == "2018-01-03"
-    assert assigns.associations == [user.id]
+    assert conn.assigns.user == user
+    assert conn.assigns.start_date == "2018-01-01"
+    assert conn.assigns.end_date == "2018-01-03"
+    assert conn.assigns.associations == [user.id]
   end
 
   describe "show" do
@@ -123,7 +123,7 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
       assert html_response(authed_conn, 200) =~
                "New Distribution for #{users.developer.first_name} #{users.developer.last_name}"
 
-      shared_assigns_test(authed_conn.assigns, users.developer)
+      shared_assigns_test(authed_conn, users.developer)
     end
   end
 
@@ -192,7 +192,7 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
       assert redirected_to(authed_conn, 302) ==
                user_distribution_path(authed_conn, :show, users.developer, distribution)
 
-      shared_assigns_test(authed_conn.assigns, users.developer)
+      shared_assigns_test(authed_conn, users.developer)
     end
 
     test "returns an error on invalid params", %{
@@ -221,7 +221,7 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
              ]
 
       assert authed_conn.private.phoenix_template == "form_container.html"
-      shared_assigns_test(authed_conn.assigns, users.developer)
+      shared_assigns_test(authed_conn, users.developer)
     end
   end
 end
