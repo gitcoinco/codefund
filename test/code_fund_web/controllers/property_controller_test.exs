@@ -47,7 +47,15 @@ defmodule CodeFundWeb.PropertyControllerTest do
       conn = assign(conn, :current_user, users.developer)
       conn = get(conn, property_path(conn, :new))
 
-      assert conn.assigns.fields |> Keyword.keys() == [:name, :description, :property_type, :url]
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :name,
+               :description,
+               :property_type,
+               :url,
+               :language,
+               :programming_languages,
+               :topic_categories
+             ]
 
       assert html_response(conn, 200) =~ "Property"
     end
@@ -61,13 +69,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :description,
                :property_type,
                :url,
+               :language,
+               :programming_languages,
+               :topic_categories,
                :status,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :alexa_site_rank,
-               :language,
-               :programming_languages,
-               :topic_categories,
                :screenshot_url
              ]
 
@@ -119,13 +127,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :description,
                :property_type,
                :url,
+               :language,
+               :programming_languages,
+               :topic_categories,
                :status,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :alexa_site_rank,
-               :language,
-               :programming_languages,
-               :topic_categories,
                :screenshot_url
              ]
 
@@ -169,13 +177,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :description,
                :property_type,
                :url,
+               :language,
+               :programming_languages,
+               :topic_categories,
                :status,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :alexa_site_rank,
-               :language,
-               :programming_languages,
-               :topic_categories,
                :screenshot_url
              ]
     end
@@ -233,13 +241,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :description,
                :property_type,
                :url,
+               :language,
+               :programming_languages,
+               :topic_categories,
                :status,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :alexa_site_rank,
-               :language,
-               :programming_languages,
-               :topic_categories,
                :screenshot_url
              ]
 
