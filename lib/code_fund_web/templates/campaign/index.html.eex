@@ -22,8 +22,8 @@
               <tr>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
-                <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid_amount) %></th>
                 <th class="text-center"><%= table_link(@conn, "Audience", :audience_id) %></th>
+                <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Daily Budget", :budget_daily_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Monthly Budget", :budget_monthly_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Total Budget", :budget_total_amount) %></th>
