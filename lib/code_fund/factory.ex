@@ -19,6 +19,9 @@ defmodule CodeFund.Factory do
       url: sequence(:url, &"https://example.com/#{&1}"),
       property_type: 1,
       status: 1,
+      programming_languages: ["Ruby"],
+      topic_categories: ["Databases"],
+      language: "English",
       user: build(:user)
     }
   end
