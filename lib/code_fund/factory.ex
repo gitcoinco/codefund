@@ -19,10 +19,10 @@ defmodule CodeFund.Factory do
       url: sequence(:url, &"https://example.com/#{&1}"),
       property_type: 1,
       status: 1,
-      programming_languages: ["Ruby"],
-      topic_categories: ["Databases"],
+      user: build(:user),
       language: "English",
-      user: build(:user)
+      programming_languages: ["Ruby"],
+      topic_categories: ["Programming"]
     }
   end
 
@@ -31,6 +31,8 @@ defmodule CodeFund.Factory do
       name: "Test Campaign",
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
       status: 2,
+      creative: build(:creative),
+      audience: build(:audience),
       bid_amount: Decimal.new(2),
       budget_daily_amount: Decimal.new(25),
       budget_monthly_amount: Decimal.new(500),

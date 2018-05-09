@@ -3,6 +3,7 @@ defmodule CodeFund.ImpressionsTest do
   import CodeFund.Factory
 
   alias CodeFund.Impressions
+  import CodeFund.Factory
 
   setup do
     impression = insert(:impression)
@@ -76,13 +77,13 @@ defmodule CodeFund.ImpressionsTest do
 
     test "list_impressions/0 returns all impressions", %{impression: impression} do
       [loaded_impression] = Impressions.list_impressions()
-      assert loaded_impression.__struct__ == Impression
+      assert loaded_impression.__struct__ == CodeFund.Schema.Impression
       assert loaded_impression.id == impression.id
     end
 
     test "get_impression!/1 returns the impression with given id", %{impression: impression} do
       loaded_impression = Impressions.get_impression!(impression.id)
-      assert loaded_impression.__struct__ == Impression
+      assert loaded_impression.__struct__ == CodeFund.Schema.Impression
       assert loaded_impression.id == impression.id
     end
 
@@ -124,7 +125,7 @@ defmodule CodeFund.ImpressionsTest do
     test "create_from_sponsorship/1 merges attributes of a sponsorship before saving", %{
       property: property
     } do
-      sponsorship = CodeFund.Support.Fixture.generate(:sponsorship)
+      sponsorship = insert(:sponsorship)
       valid_attrs = @valid_attrs |> Map.put(:property_id, property.id)
 
       {:ok, impression} = Impressions.create_from_sponsorship(valid_attrs, sponsorship)

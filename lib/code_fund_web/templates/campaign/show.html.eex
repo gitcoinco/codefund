@@ -52,6 +52,10 @@
               <td><%= if(not is_nil(@campaign.audience), do: @campaign.audience.name, else: "None") %></td>
             </tr>
             <tr>
+              <td><strong>Creative</strong></td>
+              <td><%= if(not is_nil(@campaign.creative), do: @campaign.creative.name, else: "None") %></td>
+            </tr>
+            <tr>
               <td><strong>Redirect URL</strong></td>
               <td><%= @campaign.redirect_url %></td>
             </tr>
