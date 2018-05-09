@@ -49,7 +49,9 @@ defmodule CodeFundWeb.SponsorshipController do
 
     creative_choices = Creatives.by_user(user) |> FormHelpers.repo_objects_to_options()
 
-    property_choices = Properties.list_properties() |> FormHelpers.repo_objects_to_options()
+    property_choices =
+      CodeFund.Properties.list_active_properties()
+      |> FormHelpers.repo_objects_to_options([:name, :url])
 
     fields = [
       campaign_id: [type: :select, label: "Campaign", opts: [choices: campaign_choices]],

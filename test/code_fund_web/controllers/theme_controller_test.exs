@@ -18,7 +18,7 @@ defmodule CodeFundWeb.ThemeControllerTest do
       conn = assign(conn, :current_user, users.admin)
       conn = get(conn, theme_path(conn, :new))
 
-      assert conn.assigns.template_choices == [{:"#{template.name}", template.id}]
+      assert conn.assigns.template_choices == [{template.name, template.id}]
 
       assert html_response(conn, 200) =~ "Theme"
     end
@@ -55,7 +55,7 @@ defmodule CodeFundWeb.ThemeControllerTest do
           })
         )
 
-      assert conn.assigns.template_choices == [{:"#{template.name}", template.id}]
+      assert conn.assigns.template_choices == [{template.name, template.id}]
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."
@@ -76,7 +76,7 @@ defmodule CodeFundWeb.ThemeControllerTest do
       theme = insert(:theme)
       conn = get(conn, theme_path(conn, :edit, theme))
 
-      assert conn.assigns.template_choices == [{:"#{template.name}", template.id}]
+      assert conn.assigns.template_choices == [{template.name, template.id}]
       assert html_response(conn, 200) =~ "Template"
       assert html_response(conn, 200) =~ theme.name
     end
@@ -120,7 +120,7 @@ defmodule CodeFundWeb.ThemeControllerTest do
           })
         )
 
-      assert conn.assigns.template_choices == [{:"#{template.name}", template.id}]
+      assert conn.assigns.template_choices == [{template.name, template.id}]
 
       assert html_response(conn, 422) =~
                "Oops, something went wrong! Please check the errors below."

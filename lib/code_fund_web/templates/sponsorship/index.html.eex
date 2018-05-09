@@ -34,7 +34,13 @@
                 <tr>
                   <td><%= full_name(sponsorship.user) %></td>
                   <td><%= link sponsorship.campaign.name, to: campaign_path(@conn, :show, sponsorship.campaign) %></td>
-                  <td><%= link sponsorship.property.name, to: property_path(@conn, :show, sponsorship.property) %></td>
+                  <td>
+                    <%= if has_any_role? @conn, ["admin"] do %>
+                      <%= link sponsorship.property.name, to: property_path(@conn, :show, sponsorship.property) %>
+                    <% else %>
+                      <%= link sponsorship.property.name, to: sponsorship.property.url, target: "_blank" %>
+                    <% end %>
+                  </td>
                   <td>
                     <%= if sponsorship.creative do %>
                       <%= link sponsorship.creative.name, to: creative_path(@conn, :show, sponsorship.creative) %>

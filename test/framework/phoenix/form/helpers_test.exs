@@ -31,7 +31,18 @@ defmodule Framework.Phoenix.Form.HelpersTest do
     test "returns a Keyword list of options for a form select" do
       objects = [%{id: "1234", name: "first"}, %{id: "4321", name: "last"}]
 
-      assert FormHelpers.repo_objects_to_options(objects) == [{:first, "1234"}, {:last, "4321"}]
+      assert FormHelpers.repo_objects_to_options(objects) == [{"first", "1234"}, {"last", "4321"}]
+    end
+  end
+
+  describe "repo_objects_to_options/2 with list" do
+    test "returns a Keyword list of options for a form select" do
+      objects = [%{id: "1234", name: "first"}, %{id: "4321", name: "last"}]
+
+      assert FormHelpers.repo_objects_to_options(objects, [:id, :name]) == [
+               {"1234 - first", "1234"},
+               {"4321 - last", "4321"}
+             ]
     end
   end
 
