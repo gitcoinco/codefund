@@ -1,10 +1,11 @@
 defmodule CodeFund.PropertiesTest do
   use CodeFund.DataCase
   alias CodeFund.Properties
+  import CodeFund.Factory
 
   setup do
-    user = CodeFund.Support.Fixture.generate(:user)
-    property = CodeFund.Support.Fixture.generate(:property)
+    user = insert(:user)
+    property = insert(:property)
     {:ok, %{user: user, property: property}}
   end
 
@@ -15,6 +16,7 @@ defmodule CodeFund.PropertiesTest do
       description: "some description",
       name: "some name",
       property_type: 42,
+      language: "English",
       url: "http://google.com"
     }
     @update_attrs %{
@@ -49,8 +51,7 @@ defmodule CodeFund.PropertiesTest do
       assert changeset.__struct__ == Ecto.Changeset
     end
 
-    test "update_property/2 with valid data updates the property" do
-      property = CodeFund.Support.Fixture.generate(:property)
+    test "update_property/2 with valid data updates the property", %{property: property} do
       assert {:ok, property} = Properties.update_property(property, @update_attrs)
       assert Property == property.__struct__
       assert property.description == "some updated description"
@@ -64,8 +65,7 @@ defmodule CodeFund.PropertiesTest do
       assert property.name == Properties.get_property!(property.id).name
     end
 
-    test "delete_property/1 deletes the property" do
-      property = CodeFund.Support.Fixture.generate(:property)
+    test "delete_property/1 deletes the property", %{property: property} do
       assert {:ok, %Property{}} = Properties.delete_property(property)
       assert_raise Ecto.NoResultsError, fn -> Properties.get_property!(property.id) end
     end

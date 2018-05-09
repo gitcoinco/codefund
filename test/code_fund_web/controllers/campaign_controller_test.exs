@@ -76,6 +76,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
         "name" => "Test Campaign",
         "redirect_url" => "https://example.com/0",
         "audience_id" => insert(:audience).id,
+        "creative_id" => insert(:creative).id,
         "status" => 2
       }
 

@@ -9,6 +9,7 @@ defmodule CodeFund.Schema.Creative do
   schema "creatives" do
     belongs_to(:user, CodeFund.Schema.User)
     has_many(:sponsorships, CodeFund.Schema.Sponsorship)
+    has_many(:campaigns, CodeFund.Schema.Campaign)
     field(:name, :string)
     field(:body, :string)
     field(:image_url, :string)

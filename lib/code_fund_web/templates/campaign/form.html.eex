@@ -4,6 +4,7 @@
     status: [type: :select, label: "Status", opts: [choices: [Pending: 1, Active: 2, Archived: 3]]],
     description: [type: :textarea, label: "Description"],
     audience_id: [type: :select, label: "Audience", opts: [choices: @conn.assigns.audiences]],
+    creative_id: [type: :select, label: "Creative", opts: [choices: @conn.assigns.creatives]],
     bid_amount: [type: :currency_input, label: "Bid Amount"],
     budget_daily_amount: [type: :currency_input, label: "Daily Budget"],
     budget_monthly_amount: [type: :currency_input, label: "Monthly Budget"],

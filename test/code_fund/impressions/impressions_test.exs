@@ -2,6 +2,7 @@ defmodule CodeFund.ImpressionsTest do
   use CodeFund.DataCase
 
   alias CodeFund.Impressions
+  import CodeFund.Factory
 
   describe "impressions" do
     alias CodeFund.Schema.Impression
@@ -67,18 +68,25 @@ defmodule CodeFund.ImpressionsTest do
       utm_term: nil
     }
 
-    test "list_impressions/0 returns all impressions" do
-      impression = CodeFund.Support.Fixture.generate(:impression)
-      assert Impressions.list_impressions() == [impression]
+    setup do
+      impression = insert(:impression)
+      property = insert(:property)
+      {:ok, %{impression: impression, property: property}}
     end
 
-    test "get_impression!/1 returns the impression with given id" do
-      impression = CodeFund.Support.Fixture.generate(:impression)
-      assert Impressions.get_impression!(impression.id) == impression
+    test "list_impressions/0 returns all impressions", %{impression: impression} do
+      [loaded_impression] = Impressions.list_impressions()
+      assert loaded_impression.__struct__ == CodeFund.Schema.Impression
+      assert loaded_impression.id == impression.id
     end
 
-    test "create_impression/1 with valid data creates a impression" do
-      property = CodeFund.Support.Fixture.generate(:property)
+    test "get_impression!/1 returns the impression with given id", %{impression: impression} do
+      loaded_impression = Impressions.get_impression!(impression.id)
+      assert loaded_impression.__struct__ == CodeFund.Schema.Impression
+      assert loaded_impression.id == impression.id
+    end
+
+    test "create_impression/1 with valid data creates a impression", %{property: property} do
       valid_attrs = @valid_attrs |> Map.merge(%{property_id: property.id})
       {:ok, %Impression{} = impression} = Impressions.create_impression(valid_attrs)
       assert impression.browser == "some browser"
@@ -113,9 +121,10 @@ defmodule CodeFund.ImpressionsTest do
       assert changeset.valid? == false
     end
 
-    test "create_from_sponsorship/1 merges attributes of a sponsorship before saving" do
-      sponsorship = CodeFund.Support.Fixture.generate(:sponsorship)
-      property = CodeFund.Support.Fixture.generate(:property)
+    test "create_from_sponsorship/1 merges attributes of a sponsorship before saving", %{
+      property: property
+    } do
+      sponsorship = insert(:sponsorship)
       valid_attrs = @valid_attrs |> Map.put(:property_id, property.id)
 
       {:ok, impression} = Impressions.create_from_sponsorship(valid_attrs, sponsorship)
@@ -128,15 +137,15 @@ defmodule CodeFund.ImpressionsTest do
       assert impression.sponsorship_id == sponsorship.id
     end
 
-    test "create_from_sponsorship/1 with a nil sponsorship still saves the impression" do
-      property = CodeFund.Support.Fixture.generate(:property)
+    test "create_from_sponsorship/1 with a nil sponsorship still saves the impression", %{
+      property: property
+    } do
       valid_attrs = @valid_attrs |> Map.merge(%{property_id: property.id})
       {:ok, %Impression{} = impression} = Impressions.create_impression(valid_attrs)
       assert !is_nil(impression.id)
     end
 
-    test "update_impression/2 with valid data updates the impression" do
-      impression = CodeFund.Support.Fixture.generate(:impression)
+    test "update_impression/2 with valid data updates the impression", %{impression: impression} do
       assert {:ok, impression} = Impressions.update_impression(impression, @update_attrs)
       assert %Impression{} = impression
       assert impression.browser == "some updated browser"
@@ -159,16 +168,15 @@ defmodule CodeFund.ImpressionsTest do
       assert impression.utm_term == "some updated utm_term"
     end
 
-    test "update_impression/2 with invalid data returns error changeset" do
-      impression = CodeFund.Support.Fixture.generate(:impression)
-
+    test "update_impression/2 with invalid data returns error changeset", %{
+      impression: impression
+    } do
       {:error, %Ecto.Changeset{}} = Impressions.update_impression(impression, @invalid_attrs)
 
       assert impression.browser == Impressions.get_impression!(impression.id).browser
     end
 
-    test "delete_impression/1 deletes the impression" do
-      impression = CodeFund.Support.Fixture.generate(:impression)
+    test "delete_impression/1 deletes the impression", %{impression: impression} do
       {:ok, %Impression{}} = Impressions.delete_impression(impression)
       assert_raise Ecto.NoResultsError, fn -> Impressions.get_impression!(impression.id) end
     end
