@@ -171,6 +171,18 @@ defmodule CodeFund.Properties do
     Repo.all(Property)
   end
 
+  @spec list_active_properties() :: [Ecto.Schema.t()]
+  def list_active_properties do
+    Repo.all(
+      from(
+        p in Property,
+        where: p.status == 1,
+        where: p.property_type == 1,
+        order_by: fragment("lower(?)", p.name)
+      )
+    )
+  end
+
   @doc """
   Gets a single property.
 
