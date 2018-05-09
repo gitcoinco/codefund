@@ -13,7 +13,10 @@ defmodule CodeFund.Schema.Property do
     :url,
     :property_type,
     :status,
-    :user_id
+    :user_id,
+    :programming_languages,
+    :topic_categories,
+    :language
   ]
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -34,8 +37,8 @@ defmodule CodeFund.Schema.Property do
     field(:estimated_monthly_visitors, :integer)
     field(:alexa_site_rank, :integer)
     field(:language, :string)
-    field(:programming_languages, {:array, :string}, default: [])
-    field(:topic_categories, {:array, :string}, default: [])
+    field(:programming_languages, {:array, :string})
+    field(:topic_categories, {:array, :string})
     field(:screenshot_url, :string)
     field(:status, :integer, default: 0)
     timestamps()
@@ -48,6 +51,8 @@ defmodule CodeFund.Schema.Property do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
+    |> validate_length(:programming_languages, min: 1)
+    |> validate_length(:topic_categories, min: 1)
     |> validate_url(:url)
     |> validate_url(:screenshot_url)
   end

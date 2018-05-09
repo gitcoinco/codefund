@@ -41,7 +41,21 @@ defmodule CodeFundWeb.PropertyController do
           ]
         ]
       ],
-      url: [type: :text_input, label: "URL", opts: [placeholder: "https://"]]
+      url: [type: :text_input, label: "URL", opts: [placeholder: "https://"]],
+      language: [type: :text_input, label: "Language"],
+      programming_languages: [
+        type: :multiple_select,
+        label: "Programming Languages",
+        opts: [
+          class: "form-control selectize",
+          choices: CodeFund.Properties.programming_languages()
+        ]
+      ],
+      topic_categories: [
+        type: :multiple_select,
+        label: "Topic Categories",
+        opts: [class: "form-control selectize", choices: CodeFund.Properties.topic_categories()]
+      ]
     ]
 
     fields =
@@ -59,20 +73,6 @@ defmodule CodeFundWeb.PropertyController do
       estimated_monthly_page_views: [type: :number_input, label: "Est. Monthly Page Views"],
       estimated_monthly_visitors: [type: :number_input, label: "Est. Monthly Visitors"],
       alexa_site_rank: [type: :number_input, label: "Alexa Ranking"],
-      language: [type: :text_input, label: "Language"],
-      programming_languages: [
-        type: :multiple_select,
-        label: "Programming Languages",
-        opts: [
-          class: "form-control selectize",
-          choices: CodeFund.Properties.programming_languages()
-        ]
-      ],
-      topic_categories: [
-        type: :multiple_select,
-        label: "Topic Categories",
-        opts: [class: "form-control selectize", choices: CodeFund.Properties.topic_categories()]
-      ],
       screenshot_url: [
         type: :text_input,
         label: "Screenshot URL",

@@ -22,4 +22,15 @@ defmodule SharedExample.ModelTests do
              {field_to_test, {"is missing a scheme (e.g. https)", [validation: :format]}}
            ]
   end
+
+  @spec length_validation_test(atom, list, map) :: list
+  def length_validation_test(schema, attributes, valid_attrs) do
+    for attribute <- attributes do
+      invalid_attrs = valid_attrs |> Map.put(attribute, [])
+      changeset = apply(schema, :changeset, [struct(schema), invalid_attrs])
+
+      assert changeset.errors |> Keyword.fetch!(attribute) ==
+               {"should have at least %{count} item(s)", [count: 1, validation: :length, min: 1]}
+    end
+  end
 end

@@ -1,8 +1,15 @@
 defmodule CodeFund.ImpressionsTest do
   use CodeFund.DataCase
+  import CodeFund.Factory
 
   alias CodeFund.Impressions
   import CodeFund.Factory
+
+  setup do
+    impression = insert(:impression)
+    property = insert(:property)
+    {:ok, %{impression: impression, property: property}}
+  end
 
   describe "impressions" do
     alias CodeFund.Schema.Impression
@@ -67,12 +74,6 @@ defmodule CodeFund.ImpressionsTest do
       utm_source: nil,
       utm_term: nil
     }
-
-    setup do
-      impression = insert(:impression)
-      property = insert(:property)
-      {:ok, %{impression: impression, property: property}}
-    end
 
     test "list_impressions/0 returns all impressions", %{impression: impression} do
       [loaded_impression] = Impressions.list_impressions()

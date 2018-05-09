@@ -4,8 +4,8 @@ defmodule CodeFund.PropertiesTest do
   import CodeFund.Factory
 
   setup do
-    user = insert(:user)
     property = insert(:property)
+    user = insert(:user)
     {:ok, %{user: user, property: property}}
   end
 
@@ -16,8 +16,10 @@ defmodule CodeFund.PropertiesTest do
       description: "some description",
       name: "some name",
       property_type: 42,
-      language: "English",
-      url: "http://google.com"
+      url: "http://google.com",
+      programming_languages: ["Ruby"],
+      topic_categories: ["Databases"],
+      language: "English"
     }
     @update_attrs %{
       description: "some updated description",
