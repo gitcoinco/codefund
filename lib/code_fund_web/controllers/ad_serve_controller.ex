@@ -61,7 +61,8 @@ defmodule CodeFundWeb.AdServeController do
   end
 
   def details(conn, %{"property_id" => property_id}) do
-    with %Property{status: 1} = property <- Properties.get_property!(property_id),
+    with false <- Framework.Geolocation.is_banned_country?(conn.remote_ip),
+         %Property{status: 1} = property <- Properties.get_property!(property_id),
          %Sponsorship{creative: %Creative{}, campaign: %Campaign{}} = sponsorship <-
            Sponsorships.get_sponsorship_for_property(property) do
       %{
@@ -84,6 +85,11 @@ defmodule CodeFundWeb.AdServeController do
           property_id,
           "CodeFund creative has not been assigned to the sponsorship"
         )
+        |> details_render(conn)
+
+      true ->
+        conn
+        |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
         |> details_render(conn)
 
       nil ->
