@@ -18,6 +18,6 @@ defmodule MaxMindInitializer do
     Map.put(database, :source, get_priv_dir(Mix.env))
   end
 
-  defp get_priv_dir(:prod), do: "/app/_build/prod/lib/code_fund/priv/maxmind"
+  defp get_priv_dir(:prod), do: "/tmp/GeoIP2-Country.mmdb"
   defp get_priv_dir(_), do: Path.expand("../priv/maxmind/GeoIP2-Country.mmdb", __DIR__)
 end
