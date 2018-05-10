@@ -9,4 +9,4 @@ config :geolix,
     }
   ],
   banned_countries: System.get_env("BANNED_COUNTRIES"),
-  database_location: System.get_env("DATABASE_LOCATION")
+  mmdb_location: System.get_env("MMDB_LOCATION")

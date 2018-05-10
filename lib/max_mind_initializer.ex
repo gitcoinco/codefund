@@ -1,7 +1,7 @@
 defmodule MaxMindInitializer do
   @spec init(map) :: map
   def init(database) do
-    maxmind_db = Application.get_env(:geolix, :database_location) |> HTTPoison.get!()
+    maxmind_db = Application.get_env(:geolix, :mmdb_location) |> HTTPoison.get!()
 
     File.write(Path.expand("../priv/maxmind/GeoIP2-Country.mmdb", __DIR__), maxmind_db.body)
 
