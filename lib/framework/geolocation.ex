@@ -11,7 +11,10 @@ defmodule Framework.Geolocation do
       |> check_against_list_of_banned_countries
     rescue
       exception ->
-        Logger.error("An error occurred during geolocation - ip is #{ip} and exception is #{exception}")
+        IO.inspect ip
+        IO.inspect exception
+
+        Logger.error("An error occurred during geolocation")
         true
     end
   end
