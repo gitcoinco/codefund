@@ -10,8 +10,10 @@ defmodule Framework.Geolocation do
       |> Geolix.lookup(as: :struct, where: :country)
       |> check_against_list_of_banned_countries
     rescue
-      _ ->
+      exception ->
+        IO.inspect exception
         Logger.error("An error occurred during geolocation")
+        true
     end
   end
 
