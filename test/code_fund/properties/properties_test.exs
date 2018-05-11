@@ -4,7 +4,7 @@ defmodule CodeFund.PropertiesTest do
   import CodeFund.Factory
 
   setup do
-    property = insert(:property)
+    property = insert(:property, %{status: 1, property_type: 1})
     user = insert(:user)
     {:ok, %{user: user, property: property}}
   end
@@ -32,6 +32,14 @@ defmodule CodeFund.PropertiesTest do
     test "list_properties/0 returns all properties", %{property: property} do
       subject = Properties.list_properties() |> Enum.at(0)
       assert subject.name == property.name
+    end
+
+    test "list_active_properties/0 returns all active properties", %{property: property} do
+      CodeFund.Support.Fixture.generate(:property, %{status: 0, property_type: 1})
+      CodeFund.Support.Fixture.generate(:property, %{status: 1, property_type: 2})
+      subject = Properties.list_active_properties()
+      assert Enum.count(subject) == 1
+      assert Enum.at(subject, 0).name == property.name
     end
 
     test "get_property!/1 returns the property with given id", %{property: property} do
