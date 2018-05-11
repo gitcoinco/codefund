@@ -35,14 +35,10 @@ defmodule CodeFundWeb.AdServeController do
         cond do
           theme == nil ->
             themes = Themes.list_themes_for_template(template)
-            theme_slugs = Enum.map(themes, fn c -> c.slug end)
-
-            available_slugs =
-              theme_slugs
-              |> Enum.uniq()
-              |> Enum.join("|")
+            available_slugs = Enum.map(themes, fn c -> c.slug end) |> Enum.join("|")
 
             conn
+            |> put_status(:not_found)
             |> put_resp_content_type("application/javascript")
             |> text(
               "console.log('CodeFund theme does not exist. Available themes for this template are [#{
