@@ -71,7 +71,7 @@ defmodule CodeFundWeb.AdServeController do
       %{
         image: sponsorship.creative.image_url,
         link: "https://#{conn.host}/t/s/#{sponsorship.id}",
-        title: sponsorship.creative.title,
+        headline: sponsorship.creative.headline,
         description: sponsorship.creative.body,
         pixel: "//#{conn.host}/t/p/#{sponsorship.id}/pixel.png",
         poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
@@ -104,7 +104,7 @@ defmodule CodeFundWeb.AdServeController do
     %{
       image: "",
       link: "",
-      title: "",
+      head: "",
       description: "",
       pixel: "//#{conn.host}/t/l/#{property_id}/pixel.png",
       poweredByLink: "https://codefund.io?utm_content=",

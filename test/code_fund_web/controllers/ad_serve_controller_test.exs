@@ -9,7 +9,7 @@ defmodule CodeFundWeb.AdServeControllerTest do
       conn = get(conn, ad_serve_path(conn, :details, sponsorship.property))
 
       assert json_response(conn, 200) == %{
-               "title" => "Creative Title",
+               "headline" => "Creative Headline",
                "description" => "This is a Test Creative",
                "image" => "http://example.com/some.png",
                "link" => "https://www.example.com/t/s/#{sponsorship.id}",
@@ -24,7 +24,7 @@ defmodule CodeFundWeb.AdServeControllerTest do
       conn = get(conn, ad_serve_path(conn, :details, property))
 
       assert json_response(conn, 200) == %{
-               "title" => "",
+               "headline" => "",
                "description" => "",
                "image" => "",
                "link" => "",
@@ -40,7 +40,7 @@ defmodule CodeFundWeb.AdServeControllerTest do
       conn = get(conn, ad_serve_path(conn, :details, sponsorship.property))
 
       assert json_response(conn, 200) == %{
-               "title" => "",
+               "headline" => "",
                "description" => "",
                "image" => "",
                "link" => "",
@@ -56,7 +56,7 @@ defmodule CodeFundWeb.AdServeControllerTest do
       conn = get(conn, ad_serve_path(conn, :details, property))
 
       assert json_response(conn, 200) == %{
-               "title" => "",
+               "headline" => "",
                "description" => "",
                "image" => "",
                "link" => "",

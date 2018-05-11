@@ -51,7 +51,7 @@ defmodule CodeFund.Factory do
   def creative_factory do
     %CodeFund.Schema.Creative{
       name: "Test Creative",
-      title: "Creative Title",
+      headline: "Creative Headline",
       body: "This is a Test Creative",
       image_url: "http://example.com/some.png",
       user: build(:user)
