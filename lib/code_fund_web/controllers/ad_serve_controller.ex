@@ -15,15 +15,18 @@ defmodule CodeFundWeb.AdServeController do
     cond do
       template == nil ->
         templates = Templates.list_templates()
-        template_slugs = Enum.map(templates, fn c -> c.slug end)
+
+        available_templates =
+          Enum.map(templates, fn c -> c.slug end)
+          |> Enum.join("|")
 
         conn
         |> put_status(:not_found)
         |> put_resp_content_type("application/javascript")
         |> text(
-          "console.log('CodeFund template does not exist. Available templates are \\'#{
-            Enum.join(template_slugs, "','")
-          }\\'');"
+          "console.log('CodeFund template does not exist. Available templates are [#{
+            available_templates
+          }]');"
         )
 
       true ->
@@ -31,15 +34,20 @@ defmodule CodeFundWeb.AdServeController do
 
         cond do
           theme == nil ->
-            themes = Themes.list_themes()
+            themes = Themes.list_themes_for_template(template)
             theme_slugs = Enum.map(themes, fn c -> c.slug end)
+
+            available_slugs =
+              theme_slugs
+              |> Enum.uniq()
+              |> Enum.join("|")
 
             conn
             |> put_resp_content_type("application/javascript")
             |> text(
-              "console.log('CodeFund theme does not exist. Available themes for this template are \\'#{
-                Enum.join(theme_slugs, "','")
-              }\\'');"
+              "console.log('CodeFund theme does not exist. Available themes for this template are [#{
+                available_slugs
+              }]');"
             )
 
           true ->
@@ -67,6 +75,7 @@ defmodule CodeFundWeb.AdServeController do
       %{
         image: sponsorship.creative.image_url,
         link: "https://#{conn.host}/t/s/#{sponsorship.id}",
+        title: sponsorship.creative.title,
         description: sponsorship.creative.body,
         pixel: "//#{conn.host}/t/p/#{sponsorship.id}/pixel.png",
         poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
@@ -99,6 +108,7 @@ defmodule CodeFundWeb.AdServeController do
     %{
       image: "",
       link: "",
+      title: "",
       description: "",
       pixel: "//#{conn.host}/t/l/#{property_id}/pixel.png",
       poweredByLink: "https://codefund.io?utm_content=",

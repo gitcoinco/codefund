@@ -3,7 +3,7 @@ defmodule CodeFund.Themes do
   import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeFund.Repo
-  alias CodeFund.Schema.Theme
+  alias CodeFund.Schema.{Theme, Template}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -21,6 +21,17 @@ defmodule CodeFund.Themes do
     Theme
     |> Repo.all()
     |> Repo.preload([:template])
+  end
+
+  @spec list_themes_for_template(%Template{}) :: [Ecto.Schema.t()]
+  def list_themes_for_template(template) do
+    Repo.all(
+      from(
+        t in Theme,
+        where: t.template_id == ^template.id,
+        order_by: fragment("lower(?)", t.name)
+      )
+    )
   end
 
   @doc """
