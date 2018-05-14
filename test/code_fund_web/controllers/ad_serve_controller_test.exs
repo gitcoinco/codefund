@@ -122,6 +122,7 @@ defmodule CodeFundWeb.AdServeControllerTest do
       conn = get(conn, ad_serve_path(conn, :details, property))
 
       assert json_response(conn, 200) == %{
+               "headline" => "",
                "description" => "",
                "image" => "",
                "link" => "",
