@@ -1,5 +1,5 @@
 # CodeFund
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
 [![Build Status](https://travis-ci.org/gitcoinco/codefund.svg?branch=master)](https://travis-ci.org/codesponsor/web)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/gitcoinco/codefund.svg?columns=all)](https://waffle.io/codesponsor/web)
 
@@ -43,11 +43,11 @@ critique our code and ensure we are being honest.
 1. Setup a complete docker and docker-compose installation
 2. Clone this repository
 3. Copy `.env-sample` to `.env`
-4. Built the phoenix app into image: docker-compose build
-5. Create the database: docker-compose run web mix ecto.create
-6. Run the migrations: docker-compose run web mix ecto.migrate
-7. Seed the db: docker-compose run web mix code_fund.seed
-8. Run the services: docker-compose up -d
+4. Built the phoenix app into image: `docker-compose build`
+5. Create the database: `docker-compose run web mix ecto.create`
+6. Run the migrations: `docker-compose run web mix ecto.migrate`
+7. Seed the db: `docker-compose run web mix code_fund.seed`
+8. Run the services: `docker-compose up -d`
 9. Visit [localhost:4000](http://localhost:4000) to see CodeFund running.
 
 #### Without Docker (native setup)
@@ -97,6 +97,6 @@ Please keep in mind that the focus is to create a great platform, so we might no
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codefund.io)<br />[💻](https://github.com/codesponsor/web/commits?author=coderberry "Code") [📖](https://github.com/codesponsor/web/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") | [<img src="https://avatars1.githubusercontent.com/u/660973?v=4" width="100px;"/><br /><sub><b>Miguel Angel Gordián</b></sub>](http://zoek1.github.com)<br />[💻](https://github.com/codesponsor/web/commits?author=zoek1 "Code") [📖](https://github.com/codesponsor/web/commits?author=zoek1 "Documentation") [🚇](#infra-zoek1 "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-zoek1 "Packaging/porting to new platform") | [<img src="https://avatars3.githubusercontent.com/u/1427179?v=4" width="100px;"/><br /><sub><b>Justin Bean</b></sub>](http://stareintothebeard.github.io/)<br />[💻](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Code") [📖](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Documentation") [🤔](#ideas-StareIntoTheBeard "Ideas, Planning, & Feedback") [⚠️](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Tests") | [<img src="https://avatars1.githubusercontent.com/u/4920000?v=4" width="100px;"/><br /><sub><b>bakaoh</b></sub>](https://github.com/bakaoh)<br />[💻](https://github.com/codesponsor/web/commits?author=bakaoh "Code") [📖](https://github.com/codesponsor/web/commits?author=bakaoh "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/3855429?v=4" width="100px;"/><br /><sub><b>Samuel Volin</b></sub>](http://untra.io)<br />[💻](https://github.com/codesponsor/web/commits?author=untra "Code") [🚇](#infra-untra "Infrastructure (Hosting, Build-Tools, etc)") [🔧](#tool-untra "Tools") | [<img src="https://avatars2.githubusercontent.com/u/6059356?v=4" width="100px;"/><br /><sub><b>Limon Monte</b></sub>](https://limonte.github.io)<br />[🐛](https://github.com/codesponsor/web/issues?q=author%3Alimonte "Bug reports") [💻](https://github.com/codesponsor/web/commits?author=limonte "Code") |
-| :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/12481?v=4" width="100px;"/><br /><sub><b>Eric Berry</b></sub>](https://codefund.io)<br />[💻](https://github.com/codesponsor/web/commits?author=coderberry "Code") [📖](https://github.com/codesponsor/web/commits?author=coderberry "Documentation") [📦](#platform-coderberry "Packaging/porting to new platform") | [<img src="https://avatars1.githubusercontent.com/u/660973?v=4" width="100px;"/><br /><sub><b>Miguel Angel Gordián</b></sub>](http://zoek1.github.com)<br />[💻](https://github.com/codesponsor/web/commits?author=zoek1 "Code") [📖](https://github.com/codesponsor/web/commits?author=zoek1 "Documentation") [🚇](#infra-zoek1 "Infrastructure (Hosting, Build-Tools, etc)") [📦](#platform-zoek1 "Packaging/porting to new platform") | [<img src="https://avatars3.githubusercontent.com/u/1427179?v=4" width="100px;"/><br /><sub><b>Justin Bean</b></sub>](http://stareintothebeard.github.io/)<br />[💻](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Code") [📖](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Documentation") [🤔](#ideas-StareIntoTheBeard "Ideas, Planning, & Feedback") [⚠️](https://github.com/codesponsor/web/commits?author=StareIntoTheBeard "Tests") | [<img src="https://avatars1.githubusercontent.com/u/4920000?v=4" width="100px;"/><br /><sub><b>bakaoh</b></sub>](https://github.com/bakaoh)<br />[💻](https://github.com/codesponsor/web/commits?author=bakaoh "Code") [📖](https://github.com/codesponsor/web/commits?author=bakaoh "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/3855429?v=4" width="100px;"/><br /><sub><b>Samuel Volin</b></sub>](http://untra.io)<br />[💻](https://github.com/codesponsor/web/commits?author=untra "Code") [🚇](#infra-untra "Infrastructure (Hosting, Build-Tools, etc)") [🔧](#tool-untra "Tools") | [<img src="https://avatars2.githubusercontent.com/u/6059356?v=4" width="100px;"/><br /><sub><b>Limon Monte</b></sub>](https://limonte.github.io)<br />[🐛](https://github.com/codesponsor/web/issues?q=author%3Alimonte "Bug reports") [💻](https://github.com/codesponsor/web/commits?author=limonte "Code") | [<img src="https://avatars2.githubusercontent.com/u/7039523?v=4" width="100px;"/><br /><sub><b>Arun Kumar</b></sub>](https://github.com/arun1595)<br />[💻](https://github.com/codesponsor/web/commits?author=arun1595 "Code") [📖](https://github.com/codesponsor/web/commits?author=arun1595 "Documentation") |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->

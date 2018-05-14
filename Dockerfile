@@ -1,7 +1,7 @@
 # base image elixer to start with
 FROM elixir:1.6.4-slim
 
-RUN apt-get update && apt-get -y install python2.7 curl make gcc inotify-tools git
+RUN apt-get update && apt-get -y install python2.7 curl make gcc inotify-tools git gnupg
 
 # install node
 RUN curl -sL https://deb.nodesource.com/setup_7.x -o nodesource_setup.sh && \

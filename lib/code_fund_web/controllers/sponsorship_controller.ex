@@ -5,7 +5,7 @@ defmodule CodeFundWeb.SponsorshipController do
 
   alias CodeFund.Schema.{Sponsorship, User}
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
-  alias CodeFund.{Campaigns, Creatives, Properties}
+  alias CodeFund.{Campaigns, Creatives}
 
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
