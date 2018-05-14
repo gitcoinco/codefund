@@ -2,66 +2,44 @@ defmodule CodeFundWeb.AdServeController do
   use CodeFundWeb, :controller
 
   alias CodeFund.{Properties, Sponsorships, Templates, Themes}
-  alias CodeFund.Schema.{Property, Sponsorship, Campaign, Creative}
+  alias CodeFund.Schema.{Property, Sponsorship, Campaign, Creative, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
-    property = Properties.get_property!(property_id)
     template_slug = params["template"] || "default"
     theme_slug = params["theme"] || "light"
-    template = Templates.get_template_by_slug(template_slug)
     targetId = params["target"] || "codefund_ad"
 
     # TODO: refactor this into two different methods, and use if is_nil(template) to invoke the correct one
-    cond do
-      template == nil ->
-        templates = Templates.list_templates()
+    with %Theme{template: %Template{}} = theme <-
+           Themes.get_template_or_theme_by_slugs(theme_slug, template_slug),
+         details_url <- "https://#{conn.host}/t/s/#{property_id}/details.json" do
+      conn
+      |> put_resp_content_type("application/javascript")
+      |> render(
+        "embed.js",
+        template: theme.template,
+        targetId: targetId,
+        theme: theme,
+        details_url: details_url
+      )
+    else
+      %Template{} = template ->
+        error_render(conn, "theme", Themes.list_themes_for_template(template))
 
-        available_templates =
-          Enum.map(templates, fn c -> c.slug end)
-          |> Enum.join("|")
-
-        conn
-        |> put_status(:not_found)
-        |> put_resp_content_type("application/javascript")
-        |> text(
-          "console.log('CodeFund template does not exist. Available templates are [#{
-            available_templates
-          }]');"
-        )
-
-      true ->
-        theme = Enum.find(template.themes, fn t -> t.slug == theme_slug end)
-
-        cond do
-          theme == nil ->
-            themes = Themes.list_themes_for_template(template)
-            available_slugs = Enum.map(themes, fn c -> c.slug end) |> Enum.join("|")
-
-            conn
-            |> put_status(:not_found)
-            |> put_resp_content_type("application/javascript")
-            |> text(
-              "console.log('CodeFund theme does not exist. Available themes for this template are [#{
-                available_slugs
-              }]');"
-            )
-
-          true ->
-            details_url = "https://#{conn.host}/t/s/#{property.id}/details.json"
-
-            conn
-            |> put_resp_content_type("application/javascript")
-            |> render(
-              "embed.js",
-              property: property,
-              template: template,
-              targetId: targetId,
-              theme: theme,
-              template: template,
-              details_url: details_url
-            )
-        end
+      nil ->
+        error_render(conn, "template", Templates.list_templates())
     end
+  end
+
+  defp error_render(conn, object_type, list_of_objects) do
+    conn
+    |> put_status(:not_found)
+    |> put_resp_content_type("application/javascript")
+    |> text(
+      "console.log('CodeFund #{object_type} does not exist. Available #{object_type}s are [#{
+        list_of_objects |> Enum.map(fn object -> Map.get(object, :slug) end) |> Enum.join("|")
+      }]');"
+    )
   end
 
   def details(conn, %{"property_id" => property_id}) do
@@ -104,7 +82,7 @@ defmodule CodeFundWeb.AdServeController do
     %{
       image: "",
       link: "",
-      head: "",
+      headline: "",
       description: "",
       pixel: "//#{conn.host}/t/l/#{property_id}/pixel.png",
       poweredByLink: "https://codefund.io?utm_content=",

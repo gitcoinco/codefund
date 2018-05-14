@@ -24,7 +24,7 @@ defmodule CodeFund.Themes do
   end
 
   @spec list_themes_for_template(%Template{}) :: [Ecto.Schema.t()]
-  def list_themes_for_template(template) do
+  def list_themes_for_template(%Template{} = template) do
     Repo.all(
       from(
         t in Theme,
@@ -89,8 +89,22 @@ defmodule CodeFund.Themes do
   """
   def get_theme!(id), do: Repo.get!(Theme, id)
 
-  def get_theme_by_slug!(slug) do
-    Repo.get_by!(Theme, slug: slug) |> Repo.preload([:template])
+  def get_template_or_theme_by_slugs(theme_slug, template_slug) do
+    case get_theme_by_slug_and_template(theme_slug, template_slug) do
+      %Theme{} = theme -> theme
+      nil -> CodeFund.Templates.get_template_by_slug(template_slug)
+    end
+  end
+
+  defp get_theme_by_slug_and_template(theme_slug, template_slug) do
+    from(
+      theme in Theme,
+      join: template in assoc(theme, :template),
+      where: theme.slug == ^theme_slug,
+      where: template.slug == ^template_slug,
+      preload: [:template]
+    )
+    |> Repo.one()
   end
 
   @doc """
