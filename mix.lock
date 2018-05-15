@@ -65,6 +65,7 @@
   "poolboy": {:hex, :poolboy, "1.5.1", "6b46163901cfd0a1b43d692657ed9d7e599853b3b21b95ae5ae0a777cf9b6ca8", [:rebar], []},
   "postgrex": {:hex, :postgrex, "0.13.5", "3d931aba29363e1443da167a4b12f06dcd171103c424de15e5f3fc2ba3e6d9c5", [:mix], [{:connection, "~> 1.0", [hex: :connection, optional: false]}, {:db_connection, "~> 1.1", [hex: :db_connection, optional: false]}, {:decimal, "~> 1.0", [hex: :decimal, optional: false]}]},
   "ranch": {:hex, :ranch, "1.3.2", "e4965a144dc9fbe70e5c077c65e73c57165416a901bd02ea899cfd95aa890986", [:rebar3], []},
+  "recaptcha": {:git, "https://github.com/coderberry/recaptcha.git", "127214199a362c988fbab29aa70d729bbb599441", [branch: "master"]},
   "redix": {:hex, :redix, "0.7.0", "14a22cba1137600ccf8d64baf1b291689add779488f9a193d7d83dcc3e03a7a4", [:mix], [{:connection, "~> 1.0", [hex: :connection, optional: false]}]},
   "remote_ip": {:hex, :remote_ip, "0.1.4", "c34e79cdf6058ccff824f6d6ed7ac5282b953c6aa0cf62f949cfe1c3b6119f35", [:mix], [{:combine, "~> 0.10", [hex: :combine, optional: false]}, {:inet_cidr, "~> 1.0", [hex: :inet_cidr, optional: false]}, {:plug, "~> 1.2", [hex: :plug, optional: false]}]},
   "rollbax": {:hex, :rollbax, "0.9.0", "efdc5a1fdc8624409206b1d48c321dd8dfe2e262c0ce5f844636d9cca02ea84f", [:mix], [{:hackney, "~> 1.1", [hex: :hackney, optional: false]}, {:jason, "~> 1.0", [hex: :jason, optional: false]}]},

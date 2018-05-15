@@ -20,11 +20,19 @@ defmodule CodeFundWeb.PageController do
 
   def deliver_form(conn, %{"type" => type, "form" => form})
       when type in ["advertiser", "publisher"] do
-    Contact.email(form, type) |> Mailer.deliver_now()
 
-    conn
-    |> put_flash(:info, "Your request was submitted successfully")
-    |> redirect(to: page_path(conn, :index))
+    case Recaptcha.verify(params["g-recaptcha-response"]) do
+      {:ok, response} ->
+        Contact.email(form, type) |> Mailer.deliver_now()
+
+        conn
+        |> put_flash(:info, "Your request was submitted successfully")
+        |> redirect(to: page_path(conn, :index))
+
+      {:error, errors} ->
+        report(:warning, "Did not pass recaptcha")
+        render(conn, "#{type}.html", changeset: form)
+    end
   end
 
   def deliver_form(conn, _) do

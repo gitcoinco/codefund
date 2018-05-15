@@ -112,6 +112,9 @@
             </div>
           </div>
           <div class="text-center pt-3">
+            <div style="width: 304px; margin: 15px auto;">
+              <%= raw Recaptcha.Template.display %>
+            </div>
             <button type="submit" class="btn btn-lg btn-primary">Submit</button>
             <a href="/" class="btn btn-link btn-lg ml-2">Cancel</a>
           </div>

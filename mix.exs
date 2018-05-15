@@ -42,7 +42,8 @@ defmodule CodeFund.Mixfile do
         :timex_ecto,
         :rollbax,
         :corsica,
-        :bamboo
+        :bamboo,
+        :recaptcha
       ]
     ]
   end
@@ -93,6 +94,7 @@ defmodule CodeFund.Mixfile do
       {:corsica, "~> 1.0"},
       {:joken, "~> 1.5.0"},
       {:bamboo, "~> 0.8"},
+      {:recaptcha, github: "coderberry/recaptcha", branch: "master"},
       {:mock, "~> 0.3.0", only: :test},
       {:excoveralls, "~> 0.8", only: :test}
     ]
