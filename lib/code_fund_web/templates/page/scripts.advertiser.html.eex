@@ -1,0 +1,30 @@
+<%# <script>
+  function onSubmit(token) {
+    console.log('Success!');
+  }
+
+  function validate(event) {
+    event.preventDefault();
+    var $form = $('#advertiser-form');
+    if(!$form[0].checkValidity()) {
+      $form.submit();
+      console.log("here");
+    } else {
+      grecaptcha.execute();
+    }
+  }
+
+  function onload() {
+    var button = $('#submit');
+    button.onclick = validate;
+  }
+
+  $(function() {
+    onload();
+  });
+</script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script> %>

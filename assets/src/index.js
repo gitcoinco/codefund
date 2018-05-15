@@ -18,6 +18,7 @@ const context = require.context("./controllers", true, /\.js$/);
 application.load(definitionsFromContext(context));
 
 const Turbolinks = require("turbolinks");
+
 Turbolinks.start();
 
 console.log(

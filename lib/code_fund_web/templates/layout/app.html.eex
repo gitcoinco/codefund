@@ -19,11 +19,9 @@
   <!-- Main styles for this application -->
   <link href="<%= static_path(@conn, "/css/app.css") %>" rel="stylesheet">
 
-  <!-- CDN -->
-  <script src="//www.google.com/recaptcha/api.js" async defer></script>
-
   <!-- Main scripts (leave in header for Turbolinks) -->
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  <%= render_existing view_module(@conn), "scripts." <> view_template(@conn), assigns %>
 </head>
 
 <body class="<%= body_class @conn, "app mt-5" %>">
