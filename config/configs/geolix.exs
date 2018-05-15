@@ -8,5 +8,5 @@ config :geolix,
       init: {MaxMindInitializer, :init}
     }
   ],
-  banned_countries: System.get_env("BANNED_COUNTRIES"),
-  mmdb_location: System.get_env("MMDB_LOCATION")
+  banned_countries: System.get_env("BANNED_COUNTRIES") || [],
+  mmdb_location: System.get_env("MMDB_LOCATION") || ""

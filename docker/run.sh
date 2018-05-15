@@ -10,7 +10,8 @@ if [ $MIX_ENV = 'prod' ]; then
   mix phx.server
 else
   run_assets $ASSETS_DIR
-    
+
+  mix maxmind.setup
   mix deps.get
   mix ecto.migrate
   mix phx.server

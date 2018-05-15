@@ -66,6 +66,7 @@ mix ecto.migrate
 mix code_fund.seed
 cd assets && npm install
 cd ../
+mix maxmind.setup
 mix phx.server
 ```
 

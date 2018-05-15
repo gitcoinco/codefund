@@ -29,3 +29,5 @@ npm-debug.log
 .env
 cover
 *.mmdb
+.DS_Store
+*.tar.gz
