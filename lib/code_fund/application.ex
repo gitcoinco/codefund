@@ -9,15 +9,29 @@ defmodule CodeFund.Application do
     options = %{keepalive: 10000, name: :slack_bot}
     slack_token = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_token]
     # Define workers and child supervisors to be supervised
-    children = [
-      # Start the Ecto repository
-      supervisor(CodeFund.Repo, []),
-      # Start the endpoint when the application starts
-      supervisor(CodeFundWeb.Endpoint, []),
-      # Start your own worker by calling: CodeFund.Worker.start_link(arg1, arg2, arg3)
-      # worker(CodeFund.Worker, [arg1, arg2, arg3]),
-      worker(Slack.Bot, [CodeFundWeb.SlackBot, [], slack_token, options], restart: :transient)
-    ]
+    children =
+      [
+        # Start the Ecto repository
+        supervisor(CodeFund.Repo, []),
+        # Start the endpoint when the application starts
+        supervisor(CodeFundWeb.Endpoint, [])
+        # Start your own worker by calling: CodeFund.Worker.start_link(arg1, arg2, arg3)
+        # worker(CodeFund.Worker, [arg1, arg2, arg3]),
+        # worker(Slack.Bot, [CodeFundWeb.SlackBot, [], slack_token, options], restart: :transient)
+      ] ++
+        cond do
+          slack_token ->
+            [
+              worker(
+                Slack.Bot,
+                [CodeFundWeb.SlackBot, [], slack_token, options],
+                restart: :transient
+              )
+            ]
+
+          true ->
+            []
+        end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

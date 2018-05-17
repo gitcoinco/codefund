@@ -7,14 +7,18 @@ defmodule CodeFundWeb.SlackBot do
   """
   @spec web_send_message(String.t()) :: any
   def web_send_message(message) do
-    channel = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_channel]
-    slack_avatar = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_avatar]
-    slack_bot_name = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_bot_name]
+    token = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_token]
 
-    Slack.Web.Chat.post_message(channel, message, %{
-      icon_url: slack_avatar,
-      username: slack_bot_name
-    })
+    if token do
+      channel = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_channel]
+      avatar = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_avatar]
+      bot_name = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:slack_bot_name]
+
+      Slack.Web.Chat.post_message(channel, message, %{
+        icon_url: avatar,
+        username: bot_name
+      })
+    end
   end
 
   def handle_connect(slack, state) do
