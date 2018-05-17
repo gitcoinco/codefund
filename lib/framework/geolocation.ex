@@ -6,7 +6,7 @@ defmodule Framework.Geolocation do
     try do
       ip
       |> tuple_size()
-      |> cast_ip_address(ip)
+      |> cast_ip_address(stub_ip_for_dev(ip))
       |> Geolix.lookup(as: :struct, where: :country)
       |> check_against_list_of_banned_countries
     rescue
@@ -25,6 +25,12 @@ defmodule Framework.Geolocation do
     |> Enum.map(fn element -> Integer.parse(element, 16) |> elem(0) end)
     |> List.to_tuple()
   end
+
+  @spec stub_ip_for_dev({integer, integer, integer, integer}) ::
+          {integer, integer, integer, integer}
+  defp stub_ip_for_dev({127, 0, 0, 1}), do: {8, 8, 8, 8}
+
+  defp stub_ip_for_dev(ip), do: ip
 
   @spec check_against_list_of_banned_countries(%Geolix.Result.Country{}) :: boolean
   defp check_against_list_of_banned_countries(%Geolix.Result.Country{

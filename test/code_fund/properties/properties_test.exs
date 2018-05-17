@@ -35,8 +35,8 @@ defmodule CodeFund.PropertiesTest do
     end
 
     test "list_active_properties/0 returns all active properties", %{property: property} do
-      CodeFund.Support.Fixture.generate(:property, %{status: 0, property_type: 1})
-      CodeFund.Support.Fixture.generate(:property, %{status: 1, property_type: 2})
+      insert(:property, %{status: 0, property_type: 1})
+      insert(:property, %{status: 1, property_type: 2})
       subject = Properties.list_active_properties()
       assert Enum.count(subject) == 1
       assert Enum.at(subject, 0).name == property.name

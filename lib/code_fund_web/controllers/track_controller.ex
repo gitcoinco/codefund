@@ -1,241 +1,60 @@
 defmodule CodeFundWeb.TrackController do
   use CodeFundWeb, :controller
-  alias CodeFund.{Impressions, Clicks, Properties, Sponsorships}
+  alias CodeFund.Schema.{Campaign, Click, Impression}
+  alias CodeFund.{Impressions, Clicks}
 
   @transparent_png <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33,
                      249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
 
-  def pixel(conn, %{"property_id" => property_id} = params) do
-    try do
-      property = Properties.get_property!(property_id)
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
-
-      impression_id =
-        case track_impression(conn, property, sponsorship, params) do
-          {:ok, impression} ->
-            impression.id
-
-          {:error, _} ->
-            report(:warning)
-            nil
-        end
-
-      if impression_id !== nil do
-        enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id])
-      end
-
+  def pixel(conn, %{"impression_id" => impression_id}) do
+    with {:ok, %CodeFund.Schema.Impression{id: impression_id}} <-
+           update_impression_with_browser_attributes(conn, impression_id),
+         {:ok, _} <-
+           enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id]) do
       conn
       |> put_resp_content_type("image/png")
-      |> put_private(:impression_id, impression_id)
       |> send_resp(200, @transparent_png)
-    rescue
-      Ecto.NoResultsError ->
-        :ok
-        report(:error)
-
+    else
+      {:error, _} ->
         conn
-        |> put_resp_content_type("image/png")
-        |> put_private(:impression_id, "")
-        |> send_resp(200, @transparent_png)
     end
   end
 
-  def pixel(conn, %{"sponsorship_id" => sponsorship_id} = params) do
-    try do
-      sponsorship = Sponsorships.get_sponsorship!(sponsorship_id)
-      property = sponsorship.property
-
-      impression_id =
-        case track_impression(conn, property, sponsorship, params) do
-          {:ok, impression} ->
-            impression.id
-
-          {:error, _} ->
-            report(:warning)
-            nil
-        end
-
-      if impression_id !== nil do
-        enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id])
-      end
-
-      conn
-      |> put_resp_content_type("image/png")
-      |> put_private(:impression_id, impression_id)
-      |> send_resp(200, @transparent_png)
-    rescue
-      Ecto.NoResultsError ->
-        report(:error)
-        :ok
-
+  def click(conn, %{"impression_id" => impression_id}) do
+    with %Impression{campaign: %Campaign{} = campaign} = impression <-
+           Impressions.get_impression!(impression_id)
+           |> CodeFund.Repo.preload([:campaign, [property: :user]]),
+         {:ok, %Click{} = click} <-
+           track_click(conn, impression_id, campaign, impression.property),
+         {:ok, _click_id} <- enqueue_worker(CodeFundWeb.UpdateClickGeolocationWorker, [click.id]) do
+      click_redirect(conn, campaign)
+    else
+      %Plug.Conn{} = conn ->
         conn
-        |> put_resp_content_type("image/png")
-        |> put_private(:impression_id, "")
-        |> send_resp(200, @transparent_png)
-    end
-  end
 
-  # TODO - This function is too complex! Refactor is necessary
-  def click(conn, %{"property_id" => property_id} = params) do
-    try do
-      property = Properties.get_property!(property_id)
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        %Impression{campaign: %Campaign{} = campaign} = Impressions.get_impression!(impression_id)
+        report(:warning, "Unable to save click: #{inspect(changeset)}")
+        IO.puts("Unable to save click: #{inspect(changeset)}")
+        click_redirect(conn, campaign)
 
-      case track_click(conn, property, sponsorship, params) do
-        {:ok, click} ->
-          enqueue_worker(CodeFundWeb.UpdateClickGeolocationWorker, [click.id])
+      {:error, :calc_rev_error} ->
+        %Impression{campaign: %Campaign{} = campaign} =
+          impression =
+          Impressions.get_impression!(impression_id)
+          |> CodeFund.Repo.preload([:campaign, [property: :user]])
 
-          no_rev_dist = %{
-            revenue_amount: Decimal.new(0),
-            distribution_amount: Decimal.new(0)
-          }
+        %{distribution_amount: _distribution_amount, revenue_amount: revenue_amount} =
+          calculate_revenue(campaign, impression.property)
 
-          cond do
-            sponsorship == nil ->
-              Clicks.set_status(click, :no_sponsor, no_rev_dist)
+        save_click(conn, %{
+          impression_id: impression_id,
+          revenue_amount: revenue_amount,
+          fraud_check_url: nil,
+          distribution_amount: 0
+        })
 
-            click.is_bot ->
-              Clicks.set_status(click, :bot, no_rev_dist)
-
-            click.is_duplicate ->
-              Clicks.set_status(click, :duplicate, no_rev_dist)
-
-            true ->
-              # Redirect to the fraud check URL if present
-              campaign = sponsorship.campaign
-
-              if campaign.fraud_check_url do
-                Clicks.set_status(click, :fraud_check, %{
-                  fraud_check_redirected_at: Timex.now()
-                })
-
-                # Enqueue the verify click redirected worker for 2 minutes from now
-                enqueue_worker_in(120, CodeFundWeb.VerifyClickRedirected, [click.id])
-
-                redirect(conn, external: "#{campaign.fraud_check_url}?utm_content=#{click.id}")
-              else
-                revenue = Money.new(sponsorship.bid_amount, :USD)
-
-                revenue_rate =
-                  if is_nil(sponsorship.override_revenue_rate) do
-                    sponsorship.property.user.revenue_rate
-                  else
-                    sponsorship.override_revenue_rate
-                  end
-
-                distribution =
-                  case Money.mult(revenue, revenue_rate) do
-                    {:ok, amount} ->
-                      Money.round(amount).amount
-
-                    {:error, _} ->
-                      report(:warning)
-                      0
-                  end
-
-                Clicks.set_status(click, :redirected, %{
-                  revenue_amount: revenue.amount,
-                  distribution_amount: distribution
-                })
-              end
-          end
-
-        {:error, %Ecto.Changeset{} = changeset} ->
-          IO.puts("Unable to save click: #{inspect(changeset)}")
-      end
-
-      if sponsorship do
-        redirect(conn, external: sponsorship.redirect_url)
-      else
-        redirect(conn, external: "/?utm_content=no-sponsor&utm_term=#{property.id}")
-      end
-    rescue
-      Ecto.NoResultsError ->
-        report(:error)
-        IO.puts("Property is missing with ID [#{property_id}]")
-        redirect(conn, external: "/?utm_content=no-property")
-    end
-  end
-
-  # TODO - This function is too complex! Refactor is necessary
-  def click(conn, %{"sponsorship_id" => sponsorship_id} = params) do
-    try do
-      sponsorship = Sponsorships.get_sponsorship!(sponsorship_id)
-      property = sponsorship.property
-
-      case track_click(conn, property, sponsorship, params) do
-        {:ok, click} ->
-          enqueue_worker(CodeFundWeb.UpdateClickGeolocationWorker, [click.id])
-
-          no_rev_dist = %{
-            revenue_amount: Decimal.new(0),
-            distribution_amount: Decimal.new(0)
-          }
-
-          cond do
-            sponsorship == nil ->
-              Clicks.set_status(click, :no_sponsor, no_rev_dist)
-
-            click.is_bot ->
-              Clicks.set_status(click, :bot, no_rev_dist)
-
-            click.is_duplicate ->
-              Clicks.set_status(click, :duplicate, no_rev_dist)
-
-            true ->
-              # Redirect to the fraud check URL if present
-              campaign = sponsorship.campaign
-
-              if campaign.fraud_check_url do
-                Clicks.set_status(click, :fraud_check, %{
-                  fraud_check_redirected_at: Timex.now()
-                })
-
-                # Enqueue the verify click redirected worker for 2 minutes from now
-                enqueue_worker_in(120, CodeFundWeb.VerifyClickRedirected, [click.id])
-
-                redirect(conn, external: "#{campaign.fraud_check_url}?utm_content=#{click.id}")
-              else
-                revenue = Money.new(sponsorship.bid_amount, :USD)
-
-                revenue_rate =
-                  if is_nil(sponsorship.override_revenue_rate) do
-                    sponsorship.property.user.revenue_rate
-                  else
-                    sponsorship.override_revenue_rate
-                  end
-
-                distribution =
-                  case Money.mult(revenue, revenue_rate) do
-                    {:ok, amount} ->
-                      Money.round(amount).amount
-
-                    {:error, _} ->
-                      report(:warning)
-                      0
-                  end
-
-                Clicks.set_status(click, :redirected, %{
-                  revenue_amount: revenue.amount,
-                  distribution_amount: distribution
-                })
-              end
-          end
-
-        {:error, %Ecto.Changeset{} = changeset} ->
-          report(:warning, "Unable to save click: #{inspect(changeset)}")
-          IO.puts("Unable to save click: #{inspect(changeset)}")
-      end
-
-      if sponsorship do
-        redirect(conn, external: sponsorship.redirect_url)
-      else
-        redirect(conn, external: "/?utm_content=no-sponsor&utm_term=#{property.id}")
-      end
-    rescue
-      Ecto.NoResultsError ->
-        IO.puts("Sponsorship is missing with ID [#{sponsorship_id}]")
-        redirect(conn, external: "/?utm_content=no-property")
+        click_redirect(conn, campaign)
     end
   end
 
@@ -280,125 +99,129 @@ defmodule CodeFundWeb.TrackController do
     redirect(conn, external: url)
   end
 
-  defp track_impression(conn, property, sponsorship, params) do
+  defp browser_details(conn) do
     ip_address = conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
-    user_agent = conn |> get_req_header("user-agent") |> Enum.at(0)
-    is_bot = Browser.bot?(user_agent)
-    browser = Browser.name(user_agent)
-    os = Atom.to_string(Browser.platform(user_agent))
-    device_type = parse_device_type(user_agent)
 
-    impression_params = %{
-      property_id: property.id,
+    referrer =
+      (conn |> get_req_header("referer") |> Enum.at(0) || "") |> URI.parse() |> Map.get(:hostd)
+
+    os = conn |> Browser.platform() |> to_string
+
+    %{
       ip: ip_address,
-      is_bot: is_bot,
-      browser: browser,
+      user_agent: Browser.Ua.to_ua(conn),
+      referrer: referrer,
       os: os,
-      device_type: device_type,
-      city: nil,
-      region: nil,
-      postal_code: nil,
-      country: nil,
-      latitude: nil,
-      longitude: nil,
-      screen_height: nil,
-      screen_width: nil,
-      user_agent: user_agent,
-      utm_campaign: params["utm_campaign"],
-      utm_content: params["utm_content"],
-      utm_medium: params["utm_medium"],
-      utm_source: params["utm_source"],
-      utm_term: params["utm_term"]
+      is_bot: Browser.bot?(conn),
+      device_type: parse_device_type(conn)
     }
-
-    Impressions.create_from_sponsorship(impression_params, sponsorship)
   end
 
-  defp track_click(conn, property, sponsorship, params) do
-    ip_address = conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
-    user_agent = conn |> get_req_header("user-agent") |> Enum.at(0)
-    referrer = conn |> get_req_header("referer") |> Enum.at(0)
-    is_bot = Browser.bot?(conn)
-    browser = Browser.name(user_agent)
-    os = Atom.to_string(Browser.platform(user_agent))
-    device_type = parse_device_type(user_agent)
-
-    referring_domain =
-      if referrer do
-        URI.parse(referrer).host
-      else
-        nil
-      end
-
-    is_duplicate =
-      if sponsorship do
-        Clicks.is_duplicate?(sponsorship.id, ip_address)
-      else
-        false
-      end
-
-    click_params = %{
-      property_id: property.id,
-      ip: ip_address,
-      is_bot: is_bot,
-      is_duplicate: is_duplicate,
-      landing_page: conn.request_path,
-      referrer: referrer,
-      referring_domain: referring_domain,
-      browser: browser,
-      os: os,
-      device_type: device_type,
-      city: nil,
-      region: nil,
-      postal_code: nil,
-      country: nil,
-      latitude: nil,
-      longitude: nil,
-      screen_height: nil,
-      screen_width: nil,
-      user_agent: user_agent,
-      utm_campaign: params["utm_campaign"],
-      utm_content: params["utm_content"],
-      utm_medium: params["utm_medium"],
-      utm_source: params["utm_source"],
-      utm_term: params["utm_term"],
-      revenue_amount: 0,
-      distribution_amount: 0
-    }
-
-    created_click =
-      if sponsorship do
-        click_params
-        |> Map.merge(%{
-          campaign_id: sponsorship.campaign_id,
-          sponsorship_id: sponsorship.id
-        })
-      else
-        click_params
-      end
-      |> Clicks.create_click()
-
-    case created_click do
-      {:ok, click} ->
-        {:ok, click}
-
-      {:error, %Ecto.Changeset{}} ->
-        report(:error)
-        {:error, nil}
+  defp calculate_revenue(campaign, property) do
+    with %Money{} = revenue_amount <- Money.new(campaign.bid_amount, :USD),
+         revenue_rate <- campaign.override_revenue_rate || property.user.revenue_rate,
+         {:ok, %Money{} = distribution_amount} <- Money.mult(revenue_amount, revenue_rate),
+         %Money{amount: rounded_revenue_sub_total} <- Money.round(distribution_amount) do
+      %{
+        revenue_amount: rounded_revenue_sub_total,
+        distribution_amount: distribution_amount.amount
+      }
+    else
+      _ ->
+        report(:error, "could not calculate revenue on a campaign click")
+        {:error, :calc_rev_error}
     end
   end
 
-  defp parse_device_type(user_agent) do
+  defp click_redirect(conn, %Campaign{redirect_url: redirect_url}) do
+    redirect(conn, external: redirect_url)
+  end
+
+  defp track_click(conn, impression_id, %Campaign{fraud_check_url: nil} = campaign, property) do
+    report(
+      :warning,
+      "The campaign #{campaign.name} - #{campaign.id} does not have a fraud check url"
+    )
+
+    save_click(
+      conn,
+      %{impression_id: impression_id, fraud_check_url: nil}
+      |> Map.merge(calculate_revenue(campaign, property))
+    )
+  end
+
+  defp track_click(conn, impression_id, %Campaign{} = campaign, property) do
+    click_attributes =
+      calculate_revenue(campaign, property)
+      |> Map.merge(%{
+        impression_id: impression_id,
+        fraud_check_redirected_at: Timex.now(),
+        fraud_check_url: campaign.fraud_check_url
+      })
+
+    {:ok, %Click{id: click_id}} =
+      save_click(
+        conn,
+        click_attributes
+      )
+
+    enqueue_worker_in(120, CodeFundWeb.VerifyClickRedirected, [click_id])
+    redirect(conn, external: "#{click_attributes.fraud_check_url}?utm_content=#{click_id}")
+  end
+
+  defp save_click(conn, click_attributes) do
+    browser_details = browser_details(conn)
+
+    %{
+      is_duplicate: Clicks.is_duplicate?(click_attributes.impression_id, browser_details.ip),
+      landing_page: conn.request_path,
+      browser: Browser.name(browser_details.user_agent)
+    }
+    |> Map.merge(%{status: CodeFund.Schema.Click.statuses()[:redirected]})
+    |> Map.merge(click_attributes)
+    |> Map.merge(browser_details)
+    |> set_status_and_final_distributions
+    |> Clicks.create_click()
+  end
+
+  defp set_status_and_final_distributions(click_attributes) do
+    click_attributes =
+      case click_attributes.is_bot || click_attributes.is_duplicate do
+        true ->
+          Map.merge(click_attributes, %{
+            revenue_amount: Decimal.new(0),
+            distribution_amount: Decimal.new(0)
+          })
+
+        false ->
+          click_attributes
+      end
+
+    case click_attributes.fraud_check_url |> is_nil do
+      true ->
+        click_attributes
+
+      false ->
+        Map.merge(click_attributes, %{status: CodeFund.Schema.Click.statuses()[:fraud_check]})
+    end
+  end
+
+  defp update_impression_with_browser_attributes(conn, impression_id) do
+    Impressions.get_impression!(impression_id)
+    |> Impressions.update_impression(browser_details(conn))
+  end
+
+  defp parse_device_type(conn) do
     cond do
-      Browser.mobile?(user_agent) -> "mobile"
-      Browser.tablet?(user_agent) -> "tablet"
-      Browser.console?(user_agent) -> "console"
-      Browser.known?(user_agent) -> "desktop"
+      Browser.mobile?(conn) -> "mobile"
+      Browser.tablet?(conn) -> "tablet"
+      Browser.console?(conn) -> "console"
+      Browser.known?(conn) -> "desktop"
       true -> "unknown"
     end
   end
 
-  # See https://github.com/akira/exq/issues/199
+  # # See https://github.com/akira/exq/issues/199
   defp enqueue_worker(worker, args) do
     if Mix.env() == :test do
       apply(worker, :perform, args)
@@ -409,7 +232,10 @@ defmodule CodeFundWeb.TrackController do
 
   defp enqueue_worker_in(duration, worker, args) do
     if Mix.env() == :test do
-      apply(worker, :perform, args)
+      spawn(fn ->
+        :timer.sleep(duration + 30)
+        apply(worker, :perform, args)
+      end)
     else
       Exq.enqueue_in(Exq, "cs_low", duration, worker, args)
     end

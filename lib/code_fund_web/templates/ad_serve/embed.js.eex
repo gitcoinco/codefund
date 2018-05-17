@@ -53,6 +53,11 @@ var _codefund = {
     }
   },
 
+  hideAd: function () {
+    var cfAd = document.getElementById(this.targetId);
+    cfAd.style.display = "none";
+  },
+
   decodeHtml: function (text) {
     var entities = [
       ['amp', '&'],

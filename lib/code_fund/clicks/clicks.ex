@@ -163,13 +163,13 @@ defmodule CodeFund.Clicks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def is_duplicate?(sponsorship_id, ip_address) do
+  def is_duplicate?(impression_id, ip_address) do
     query =
       from(
         c in Click,
         select: count(c.id),
         where: [
-          sponsorship_id: ^sponsorship_id,
+          impression_id: ^impression_id,
           ip: ^ip_address,
           status: ^Click.statuses()[:redirected]
         ],

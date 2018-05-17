@@ -150,17 +150,17 @@ defmodule CodeFund.ClicksTest do
     end
 
     test "is_duplicate?/2 with no duplicate" do
-      sponsorship = insert(:sponsorship)
+      impression = insert(:impression)
       days_ago = Timex.shift(Timex.now(), days: -10)
-      insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, sponsorship: sponsorship})
-      refute Clicks.is_duplicate?(sponsorship.id, "1.2.3.4")
+      insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, impression: impression})
+      refute Clicks.is_duplicate?(impression.id, "1.2.3.4")
     end
 
     test "is_duplicate?/2 with duplicate" do
-      sponsorship = insert(:sponsorship)
+      impression = insert(:impression)
       days_ago = Timex.shift(Timex.now(), days: -3)
-      insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, sponsorship: sponsorship, status: 1})
-      assert Clicks.is_duplicate?(sponsorship.id, "1.2.3.4")
+      insert(:click, %{ip: "1.2.3.4", inserted_at: days_ago, impression: impression, status: 1})
+      assert Clicks.is_duplicate?(impression.id, "1.2.3.4")
     end
   end
 end
