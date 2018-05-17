@@ -6,6 +6,8 @@ defmodule CodeFundWeb.RegistrationControllerTest do
   describe "create" do
     test "sets role of new users as 'developer'", %{conn: conn} do
       conn = assign(conn, :current_user, nil)
+      pid = Process.whereis(CodeFundWeb.Notificator)
+      :erlang.trace(pid, true, [:receive])
 
       params = %{
         "registration" => %{
@@ -22,6 +24,10 @@ defmodule CodeFundWeb.RegistrationControllerTest do
       user = User |> Repo.get_by(email: "john.doe@example.com")
       assert user.first_name == "John"
       assert user.roles == ["developer"]
+
+      assert_receive {:trace, ^pid, :receive,
+                      {:"$gen_cast",
+                       {:message, "User John Doe (john.doe@example.com) just registered!"}}}
     end
   end
 end
