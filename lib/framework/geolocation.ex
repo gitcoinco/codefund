@@ -1,14 +1,15 @@
 defmodule Framework.Geolocation do
   require Logger
 
-  @spec is_banned_country?({integer, integer, integer, integer}) :: boolean
-  def is_banned_country?(ip) when is_tuple(ip) do
+  @spec find_country_by_ip({integer, integer, integer, integer}) :: boolean
+  def find_country_by_ip(ip) when is_tuple(ip) do
     try do
       ip
       |> tuple_size()
       |> cast_ip_address(stub_ip_for_dev(ip))
       |> Geolix.lookup(as: :struct, where: :country)
-      |> check_against_list_of_banned_countries
+      |> Map.get(:country)
+      |> Map.get(:iso_code)
     rescue
       _exception ->
         Logger.error("An error occurred during geolocation")
@@ -31,13 +32,4 @@ defmodule Framework.Geolocation do
   defp stub_ip_for_dev({127, 0, 0, 1}), do: {8, 8, 8, 8}
 
   defp stub_ip_for_dev(ip), do: ip
-
-  @spec check_against_list_of_banned_countries(%Geolix.Result.Country{}) :: boolean
-  defp check_against_list_of_banned_countries(%Geolix.Result.Country{
-         country: %Geolix.Record.Country{iso_code: country_code}
-       }) do
-    Application.get_env(:geolix, :banned_countries)
-    |> String.split(",")
-    |> Enum.member?(country_code)
-  end
 end
