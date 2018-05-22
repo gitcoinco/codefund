@@ -26,7 +26,7 @@
               <th>Value</th>
             </tr>
           </thead>
-          <tbody>d
+          <tbody>
             <tr>
               <td><strong>ID</strong></td>
               <td><%= @campaign.id %></td>
