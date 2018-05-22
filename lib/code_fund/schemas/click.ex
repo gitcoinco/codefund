@@ -19,6 +19,7 @@ defmodule CodeFund.Schema.Click do
     belongs_to(:sponsorship, CodeFund.Schema.Sponsorship)
     belongs_to(:campaign, CodeFund.Schema.Campaign)
     belongs_to(:distribution, CodeFund.Schema.Distribution)
+    belongs_to(:impression, CodeFund.Schema.Impression)
 
     field(:status, :integer, default: 0)
     field(:is_bot, :boolean, default: false)
@@ -55,7 +56,6 @@ defmodule CodeFund.Schema.Click do
 
   @required [
     :status,
-    :property_id,
     :ip,
     :revenue_amount,
     :distribution_amount

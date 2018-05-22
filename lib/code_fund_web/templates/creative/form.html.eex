@@ -1,5 +1,6 @@
 <%= [
     name: [type: :text_input, label: "Name"],
+    headline: [type: :text_input, label: "Headline"],
     body: [type: :text_input, label: "Body"],
     image_url: [type: :text_input, label: "Image URL", opts: [placeholder: "https://"]]
   ] |> render_fields(@form)

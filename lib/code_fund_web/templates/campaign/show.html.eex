@@ -64,6 +64,10 @@
               <td><%= pretty_money @campaign.bid_amount %></td>
             </tr>
             <tr>
+              <td><strong>Override Revenue Rate</strong></td>
+              <td><%= pretty_money @campaign.override_revenue_rate %></td>
+            </tr>
+            <tr>
               <td><strong>Daily Budget</strong></td>
               <td><%= pretty_subtracted_money_with_total(
                       @campaign.budget_daily_amount,

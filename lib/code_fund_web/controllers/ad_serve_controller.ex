@@ -1,75 +1,72 @@
 defmodule CodeFundWeb.AdServeController do
   use CodeFundWeb, :controller
 
-  alias CodeFund.{Properties, Sponsorships, Templates, Themes}
-  alias CodeFund.Schema.{Property, Sponsorship, Campaign, Creative}
+  alias CodeFund.{Creatives, Impressions, Properties, Templates, Themes}
+  alias CodeFund.Schema.{Impression, Property, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
-    property = Properties.get_property!(property_id)
     template_slug = params["template"] || "default"
     theme_slug = params["theme"] || "light"
-    template = Templates.get_template_by_slug(template_slug)
     targetId = params["target"] || "codefund_ad"
 
-    # TODO: refactor this into two different methods, and use if is_nil(template) to invoke the correct one
-    cond do
-      template == nil ->
-        templates = Templates.list_templates()
-        template_slugs = Enum.map(templates, fn c -> c.slug end)
+    with %Theme{template: %Template{}} = theme <-
+           Themes.get_template_or_theme_by_slugs(theme_slug, template_slug),
+         details_url <- "https://#{conn.host}/t/s/#{property_id}/details.json" do
+      conn
+      |> put_resp_content_type("application/javascript")
+      |> render(
+        "embed.js",
+        template: theme.template,
+        targetId: targetId,
+        theme: theme,
+        details_url: details_url
+      )
+    else
+      %Template{} = template ->
+        error_render(conn, "theme", Themes.list_themes_for_template(template))
 
-        conn
-        |> put_status(:not_found)
-        |> put_resp_content_type("application/javascript")
-        |> text(
-          "console.log('CodeFund template does not exist. Available templates are \\'#{
-            Enum.join(template_slugs, "','")
-          }\\'');"
-        )
-
-      true ->
-        theme = Enum.find(template.themes, fn t -> t.slug == theme_slug end)
-
-        cond do
-          theme == nil ->
-            themes = Themes.list_themes()
-            theme_slugs = Enum.map(themes, fn c -> c.slug end)
-
-            conn
-            |> put_resp_content_type("application/javascript")
-            |> text(
-              "console.log('CodeFund theme does not exist. Available themes for this template are \\'#{
-                Enum.join(theme_slugs, "','")
-              }\\'');"
-            )
-
-          true ->
-            details_url = "https://#{conn.host}/t/s/#{property.id}/details.json"
-
-            conn
-            |> put_resp_content_type("application/javascript")
-            |> render(
-              "embed.js",
-              property: property,
-              template: template,
-              targetId: targetId,
-              theme: theme,
-              template: template,
-              details_url: details_url
-            )
-        end
+      nil ->
+        error_render(conn, "template", Templates.list_templates())
     end
   end
 
+  defp error_render(conn, object_type, list_of_objects) do
+    conn
+    |> put_status(:not_found)
+    |> put_resp_content_type("application/javascript")
+    |> text(
+      "console.log('CodeFund #{object_type} does not exist. Available #{object_type}s are [#{
+        list_of_objects |> Enum.map(fn object -> Map.get(object, :slug) end) |> Enum.join("|")
+      }]');"
+    )
+  end
+
   def details(conn, %{"property_id" => property_id}) do
-    with %Property{status: 1} = property <- Properties.get_property!(property_id),
-         %Sponsorship{creative: %Creative{}, campaign: %Campaign{}} = sponsorship <-
-           Sponsorships.get_sponsorship_for_property(property) do
+    with false <- Framework.Geolocation.is_banned_country?(conn.remote_ip),
+         %Property{status: 1, programming_languages: programming_languages} <-
+           Properties.get_property!(property_id),
+         %{
+           "image_url" => image_url,
+           "body" => body,
+           "campaign_id" => campaign_id,
+           "headline" => headline
+         } <-
+           Creatives.get_by_property_filters(programming_languages: programming_languages)
+           |> CodeFund.Repo.one() do
+      {:ok, %Impression{id: impression_id}} =
+        Impressions.create_impression(%{
+          ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
+          property_id: property_id,
+          campaign_id: campaign_id
+        })
+
       %{
-        image: sponsorship.creative.image_url,
-        link: "https://#{conn.host}/t/s/#{sponsorship.id}",
-        description: sponsorship.creative.body,
-        pixel: "//#{conn.host}/t/p/#{sponsorship.id}/pixel.png",
-        poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
+        image: image_url,
+        link: "https://#{conn.host}/c/#{impression_id}",
+        description: body,
+        pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
+        poweredByLink: "https://codefund.io?utm_content=#{campaign_id}",
+        headline: headline
       }
       |> details_render(conn)
     else
@@ -78,15 +75,7 @@ defmodule CodeFundWeb.AdServeController do
         |> error_details(property_id, "This property is not currently active")
         |> details_render(conn)
 
-      %Sponsorship{creative: nil} ->
-        conn
-        |> error_details(
-          property_id,
-          "CodeFund creative has not been assigned to the sponsorship"
-        )
-        |> details_render(conn)
-
-      nil ->
+      _error_case ->
         conn
         |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
         |> details_render(conn)
@@ -96,11 +85,19 @@ defmodule CodeFundWeb.AdServeController do
   defp details_render(payload, conn), do: render(conn, "details.json", payload: payload)
 
   defp error_details(conn, property_id, reason) do
+    {:ok, %Impression{id: impression_id}} =
+      Impressions.create_impression(%{
+        property_id: property_id,
+        campaign_id: nil,
+        ip: conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
+      })
+
     %{
       image: "",
       link: "",
+      headline: "",
       description: "",
-      pixel: "//#{conn.host}/t/l/#{property_id}/pixel.png",
+      pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
       poweredByLink: "https://codefund.io?utm_content=",
       reason: reason
     }

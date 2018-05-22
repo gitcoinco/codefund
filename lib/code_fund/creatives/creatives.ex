@@ -7,7 +7,7 @@ defmodule CodeFund.Creatives do
   import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeFund.Repo
-  alias CodeFund.Schema.{Creative, User}
+  alias CodeFund.Schema.{Audience, Campaign, Creative, User}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -58,6 +58,52 @@ defmodule CodeFund.Creatives do
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
     end
+  end
+
+  def get_by_property_filters(filters) do
+    from(
+      creative in Creative,
+      join: campaign in Campaign,
+      on: campaign.creative_id == creative.id,
+      join: audience in Audience,
+      on: campaign.audience_id == audience.id,
+      join: budgeted_campaign in assoc(campaign, :budgeted_campaign),
+      where: campaign.status == 2,
+      where: budgeted_campaign.day_remain > 0,
+      where: budgeted_campaign.month_remain > 0,
+      where: budgeted_campaign.total_remain > 0
+    )
+    |> build_filter_wheres(filters)
+    # JBEAN TODO: order by real algorithm later
+    |> order_by(fragment("random()"))
+    |> limit(1)
+    |> select([creative, campaign, _, _], %{
+      "image_url" => creative.image_url,
+      "body" => creative.body,
+      "campaign_id" => campaign.id,
+      "headline" => creative.headline
+    })
+  end
+
+  defp build_filter_wheres(query, []), do: query
+
+  defp build_filter_wheres(query, [{field_name, value} | tail]) do
+    query
+    |> where_clause(field_name, value)
+    |> build_filter_wheres(tail)
+  end
+
+  defp where_clause(query, field_name, value) when is_list(value) do
+    query
+    |> where(
+      [_, _, audience],
+      fragment("? && ?::varchar[]", field(audience, ^field_name), ^value)
+    )
+  end
+
+  defp where_clause(query, field_name, value) when is_binary(value) do
+    query
+    |> where([_, _, audience], field(audience, ^field_name) == ^value)
   end
 
   def by_user(%User{id: id}) do

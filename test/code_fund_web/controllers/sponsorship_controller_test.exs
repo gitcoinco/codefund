@@ -72,16 +72,16 @@ defmodule CodeFundWeb.SponsorshipControllerTest do
              ]
 
       assert conn.assigns.fields |> get_in([:campaign_id, :opts, :choices]) == [
-               {:"#{objects.user_campaign.name}", objects.user_campaign.id}
+               {objects.user_campaign.name, objects.user_campaign.id}
              ]
 
       assert conn.assigns.fields |> get_in([:creative_id, :opts, :choices]) == [
-               {:"#{objects.user_creative.name}", objects.user_creative.id}
+               {objects.user_creative.name, objects.user_creative.id}
              ]
 
       assert conn.assigns.fields |> get_in([:property_id, :opts, :choices]) ==
-               CodeFund.Properties.list_properties()
-               |> Framework.Phoenix.Form.Helpers.repo_objects_to_options()
+               CodeFund.Properties.list_active_properties()
+               |> Framework.Phoenix.Form.Helpers.repo_objects_to_options([:name, :url])
 
       assert conn.assigns.fields |> get_in([:override_revenue_rate, :type]) == :hidden_input
 
