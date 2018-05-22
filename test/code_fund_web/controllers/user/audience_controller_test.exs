@@ -114,7 +114,8 @@ defmodule CodeFundWeb.User.AudienceControllerTest do
           "params" => %{
             "audience" => %{
               "name" => "test audience",
-              "programming_languages" => ["Ruby"]
+              "programming_languages" => ["Ruby"],
+              "topic_categories" => ["Programming"]
             }
           }
         })
@@ -135,7 +136,8 @@ defmodule CodeFundWeb.User.AudienceControllerTest do
             "params" => %{
               "audience" => %{
                 "name" => "test audience",
-                "programming_languages" => ["Ruby"]
+                "programming_languages" => ["Ruby"],
+                "topic_categories" => ["Programming"]
               }
             }
           })
@@ -161,7 +163,8 @@ defmodule CodeFundWeb.User.AudienceControllerTest do
           user_audience_path(authed_conn, :create, authed_conn.assigns.current_user, %{
             "params" => %{
               "audience" => %{
-                "programming_languages" => ["Ruby"]
+                "programming_languages" => ["Ruby"],
+                "topic_categories" => ["Programming"]
               }
             }
           })

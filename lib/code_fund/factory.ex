@@ -45,6 +45,7 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Audience{
       name: "Test Audience",
       programming_languages: ["Ruby"],
+      topic_categories: ["Programming"],
       user: build(:user)
     }
   end

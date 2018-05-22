@@ -43,15 +43,21 @@ defmodule CodeFundWeb.AdServeController do
 
   def details(conn, %{"property_id" => property_id}) do
     with false <- Framework.Geolocation.is_banned_country?(conn.remote_ip),
-         %Property{status: 1, programming_languages: programming_languages} <-
-           Properties.get_property!(property_id),
+         %Property{
+           status: 1,
+           programming_languages: programming_languages,
+           topic_categories: topic_categories
+         } <- Properties.get_property!(property_id),
          %{
            "image_url" => image_url,
            "body" => body,
            "campaign_id" => campaign_id,
            "headline" => headline
          } <-
-           Creatives.get_by_property_filters(programming_languages: programming_languages)
+           Creatives.get_by_property_filters(
+             programming_languages: programming_languages,
+             topic_categories: topic_categories
+           )
            |> CodeFund.Repo.one() do
       {:ok, %Impression{id: impression_id}} =
         Impressions.create_impression(%{

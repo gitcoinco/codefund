@@ -10,13 +10,15 @@ defmodule CodeFund.Schema.Audience do
 
     field(:name, :string)
     field(:programming_languages, {:array, :string}, default: [])
+    field(:topic_categories, {:array, :string}, default: [])
 
     timestamps()
   end
 
   @required [
     :name,
-    :user_id
+    :user_id,
+    :topic_categories
   ]
 
   def required, do: @required

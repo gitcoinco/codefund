@@ -39,6 +39,10 @@
               <td><strong>Programming Languages</strong></td>
               <td><%=  @audience.programming_languages  |> Enum.join(", ")%></td>
             </tr>
+            <tr>
+              <td><strong>Topic Categories</strong></td>
+              <td><%=  @audience.topic_categories  |> Enum.join(", ")%></td>
+            </tr>
           </tbody>
         </table>
       </div>

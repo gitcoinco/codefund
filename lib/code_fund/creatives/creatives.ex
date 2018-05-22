@@ -93,7 +93,7 @@ defmodule CodeFund.Creatives do
     |> build_filter_wheres(tail)
   end
 
-  defp where_clause(query, field_name, value) when is_list(value) do
+  defp where_clause(query, field_name, value) when is_list(value) and length(value) > 0 do
     query
     |> where(
       [_, _, audience],
@@ -105,6 +105,8 @@ defmodule CodeFund.Creatives do
     query
     |> where([_, _, audience], field(audience, ^field_name) == ^value)
   end
+
+  defp where_clause(query, _field_name, _value), do: query
 
   def by_user(%User{id: id}) do
     from(o in Creative, where: o.user_id == ^id)
