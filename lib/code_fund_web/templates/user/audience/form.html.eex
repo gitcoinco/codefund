@@ -8,5 +8,11 @@ programming_languages: [
           class: "form-control selectize",
           choices: CodeFund.Properties.programming_languages()
         ]
-      ]] |> render_fields(@form)
+      ],
+    topic_categories: [
+        type: :multiple_select,
+        label: "Topic Categories",
+        opts: [class: "form-control selectize", choices: CodeFund.Properties.topic_categories()]
+      ]
+      ] |> render_fields(@form)
 %>

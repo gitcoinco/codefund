@@ -22,6 +22,7 @@
               <tr>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th><%= table_link(@conn, "Programming Languages", :programming_languages) %></th>
+                <th><%= table_link(@conn, "Topic Categories", :topic_categories) %></th>
                 <th></th>
               </tr>
             </thead>
@@ -30,6 +31,7 @@
                 <tr>
                   <td><%= audience.name %></td>
                   <td><%=  audience.programming_languages  |> Enum.join(", ")%></td>
+                  <td><%=  audience.topic_categories  |> Enum.join(", ")%></td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: user_audience_path(@conn, :show, @conn.assigns.current_user, audience), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: user_audience_path(@conn, :edit, @conn.assigns.current_user, audience), class: "btn btn-outline-primary btn-sm" %>
