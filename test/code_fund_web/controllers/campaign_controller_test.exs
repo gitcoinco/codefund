@@ -8,7 +8,8 @@ defmodule CodeFundWeb.CampaignControllerTest do
         "bid_amount" => "2.0",
         "budget_daily_amount" => "25.0",
         "budget_monthly_amount" => "25.0",
-        "budget_total_amount" => "25.0"
+        "budget_total_amount" => "25.0",
+        "override_revenue_rate" => "0.00"
       })
 
     {:ok, %{valid_params: valid_params, users: stub_users()}}
