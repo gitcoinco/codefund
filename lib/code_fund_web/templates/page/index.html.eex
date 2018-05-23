@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <%= cookie_banner() %>
+  <%= consent_script() %>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -678,6 +681,8 @@
                     </g>
                 </svg>
                 2018 &copy; Consensys. All Rights Reserved
+                <span class="footer-divider"></span> <%= privacy_policy_link() %>
+                <span class="footer-divider"></span> <%= cookie_policy_link() %>
               </p>
             </div>
             <div class="float-right">
@@ -722,7 +727,7 @@
   $(function() {
     var slides = $('#macbook-slideshow .slide');
     var currentSlide = 0;
-    var slideInterval = setInterval(nextSlide,8000);
+    var slideInterval = setInterval(nextSlide, 8000);
 
     function nextSlide() {
       $(slides[currentSlide]).hide();

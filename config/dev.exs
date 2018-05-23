@@ -24,7 +24,8 @@ config :code_fund, CodeFundWeb.Endpoint,
   ],
   ga_tracking_id: System.get_env("GA_TRACKING_ID"),
   metabase_site_url: System.get_env("METABASE_SITE_URL"),
-  metabase_secret_key: System.get_env("METABASE_SECRET_KEY")
+  metabase_secret_key: System.get_env("METABASE_SECRET_KEY"),
+  iubenda_api_key: System.get_env("IUBENDA_API_KEY")
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
