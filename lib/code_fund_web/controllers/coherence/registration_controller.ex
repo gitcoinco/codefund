@@ -58,6 +58,10 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
     |> Schemas.create()
     |> case do
       {:ok, user} ->
+        CodeFundWeb.Notificator.send_message(
+          "User #{user.first_name} #{user.last_name} (#{user.email}) just registered!"
+        )
+
         conn
         |> send_confirmation(user, user_schema)
         |> redirect_or_login(user, params, Config.allow_unconfirmed_access_for())

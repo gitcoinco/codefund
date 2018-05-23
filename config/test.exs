@@ -19,3 +19,5 @@ config :code_fund, CodeFund.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :code_fund, CodeFund.Mailer, adapter: Bamboo.TestAdapter
+
+config :code_fund, CodeFundWeb.Endpoint, slack_token: nil
