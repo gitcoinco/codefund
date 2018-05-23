@@ -43,6 +43,17 @@
               <td><strong>Topic Categories</strong></td>
               <td><%=  @audience.topic_categories  |> Enum.join(", ")%></td>
             </tr>
+            <tr>
+              <td><strong>Excluded Countries</strong></td>
+              <td><%= Framework.Geolocation.Countries.list
+                |> Enum.filter(
+                  fn {_, iso_code} ->
+                    Enum.member?(@audience.excluded_countries, iso_code)
+                  end)
+                |> Keyword.keys
+                |> Enum.join(", ") %>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

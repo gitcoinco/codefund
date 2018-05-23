@@ -6,7 +6,79 @@ defmodule CodeFund.CreativesTest do
   alias CodeFund.Schema.Creative
 
   setup do
-    {:ok, %{creative: insert(:creative)}}
+    creative = insert(:creative)
+
+    insert(:audience, %{
+      programming_languages: ["Ruby", "C"],
+      topic_categories: ["Programming"],
+      excluded_countries: ["US"]
+    })
+
+    insert(:audience, %{
+      programming_languages: ["Ruby", "C"],
+      topic_categories: ["Development"],
+      excluded_countries: ["US"]
+    })
+
+    audience =
+      insert(:audience, %{
+        programming_languages: ["Ruby", "C"],
+        topic_categories: ["Programming"],
+        excluded_countries: ["CN"]
+      })
+
+    insert(:audience, %{
+      programming_languages: ["Java", "Rust"],
+      topic_categories: ["Development"],
+      excluded_countries: ["IN"]
+    })
+
+    campaign =
+      insert(
+        :campaign,
+        status: 2,
+        bid_amount: Decimal.new(1),
+        budget_daily_amount: Decimal.new(1),
+        budget_monthly_amount: Decimal.new(1),
+        budget_total_amount: Decimal.new(1),
+        creative: creative,
+        audience: audience
+      )
+
+    insert(
+      :campaign,
+      status: 2,
+      bid_amount: Decimal.new(0),
+      budget_daily_amount: Decimal.new(0),
+      budget_monthly_amount: Decimal.new(0),
+      budget_total_amount: Decimal.new(0),
+      creative: creative,
+      audience: audience
+    )
+
+    insert(
+      :campaign,
+      status: 2,
+      bid_amount: Decimal.new(1),
+      budget_daily_amount: Decimal.new(1),
+      budget_monthly_amount: Decimal.new(1),
+      budget_total_amount: Decimal.new(1),
+      creative: creative,
+      audience: insert(:audience, %{programming_languages: ["Java", "Rust"]})
+    )
+
+    insert(
+      :campaign,
+      status: 1,
+      bid_amount: Decimal.new(1),
+      budget_daily_amount: Decimal.new(1),
+      budget_monthly_amount: Decimal.new(1),
+      budget_total_amount: Decimal.new(1),
+      creative: creative,
+      audience: audience
+    )
+
+    {:ok, %{creative: creative, campaign: campaign}}
   end
 
   describe "creatives" do
@@ -26,59 +98,14 @@ defmodule CodeFund.CreativesTest do
       assert length(results.creatives) == 15
     end
 
-    test "get_by_property_filters" do
-      creative = insert(:creative)
-      audience = insert(:audience, %{programming_languages: ["Ruby", "C"]})
-
-      insert(:audience, %{programming_languages: ["Java", "Rust"]})
-
-      campaign =
-        insert(
-          :campaign,
-          status: 2,
-          bid_amount: Decimal.new(1),
-          budget_daily_amount: Decimal.new(1),
-          budget_monthly_amount: Decimal.new(1),
-          budget_total_amount: Decimal.new(1),
-          creative: creative,
-          audience: audience
-        )
-
-      insert(
-        :campaign,
-        status: 2,
-        bid_amount: Decimal.new(0),
-        budget_daily_amount: Decimal.new(0),
-        budget_monthly_amount: Decimal.new(0),
-        budget_total_amount: Decimal.new(0),
-        creative: creative,
-        audience: audience
-      )
-
-      insert(
-        :campaign,
-        status: 2,
-        bid_amount: Decimal.new(1),
-        budget_daily_amount: Decimal.new(1),
-        budget_monthly_amount: Decimal.new(1),
-        budget_total_amount: Decimal.new(1),
-        creative: creative,
-        audience: insert(:audience, %{programming_languages: ["Java", "Rust"]})
-      )
-
-      insert(
-        :campaign,
-        status: 1,
-        bid_amount: Decimal.new(1),
-        budget_daily_amount: Decimal.new(1),
-        budget_monthly_amount: Decimal.new(1),
-        budget_total_amount: Decimal.new(1),
-        creative: creative,
-        audience: audience
-      )
-
+    test "get_by_property_filters", %{campaign: campaign} do
       loaded_creative =
-        Creatives.get_by_property_filters(programming_languages: ["C"]) |> CodeFund.Repo.one()
+        Creatives.get_by_property_filters(
+          programming_languages: ["C"],
+          topic_categories: ["Programming"],
+          client_country: "US"
+        )
+        |> CodeFund.Repo.one()
 
       assert loaded_creative == %{
                "body" => "This is a Test Creative",
@@ -86,6 +113,15 @@ defmodule CodeFund.CreativesTest do
                "image_url" => "http://example.com/some.png",
                "headline" => "Creative Headline"
              }
+    end
+
+    test "get_by_property_filters excludes indicated countries" do
+      refute Creatives.get_by_property_filters(
+               programming_languages: ["C"],
+               topic_categories: ["Programming"],
+               client_country: "CN"
+             )
+             |> CodeFund.Repo.one()
     end
 
     test "by_user/1 returns creatives by user" do
@@ -133,7 +169,8 @@ defmodule CodeFund.CreativesTest do
       assert Creatives.get_creative!(creative.id).body == "This is a Test Creative"
     end
 
-    test "delete_creative/1 deletes the creative", %{creative: creative} do
+    test "delete_creative/1 deletes the creative" do
+      creative = insert(:creative)
       assert {:ok, %Creative{}} = Creatives.delete_creative(creative)
       assert_raise Ecto.NoResultsError, fn -> Creatives.get_creative!(creative.id) end
     end

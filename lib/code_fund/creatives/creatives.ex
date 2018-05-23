@@ -93,6 +93,14 @@ defmodule CodeFund.Creatives do
     |> build_filter_wheres(tail)
   end
 
+  defp where_clause(query, :client_country, value) do
+    query
+    |> where(
+      [_, _, audience],
+      ^value not in audience.excluded_countries
+    )
+  end
+
   defp where_clause(query, field_name, value) when is_list(value) and length(value) > 0 do
     query
     |> where(

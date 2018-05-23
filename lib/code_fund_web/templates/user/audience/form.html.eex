@@ -13,6 +13,11 @@ programming_languages: [
         type: :multiple_select,
         label: "Topic Categories",
         opts: [class: "form-control selectize", choices: CodeFund.Properties.topic_categories()]
+      ],
+    excluded_countries: [
+        type: :multiple_select,
+        label: "Excluded Countries",
+        opts: [class: "form-control selectize", choices: Framework.Geolocation.Countries.list()]
       ]
       ] |> render_fields(@form)
 %>
