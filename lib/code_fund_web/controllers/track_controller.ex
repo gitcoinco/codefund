@@ -5,41 +5,6 @@ defmodule CodeFundWeb.TrackController do
   @transparent_png <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33,
                      249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
 
-  def pixel(conn, %{"property_id" => property_id} = params) do
-    try do
-      property = Properties.get_property!(property_id)
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
-
-      impression_id =
-        case track_impression(conn, property, sponsorship, params) do
-          {:ok, impression} ->
-            impression.id
-
-          {:error, _} ->
-            report(:warning)
-            nil
-        end
-
-      if impression_id !== nil do
-        enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id])
-      end
-
-      conn
-      |> put_resp_content_type("image/png")
-      |> put_private(:impression_id, impression_id)
-      |> send_resp(200, @transparent_png)
-    rescue
-      Ecto.NoResultsError ->
-        :ok
-        report(:error)
-
-        conn
-        |> put_resp_content_type("image/png")
-        |> put_private(:impression_id, "")
-        |> send_resp(200, @transparent_png)
-    end
-  end
-
   def pixel(conn, %{"sponsorship_id" => sponsorship_id} = params) do
     try do
       sponsorship = Sponsorships.get_sponsorship!(sponsorship_id)
@@ -72,88 +37,6 @@ defmodule CodeFundWeb.TrackController do
         |> put_resp_content_type("image/png")
         |> put_private(:impression_id, "")
         |> send_resp(200, @transparent_png)
-    end
-  end
-
-  # TODO - This function is too complex! Refactor is necessary
-  def click(conn, %{"property_id" => property_id} = params) do
-    try do
-      property = Properties.get_property!(property_id)
-      sponsorship = Sponsorships.get_sponsorship_for_property(property)
-
-      case track_click(conn, property, sponsorship, params) do
-        {:ok, click} ->
-          enqueue_worker(CodeFundWeb.UpdateClickGeolocationWorker, [click.id])
-
-          no_rev_dist = %{
-            revenue_amount: Decimal.new(0),
-            distribution_amount: Decimal.new(0)
-          }
-
-          cond do
-            sponsorship == nil ->
-              Clicks.set_status(click, :no_sponsor, no_rev_dist)
-
-            click.is_bot ->
-              Clicks.set_status(click, :bot, no_rev_dist)
-
-            click.is_duplicate ->
-              Clicks.set_status(click, :duplicate, no_rev_dist)
-
-            true ->
-              # Redirect to the fraud check URL if present
-              campaign = sponsorship.campaign
-
-              if campaign.fraud_check_url do
-                Clicks.set_status(click, :fraud_check, %{
-                  fraud_check_redirected_at: Timex.now()
-                })
-
-                # Enqueue the verify click redirected worker for 2 minutes from now
-                enqueue_worker_in(120, CodeFundWeb.VerifyClickRedirected, [click.id])
-
-                redirect(conn, external: "#{campaign.fraud_check_url}?utm_content=#{click.id}")
-              else
-                revenue = Money.new(sponsorship.bid_amount, :USD)
-
-                revenue_rate =
-                  if is_nil(sponsorship.override_revenue_rate) do
-                    sponsorship.property.user.revenue_rate
-                  else
-                    sponsorship.override_revenue_rate
-                  end
-
-                distribution =
-                  case Money.mult(revenue, revenue_rate) do
-                    {:ok, amount} ->
-                      Money.round(amount).amount
-
-                    {:error, _} ->
-                      report(:warning)
-                      0
-                  end
-
-                Clicks.set_status(click, :redirected, %{
-                  revenue_amount: revenue.amount,
-                  distribution_amount: distribution
-                })
-              end
-          end
-
-        {:error, %Ecto.Changeset{} = changeset} ->
-          IO.puts("Unable to save click: #{inspect(changeset)}")
-      end
-
-      if sponsorship do
-        redirect(conn, external: sponsorship.redirect_url)
-      else
-        redirect(conn, external: "/?utm_content=no-sponsor&utm_term=#{property.id}")
-      end
-    rescue
-      Ecto.NoResultsError ->
-        report(:error)
-        IO.puts("Property is missing with ID [#{property_id}]")
-        redirect(conn, external: "/?utm_content=no-property")
     end
   end
 
