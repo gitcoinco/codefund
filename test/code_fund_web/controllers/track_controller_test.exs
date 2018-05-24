@@ -15,29 +15,6 @@ defmodule CodeFundWeb.TrackControllerTest do
   end
 
   describe "pixel/2" do
-    test "Creates impression and renders a transparent png", %{
-      conn: conn,
-      transparent_png: transparent_png
-    } do
-      user = insert(:user)
-      campaign = insert(:campaign)
-      sponsorship = insert(:sponsorship, bid_amount: Decimal.new(1.25), campaign: campaign)
-      property = insert(:property, user: user, sponsorship: sponsorship)
-
-      conn =
-        conn
-        |> put_req_header("user-agent", @user_agent)
-        |> get("/t/l/#{property.id}/pixel.png")
-
-      content_type = conn |> get_resp_header("content-type") |> Enum.at(0)
-      impression_id = conn.private[:impression_id]
-
-      assert content_type == "image/png; charset=utf-8"
-      # uuid
-      assert String.length(impression_id) == 36
-      assert conn.resp_body == transparent_png
-    end
-
     test "Creates impression and renders a transparent png with sponsorship", %{
       conn: conn,
       transparent_png: transparent_png
@@ -61,14 +38,14 @@ defmodule CodeFundWeb.TrackControllerTest do
       assert conn.resp_body == transparent_png
     end
 
-    test "Does not create an impression when property is invalid", %{
+    test "Does not create an impression when sponsorship is invalid", %{
       conn: conn,
       transparent_png: transparent_png
     } do
       conn =
         conn
         |> put_req_header("user-agent", @user_agent)
-        |> get("/t/l/5a04fdde-1358-4249-a69b-6283e9b4d432/pixel.png")
+        |> get("/t/p/5a04fdde-1358-4249-a69b-6283e9b4d432/pixel.png")
 
       content_type = conn |> get_resp_header("content-type") |> Enum.at(0)
       impression_id = conn.private[:impression_id]
@@ -78,39 +55,17 @@ defmodule CodeFundWeb.TrackControllerTest do
       assert conn.resp_body == transparent_png
     end
 
-    test "Creates an impression when sponsorship is missing", %{
-      conn: conn,
-      transparent_png: transparent_png
-    } do
-      user = insert(:user)
-      property = insert(:property, user: user, sponsorship: nil)
-
-      conn =
-        conn
-        |> put_req_header("user-agent", @user_agent)
-        |> get("/t/l/#{property.id}/pixel.png")
-
-      content_type = conn |> get_resp_header("content-type") |> Enum.at(0)
-      impression_id = conn.private[:impression_id]
-
-      assert content_type == "image/png; charset=utf-8"
-      assert String.length(impression_id) == 36
-      assert conn.resp_body == transparent_png
-    end
-
     test "Creates an impression when browser is a bot", %{
       conn: conn,
       transparent_png: transparent_png
     } do
-      user = insert(:user)
       campaign = insert(:campaign)
       sponsorship = insert(:sponsorship, bid_amount: Decimal.new(1.25), campaign: campaign)
-      property = insert(:property, user: user, sponsorship: sponsorship)
 
       conn =
         conn
         |> put_req_header("user-agent", @bot_agent)
-        |> get("/t/l/#{property.id}/pixel.png")
+        |> get("/t/p/#{sponsorship.id}/pixel.png")
 
       content_type = conn |> get_resp_header("content-type") |> Enum.at(0)
       impression_id = conn.private[:impression_id]

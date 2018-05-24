@@ -1,5 +1,0 @@
-<h2>New Click</h2>
-
-<%= render "form.html", Map.put(assigns, :action, click_path(@conn, :create)) %>
-
-<span><%= link "Back", to: click_path(@conn, :index) %></span>
