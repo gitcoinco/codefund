@@ -60,9 +60,7 @@ defmodule CodeFund.Schema.Click do
     :property_id,
     :ip,
     :revenue_amount,
-    :distribution_amount,
-    :redirected_at,
-    :redirected_to_url
+    :distribution_amount
   ]
 
   def required, do: @required
