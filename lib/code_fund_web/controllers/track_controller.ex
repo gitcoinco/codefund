@@ -69,6 +69,11 @@ defmodule CodeFundWeb.TrackController do
               # Redirect to the fraud check URL if present
               campaign = sponsorship.campaign
 
+              Clicks.update_click(click, %{
+                redirected_at: NaiveDateTime.utc_now(),
+                redirected_to_url: sponsorship.redirect_url
+              })
+
               if campaign.fraud_check_url do
                 Clicks.set_status(click, :fraud_check, %{
                   fraud_check_redirected_at: Timex.now()
@@ -159,7 +164,7 @@ defmodule CodeFundWeb.TrackController do
       end
 
     url = "#{uri.scheme}://#{uri.host}#{uri.path}?#{new_query}"
-
+    Clicks.update_click(click, %{redirected_at: NaiveDateTime.utc_now(), redirected_to_url: url})
     redirect(conn, external: url)
   end
 
