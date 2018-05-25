@@ -87,4 +87,43 @@ defmodule CodeFundWeb.ViewHelpers do
       _ -> {:safe, html}
     end
   end
+
+  def privacy_policy_link do
+    html = """
+    <a href="https://www.iubenda.com/privacy-policy/47597768" class="iubenda-nostyle no-brand iubenda-embed iub-legal-only" title="Privacy Policy">Privacy Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+    """
+
+    {:safe, html}
+  end
+
+  def cookie_policy_link do
+    html = """
+    <a href="https://www.iubenda.com/privacy-policy/47597768/cookie-policy" class="iubenda-nostyle no-brand iubenda-embed " title="Cookie Policy">Cookie Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+    """
+
+    {:safe, html}
+  end
+
+  def cookie_banner do
+    html = """
+    <script type="text/javascript"> var _iub = _iub || []; _iub.csConfiguration = {"lang":"en","siteId":1115746,"cookiePolicyId":47597768}; </script><script type="text/javascript" src="//cdn.iubenda.com/cookie_solution/safemode/iubenda_cs.js" charset="UTF-8" async></script>
+    """
+
+    {:safe, html}
+  end
+
+  def consent_script do
+    iubenda_api_key = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:iubenda_api_key]
+
+    html = """
+    <script type="text/javascript" src="https://cdn.iubenda.com/consent_solution/iubenda_cons.js"></script>
+    <script type="text/javascript">
+    _iub.cons.init({
+        api_key: "#{iubenda_api_key}"
+    });
+    </script>
+    """
+
+    {:safe, html}
+  end
 end
