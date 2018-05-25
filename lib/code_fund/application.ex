@@ -11,9 +11,10 @@ defmodule CodeFund.Application do
       # Start the Ecto repository
       supervisor(CodeFund.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(CodeFundWeb.Endpoint, [])
+      supervisor(CodeFundWeb.Endpoint, []),
       # Start your own worker by calling: CodeFund.Worker.start_link(arg1, arg2, arg3)
       # worker(CodeFund.Worker, [arg1, arg2, arg3]),
+      worker(CodeFundWeb.Notificator, [], restart: :transient)
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
