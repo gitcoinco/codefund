@@ -47,18 +47,20 @@ defmodule CodeFundWeb.AdServeController do
            programming_languages: programming_languages,
            topic_categories: topic_categories
          } <- Properties.get_property!(property_id),
-         %{
-           "image_url" => image_url,
-           "body" => body,
-           "campaign_id" => campaign_id,
-           "headline" => headline
-         } <-
+         {:ok, ad_tuple} <-
            Creatives.get_by_property_filters(
              programming_languages: programming_languages,
              topic_categories: topic_categories,
              client_country: Framework.Geolocation.find_country_by_ip(conn.remote_ip)
            )
-           |> CodeFund.Repo.one() do
+           |> CodeFund.Repo.all()
+           |> AdService.Display.choose_winner(),
+         %{
+           "image_url" => image_url,
+           "body" => body,
+           "campaign_id" => campaign_id,
+           "headline" => headline
+         } <- ad_tuple |> AdService.Display.render() do
       {:ok, %Impression{id: impression_id}} =
         Impressions.create_impression(%{
           ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
@@ -81,7 +83,7 @@ defmodule CodeFundWeb.AdServeController do
         |> error_details(property_id, "This property is not currently active")
         |> details_render(conn)
 
-      _error_case ->
+      {:error, :no_possible_ads} ->
         conn
         |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
         |> details_render(conn)
