@@ -60,11 +60,19 @@ defmodule CodeFundWeb.CampaignController do
         CodeFund.Creatives.by_user(user)
         |> FormHelpers.repo_objects_to_options(),
       revenue_rate: set_override_revenue_rate_default(campaign),
-      revenue_rate_field_type: revenue_rate_field_type(user)
+      revenue_rate_field_type: revenue_rate_field_type(user),
+      revenue_rate_field_label: revenue_rate_field_label(user)
     ]
   end
 
-  def revenue_rate_field_type(user) do
+  defp revenue_rate_field_label(user) do
+    case Users.has_role?(user.roles, ["admin"]) do
+      true -> "Override Revenue Rate"
+      false -> ""
+    end
+  end
+
+  defp revenue_rate_field_type(user) do
     case Users.has_role?(user.roles, ["admin"]) do
       true -> :currency_input
       false -> :hidden_input

@@ -249,7 +249,7 @@ defmodule CodeFundWeb.AdServeControllerTest do
              }
     end
 
-    test "returns an error if property is not active but still creates an impressoin", %{
+    test "returns an error if property is not active but still creates an impression", %{
       conn: conn
     } do
       property = insert(:property, %{status: 0})
