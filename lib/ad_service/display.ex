@@ -8,7 +8,7 @@ defmodule AdService.Display do
   end
 
   @spec choose_winner([map]) :: {:ok | :error, {[map], map} | :no_possible_ads}
-  def choose_winner(possible_ads) when length(possible_ads) == 0, do: {:error, :no_possible_ads}
+  def choose_winner([]), do: {:error, :no_possible_ads}
 
   def choose_winner(possible_ads) when length(possible_ads) > 0 do
     winner =
@@ -32,8 +32,8 @@ defmodule AdService.Display do
   @spec get_ranges([{UUID.t(), Keyword.t()}], [map]) :: [{UUID.t(), Keyword.t()}]
   defp get_ranges(ranges, []), do: ranges
 
-  defp get_ranges(ranges, [current_ad | tail]) when length(ranges) == 0 do
-    ranges
+  defp get_ranges([], [current_ad | tail]) do
+    []
     |> add_current_range(current_ad.campaign_id, 0, current_ad.display_rate)
     |> get_ranges(tail)
   end
