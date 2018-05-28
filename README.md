@@ -56,7 +56,7 @@ Here are some basic steps to get CodeFund running:
 
 ```shell
 git clone git@github.com:gitcoinco/codefund.git
-cd web/
+cd codefund/
 # Optionally set the following environment variables (see .env-sample)
 # config postgres in config/dev.exs
 # start postgres
