@@ -50,6 +50,8 @@ defmodule CodeFund.Schema.Click do
     field(:revenue_amount, :decimal)
     field(:distribution_amount, :decimal)
     field(:fraud_check_redirected_at, :naive_datetime)
+    field(:redirected_at, :naive_datetime)
+    field(:redirected_to_url, :string)
 
     timestamps()
   end
@@ -61,10 +63,13 @@ defmodule CodeFund.Schema.Click do
     :distribution_amount
   ]
 
+  def required, do: @required
+
   @doc false
   def changeset(%Click{} = click, params) do
     click
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
+    |> validate_url(:redirected_to_url)
     |> validate_required(@required)
   end
 

@@ -6,7 +6,13 @@ defmodule CodeFund.ClicksTest do
   import CodeFund.Factory
 
   describe "clicks" do
-    @valid_attrs %{ip: "121.12.1.31", revenue_amount: ~n(2.00), distribution_amount: ~n(1.20)}
+    @valid_attrs %{
+      ip: "121.12.1.31",
+      revenue_amount: ~n(2.00),
+      distribution_amount: ~n(1.20),
+      redirected_to_url: "https://google.com",
+      redirected_at: ~N[2000-01-01 23:00:07]
+    }
     @update_attrs %{ip: "10.12.1.31", revenue_amount: ~n(0.00)}
     @invalid_attrs %{ip: nil, revenue_amount: ~n(-1.00), distribution_amount: ~n(-1.00)}
 

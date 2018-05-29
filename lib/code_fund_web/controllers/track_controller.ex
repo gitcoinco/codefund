@@ -95,7 +95,7 @@ defmodule CodeFundWeb.TrackController do
       end
 
     url = "#{uri.scheme}://#{uri.host}#{uri.path}?#{new_query}"
-
+    Clicks.update_click(click, %{redirected_at: NaiveDateTime.utc_now(), redirected_to_url: url})
     redirect(conn, external: url)
   end
 

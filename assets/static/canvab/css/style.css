@@ -545,3 +545,16 @@ textarea.form-control {
         display: inherit;
     }
 }
+
+.footer-divider {
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  margin-right: 8px;
+  padding-right: 8px;
+}
+.iubenda-nostyle {
+  color: white;
+}
+.iubenda-nostyle:hover {
+  color: white;
+  border-bottom: 1px dotted #ccc;
+}

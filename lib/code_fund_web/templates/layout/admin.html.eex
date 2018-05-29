@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" data-controller="admin">
 <head>
+  <%= cookie_banner() %>
+  <%= consent_script() %>
+  
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -154,8 +157,14 @@
     </main>
   </div>
   <footer class="app-footer">
-    <span>&copy; 2018 <a href="https://consensys.net">Consensys</a>. All Rights Reserved.</span>
-    <span class="ml-auto d-none d-sm-block" style="margin-right: 80px;">
+    <span>
+      &copy; 2018 <a href="https://consensys.net">Consensys</a>. All Rights Reserved.
+    </span>
+    <span class="ml-auto d-none d-sm-block">
+      <%= privacy_policy_link() %>
+      &nbsp;|&nbsp;
+      <%= cookie_policy_link() %>
+      &nbsp;|&nbsp;
       Powered by <a href="https://github.com/gitcoinco/codefund">Open Source</a>
     </span>
   </footer>

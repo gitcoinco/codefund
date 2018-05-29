@@ -116,6 +116,8 @@ defmodule CodeFund.Factory do
       ip: "51.52.53.54",
       revenue_amount: Decimal.new(0),
       distribution_amount: Decimal.new(0),
+      redirected_to_url: sequence(:redirected_to_url, &"https://example.com/#{&1}"),
+      redirected_at: ~N[2000-01-01 23:00:07],
       user_agent:
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
     }
