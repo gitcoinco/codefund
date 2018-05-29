@@ -3,26 +3,26 @@ defmodule AdService.Math.BasicTest do
 
   setup do
     ad_details = [
-      %{
-        "bid_amount" => Decimal.new(1.0),
-        "body" => "ad body",
-        "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-        "headline" => "ad headline",
-        "image_url" => "http://example.com"
+      %AdService.Advertisement{
+        bid_amount: Decimal.new(1.0),
+        body: "ad body",
+        campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
+        headline: "ad headline",
+        image_url: "http://example.com"
       },
-      %{
-        "bid_amount" => Decimal.new(0.5),
-        "body" => "ad body",
-        "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
-        "headline" => "ad headline",
-        "image_url" => "http://example.com"
+      %AdService.Advertisement{
+        bid_amount: Decimal.new(0.5),
+        body: "ad body",
+        campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
+        headline: "ad headline",
+        image_url: "http://example.com"
       },
-      %{
-        "bid_amount" => Decimal.new(0.25),
-        "body" => "ad body",
-        "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
-        "headline" => "ad headline",
-        "image_url" => "http://example.com"
+      %AdService.Advertisement{
+        bid_amount: Decimal.new(0.25),
+        body: "ad body",
+        campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
+        headline: "ad headline",
+        image_url: "http://example.com"
       }
     ]
 
@@ -38,11 +38,11 @@ defmodule AdService.Math.BasicTest do
   describe "get_weight/2" do
     test "it returns the index + 1 of a bid_amount in a list" do
       list_of_bid_amounts = [
-        %{"bid_amount" => Decimal.new("2.00")},
-        %{"bid_amount" => Decimal.new("3.00")},
-        %{"bid_amount" => Decimal.new("1.00")},
-        %{"bid_amount" => Decimal.new("2.00")},
-        %{"bid_amount" => Decimal.new("4.00")}
+        %AdService.Advertisement{bid_amount: Decimal.new("2.00")},
+        %AdService.Advertisement{bid_amount: Decimal.new("3.00")},
+        %AdService.Advertisement{bid_amount: Decimal.new("1.00")},
+        %AdService.Advertisement{bid_amount: Decimal.new("2.00")},
+        %AdService.Advertisement{bid_amount: Decimal.new("4.00")}
       ]
 
       assert AdService.Math.Basic.get_weight(Decimal.new("2.00"), list_of_bid_amounts) == 2

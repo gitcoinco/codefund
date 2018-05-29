@@ -90,7 +90,6 @@ defmodule CodeFund.Factory do
 
   def impression_factory do
     %CodeFund.Schema.Impression{
-      sponsorship: build(:sponsorship),
       property: build(:property),
       campaign: build(:campaign),
       ip: "51.52.53.54",

@@ -40,7 +40,7 @@
     <span style="color: rgba(0,0,0,0.3);">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
     <%= cookie_policy_link() %>
   </div>
-  
+
   <%= ga_tag() %>
 </body>
 </html>

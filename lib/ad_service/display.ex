@@ -1,13 +1,16 @@
 defmodule AdService.Display do
-  @spec render({[map], {UUID.t(), Keyword.t()}}) :: map
+  @spec render({[%AdService.Advertisement{}], {UUID.t(), Keyword.t()}}) ::
+          %AdService.Advertisement{}
   def render({possible_ads, {campaign_id, _range}}) do
     possible_ads
     |> Enum.find(fn possible_ad_to_display ->
-      possible_ad_to_display |> Map.get("campaign_id") == campaign_id
+      possible_ad_to_display.campaign_id == campaign_id
     end)
   end
 
-  @spec choose_winner([map]) :: {:ok | :error, {[map], map} | :no_possible_ads}
+  @spec choose_winner([%AdService.Advertisement{}]) ::
+          {:ok | :error,
+           {[%AdService.Advertisement{}], %AdService.Advertisement{}} | :no_possible_ads}
   def choose_winner([]), do: {:error, :no_possible_ads}
 
   def choose_winner(possible_ads) when length(possible_ads) > 0 do
