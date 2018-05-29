@@ -249,6 +249,30 @@ defmodule CodeFundWeb.AdServeControllerTest do
              }
     end
 
+    test "returns an error if property is not active but still creates an impression", %{
+      conn: conn
+    } do
+      property = insert(:property, %{status: 0})
+      conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
+      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
+      conn = get(conn, ad_serve_path(conn, :details, property))
+
+      impression = CodeFund.Impressions.list_impressions() |> List.first()
+      assert impression.ip == "12.109.12.14"
+      assert impression.property_id == property.id
+      assert impression.campaign_id == nil
+
+      assert json_response(conn, 200) == %{
+               "headline" => "",
+               "description" => "",
+               "image" => "",
+               "link" => "",
+               "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
+               "poweredByLink" => "https://codefund.io?utm_content=",
+               "reason" => "This property is not currently active"
+             }
+    end
+
     test "returns an error if viewer is from a blocked country but still creates an impression",
          %{conn: conn} do
       property = insert(:property)

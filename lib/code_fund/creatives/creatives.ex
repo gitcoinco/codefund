@@ -74,12 +74,11 @@ defmodule CodeFund.Creatives do
       where: budgeted_campaign.total_remain > 0
     )
     |> build_filter_wheres(filters)
-    # JBEAN TODO: order by real algorithm later
     |> order_by(fragment("random()"))
-    |> limit(1)
     |> select([creative, campaign, _, _], %{
       "image_url" => creative.image_url,
       "body" => creative.body,
+      "bid_amount" => campaign.bid_amount,
       "campaign_id" => campaign.id,
       "headline" => creative.headline
     })
@@ -219,5 +218,51 @@ defmodule CodeFund.Creatives do
     defconfig do
       text(:name)
     end
+  end
+end
+
+defmodule Calc do
+  def sum(campaigns) do
+    Enum.sum(Enum.map(campaigns, &(Map.get(&1, "bid_amount") |> Decimal.to_float())))
+  end
+
+  def multiplier(campaign, campaigns) do
+    position =
+      Enum.uniq(Enum.map(campaigns, &Map.get(&1, "bid_amount")))
+      |> Enum.sort()
+      |> Enum.find_index(fn amount -> amount == Map.get(campaign, "bid_amount") end)
+
+    %{
+      id: campaign |> Map.get("campaign_id"),
+      multiplier:
+        (campaign |> Map.get("bid_amount") |> Decimal.to_float()) / sum(campaigns) * 100 *
+          (position + 1)
+    }
+  end
+
+  def total_multiplier(campaigns) do
+    Enum.map(campaigns, fn campaign ->
+      multiplier(campaign, campaigns).multiplier
+    end)
+    |> Enum.sum()
+  end
+
+  def display_rate(campaign, campaigns) do
+    rate = multiplier(campaign, campaigns).multiplier / total_multiplier(campaigns) * 100
+    %{id: campaign |> Map.get("campaign_id"), display_rate: rate}
+  end
+
+  def get_all_display_rates(campaigns) do
+    Enum.map(campaigns, fn campaign ->
+      Calc.display_rate(campaign, campaigns)
+    end)
+    |> Enum.sort(&(&1.display_rate > &2.display_rate))
+  end
+
+  def pick_random_campaign(campaigns) do
+    campaigns
+    |> Enum.find(fn campaign ->
+      :rand.uniform(100) > campaign.display_rate
+    end) || Enum.sort(campaigns, &(&1.display_rate > &2.display_rate)) |> List.first()
   end
 end

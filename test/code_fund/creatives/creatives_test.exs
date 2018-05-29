@@ -111,7 +111,8 @@ defmodule CodeFund.CreativesTest do
                "body" => "This is a Test Creative",
                "campaign_id" => campaign.id,
                "image_url" => "http://example.com/some.png",
-               "headline" => "Creative Headline"
+               "headline" => "Creative Headline",
+               "bid_amount" => Decimal.new("1.00")
              }
     end
 
