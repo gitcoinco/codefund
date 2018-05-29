@@ -114,6 +114,12 @@
                 Sponsorships
               <% end %>
             </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: user_audience_path(@conn, :index, @conn.assigns.current_user), class: "nav-link") do %>
+                <i class="icon-energy"></i>
+                Audiences
+              <% end %>
+            </li>
           <% end %>
           <%= if has_any_role? @conn, ["admin"] do %>
             <li class="nav-item">

@@ -1,10 +1,11 @@
 defmodule CodeFund.PropertiesTest do
   use CodeFund.DataCase
   alias CodeFund.Properties
+  import CodeFund.Factory
 
   setup do
-    user = CodeFund.Support.Fixture.generate(:user)
-    property = CodeFund.Support.Fixture.generate(:property, %{status: 1, property_type: 1})
+    property = insert(:property, %{status: 1, property_type: 1})
+    user = insert(:user)
     {:ok, %{user: user, property: property}}
   end
 
@@ -15,7 +16,10 @@ defmodule CodeFund.PropertiesTest do
       description: "some description",
       name: "some name",
       property_type: 42,
-      url: "http://google.com"
+      url: "http://google.com",
+      programming_languages: ["Ruby"],
+      topic_categories: ["Databases"],
+      language: "English"
     }
     @update_attrs %{
       description: "some updated description",
@@ -31,8 +35,8 @@ defmodule CodeFund.PropertiesTest do
     end
 
     test "list_active_properties/0 returns all active properties", %{property: property} do
-      CodeFund.Support.Fixture.generate(:property, %{status: 0, property_type: 1})
-      CodeFund.Support.Fixture.generate(:property, %{status: 1, property_type: 2})
+      insert(:property, %{status: 0, property_type: 1})
+      insert(:property, %{status: 1, property_type: 2})
       subject = Properties.list_active_properties()
       assert Enum.count(subject) == 1
       assert Enum.at(subject, 0).name == property.name
@@ -57,8 +61,7 @@ defmodule CodeFund.PropertiesTest do
       assert changeset.__struct__ == Ecto.Changeset
     end
 
-    test "update_property/2 with valid data updates the property" do
-      property = CodeFund.Support.Fixture.generate(:property)
+    test "update_property/2 with valid data updates the property", %{property: property} do
       assert {:ok, property} = Properties.update_property(property, @update_attrs)
       assert Property == property.__struct__
       assert property.description == "some updated description"
@@ -72,8 +75,7 @@ defmodule CodeFund.PropertiesTest do
       assert property.name == Properties.get_property!(property.id).name
     end
 
-    test "delete_property/1 deletes the property" do
-      property = CodeFund.Support.Fixture.generate(:property)
+    test "delete_property/1 deletes the property", %{property: property} do
       assert {:ok, %Property{}} = Properties.delete_property(property)
       assert_raise Ecto.NoResultsError, fn -> Properties.get_property!(property.id) end
     end

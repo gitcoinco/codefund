@@ -1,15 +1,14 @@
 defmodule CodeFundWeb.AdServeController do
   use CodeFundWeb, :controller
 
-  alias CodeFund.{Properties, Sponsorships, Templates, Themes}
-  alias CodeFund.Schema.{Property, Sponsorship, Campaign, Creative, Theme, Template}
+  alias CodeFund.{Creatives, Impressions, Properties, Templates, Themes}
+  alias CodeFund.Schema.{Impression, Property, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
     template_slug = params["template"] || "default"
     theme_slug = params["theme"] || "light"
     targetId = params["target"] || "codefund_ad"
 
-    # TODO: refactor this into two different methods, and use if is_nil(template) to invoke the correct one
     with %Theme{template: %Template{}} = theme <-
            Themes.get_template_or_theme_by_slugs(theme_slug, template_slug),
          details_url <- "https://#{conn.host}/t/s/#{property_id}/details.json" do
@@ -43,17 +42,39 @@ defmodule CodeFundWeb.AdServeController do
   end
 
   def details(conn, %{"property_id" => property_id}) do
-    with false <- Framework.Geolocation.is_banned_country?(conn.remote_ip),
-         %Property{status: 1} = property <- Properties.get_property!(property_id),
-         %Sponsorship{creative: %Creative{}, campaign: %Campaign{}} = sponsorship <-
-           Sponsorships.get_sponsorship_for_property(property) do
+    with %Property{
+           status: 1,
+           programming_languages: programming_languages,
+           topic_categories: topic_categories
+         } <- Properties.get_property!(property_id),
+         {:ok, ad_tuple} <-
+           Creatives.get_by_property_filters(
+             programming_languages: programming_languages,
+             topic_categories: topic_categories,
+             client_country: Framework.Geolocation.find_country_by_ip(conn.remote_ip)
+           )
+           |> CodeFund.Repo.all()
+           |> AdService.Display.choose_winner(),
+         %{
+           "image_url" => image_url,
+           "body" => body,
+           "campaign_id" => campaign_id,
+           "headline" => headline
+         } <- ad_tuple |> AdService.Display.render() do
+      {:ok, %Impression{id: impression_id}} =
+        Impressions.create_impression(%{
+          ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
+          property_id: property_id,
+          campaign_id: campaign_id
+        })
+
       %{
-        image: sponsorship.creative.image_url,
-        link: "https://#{conn.host}/t/s/#{sponsorship.id}",
-        headline: sponsorship.creative.headline,
-        description: sponsorship.creative.body,
-        pixel: "//#{conn.host}/t/p/#{sponsorship.id}/pixel.png",
-        poweredByLink: "https://codefund.io?utm_content=#{sponsorship.id}"
+        image: image_url,
+        link: "https://#{conn.host}/c/#{impression_id}",
+        description: body,
+        pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
+        poweredByLink: "https://codefund.io?utm_content=#{campaign_id}",
+        headline: headline
       }
       |> details_render(conn)
     else
@@ -62,20 +83,7 @@ defmodule CodeFundWeb.AdServeController do
         |> error_details(property_id, "This property is not currently active")
         |> details_render(conn)
 
-      %Sponsorship{creative: nil} ->
-        conn
-        |> error_details(
-          property_id,
-          "CodeFund creative has not been assigned to the sponsorship"
-        )
-        |> details_render(conn)
-
-      true ->
-        conn
-        |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
-        |> details_render(conn)
-
-      nil ->
+      {:error, :no_possible_ads} ->
         conn
         |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
         |> details_render(conn)
@@ -85,12 +93,19 @@ defmodule CodeFundWeb.AdServeController do
   defp details_render(payload, conn), do: render(conn, "details.json", payload: payload)
 
   defp error_details(conn, property_id, reason) do
+    {:ok, %Impression{id: impression_id}} =
+      Impressions.create_impression(%{
+        property_id: property_id,
+        campaign_id: nil,
+        ip: conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
+      })
+
     %{
       image: "",
       link: "",
       headline: "",
       description: "",
-      pixel: "//#{conn.host}/t/l/#{property_id}/pixel.png",
+      pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
       poweredByLink: "https://codefund.io?utm_content=",
       reason: reason
     }

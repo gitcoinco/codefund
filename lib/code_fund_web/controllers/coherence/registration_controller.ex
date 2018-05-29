@@ -135,7 +135,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   @doc """
   Delete a registration.
   """
-  @spec delete(conn, params) :: conn
+  @spec delete(conn, params) :: no_return
   def delete(conn, params) do
     user = Coherence.current_user(conn)
     conn = Helpers.logout_user(conn)

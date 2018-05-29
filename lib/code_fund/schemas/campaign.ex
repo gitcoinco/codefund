@@ -2,7 +2,15 @@ defmodule CodeFund.Schema.Campaign do
   use CodeFundWeb, :schema
   import Validation.URL
 
-  alias CodeFund.Schema.{Impression, Click, BudgetedCampaign, User, Sponsorship}
+  alias CodeFund.Schema.{
+    Audience,
+    Creative,
+    Impression,
+    Click,
+    BudgetedCampaign,
+    User,
+    Sponsorship
+  }
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -11,6 +19,8 @@ defmodule CodeFund.Schema.Campaign do
     has_many(:clicks, Click)
     has_many(:sponsorships, Sponsorship)
     has_one(:budgeted_campaign, BudgetedCampaign)
+    belongs_to(:audience, Audience)
+    belongs_to(:creative, Creative)
     belongs_to(:user, User)
 
     field(:name, :string)
@@ -21,6 +31,7 @@ defmodule CodeFund.Schema.Campaign do
     field(:budget_daily_amount, :decimal, default: Decimal.new(0.0))
     field(:budget_monthly_amount, :decimal, default: Decimal.new(0.0))
     field(:budget_total_amount, :decimal, default: Decimal.new(0.0))
+    field(:override_revenue_rate, :decimal, default: Decimal.new(0.0))
     field(:fraud_check_url, :string)
 
     timestamps()
@@ -28,6 +39,8 @@ defmodule CodeFund.Schema.Campaign do
 
   @required [
     :name,
+    :audience_id,
+    :creative_id,
     :redirect_url,
     :status,
     :bid_amount,
@@ -46,5 +59,7 @@ defmodule CodeFund.Schema.Campaign do
     |> validate_required(@required)
     |> validate_url(:redirect_url)
     |> validate_url(:fraud_check_url)
+    |> foreign_key_constraint(:creative_id)
+    |> foreign_key_constraint(:audience_id)
   end
 end

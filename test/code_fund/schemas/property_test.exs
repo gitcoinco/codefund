@@ -17,6 +17,14 @@ defmodule CodeFund.Schema.PropertyTest do
       SharedExample.ModelTests.required_attribute_test(Property, Property.required(), valid_attrs)
     end
 
+    test "changeset with failing valid length on array fields", %{valid_attrs: valid_attrs} do
+      SharedExample.ModelTests.length_validation_test(
+        Property,
+        [:programming_languages],
+        valid_attrs
+      )
+    end
+
     test "changeset with invalid screenshot_url & url", %{valid_attrs: valid_attrs} do
       SharedExample.ModelTests.url_validation_test(Property, :url, valid_attrs)
       SharedExample.ModelTests.url_validation_test(Property, :screenshot_url, valid_attrs)

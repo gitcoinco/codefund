@@ -7,7 +7,7 @@ defmodule CodeFund.Creatives do
   import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias CodeFund.Repo
-  alias CodeFund.Schema.{Creative, User}
+  alias CodeFund.Schema.{Audience, Campaign, Creative, User}
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -59,6 +59,61 @@ defmodule CodeFund.Creatives do
         |> paginate(Repo, params, @pagination)
     end
   end
+
+  def get_by_property_filters(filters) do
+    from(
+      creative in Creative,
+      join: campaign in Campaign,
+      on: campaign.creative_id == creative.id,
+      join: audience in Audience,
+      on: campaign.audience_id == audience.id,
+      join: budgeted_campaign in assoc(campaign, :budgeted_campaign),
+      where: campaign.status == 2,
+      where: budgeted_campaign.day_remain > 0,
+      where: budgeted_campaign.month_remain > 0,
+      where: budgeted_campaign.total_remain > 0
+    )
+    |> build_filter_wheres(filters)
+    |> order_by(fragment("random()"))
+    |> select([creative, campaign, _, _], %{
+      "image_url" => creative.image_url,
+      "body" => creative.body,
+      "bid_amount" => campaign.bid_amount,
+      "campaign_id" => campaign.id,
+      "headline" => creative.headline
+    })
+  end
+
+  defp build_filter_wheres(query, []), do: query
+
+  defp build_filter_wheres(query, [{field_name, value} | tail]) do
+    query
+    |> where_clause(field_name, value)
+    |> build_filter_wheres(tail)
+  end
+
+  defp where_clause(query, :client_country, value) do
+    query
+    |> where(
+      [_, _, audience],
+      ^value not in audience.excluded_countries
+    )
+  end
+
+  defp where_clause(query, field_name, value) when is_list(value) and length(value) > 0 do
+    query
+    |> where(
+      [_, _, audience],
+      fragment("? && ?::varchar[]", field(audience, ^field_name), ^value)
+    )
+  end
+
+  defp where_clause(query, field_name, value) when is_binary(value) do
+    query
+    |> where([_, _, audience], field(audience, ^field_name) == ^value)
+  end
+
+  defp where_clause(query, _field_name, _value), do: query
 
   def by_user(%User{id: id}) do
     from(o in Creative, where: o.user_id == ^id)
@@ -163,5 +218,51 @@ defmodule CodeFund.Creatives do
     defconfig do
       text(:name)
     end
+  end
+end
+
+defmodule Calc do
+  def sum(campaigns) do
+    Enum.sum(Enum.map(campaigns, &(Map.get(&1, "bid_amount") |> Decimal.to_float())))
+  end
+
+  def multiplier(campaign, campaigns) do
+    position =
+      Enum.uniq(Enum.map(campaigns, &Map.get(&1, "bid_amount")))
+      |> Enum.sort()
+      |> Enum.find_index(fn amount -> amount == Map.get(campaign, "bid_amount") end)
+
+    %{
+      id: campaign |> Map.get("campaign_id"),
+      multiplier:
+        (campaign |> Map.get("bid_amount") |> Decimal.to_float()) / sum(campaigns) * 100 *
+          (position + 1)
+    }
+  end
+
+  def total_multiplier(campaigns) do
+    Enum.map(campaigns, fn campaign ->
+      multiplier(campaign, campaigns).multiplier
+    end)
+    |> Enum.sum()
+  end
+
+  def display_rate(campaign, campaigns) do
+    rate = multiplier(campaign, campaigns).multiplier / total_multiplier(campaigns) * 100
+    %{id: campaign |> Map.get("campaign_id"), display_rate: rate}
+  end
+
+  def get_all_display_rates(campaigns) do
+    Enum.map(campaigns, fn campaign ->
+      Calc.display_rate(campaign, campaigns)
+    end)
+    |> Enum.sort(&(&1.display_rate > &2.display_rate))
+  end
+
+  def pick_random_campaign(campaigns) do
+    campaigns
+    |> Enum.find(fn campaign ->
+      :rand.uniform(100) > campaign.display_rate
+    end) || Enum.sort(campaigns, &(&1.display_rate > &2.display_rate)) |> List.first()
   end
 end

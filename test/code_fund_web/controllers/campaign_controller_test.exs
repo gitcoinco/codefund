@@ -8,7 +8,8 @@ defmodule CodeFundWeb.CampaignControllerTest do
         "bid_amount" => "2.0",
         "budget_daily_amount" => "25.0",
         "budget_monthly_amount" => "25.0",
-        "budget_total_amount" => "25.0"
+        "budget_total_amount" => "25.0",
+        "override_revenue_rate" => "0.00"
       })
 
     {:ok, %{valid_params: valid_params, users: stub_users()}}
@@ -22,8 +23,11 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
     test "renders the index as a sponsor", %{conn: conn, users: users} do
       conn = assign(conn, :current_user, users.sponsor)
-      campaign = insert(:campaign, user: users.sponsor)
-      insert(:campaign)
+
+      campaign =
+        insert(:campaign, user: users.sponsor, override_revenue_rate: Decimal.new("0.30"))
+
+      insert(:campaign, override_revenue_rate: Decimal.new("0.30"))
       campaign = CodeFund.Campaigns.get_campaign!(campaign.id)
       conn = get(conn, campaign_path(conn, :index))
 
@@ -33,7 +37,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
     test "renders the index as an admin", %{conn: conn, users: users} do
       conn = assign(conn, :current_user, users.admin)
-      campaign = insert(:campaign)
+      campaign = insert(:campaign, override_revenue_rate: Decimal.new("0.30"))
       campaign = CodeFund.Campaigns.get_campaign!(campaign.id)
       conn = get(conn, campaign_path(conn, :index))
 
@@ -75,6 +79,8 @@ defmodule CodeFundWeb.CampaignControllerTest do
         "budget_total_amount" => "25.0",
         "name" => "Test Campaign",
         "redirect_url" => "https://example.com/0",
+        "audience_id" => insert(:audience).id,
+        "creative_id" => insert(:creative).id,
         "status" => 2
       }
 
@@ -92,12 +98,16 @@ defmodule CodeFundWeb.CampaignControllerTest do
       valid_params: valid_params
     } do
       conn = assign(conn, :current_user, users.sponsor)
+      audience = insert(:audience)
 
       conn =
         post(
           conn,
           campaign_path(conn, :create, %{
-            "params" => %{"campaign" => valid_params |> Map.put("name", nil)}
+            "params" => %{
+              "campaign" =>
+                valid_params |> Map.merge(%{"name" => nil, "audience_id" => audience.id})
+            }
           })
         )
 
@@ -117,7 +127,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
     test "renders the show template", %{conn: conn} do
       conn = assign(conn, :current_user, insert(:user))
-      campaign = insert(:campaign)
+      campaign = insert(:campaign, override_revenue_rate: Decimal.new("0.30"))
       conn = get(conn, campaign_path(conn, :show, campaign))
 
       assert html_response(conn, 200) =~ "Campaign"
@@ -148,7 +158,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
     |> behaves_like([:authenticated, :sponsor], "PATCH /campaigns/update")
 
     test "updates a campaign", %{conn: conn, users: users, valid_params: valid_params} do
-      campaign = insert(:campaign)
+      campaign = insert(:campaign, audience: insert(:audience))
       conn = assign(conn, :current_user, users.admin)
 
       conn =
@@ -168,7 +178,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
       users: users,
       valid_params: valid_params
     } do
-      campaign = insert(:campaign)
+      campaign = insert(:campaign, audience: insert(:audience))
       conn = assign(conn, :current_user, users.sponsor)
 
       conn =

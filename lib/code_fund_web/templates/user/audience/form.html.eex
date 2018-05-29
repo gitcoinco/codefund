@@ -1,0 +1,23 @@
+<%= [
+
+name: [type: :text_input, label: "Name"],
+programming_languages: [
+        type: :multiple_select,
+        label: "Programming Languages",
+        opts: [
+          class: "form-control selectize",
+          choices: CodeFund.Properties.programming_languages()
+        ]
+      ],
+    topic_categories: [
+        type: :multiple_select,
+        label: "Topic Categories",
+        opts: [class: "form-control selectize", choices: CodeFund.Properties.topic_categories()]
+      ],
+    excluded_countries: [
+        type: :multiple_select,
+        label: "Excluded Countries",
+        opts: [class: "form-control selectize", choices: Framework.Geolocation.Countries.list()]
+      ]
+      ] |> render_fields(@form)
+%>

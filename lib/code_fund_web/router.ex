@@ -66,8 +66,9 @@ defmodule CodeFundWeb.Router do
     get("/", PageController, :index)
     post("/register/:type", PageController, :deliver_form)
     get("/register/:type", PageController, :contact)
-    get("/t/p/:sponsorship_id/pixel.png", TrackController, :pixel)
-    get("/t/s/:sponsorship_id/", TrackController, :click)
+    get("/p/:impression_id/pixel.png", TrackController, :pixel)
+    get("/c/:impression_id", TrackController, :click)
+    get("/t/l/:property_id/logo.png", TrackController, :logo)
     get("/t/r/:campaign_id/", TrackController, :improvely_inbound)
   end
 
@@ -75,12 +76,12 @@ defmodule CodeFundWeb.Router do
     pipe_through(:protected)
 
     get("/dashboard", DashboardController, :index)
-    resources("/properties", PropertyController)
     get("/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url)
     resources("/campaigns", CampaignController)
-    resources("/sponsorships", SponsorshipController)
     resources("/clicks", ClickController)
     resources("/creatives", CreativeController)
+    resources("/properties", PropertyController)
+    resources("/sponsorships", SponsorshipController)
     resources("/templates", TemplateController)
     resources("/themes", ThemeController)
     get("/users/:id/masquerade", UserController, :masquerade)
@@ -88,6 +89,7 @@ defmodule CodeFundWeb.Router do
 
     resources("/users", UserController, only: [:index, :show, :edit, :update]) do
       get("/distributions/search", User.DistributionController, :search)
+      resources("/audiences", User.AudienceController)
 
       resources(
         "/distributions",
