@@ -1,6 +1,7 @@
 import { Controller } from "stimulus";
 import axios from "../utils/axios";
 import $ from "jquery/dist/jquery";
+import _ from "lodash";
 
 export default class extends Controller {
   static get targets() {
@@ -13,20 +14,32 @@ export default class extends Controller {
   }
 
   connect() {
-    this.data.set("payload", {});
+    this.payload = {};
+    this.initSelectize();
+    console.log("HELLO!");
   }
 
-  generateEstimates() {
-    console.log("GENERATING ESTIMATES");
-    console.log(this.payload);
+  initSelectize() {
+    YOU ARE HERE!
+    $("select.selectize").selectize({
+      plugins: ["remove_button"],
+      delimiter: ",",
+      persist: false
+    });
+  }
+
+  generateEstimates(event) {
+    var change = {};
+    change[event.currentTarget.dataset.key] = event.currentTarget.value;
+    this.payload = Object.assign(this.payload, change);
   }
 
   get payload() {
-    return this.data.get("payload");
+    return JSON.parse(this.data.get("payload"));
   }
 
   set payload(value) {
-    this.data.set("payload", value);
-    console.log("TRIGGER!");
+    this.data.set("payload", JSON.stringify(value));
+    console.log(JSON.stringify(value));
   }
 }

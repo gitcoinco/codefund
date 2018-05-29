@@ -1,4 +1,4 @@
-<div class="row" data-controller="audienceForm">
+<div class="row" data-controller="audience-form">
   <div class="col-md-9 col-sm-8">
     <%= [
       name: [
@@ -6,8 +6,9 @@
           label: "Name",
           opts: [
             data: [
-              target: "audienceForm.name",
-              action: "audienceForm#generateEstimates"
+              target: "audience-form.name",
+              action: "change->audience-form#generateEstimates",
+              key: "name"
             ]
           ]
         ],
@@ -16,10 +17,11 @@
           label: "Languages",
           opts: [
             data: [
-              target: "audienceForm.programmingLanguages",
-              action: "audienceForm#generateEstimates"
+              target: "audience-form.programmingLanguages",
+              action: "change->audience-form#generateEstimates",
+              key: "programming_languages"
             ],
-            class: "form-control selectize",
+            class: "form-control",
             choices: CodeFund.Properties.programming_languages()
           ]
         ],
@@ -28,10 +30,11 @@
           label: "Topics",
           opts: [
             data: [
-              target: "audienceForm.topicCategories",
-              action: "audienceForm#generateEstimates"
+              target: "audience-form.topicCategories",
+              action: "change->audience-form#generateEstimates",
+              key: "topic_categories"
             ],
-            class: "form-control selectize",
+            class: "form-control",
             choices: CodeFund.Properties.topic_categories()
           ]
         ],
@@ -40,10 +43,11 @@
           label: "Excluded Countries",
           opts: [
             data: [
-              target: "audienceForm.excludedCountries",
-              action: "audienceForm#generateEstimates"
+              target: "audience-form.excludedCountries",
+              action: "change->audience-form#generateEstimates",
+              key: "excluded_countries"
             ],
-            class: "form-control selectize",
+            class: "form-control",
             choices: Framework.Geolocation.Countries.list()
           ]
         ]
