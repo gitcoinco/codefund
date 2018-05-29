@@ -3,7 +3,7 @@
 <head>
   <%= cookie_banner() %>
   <%= consent_script() %>
-  
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -106,12 +106,6 @@
               <%= active_link(@conn, to: creative_path(@conn, :index), class: "nav-link") do %>
                 <i class="icon-eye"></i>
                 Ad Creatives
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= active_link(@conn, to: sponsorship_path(@conn, :index), class: "nav-link") do %>
-                <i class="icon-energy"></i>
-                Sponsorships
               <% end %>
             </li>
             <li class="nav-item">

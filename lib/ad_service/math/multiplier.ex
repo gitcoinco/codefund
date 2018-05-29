@@ -1,9 +1,8 @@
 defmodule AdService.Math.Multiplier do
   @spec sum([map]) :: integer
   def sum(ad_details) do
-    Enum.map(ad_details, fn %{"bid_amount" => bid_amount} ->
-      calculate(bid_amount, ad_details)
-    end)
+    ad_details
+    |> Enum.map(&calculate(&1.bid_amount, ad_details))
     |> Enum.sum()
   end
 

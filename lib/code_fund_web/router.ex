@@ -106,10 +106,12 @@ defmodule CodeFundWeb.Router do
     get("/charts/traffic_impressions", ChartController, :traffic_impressions)
   end
 
-  scope "/", CodeFundWeb do
+  scope "/", CodeFundWeb.API do
     pipe_through(:api)
 
     get("/scripts/:property_id/embed.js", AdServeController, :embed)
     get("/t/s/:property_id/details.json", AdServeController, :details)
+
+    resources("/audience_metrics", AudienceMetricsController, only: [:index])
   end
 end
