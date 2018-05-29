@@ -1,4 +1,4 @@
-defmodule CodeFundWeb.AdServeControllerTest do
+defmodule CodeFundWeb.API.AdServeControllerTest do
   use CodeFundWeb.ConnCase
   import CodeFund.Factory
 

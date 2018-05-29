@@ -1,7 +1,7 @@
-defmodule CodeFundWeb.AdServeController do
+defmodule CodeFundWeb.API.AdServeController do
   use CodeFundWeb, :controller
 
-  alias CodeFund.{Creatives, Impressions, Properties, Templates, Themes}
+  alias CodeFund.{Impressions, Properties, Templates, Themes}
   alias CodeFund.Schema.{Impression, Property, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
@@ -48,18 +48,18 @@ defmodule CodeFundWeb.AdServeController do
            topic_categories: topic_categories
          } <- Properties.get_property!(property_id),
          {:ok, ad_tuple} <-
-           Creatives.get_by_property_filters(
+           AdService.Query.ForDisplay.build(
              programming_languages: programming_languages,
              topic_categories: topic_categories,
              client_country: Framework.Geolocation.find_country_by_ip(conn.remote_ip)
            )
            |> CodeFund.Repo.all()
            |> AdService.Display.choose_winner(),
-         %{
-           "image_url" => image_url,
-           "body" => body,
-           "campaign_id" => campaign_id,
-           "headline" => headline
+         %AdService.Advertisement{
+           image_url: image_url,
+           body: body,
+           campaign_id: campaign_id,
+           headline: headline
          } <- ad_tuple |> AdService.Display.render() do
       {:ok, %Impression{id: impression_id}} =
         Impressions.create_impression(%{

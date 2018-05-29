@@ -11,7 +11,7 @@ defmodule CodeFund.Schema.Creative do
     has_many(:sponsorships, CodeFund.Schema.Sponsorship)
     has_many(:campaigns, CodeFund.Schema.Campaign)
     field(:name, :string)
-    field(:headline, :string)
+    field(:headline, :string, default: "")
     field(:body, :string)
     field(:image_url, :string)
 

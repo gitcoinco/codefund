@@ -2,21 +2,21 @@ defmodule AdService.DisplayTest do
   use ExUnit.Case
 
   setup do
-    winning_ad = %{
-      "bid_amount" => Decimal.new(0.8),
-      "body" => "ad body",
-      "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-      "headline" => "ad headline",
-      "image_url" => "http://example.com"
+    winning_ad = %AdService.Advertisement{
+      bid_amount: Decimal.new(0.8),
+      body: "ad body",
+      campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
+      headline: "ad headline",
+      image_url: "http://example.com"
     }
 
     possible_ads_set_of_two = [
-      %{
-        "bid_amount" => Decimal.new(0.8),
-        "body" => "ad body",
-        "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
-        "headline" => "ad headline",
-        "image_url" => "http://example.com"
+      %AdService.Advertisement{
+        bid_amount: Decimal.new(0.8),
+        body: "ad body",
+        campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
+        headline: "ad headline",
+        image_url: "http://example.com"
       },
       winning_ad
     ]
@@ -38,12 +38,12 @@ defmodule AdService.DisplayTest do
   describe "choose_winner/1" do
     test "it returns a winning ad and the list of possible ads if passed a list" do
       possible_ads = [
-        %{
-          "bid_amount" => Decimal.new(0.8),
-          "body" => "ad body",
-          "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-          "headline" => "ad headline",
-          "image_url" => "http://example.com"
+        %AdService.Advertisement{
+          bid_amount: Decimal.new(0.8),
+          body: "ad body",
+          campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
+          headline: "ad headline",
+          image_url: "http://example.com"
         }
       ]
 

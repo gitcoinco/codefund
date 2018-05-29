@@ -3,26 +3,26 @@ defmodule AdService.Math.MultiplierTest do
 
   setup do
     ad_details = [
-      %{
-        "bid_amount" => Decimal.new(1.0),
-        "body" => "ad body",
-        "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-        "headline" => "ad headline",
-        "image_url" => "http://example.com"
+      %AdService.Advertisement{
+        bid_amount: Decimal.new(1.0),
+        body: "ad body",
+        campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
+        headline: "ad headline",
+        image_url: "http://example.com"
       },
-      %{
-        "bid_amount" => Decimal.new(0.5),
-        "body" => "ad body",
-        "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
-        "headline" => "ad headline",
-        "image_url" => "http://example.com"
+      %AdService.Advertisement{
+        bid_amount: Decimal.new(0.5),
+        body: "ad body",
+        campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
+        headline: "ad headline",
+        image_url: "http://example.com"
       },
-      %{
-        "bid_amount" => Decimal.new(0.25),
-        "body" => "ad body",
-        "campaign_id" => "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
-        "headline" => "ad headline",
-        "image_url" => "http://example.com"
+      %AdService.Advertisement{
+        bid_amount: Decimal.new(0.25),
+        body: "ad body",
+        campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
+        headline: "ad headline",
+        image_url: "http://example.com"
       }
     ]
 
