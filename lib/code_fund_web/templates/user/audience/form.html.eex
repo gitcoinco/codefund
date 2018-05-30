@@ -21,7 +21,7 @@
               action: "change->audience-form#generateEstimates",
               key: "programming_languages"
             ],
-            class: "form-control",
+            class: "form-control audience-form-selectize",
             choices: CodeFund.Properties.programming_languages()
           ]
         ],
@@ -34,7 +34,7 @@
               action: "change->audience-form#generateEstimates",
               key: "topic_categories"
             ],
-            class: "form-control",
+            class: "form-control audience-form-selectize",
             choices: CodeFund.Properties.topic_categories()
           ]
         ],
@@ -47,7 +47,7 @@
               action: "change->audience-form#generateEstimates",
               key: "excluded_countries"
             ],
-            class: "form-control",
+            class: "form-control audience-form-selectize",
             choices: Framework.Geolocation.Countries.list()
           ]
         ]
@@ -55,7 +55,9 @@
     %>
   </div>
   <div class="col-md-3 col-sm-4">
-    asdfasdf
+    <h4><span data-target="audience-form.uniqueUserCount">0</span> Users</h4>
+    <h4><span data-target="audience-form.propertyCount">0</span> Properties</h4>
+    <h4><span data-target="audience-form.impressionCount">0</span> Ad Impressions</h4>
   </div>
 </div>
 
