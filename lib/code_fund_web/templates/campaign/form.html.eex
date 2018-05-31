@@ -12,12 +12,6 @@
         ]],
     budget_daily_amount: [type: :currency_input, label: "Daily Budget"],
     budget_monthly_amount: [type: :currency_input, label: "Monthly Budget"],
-    budget_total_amount: [type: :currency_input, label: "Total Budget"],
-    override_revenue_rate: [type: @conn.assigns.revenue_rate_field_type, label: @conn.assigns.revenue_rate_field_label,
-              opts: [
-                value: @conn.assigns.revenue_rate,
-                step: "0.001",
-                min: "0"
-              ]]
+    budget_total_amount: [type: :currency_input, label: "Total Budget"]
   ] |> render_fields(@form)
 %>

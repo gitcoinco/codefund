@@ -24,10 +24,9 @@ defmodule CodeFundWeb.CampaignControllerTest do
     test "renders the index as a sponsor", %{conn: conn, users: users} do
       conn = assign(conn, :current_user, users.sponsor)
 
-      campaign =
-        insert(:campaign, user: users.sponsor, override_revenue_rate: Decimal.new("0.30"))
+      campaign = insert(:campaign, user: users.sponsor)
 
-      insert(:campaign, override_revenue_rate: Decimal.new("0.30"))
+      insert(:campaign)
       campaign = CodeFund.Campaigns.get_campaign!(campaign.id)
       conn = get(conn, campaign_path(conn, :index))
 
@@ -37,7 +36,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
     test "renders the index as an admin", %{conn: conn, users: users} do
       conn = assign(conn, :current_user, users.admin)
-      campaign = insert(:campaign, override_revenue_rate: Decimal.new("0.30"))
+      campaign = insert(:campaign)
       campaign = CodeFund.Campaigns.get_campaign!(campaign.id)
       conn = get(conn, campaign_path(conn, :index))
 
@@ -127,7 +126,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
     test "renders the show template", %{conn: conn} do
       conn = assign(conn, :current_user, insert(:user))
-      campaign = insert(:campaign, override_revenue_rate: Decimal.new("0.30"))
+      campaign = insert(:campaign)
       conn = get(conn, campaign_path(conn, :show, campaign))
 
       assert html_response(conn, 200) =~ "Campaign"

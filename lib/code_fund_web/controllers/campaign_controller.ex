@@ -1,8 +1,7 @@
 defmodule CodeFundWeb.CampaignController do
   use CodeFundWeb, :controller
   use Framework.Controller
-  alias CodeFund.{Campaigns, Users}
-  alias CodeFund.Schema.{Campaign, User}
+  alias CodeFund.Campaigns
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
   use Framework.Controller.Stub.Definitions, [:index, :show, :delete]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
@@ -30,27 +29,16 @@ defmodule CodeFundWeb.CampaignController do
     |> error(&new_assigns/2)
   end
 
-  def generate_fraud_check_url(conn, %{"id" => id}) do
-    campaign = Campaigns.get_campaign!(id)
-
-    Exq.enqueue(Exq, "cs_high", CodeFundWeb.CreateFraudTrackingLinkWorker, [campaign.id])
-
-    conn
-    |> put_flash(:info, "Fraud Check URL is being generated")
-    |> redirect(to: campaign_path(conn, :show, campaign))
-  end
-
   defp new_assigns(conn, _params) do
-    controller_assigns(conn.assigns.current_user, nil)
+    controller_assigns(conn.assigns.current_user)
   end
 
   defp edit_assigns(_conn, %{"id" => campaign_id}) do
     campaign = Campaigns.get_campaign!(campaign_id)
-    user = CodeFund.Users.get_user!(campaign.user_id)
-    controller_assigns(user, campaign)
+    controller_assigns(campaign.user)
   end
 
-  defp controller_assigns(user, campaign) do
+  defp controller_assigns(user) do
     [
       audiences:
         CodeFund.Audiences.get_by_user(user)
@@ -58,36 +46,7 @@ defmodule CodeFundWeb.CampaignController do
         |> FormHelpers.repo_objects_to_options(),
       creatives:
         CodeFund.Creatives.by_user(user)
-        |> FormHelpers.repo_objects_to_options(),
-      revenue_rate: set_override_revenue_rate_default(campaign),
-      revenue_rate_field_type: revenue_rate_field_type(user),
-      revenue_rate_field_label: revenue_rate_field_label(user)
+        |> FormHelpers.repo_objects_to_options()
     ]
   end
-
-  defp revenue_rate_field_label(user) do
-    case Users.has_role?(user.roles, ["admin"]) do
-      true -> "Override Revenue Rate"
-      false -> ""
-    end
-  end
-
-  defp revenue_rate_field_type(user) do
-    case Users.has_role?(user.roles, ["admin"]) do
-      true -> :currency_input
-      false -> :hidden_input
-    end
-  end
-
-  defp set_override_revenue_rate_default(%Campaign{
-         override_revenue_rate: override_revenue_rate
-       })
-       when not is_nil(override_revenue_rate),
-       do: override_revenue_rate
-
-  defp set_override_revenue_rate_default(%Campaign{user: %User{revenue_rate: revenue_rate}})
-       when not is_nil(revenue_rate),
-       do: revenue_rate
-
-  defp set_override_revenue_rate_default(_), do: "0.50"
 end

@@ -31,7 +31,6 @@ defmodule CodeFund.Schema.Campaign do
     field(:budget_daily_amount, :decimal, default: Decimal.new(0.0))
     field(:budget_monthly_amount, :decimal, default: Decimal.new(0.0))
     field(:budget_total_amount, :decimal, default: Decimal.new(0.0))
-    field(:override_revenue_rate, :decimal, default: Decimal.new(0.0))
     field(:fraud_check_url, :string)
 
     timestamps()
