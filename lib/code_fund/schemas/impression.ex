@@ -9,7 +9,6 @@ defmodule CodeFund.Schema.Impression do
     belongs_to(:campaign, CodeFund.Schema.Campaign)
 
     field(:ip, :string)
-    field(:is_bot, :boolean, default: false)
     field(:browser, :string)
     field(:city, :string)
     field(:country, :string)
@@ -19,14 +18,7 @@ defmodule CodeFund.Schema.Impression do
     field(:os, :string)
     field(:postal_code, :string)
     field(:region, :string)
-    field(:screen_height, :integer)
-    field(:screen_width, :integer)
     field(:user_agent, :string)
-    field(:utm_campaign, :string)
-    field(:utm_content, :string)
-    field(:utm_medium, :string)
-    field(:utm_source, :string)
-    field(:utm_term, :string)
 
     timestamps()
   end

@@ -129,7 +129,7 @@
               <% end %>
             </li>
             <li class="nav-item">
-              <%= active_link(@conn, to: user_path(@conn, :index), class: "nav-link") do %>
+              <%= active_link(@conn, to: user_path(@conn, :index), class: "nav-link", active: [{CodeFundWeb.UserController, :any}, {Coherence.InvitationController, :new}]) do %>
                 <i class="icon-user"></i>
                 Users
             <% end %>
