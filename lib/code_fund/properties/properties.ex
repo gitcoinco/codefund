@@ -84,6 +84,69 @@ defmodule CodeFund.Properties do
     "Computer Science"
   ]
 
+  @languages [
+    "Albanian",
+    "Armenian",
+    "Pashto",
+    "Azeri",
+    "Bosnian",
+    "Bulgarian",
+    "Belarusian",
+    "Chinese",
+    "Czech",
+    "German",
+    "Danish",
+    "Estonian",
+    "Spanish",
+    "Galician",
+    "Finnish",
+    "Faroese",
+    "French",
+    "English",
+    "Georgian",
+    "Greek",
+    "Croatian",
+    "Hungarian",
+    "Indonesian",
+    "Hebrew",
+    "Hindi",
+    "Farsi",
+    "Icelandic",
+    "Italian",
+    "Japanese",
+    "Swahili",
+    "Kyrgyz",
+    "Korean",
+    "Kazakh",
+    "Lithuanian",
+    "Latvian",
+    "FYRO Macedonian",
+    "Mongolian",
+    "Maltese",
+    "Divehi",
+    "Malay",
+    "Dutch",
+    "Norwegian",
+    "Maori",
+    "Tagalog",
+    "Urdu",
+    "Polish",
+    "Portuguese",
+    "Romanian",
+    "Russian",
+    "Swedish",
+    "Slovenian",
+    "Slovak",
+    "Serbian",
+    "Syriac",
+    "Thai",
+    "Turkish",
+    "Ukrainian",
+    "Uzbek",
+    "Vietnamese",
+    "Zulu"
+  ]
+
   def programming_languages do
     @programming_languages
     |> Enum.chunk(1)
@@ -92,6 +155,13 @@ defmodule CodeFund.Properties do
 
   def topic_categories do
     @topic_categories
+    |> Enum.chunk(1)
+    |> Enum.map(fn [a] -> {a, a} end)
+  end
+
+  def languages do
+    @languages
+    |> Enum.sort()
     |> Enum.chunk(1)
     |> Enum.map(fn [a] -> {a, a} end)
   end

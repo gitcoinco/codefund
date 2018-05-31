@@ -30,31 +30,47 @@ defmodule CodeFundWeb.PropertyController do
     fields = [
       name: [type: :text_input, label: "Name"],
       description: [type: :textarea, label: "Description", opts: [rows: 4]],
-      property_type: [
-        type: :select,
-        label: "Property Type",
+      url: [type: :text_input, label: "URL", opts: [placeholder: "https://"]],
+      estimated_monthly_page_views: [
+        type: :number_input,
+        label: "Est. Monthly Page Views",
         opts: [
-          choices: [
-            Website: 1,
-            "Repository (not yet supported)": 2,
-            "Newsletter (not yet supported)": 3
-          ]
+          hint: "How many page views (sessions) per month per Google Analytics?"
         ]
       ],
-      url: [type: :text_input, label: "URL", opts: [placeholder: "https://"]],
-      language: [type: :text_input, label: "Language"],
+      estimated_monthly_visitors: [
+        type: :number_input,
+        label: "Est. Monthly Visitors",
+        opts: [
+          hint: "How many unique visitors (users) per month per Google Analytics?"
+        ]
+      ],
+      language: [
+        type: :select,
+        label: "Primary Language",
+        opts: [
+          class: "form-control",
+          choices: CodeFund.Properties.languages(),
+          prompt: "Choose the primary language of the website?"
+        ]
+      ],
       programming_languages: [
         type: :multiple_select,
         label: "Programming Languages",
         opts: [
           class: "form-control selectize",
-          choices: CodeFund.Properties.programming_languages()
+          choices: CodeFund.Properties.programming_languages(),
+          hint: "Which programming languages are used or discussed on the website?"
         ]
       ],
       topic_categories: [
         type: :multiple_select,
         label: "Topic Categories",
-        opts: [class: "form-control selectize", choices: CodeFund.Properties.topic_categories()]
+        opts: [
+          class: "form-control selectize",
+          choices: CodeFund.Properties.topic_categories(),
+          hint: "Which general topics apply to this website?"
+        ]
       ]
     ]
 
@@ -70,8 +86,6 @@ defmodule CodeFundWeb.PropertyController do
   defp admin_fields() do
     [
       status: [type: :select, label: "Status", opts: [choices: CodeFund.Properties.statuses()]],
-      estimated_monthly_page_views: [type: :number_input, label: "Est. Monthly Page Views"],
-      estimated_monthly_visitors: [type: :number_input, label: "Est. Monthly Visitors"],
       alexa_site_rank: [type: :number_input, label: "Alexa Ranking"],
       screenshot_url: [
         type: :text_input,

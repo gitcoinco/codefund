@@ -22,7 +22,9 @@ defmodule CodeFund.Factory do
       user: build(:user),
       language: "English",
       programming_languages: ["Ruby"],
-      topic_categories: ["Programming"]
+      topic_categories: ["Frontend Frameworks & Tools"],
+      estimated_monthly_page_views: 50000,
+      estimated_monthly_visitors: 12500
     }
   end
 

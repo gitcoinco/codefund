@@ -14,9 +14,9 @@ defmodule CodeFund.Schema.Property do
     :property_type,
     :status,
     :user_id,
-    :programming_languages,
-    :topic_categories,
-    :language
+    :language,
+    :estimated_monthly_page_views,
+    :estimated_monthly_visitors
   ]
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -31,7 +31,7 @@ defmodule CodeFund.Schema.Property do
     field(:legacy_id, :string)
     field(:description, :string)
     field(:name, :string)
-    field(:property_type, :integer)
+    field(:property_type, :integer, default: 1)
     field(:url, :string)
     field(:estimated_monthly_page_views, :integer)
     field(:estimated_monthly_visitors, :integer)
@@ -51,10 +51,19 @@ defmodule CodeFund.Schema.Property do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
+    |> force_array_change(:programming_languages, params)
+    |> force_array_change(:topic_categories, params)
     |> validate_length(:programming_languages, min: 1)
     |> validate_length(:topic_categories, min: 1)
     |> validate_url(:url)
     |> validate_url(:screenshot_url)
+  end
+
+  def force_array_change(changeset, field, params) do
+    value = Map.get(params, field) || Map.get(params, field |> to_string) || []
+
+    changeset
+    |> force_change(field, value)
   end
 
   def property_types, do: @property_types
