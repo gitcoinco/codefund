@@ -63,12 +63,6 @@
               <td><strong>Bid Amount</strong></td>
               <td><%= pretty_money @campaign.bid_amount %></td>
             </tr>
-            <%= if CodeFund.Users.has_role?(@current_user.roles, ["admin"]) do %>
-              <tr>
-                <td><strong>Override Revenue Rate</strong></td>
-                <td><%= pretty_money @campaign.override_revenue_rate || 0.00 %></td>
-              </tr>
-            <% end %>
             <tr>
               <td><strong>Daily Budget</strong></td>
               <td><%= pretty_subtracted_money_with_total(
