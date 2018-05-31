@@ -37,7 +37,6 @@ defmodule CodeFundWeb.TrackControllerTest do
 
       assert impression.os == "mac"
       assert impression.device_type == "desktop"
-      refute impression.is_bot
     end
 
     test "Creates an impression when browser is a bot", %{
@@ -65,7 +64,6 @@ defmodule CodeFundWeb.TrackControllerTest do
 
       assert impression.os == "other"
       assert impression.device_type == "unknown"
-      assert impression.is_bot
     end
   end
 

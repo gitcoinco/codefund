@@ -62,14 +62,6 @@
           <strong>Country</strong>
           <span><%= current_user(@conn).country %></span>
         </li>
-        <li class="list-group-item">
-          <strong>Revenue Rate</strong>
-          <span><%=
-            current_user(@conn).revenue_rate
-            |> Decimal.mult(Decimal.new(100))
-            |> Decimal.to_integer()
-          %>%</span>
-        </li>
       </ul>
     </main>
   </div>

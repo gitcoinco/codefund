@@ -1,8 +1,8 @@
 import { Controller } from "stimulus";
-import axios from "../utils/axios";
 import qs from "qs";
 import $ from "jquery/dist/jquery";
 import _ from "lodash";
+import axios from "../utils/axios";
 
 export default class extends Controller {
   static get targets() {
@@ -17,6 +17,7 @@ export default class extends Controller {
       "estimatedLinkClicksLow",
       "estimatedLinkClicksHigh",
       "estimatedLinkClicksProgress",
+      "potentialAudienceLoading",
       "potentialAudienceWithData",
       "potentialAudienceWithoutData"
     ];
@@ -25,12 +26,13 @@ export default class extends Controller {
   connect() {
     this.payload = {
       filters: {
-        programming_languages: [],
-        topic_categories: [],
-        excluded_countries: []
+        programming_languages: this.programmingLanguages,
+        topic_categories: this.topicCategories,
+        excluded_countries: this.excludedCountries
       }
     };
     this.initSelectize();
+    this.generateInitialEstimates();
   }
 
   initSelectize() {
@@ -40,11 +42,15 @@ export default class extends Controller {
         delimiter: ",",
         persist: false
       })
-      .on("change", this.generateEstimates.bind(this));
+      .on("change", _.debounce(this.generateEstimates.bind(this), 2000));
+  }
+
+  generateInitialEstimates() {
+    this.submitEstimateQuery();
   }
 
   generateEstimates(event) {
-    let payload = this.payload;
+    const payload = this.payload;
 
     if (event.currentTarget.attributes.class.value.includes("audience-form-selectize")) {
       const options = _.map(event.currentTarget.selectedOptions, (opt) => {
@@ -57,15 +63,27 @@ export default class extends Controller {
 
     this.payload = payload;
 
-    const query = qs.stringify(this.payload, { arrayFormat: "brackets" });
+    this.submitEstimateQuery();
+  }
 
-    axios({
-      url: `/audience_metrics?${query}`,
-      method: 'GET',
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded'
-      }
-    }).then(this.handleMetricsResponse.bind(this));
+  submitEstimateQuery() {
+    const query = qs.stringify(this.payload, {
+      arrayFormat: "brackets"
+    });
+
+    if (query === "") {
+      this.showNoData();
+    } else {
+      axios({
+        url: `/audience_metrics?${query}`,
+        method: 'GET',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(this.handleMetricsResponse.bind(this))
+        .catch(this.showNoData.bind(this));
+    }
   }
 
   handleMetricsResponse(response) {
@@ -73,7 +91,7 @@ export default class extends Controller {
       const ceiling = 100000;
       const cpc = 0.03;
       const impLow = this.round((response.data.impression_count * 0.1), -3);
-      const impHigh = this.round(response.data.impression_count, -3);
+      const impHigh = this.round(response.data.impression_count * 1.2, -3);
       const impPct = this.round((impHigh / ceiling) * 100, 0);
       const clickLow = this.round((impLow * cpc), -1);
       const clickHigh = this.round((impHigh * cpc), -1);
@@ -92,7 +110,18 @@ export default class extends Controller {
     }
   }
 
+  showLoading() {
+    this.potentialAudienceLoadingTarget.classList.remove("d-none");
+    this.potentialAudienceLoadingTarget.classList.add("d-block");
+    this.potentialAudienceWithoutDataTarget.classList.remove("d-block");
+    this.potentialAudienceWithoutDataTarget.classList.add("d-none");
+    this.potentialAudienceWithDataTarget.classList.remove("d-block");
+    this.potentialAudienceWithDataTarget.classList.add("d-none");
+  }
+
   showData() {
+    this.potentialAudienceLoadingTarget.classList.remove("d-block");
+    this.potentialAudienceLoadingTarget.classList.add("d-none");
     this.potentialAudienceWithoutDataTarget.classList.remove("d-block");
     this.potentialAudienceWithoutDataTarget.classList.add("d-none");
     this.potentialAudienceWithDataTarget.classList.remove("d-none");
@@ -100,6 +129,8 @@ export default class extends Controller {
   }
 
   showNoData() {
+    this.potentialAudienceLoadingTarget.classList.remove("d-block");
+    this.potentialAudienceLoadingTarget.classList.add("d-none");
     this.potentialAudienceWithDataTarget.classList.remove("d-block");
     this.potentialAudienceWithDataTarget.classList.add("d-none");
     this.potentialAudienceWithoutDataTarget.classList.remove("d-none");
@@ -128,5 +159,23 @@ export default class extends Controller {
 
   get linkClicksBar() {
     return this.targets.find('estimatedLinkClicksProgress');
-  } 
+  }
+
+  get programmingLanguages() {
+    return _.map(this.targets.find('programmingLanguages').selectedOptions, (opt) => {
+      return opt.value;
+    });
+  }
+
+  get topicCategories() {
+    return _.map(this.targets.find('topicCategories').selectedOptions, (opt) => {
+      return opt.value;
+    });
+  }
+
+  get excludedCountries() {
+    return _.map(this.targets.find('excludedCountries').selectedOptions, (opt) => {
+      return opt.value;
+    });
+  }
 }

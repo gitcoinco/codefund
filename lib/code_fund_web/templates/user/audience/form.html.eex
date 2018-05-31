@@ -3,14 +3,7 @@
     <%= [
       name: [
           type: :text_input,
-          label: "Name",
-          opts: [
-            data: [
-              target: "audience-form.name",
-              action: "change->audience-form#generateEstimates",
-              key: "name"
-            ]
-          ]
+          label: "Name"
         ],
       programming_languages: [
           type: :multiple_select,
@@ -82,8 +75,13 @@
         <hr/>
         <small>The accuracy of estimates is based on factors like past campaign data, the filters you entered and market data. Numbers are provided to give you an idea of performance for your budget, but are only estimates and don't guarantee results.</small>
       </div>
-      <div class="card-body d-block text-center" data-target="audience-form.potentialAudienceWithoutData">
-        Unavailable
+      <div class="card-body d-block text-center" data-target="audience-form.potentialAudienceWithoutData" style="height: 200px; padding-top: 80px;">
+        <span class="text-muted">Unavailable</span>
+      </div>
+      <div class="card-body d-none text-center" data-target="audience-form.potentialAudienceLoading">
+        <div class="cssload-wrapper">
+          <div class="cssload-loader"></div>
+        </div>
       </div>
     </div>
   </div>
