@@ -43,6 +43,16 @@ defmodule AdService.Query.ForAudienceCreationTest do
       10,
       :impression,
       property: property,
+      country: "US",
+      inserted_at:
+        Timex.shift(Timex.now(), months: -1) |> Timex.beginning_of_month() |> Timex.shift(days: 1)
+    )
+
+    insert_list(
+      10,
+      :impression,
+      property: property,
+      country: "CN",
       inserted_at:
         Timex.shift(Timex.now(), months: -1) |> Timex.beginning_of_month() |> Timex.shift(days: 1)
     )
@@ -51,11 +61,18 @@ defmodule AdService.Query.ForAudienceCreationTest do
       :impression,
       property: property,
       ip: "10.20.30.40",
+      country: "US",
       inserted_at:
         Timex.shift(Timex.now(), months: -1) |> Timex.beginning_of_month() |> Timex.shift(days: 1)
     )
 
-    insert_list(10, :impression, property: property_2)
+    insert_list(
+      10,
+      :impression,
+      property: property_2,
+      inserted_at:
+        Timex.shift(Timex.now(), months: -1) |> Timex.beginning_of_month() |> Timex.shift(days: 1)
+    )
 
     {:ok, %{}}
   end
@@ -65,7 +82,7 @@ defmodule AdService.Query.ForAudienceCreationTest do
       assert AdService.Query.ForAudienceCreation.metrics(
                programming_languages: ["Ruby"],
                topic_categories: ["Programming"],
-               excluded_countries: ["US"]
+               excluded_countries: ["CN"]
              ) == %{
                "impression_count" => 11,
                "property_count" => 1,
