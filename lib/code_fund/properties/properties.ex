@@ -17,7 +17,7 @@ defmodule CodeFund.Properties do
     "Visual Basic .NET",
     "PHP",
     "JavaScript",
-    "Delphi/Object Pascal	2.544%	+0.54%",
+    "Delphi/Object Pascal",
     "Swift",
     "Perl",
     "Ruby",
