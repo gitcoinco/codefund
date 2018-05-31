@@ -51,12 +51,19 @@ defmodule CodeFund.Schema.Property do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> validate_required(@required)
-    |> force_change(:programming_languages, params |> Map.get("programming_languages") || [])
-    |> force_change(:topic_categories, params |> Map.get("topic_categories") || [])
+    |> force_array_change(:programming_languages, params)
+    |> force_array_change(:topic_categories, params)
     |> validate_length(:programming_languages, min: 1)
     |> validate_length(:topic_categories, min: 1)
     |> validate_url(:url)
     |> validate_url(:screenshot_url)
+  end
+
+  def force_array_change(changeset, field, params) do
+    value = Map.get(params, field) || Map.get(params, field |> to_string) || []
+
+    changeset
+    |> force_change(field, value)
   end
 
   def property_types, do: @property_types

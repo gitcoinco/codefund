@@ -50,8 +50,9 @@ defmodule CodeFundWeb.PropertyControllerTest do
       assert conn.assigns.fields |> Keyword.keys() == [
                :name,
                :description,
-               :property_type,
                :url,
+               :estimated_monthly_page_views,
+               :estimated_monthly_visitors,
                :language,
                :programming_languages,
                :topic_categories
@@ -67,14 +68,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
       assert conn.assigns.fields |> Keyword.keys() == [
                :name,
                :description,
-               :property_type,
                :url,
+               :estimated_monthly_page_views,
+               :estimated_monthly_visitors,
                :language,
                :programming_languages,
                :topic_categories,
                :status,
-               :estimated_monthly_page_views,
-               :estimated_monthly_visitors,
                :alexa_site_rank,
                :screenshot_url
              ]
@@ -125,14 +125,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
       assert conn.assigns.fields |> Keyword.keys() == [
                :name,
                :description,
-               :property_type,
                :url,
+               :estimated_monthly_page_views,
+               :estimated_monthly_visitors,
                :language,
                :programming_languages,
                :topic_categories,
                :status,
-               :estimated_monthly_page_views,
-               :estimated_monthly_visitors,
                :alexa_site_rank,
                :screenshot_url
              ]
@@ -175,14 +174,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
       assert conn.assigns.fields |> Keyword.keys() == [
                :name,
                :description,
-               :property_type,
                :url,
+               :estimated_monthly_page_views,
+               :estimated_monthly_visitors,
                :language,
                :programming_languages,
                :topic_categories,
                :status,
-               :estimated_monthly_page_views,
-               :estimated_monthly_visitors,
                :alexa_site_rank,
                :screenshot_url
              ]
@@ -207,7 +205,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
         patch(
           conn,
           property_path(conn, :update, property, %{
-            "params" => %{"property" => %{name: "New Name"}}
+            "params" => %{
+              "property" => %{
+                name: "New Name",
+                programming_languages: ["Ruby"],
+                topic_categories: ["Frontend Frameworks & Tools"]
+              }
+            }
           })
         )
 
@@ -239,14 +243,13 @@ defmodule CodeFundWeb.PropertyControllerTest do
       assert conn.assigns.fields |> Keyword.keys() == [
                :name,
                :description,
-               :property_type,
                :url,
+               :estimated_monthly_page_views,
+               :estimated_monthly_visitors,
                :language,
                :programming_languages,
                :topic_categories,
                :status,
-               :estimated_monthly_page_views,
-               :estimated_monthly_visitors,
                :alexa_site_rank,
                :screenshot_url
              ]

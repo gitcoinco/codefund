@@ -17,15 +17,19 @@ defmodule CodeFund.PropertiesTest do
       name: "some name",
       property_type: 42,
       url: "http://google.com",
+      language: "English",
       programming_languages: ["Ruby"],
-      topic_categories: ["Databases"],
-      language: "English"
+      topic_categories: ["Frontend Frameworks & Tools"],
+      estimated_monthly_page_views: 50000,
+      estimated_monthly_visitors: 12500
     }
     @update_attrs %{
       description: "some updated description",
       name: "some updated name",
       property_type: 43,
-      url: "http://aol.com"
+      url: "http://aol.com",
+      programming_languages: ["Ruby"],
+      topic_categories: ["Frontend Frameworks & Tools"]
     }
     @invalid_attrs %{description: nil, name: nil, property_type: nil, url: nil}
 

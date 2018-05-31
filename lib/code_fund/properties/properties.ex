@@ -127,7 +127,6 @@ defmodule CodeFund.Properties do
     "Malay",
     "Dutch",
     "Norwegian",
-    "Norwegian",
     "Maori",
     "Tagalog",
     "Urdu",
@@ -162,6 +161,9 @@ defmodule CodeFund.Properties do
 
   def languages do
     @languages
+    |> Enum.sort()
+    |> Enum.chunk(1)
+    |> Enum.map(fn [a] -> {a, a} end)
   end
 
   @pagination [page_size: 15]
