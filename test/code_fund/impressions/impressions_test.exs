@@ -24,15 +24,7 @@ defmodule CodeFund.ImpressionsTest do
       longitude: "120.5",
       os: "some os",
       postal_code: "some postal_code",
-      region: "some region",
-      screen_height: 42,
-      screen_width: 42,
-      user_agent: "some user_agent",
-      utm_campaign: "some utm_campaign",
-      utm_content: "some utm_content",
-      utm_medium: "some utm_medium",
-      utm_source: "some utm_source",
-      utm_term: "some utm_term"
+      region: "some region"
     }
     @update_attrs %{
       browser: "some updated browser",
@@ -44,15 +36,7 @@ defmodule CodeFund.ImpressionsTest do
       longitude: "456.7",
       os: "some updated os",
       postal_code: "some updated postal_code",
-      region: "some updated region",
-      screen_height: 43,
-      screen_width: 43,
-      user_agent: "some updated user_agent",
-      utm_campaign: "some updated utm_campaign",
-      utm_content: "some updated utm_content",
-      utm_medium: "some updated utm_medium",
-      utm_source: "some updated utm_source",
-      utm_term: "some updated utm_term"
+      region: "some updated region"
     }
     @invalid_attrs %{
       browser: nil,
@@ -64,15 +48,7 @@ defmodule CodeFund.ImpressionsTest do
       longitude: nil,
       os: nil,
       postal_code: nil,
-      region: nil,
-      screen_height: nil,
-      screen_width: nil,
-      user_agent: nil,
-      utm_campaign: nil,
-      utm_content: nil,
-      utm_medium: nil,
-      utm_source: nil,
-      utm_term: nil
+      region: nil
     }
 
     test "list_impressions/0 returns all impressions", %{impression: impression} do
@@ -100,14 +76,6 @@ defmodule CodeFund.ImpressionsTest do
       assert impression.os == "some os"
       assert impression.postal_code == "some postal_code"
       assert impression.region == "some region"
-      assert impression.screen_height == 42
-      assert impression.screen_width == 42
-      assert impression.user_agent == "some user_agent"
-      assert impression.utm_campaign == "some utm_campaign"
-      assert impression.utm_content == "some utm_content"
-      assert impression.utm_medium == "some utm_medium"
-      assert impression.utm_source == "some utm_source"
-      assert impression.utm_term == "some utm_term"
     end
 
     test "create_impression/1 with invalid data returns error changeset" do
@@ -159,14 +127,6 @@ defmodule CodeFund.ImpressionsTest do
       assert impression.os == "some updated os"
       assert impression.postal_code == "some updated postal_code"
       assert impression.region == "some updated region"
-      assert impression.screen_height == 43
-      assert impression.screen_width == 43
-      assert impression.user_agent == "some updated user_agent"
-      assert impression.utm_campaign == "some updated utm_campaign"
-      assert impression.utm_content == "some updated utm_content"
-      assert impression.utm_medium == "some updated utm_medium"
-      assert impression.utm_source == "some updated utm_source"
-      assert impression.utm_term == "some updated utm_term"
     end
 
     test "update_impression/2 with invalid data returns error changeset", %{

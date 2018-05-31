@@ -28,14 +28,6 @@ defmodule CodeFund.Support.Fixture do
       os: "some os",
       postal_code: "some postal_code",
       region: "some region",
-      screen_height: 42,
-      screen_width: 42,
-      user_agent: "some user_agent",
-      utm_campaign: "some utm_campaign",
-      utm_content: "some utm_content",
-      utm_medium: "some utm_medium",
-      utm_source: "some utm_source",
-      utm_term: "some utm_term",
       property_id: generate(:property).id
     }
     |> run!(attrs)
