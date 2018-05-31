@@ -1,6 +1,6 @@
 defmodule Framework.Phoenix.Form.Helpers do
   use Phoenix.HTML
-  import CodeFundWeb.ErrorHelpers
+  import CodeFundWeb.{HintHelpers, ErrorHelpers}
 
   @spec render_fields(list, Phoenix.HTML.Form.t()) :: list
   def render_fields(fields, form) do
@@ -31,11 +31,15 @@ defmodule Framework.Phoenix.Form.Helpers do
 
   @spec input_group(Phoenix.HTML.safe(), String.t(), Phoenix.HTML.safe(), String.t()) ::
           Phoenix.HTML.safe()
-  defp input_group(field_html, label, error_tag, col_class \\ "col-sm-10") do
+  defp input_group(field_html, label, hint_tag, error_tag, col_class \\ "col-sm-10") do
     form_field_contents =
       content_tag(
         :div,
-        [content_tag(:div, field_html, class: "input-group"), error_tag],
+        [
+          content_tag(:div, field_html, class: "input-group"),
+          hint_tag,
+          error_tag
+        ],
         class: col_class
       )
 
@@ -90,7 +94,11 @@ defmodule Framework.Phoenix.Form.Helpers do
       end
 
     field_html
-    |> input_group(label, error_tag(form.source.assigns |> Map.get(:changeset), field_name))
+    |> input_group(
+      label,
+      hint_tag(opts[:hint]),
+      error_tag(form.source.assigns |> Map.get(:changeset), field_name)
+    )
   end
 
   defp render_field({field_name, args_list}, form) do
