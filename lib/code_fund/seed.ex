@@ -10,7 +10,6 @@ defmodule Mix.Tasks.CodeFund.Seed do
   def seed(:dev) do
     admin =
       insert(:user, %{
-        email: "admin@example.com",
         first_name: "Joe",
         last_name: "Admin",
         roles: ["admin", "sponsor", "developer"]
@@ -18,7 +17,6 @@ defmodule Mix.Tasks.CodeFund.Seed do
 
     developer =
       insert(:user, %{
-        email: "developer@example.com",
         first_name: "Joe",
         last_name: "Admin",
         roles: ["developer"]
@@ -26,7 +24,6 @@ defmodule Mix.Tasks.CodeFund.Seed do
 
     sponsor =
       insert(:user, %{
-        email: "sponsor@example.com",
         first_name: "Joe",
         last_name: "Admin",
         roles: ["sponsor"]

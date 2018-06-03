@@ -5,7 +5,7 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.User{
       first_name: "Gilroy",
       last_name: "Greene",
-      email: sequence(:email, &"user-#{&1}@example.com"),
+      email: "user-#{Ecto.UUID.generate()}@example.com",
       # 'secret'
       password_hash: "$2b$12$XgUXHTx3ipopQvWHvjkwPu0khqOmZTYWtT5TMv/PIgbiadFtwBdzi",
       roles: ["sponsor"],
