@@ -436,7 +436,7 @@
 
         <div class="col-lg-6 faq-side ">
           <div class="faq pt-4">
-            <p class="text-uppercase user-title mb-1">for advertiser</p>
+            <p class="text-uppercase user-title mb-1">for advertisers</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> Which publisher websites are available?</h3>
               <p class="faq-sub-title text-muted pt-2">
@@ -450,7 +450,7 @@
             </div>
           </div>
           <div class="faq pt-4">
-            <p class="text-uppercase user-title mb-1">for advertiser</p>
+            <p class="text-uppercase user-title mb-1">for advertisers</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> What is the minimum monthly ad spend?</h3>
               <p class="faq-sub-title text-muted pt-2">
@@ -460,7 +460,7 @@
             </div>
           </div>
           <div class="faq pt-4">
-            <p class="text-uppercase user-title mb-1">for advertiser</p>
+            <p class="text-uppercase user-title mb-1">for advertisers</p>
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> Why would I use you over the other guys?</h3>
               <p class="faq-sub-title text-muted pt-2">
