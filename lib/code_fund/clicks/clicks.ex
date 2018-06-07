@@ -5,7 +5,7 @@ defmodule CodeFund.Clicks do
 
   use CodeFundWeb, :query
   alias CodeFund.Schema.Click
-  import Framework.Date
+  import Framework.Ecto.Date
 
   @pagination [page_size: 15]
   @pagination_distance 5

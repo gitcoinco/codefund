@@ -35,8 +35,7 @@ defmodule CodeFund.Factory do
       audience: build(:audience),
       bid_amount: Decimal.new(2),
       budget_daily_amount: Decimal.new(25),
-      budget_monthly_amount: Decimal.new(500),
-      budget_total_amount: Decimal.new(2500),
+      total_spend: Decimal.new(2500),
       user: build(:user)
     }
   end
@@ -45,8 +44,7 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Audience{
       name: "Test Audience",
       programming_languages: ["Ruby"],
-      topic_categories: ["Programming"],
-      user: build(:user)
+      topic_categories: ["Programming"]
     }
   end
 
@@ -68,6 +66,15 @@ defmodule CodeFund.Factory do
       headline: "Creative Headline",
       body: "This is a Test Creative",
       image_url: "http://example.com/some.png",
+      user: build(:user)
+    }
+  end
+
+  def insertion_order_factory do
+    %CodeFund.Schema.InsertionOrder{
+      impression_count: 10,
+      billing_cycle: "2018-01-01 00:00:00",
+      audience: build(:audience),
       user: build(:user)
     }
   end

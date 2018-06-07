@@ -281,10 +281,10 @@ defmodule Framework.Controller.Stub.Definitions do
   defp current_user(conn), do: conn.assigns.current_user
 
   @spec paginate(String.t()) :: atom
-  defp paginate(schema), do: :"paginate_#{schema |> String.downcase() |> Inflex.pluralize()}"
+  defp paginate(schema), do: :"paginate_#{pretty(schema, :downcase, :plural)}"
 
   @spec fetch_object_params(String.t(), map) :: any()
-  defp fetch_object_params(schema, params), do: params[schema |> String.downcase()]
+  defp fetch_object_params(schema, params), do: params[pretty(schema, :downcase, :singular)]
 
   @spec fetch_post_params(String.t(), map) :: any()
   defp fetch_post_params(schema, params) do

@@ -71,16 +71,9 @@
                       @campaign.budgeted_campaign.day_remain) %></td>
             </tr>
             <tr>
-              <td><strong>Monthly Budget</strong></td>
-              <td><%= pretty_subtracted_money_with_total(
-                      @campaign.budget_monthly_amount,
-                      @campaign.budgeted_campaign.month_spend,
-                      @campaign.budgeted_campaign.month_remain) %></td>
-            </tr>
-            <tr>
               <td><strong>Total Budget</strong></td>
               <td><%= pretty_subtracted_money_with_total(
-                      @campaign.budget_total_amount,
+                      @campaign.total_spend,
                       @campaign.budgeted_campaign.total_spend,
                       @campaign.budgeted_campaign.total_remain) %></td>
             </tr>

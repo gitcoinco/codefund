@@ -11,7 +11,6 @@
           min: "0"
         ]],
     budget_daily_amount: [type: :currency_input, label: "Daily Budget"],
-    budget_monthly_amount: [type: :currency_input, label: "Monthly Budget"],
-    budget_total_amount: [type: :currency_input, label: "Total Budget"]
+    total_spend: [type: :currency_input, label: "Total Spend"]
   ] |> render_fields(@form)
 %>

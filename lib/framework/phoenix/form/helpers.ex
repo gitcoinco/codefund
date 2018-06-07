@@ -12,14 +12,14 @@ defmodule Framework.Phoenix.Form.Helpers do
     [html, content_tag(:button, "Submit", class: "btn btn-primary")]
   end
 
-  @spec repo_objects_to_options(list, list) :: Keyword.t()
-  def repo_objects_to_options(objects, fields \\ [:name]) do
+  @spec repo_objects_to_options(list, list, String.t()) :: Keyword.t()
+  def repo_objects_to_options(objects, fields \\ [:name], delimiter \\ " - ") do
     Enum.map(objects, fn object ->
       field_name =
         Enum.map(fields, fn field_name ->
           Map.get(object, field_name)
         end)
-        |> Enum.join(" - ")
+        |> Enum.join(delimiter)
 
       {field_name, object.id}
     end)

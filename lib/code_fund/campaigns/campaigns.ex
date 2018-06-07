@@ -167,7 +167,6 @@ defmodule CodeFund.Campaigns do
 
     Enum.all?([
       D.cmp(budgeted_campaign.day_remain, D.new(0)) == :gt,
-      D.cmp(budgeted_campaign.month_remain, D.new(0)) == :gt,
       D.cmp(budgeted_campaign.total_remain, D.new(0)) == :gt
     ])
   end

@@ -14,7 +14,6 @@ defmodule AdService.Query.ForDisplay do
       on: campaign.audience_id == audience.id,
       where: campaign.status == 2,
       where: budgeted_campaign.day_remain > 0,
-      where: budgeted_campaign.month_remain > 0,
       where: budgeted_campaign.total_remain > 0
     )
     |> Shared.build_where_clauses_by_property_filters(property_filters)

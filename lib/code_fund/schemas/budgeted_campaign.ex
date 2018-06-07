@@ -11,10 +11,8 @@ defmodule CodeFund.Schema.BudgetedCampaign do
     belongs_to(:campaign, CodeFund.Schema.Campaign)
 
     field(:day_spend, :decimal)
-    field(:month_spend, :decimal)
     field(:total_spend, :decimal)
     field(:day_remain, :decimal)
-    field(:month_remain, :decimal)
     field(:total_remain, :decimal)
   end
 end

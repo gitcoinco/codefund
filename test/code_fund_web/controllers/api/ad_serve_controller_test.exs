@@ -50,7 +50,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
   end
 
   describe "details" do
-    test "serves an ad if property has a campaign tied to an audience with both topic categories and programming languages and creates an impression",
+    test "serves an ad if property has a campaign tied to an audience with both topic categories and programming languages and creates an impression and records distribution and revenue amounts",
          %{conn: conn} do
       creative = insert(:creative)
 
@@ -85,8 +85,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           status: 2,
           bid_amount: Decimal.new(1),
           budget_daily_amount: Decimal.new(1),
-          budget_monthly_amount: Decimal.new(1),
-          budget_total_amount: Decimal.new(1),
+          total_spend: Decimal.new(1),
           creative: creative,
           audience: audience
         )
@@ -98,6 +97,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == campaign.id
+      assert impression.revenue_amount == Decimal.new("0.0010")
+      assert impression.distribution_amount == Decimal.new("0.0006")
 
       assert json_response(conn, 200) == %{
                "headline" => "Creative Headline",
@@ -140,8 +141,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           status: 2,
           bid_amount: Decimal.new(1),
           budget_daily_amount: Decimal.new(1),
-          budget_monthly_amount: Decimal.new(1),
-          budget_total_amount: Decimal.new(1),
+          total_spend: Decimal.new(1),
           creative: creative,
           audience: audience
         )
@@ -186,8 +186,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           status: 2,
           bid_amount: Decimal.new(1),
           budget_daily_amount: Decimal.new(1),
-          budget_monthly_amount: Decimal.new(1),
-          budget_total_amount: Decimal.new(1),
+          total_spend: Decimal.new(1),
           creative: creative,
           audience: audience
         )
@@ -224,8 +223,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         status: 2,
         bid_amount: Decimal.new(1),
         budget_daily_amount: Decimal.new(1),
-        budget_monthly_amount: Decimal.new(1),
-        budget_total_amount: Decimal.new(1),
+        total_spend: Decimal.new(1),
         creative: creative,
         audience: audience
       )

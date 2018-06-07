@@ -1,8 +1,8 @@
 defmodule CodeFundWeb.API.AdServeController do
   use CodeFundWeb, :controller
 
-  alias CodeFund.{Impressions, Properties, Templates, Themes}
-  alias CodeFund.Schema.{Impression, Property, Theme, Template}
+  alias CodeFund.{Campaigns, Impressions, Properties, Templates, Themes}
+  alias CodeFund.Schema.{Campaign, Impression, Property, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
     template_slug = params["template"] || "default"
@@ -45,8 +45,9 @@ defmodule CodeFundWeb.API.AdServeController do
     with %Property{
            status: 1,
            programming_languages: programming_languages,
-           topic_categories: topic_categories
-         } <- Properties.get_property!(property_id),
+           topic_categories: topic_categories,
+           user: property_owner
+         } <- Properties.get_property!(property_id) |> CodeFund.Repo.preload(:user),
          {:ok, ad_tuple} <-
            AdService.Query.ForDisplay.build(
              programming_languages: programming_languages,
@@ -60,12 +61,15 @@ defmodule CodeFundWeb.API.AdServeController do
            body: body,
            campaign_id: campaign_id,
            headline: headline
-         } <- ad_tuple |> AdService.Display.render() do
+         } <- ad_tuple |> AdService.Display.render(),
+         %Campaign{} = campaign <- Campaigns.get_campaign!(campaign_id) do
       {:ok, %Impression{id: impression_id}} =
         Impressions.create_impression(%{
           ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
           property_id: property_id,
-          campaign_id: campaign_id
+          campaign_id: campaign_id,
+          revenue_amount: AdService.Math.CPM.revenue_amount(campaign),
+          distribution_amount: AdService.Math.CPM.distribution_amount(campaign, property_owner)
         })
 
       %{

@@ -7,8 +7,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
       |> Map.merge(%{
         "bid_amount" => "2.0",
         "budget_daily_amount" => "25.0",
-        "budget_monthly_amount" => "25.0",
-        "budget_total_amount" => "25.0",
+        "total_spend" => "25.0",
         "override_revenue_rate" => "0.00"
       })
 
@@ -74,8 +73,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
       params = %{
         "bid_amount" => "2.0",
         "budget_daily_amount" => "25.0",
-        "budget_monthly_amount" => "25.0",
-        "budget_total_amount" => "25.0",
+        "total_spend" => "25.0",
         "name" => "Test Campaign",
         "redirect_url" => "https://example.com/0",
         "audience_id" => insert(:audience).id,
