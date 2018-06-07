@@ -29,8 +29,7 @@ defmodule CodeFund.Schema.Campaign do
     field(:description, :string)
     field(:bid_amount, :decimal, default: Decimal.new(0.0))
     field(:budget_daily_amount, :decimal, default: Decimal.new(0.0))
-    field(:budget_monthly_amount, :decimal, default: Decimal.new(0.0))
-    field(:budget_total_amount, :decimal, default: Decimal.new(0.0))
+    field(:total_spend, :decimal, default: Decimal.new(0.0))
     field(:fraud_check_url, :string)
 
     timestamps()
@@ -44,8 +43,7 @@ defmodule CodeFund.Schema.Campaign do
     :status,
     :bid_amount,
     :budget_daily_amount,
-    :budget_monthly_amount,
-    :budget_total_amount,
+    :total_spend,
     :user_id
   ]
 

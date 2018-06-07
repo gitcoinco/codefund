@@ -1,13 +1,9 @@
 defmodule CodeFund.Schema.Audience do
   use CodeFundWeb, :schema
 
-  alias CodeFund.Schema.{User}
-
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "audiences" do
-    belongs_to(:user, User)
-
     field(:name, :string)
     field(:programming_languages, {:array, :string}, default: [])
     field(:topic_categories, {:array, :string}, default: [])
@@ -17,8 +13,7 @@ defmodule CodeFund.Schema.Audience do
   end
 
   @required [
-    :name,
-    :user_id
+    :name
   ]
 
   def required, do: @required

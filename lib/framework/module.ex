@@ -1,12 +1,11 @@
 defmodule Framework.Module do
   @spec pretty(String.t(), atom, atom) :: String.t()
-  def pretty(module, :upcase, :singular),
-    do: module |> String.capitalize() |> Inflex.singularize()
+  def pretty(module, :upcase, :singular), do: module |> Macro.camelize() |> Inflex.singularize()
 
-  def pretty(module, :upcase, :plural), do: module |> String.capitalize() |> Inflex.pluralize()
+  def pretty(module, :upcase, :plural), do: module |> Macro.camelize() |> Inflex.pluralize()
 
   def pretty(module, :downcase, :singular),
-    do: "#{module |> String.downcase() |> Inflex.singularize()}"
+    do: "#{module |> Macro.underscore() |> Inflex.singularize()}"
 
   def pretty(module, :downcase, :plural),
     do: pretty(module, :downcase, :singular) |> Inflex.pluralize()

@@ -1,0 +1,52 @@
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Insertion Orders</li>
+
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: insertion_order_path(@conn, :new), class: "btn" do %>
+        <i class="fa fa-plus"></i> Add Insertion Order
+      <% end %>
+    </div>
+  </li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <section>
+        <%= if length(@insertion_orders) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th><%= table_link(@conn, "User", :user_id) %></th>
+                <th><%= table_link(@conn, "Impression Count", :impression_count) %></th>
+                <th><%= table_link(@conn, "Audience", :audience_id) %></th>
+                <th><%= table_link(@conn, "Billing Cycle", :billing_cycle) %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for insertion_order <- @insertion_orders do %>
+                <tr>
+                  <td><%= link full_name(insertion_order.user), to: user_path(@conn, :show, insertion_order.user) %></td>
+                  <td><%= insertion_order.impression_count %></td>
+                  <td><%= link insertion_order.audience.name, to: audience_path(@conn, :show, insertion_order.audience)%></td>
+                  <td><%= insertion_order.billing_cycle |> Timex.Format.DateTime.Formatters.Strftime.format("%B %Y") |> elem(1) %></td>
+                  <td class="text-right p-2">
+                    <%= link 'Show', to: insertion_order_path(@conn, :show, insertion_order), class: "btn btn-outline-info btn-sm" %>
+                    <%= link 'Edit', to: insertion_order_path(@conn, :edit, insertion_order), class: "btn btn-outline-primary btn-sm" %>
+                    <%= link 'Delete', to: insertion_order_path(@conn, :delete, insertion_order), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= render CodeFundWeb.PaginationView, "_pagination.html", assigns %>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

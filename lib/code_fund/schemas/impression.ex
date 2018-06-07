@@ -18,6 +18,8 @@ defmodule CodeFund.Schema.Impression do
     field(:os, :string)
     field(:postal_code, :string)
     field(:region, :string)
+    field(:revenue_amount, :decimal)
+    field(:distribution_amount, :decimal)
     field(:user_agent, :string)
     field(:redirected_at, :naive_datetime)
     field(:redirected_to_url, :string)

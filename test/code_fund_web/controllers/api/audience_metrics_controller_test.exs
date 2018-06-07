@@ -100,7 +100,7 @@ defmodule CodeFundWeb.API.AudienceMetricsControllerTest do
 
       assert json_response(conn, 200) == %{
                "property_count" => 1,
-               "impression_count" => 31,
+               "impression_count" => 21,
                "unique_user_count" => 2
              }
     end

@@ -46,7 +46,7 @@ defmodule CodeFund.Coherence.Schemas do
     @repo.insert(change_user(params))
   end
 
-  Enum.each([CodeFund.Schema.Invitation, CodeFund.Coherence.Rememberable], fn module ->
+  Enum.each([CodeFund.Coherence.Invitation, CodeFund.Coherence.Rememberable], fn module ->
     name =
       module
       |> Module.split()

@@ -1,11 +1,11 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
-  <li class="breadcrumb-item"><%= link "Audiences", to: user_audience_path(@conn, :index, @audience.user) %></li>
+  <li class="breadcrumb-item"><%= link "Audiences", to: audience_path(@conn, :index) %></li>
   <li class="breadcrumb-item active"><%= @audience.name %></li>
 
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
-      <%= link to: user_audience_path(@conn, :edit, @audience.user, @audience), class: "btn" do %>
+      <%= link to: audience_path(@conn, :edit, @audience), class: "btn" do %>
         <i class="fa fa-edit"></i> Edit Audience
       <% end %>
     </div>

@@ -41,8 +41,7 @@ defmodule CodeFundWeb.CampaignController do
   defp controller_assigns(user) do
     [
       audiences:
-        CodeFund.Audiences.get_by_user(user)
-        |> CodeFund.Repo.all()
+        CodeFund.Audiences.list_audiences()
         |> FormHelpers.repo_objects_to_options(),
       creatives:
         CodeFund.Creatives.by_user(user)

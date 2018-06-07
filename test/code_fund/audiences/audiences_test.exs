@@ -20,9 +20,8 @@ defmodule CodeFund.AudiencesTest do
     }
 
     test "paginate_audiences/1 returns paginated results" do
-      user = insert(:user)
-      insert_list(25, :audience, @valid_attrs |> Map.merge(%{user: user}))
-      {:ok, results} = Audiences.paginate_audiences(user)
+      insert_list(25, :audience, @valid_attrs)
+      {:ok, results} = Audiences.paginate_audiences(nil)
       assert results.distance == 5
       assert results.page_number == 1
       assert results.page_size == 15
@@ -78,30 +77,6 @@ defmodule CodeFund.AudiencesTest do
       audience = insert(:audience)
       assert {:ok, %Audience{}} = Audiences.delete_audience(audience)
       assert_raise Ecto.NoResultsError, fn -> Audiences.get_audience!(audience.id) end
-    end
-
-    test "get_by_user/2 generates a query of audiences by user_id if user is not admin" do
-      user = insert(:user, roles: ["sponsor"])
-      query = Audiences.get_by_user(user)
-      assert query.__struct__ == Ecto.Query
-      assert query.from == {"audiences", CodeFund.Schema.Audience}
-
-      assert query.preloads == [:user]
-
-      assert query.wheres |> List.first() |> Map.get(:params) == [
-               {user.id, {0, :user_id}}
-             ]
-    end
-
-    test "get_by_user/2 generates a query of audiences if user is admin" do
-      user = insert(:user, roles: ["admin"])
-      query = Audiences.get_by_user(user)
-      assert query.__struct__ == Ecto.Query
-      assert query.from == {"audiences", CodeFund.Schema.Audience}
-
-      assert query.preloads == [:user]
-
-      assert query.wheres == []
     end
   end
 end

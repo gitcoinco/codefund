@@ -36,8 +36,7 @@ defmodule AdService.Query.ForDisplayTest do
         status: 2,
         bid_amount: Decimal.new("1.00"),
         budget_daily_amount: Decimal.new(1),
-        budget_monthly_amount: Decimal.new(1),
-        budget_total_amount: Decimal.new(1),
+        total_spend: Decimal.new(1),
         creative: creative,
         audience: audience
       )
@@ -47,8 +46,7 @@ defmodule AdService.Query.ForDisplayTest do
       status: 2,
       bid_amount: Decimal.new(0),
       budget_daily_amount: Decimal.new(0),
-      budget_monthly_amount: Decimal.new(0),
-      budget_total_amount: Decimal.new(0),
+      total_spend: Decimal.new(0),
       creative: creative,
       audience: audience
     )
@@ -58,8 +56,7 @@ defmodule AdService.Query.ForDisplayTest do
       status: 2,
       bid_amount: Decimal.new(1),
       budget_daily_amount: Decimal.new(1),
-      budget_monthly_amount: Decimal.new(1),
-      budget_total_amount: Decimal.new(1),
+      total_spend: Decimal.new(1),
       creative: creative,
       audience: insert(:audience, %{programming_languages: ["Java", "Rust"]})
     )
@@ -69,8 +66,7 @@ defmodule AdService.Query.ForDisplayTest do
       status: 1,
       bid_amount: Decimal.new(1),
       budget_daily_amount: Decimal.new(1),
-      budget_monthly_amount: Decimal.new(1),
-      budget_total_amount: Decimal.new(1),
+      total_spend: Decimal.new(1),
       creative: creative,
       audience: audience
     )

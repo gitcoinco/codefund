@@ -14,8 +14,8 @@ defmodule AdService.Query.Shared do
   defp where_clause(query, :client_country, value) do
     query
     |> where(
-      [..., audience],
-      ^value not in audience.excluded_countries
+      [..., audience_or_property],
+      ^value not in audience_or_property.excluded_countries
     )
   end
 
