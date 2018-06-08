@@ -3,9 +3,9 @@ defmodule CodeFund.Schema.Campaign do
   import Validation.URL
 
   alias CodeFund.Schema.{
-    Audience,
     Creative,
     Impression,
+    InsertionOrder,
     Click,
     BudgetedCampaign,
     User,
@@ -19,7 +19,7 @@ defmodule CodeFund.Schema.Campaign do
     has_many(:clicks, Click)
     has_many(:sponsorships, Sponsorship)
     has_one(:budgeted_campaign, BudgetedCampaign)
-    belongs_to(:audience, Audience)
+    belongs_to(:insertion_order, InsertionOrder)
     belongs_to(:creative, Creative)
     belongs_to(:user, User)
 
@@ -37,7 +37,7 @@ defmodule CodeFund.Schema.Campaign do
 
   @required [
     :name,
-    :audience_id,
+    :insertion_order_id,
     :creative_id,
     :redirect_url,
     :status,
@@ -57,6 +57,6 @@ defmodule CodeFund.Schema.Campaign do
     |> validate_url(:redirect_url)
     |> validate_url(:fraud_check_url)
     |> foreign_key_constraint(:creative_id)
-    |> foreign_key_constraint(:audience_id)
+    |> foreign_key_constraint(:insertion_order_id)
   end
 end

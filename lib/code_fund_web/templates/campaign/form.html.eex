@@ -3,7 +3,7 @@
     redirect_url: [type: :text_input, label: "Redirect URL", opts: [placeholder: "https://"]],
     status: [type: :select, label: "Status", opts: [choices: [Pending: 1, Active: 2, Archived: 3]]],
     description: [type: :textarea, label: "Description"],
-    audience_id: [type: :select, label: "Audience", opts: [choices: @conn.assigns.audiences]],
+    insertion_order_id: [type: :select, label: "Insertion Order", opts: [choices: @conn.assigns.insertion_orders]],
     creative_id: [type: :select, label: "Creative", opts: [choices: @conn.assigns.creatives]],
     bid_amount: [type: :currency_input, label: "Bid Amount",
     opts: [

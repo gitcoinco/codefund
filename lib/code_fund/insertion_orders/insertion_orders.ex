@@ -146,7 +146,9 @@ defmodule CodeFund.InsertionOrders do
 
   """
   def list_insertion_orders do
-    Repo.all(InsertionOrder)
+    InsertionOrder
+    |> Repo.all()
+    |> Repo.preload([:audience, :user])
   end
 
   defp filter_config(:insertion_orders) do

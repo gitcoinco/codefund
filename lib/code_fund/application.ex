@@ -14,7 +14,8 @@ defmodule CodeFund.Application do
       supervisor(CodeFundWeb.Endpoint, []),
       # Start your own worker by calling: CodeFund.Worker.start_link(arg1, arg2, arg3)
       # worker(CodeFund.Worker, [arg1, arg2, arg3]),
-      worker(CodeFundWeb.Notificator, [], restart: :transient)
+      worker(CodeFundWeb.Notificator, [], restart: :transient),
+      worker(AdService.ImpressionSupervisor, [], restart: :transient)
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

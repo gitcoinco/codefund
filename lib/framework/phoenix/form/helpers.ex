@@ -17,7 +17,18 @@ defmodule Framework.Phoenix.Form.Helpers do
     Enum.map(objects, fn object ->
       field_name =
         Enum.map(fields, fn field_name ->
-          Map.get(object, field_name)
+          cond do
+            is_atom(field_name) ->
+              Map.get(object, field_name)
+
+            is_tuple(field_name) ->
+              fields =
+                field_name
+                |> Tuple.to_list()
+                |> Enum.map(&Access.key(&1))
+
+              get_in(object, fields)
+          end
         end)
         |> Enum.join(delimiter)
 

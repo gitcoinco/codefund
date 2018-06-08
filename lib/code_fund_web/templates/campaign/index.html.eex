@@ -22,7 +22,7 @@
               <tr>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
-                <th class="text-center"><%= table_link(@conn, "Audience", :audience_id) %></th>
+                <th class="text-center">Audience</th>
                 <th class="text-center"><%= table_link(@conn, "Creative", :creative_id) %></th>
                 <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid_amount) %></th>
                 <th class="text-right"><%= table_link(@conn, "Daily Budget", :budget_daily_amount) %></th>
@@ -36,7 +36,7 @@
                 <tr>
                   <td><%= campaign.name %></td>
                   <td class="text-center"><%= campaign_status campaign.status %></td>
-                  <td class="text-center"><%= if(not is_nil(campaign.audience), do: campaign.audience.name, else: "None") %></td>
+                  <td class="text-center"><%= if(not is_nil(campaign.insertion_order), do: campaign.insertion_order.audience.name, else: "None") %></td>
                   <td class="text-center"><%= if(not is_nil(campaign.creative), do: campaign.creative.name, else: "None") %></td>
                   <td class="text-center"><%= pretty_money campaign.bid_amount %></td>
                   <td>

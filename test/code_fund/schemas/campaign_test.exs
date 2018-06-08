@@ -9,7 +9,7 @@ defmodule CodeFund.Schema.CampaignTest do
         build(
           :campaign,
           user_id: insert(:user).id,
-          audience_id: insert(:audience).id,
+          insertion_order_id: insert(:insertion_order).id,
           creative_id: insert(:creative).id
         )
         |> Map.from_struct()

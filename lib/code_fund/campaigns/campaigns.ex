@@ -10,6 +10,7 @@ defmodule CodeFund.Campaigns do
 
   @pagination [page_size: 15]
   @pagination_distance 5
+  @default_preloads [[insertion_order: :audience], :user, :creative, :budgeted_campaign]
 
   @doc """
   Returns the list of campaigns.
@@ -53,14 +54,14 @@ defmodule CodeFund.Campaigns do
     case Enum.member?(user.roles, "admin") do
       true ->
         Campaign
-        |> preload([:audience, :user, :creative, :budgeted_campaign])
+        |> preload([[insertion_order: :audience], :user, :creative, :budgeted_campaign])
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
       false ->
         Campaign
         |> where([p], p.user_id == ^user.id)
-        |> preload([:audience, :user, :creative, :budgeted_campaign])
+        |> preload([[insertion_order: :audience], :user, :creative, :budgeted_campaign])
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
     end
@@ -80,16 +81,16 @@ defmodule CodeFund.Campaigns do
       ** (Ecto.NoResultsError)
 
   """
-  def get_campaign!(id) do
+  def get_campaign!(id, default_preloads \\ @default_preloads) do
     Campaign
     |> Repo.get!(id)
-    |> Repo.preload([:audience, :user, :creative, :budgeted_campaign])
+    |> Repo.preload(default_preloads)
   end
 
   def get_campaign_by_name!(name) do
     Campaign
     |> Repo.get_by!(name: name)
-    |> Repo.preload([:audience, :user, :creative, :budgeted_campaign])
+    |> Repo.preload([[insertion_order: :audience], :user, :creative, :budgeted_campaign])
   end
 
   @doc """
@@ -131,6 +132,13 @@ defmodule CodeFund.Campaigns do
   def by_user(%User{id: id}) do
     from(o in Campaign, where: o.user_id == ^id)
     |> CodeFund.Repo.all()
+  end
+
+  def archive(%Campaign{status: 3}), do: {:error, :already_archived}
+
+  def archive(%Campaign{} = campaign) do
+    campaign
+    |> update_campaign(%{status: 3})
   end
 
   @doc """
