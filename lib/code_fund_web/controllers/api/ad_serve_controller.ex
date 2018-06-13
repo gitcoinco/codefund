@@ -2,7 +2,7 @@ defmodule CodeFundWeb.API.AdServeController do
   use CodeFundWeb, :controller
 
   alias CodeFund.{Campaigns, Impressions, Properties, Templates, Themes}
-  alias CodeFund.Schema.{Campaign, Impression, InsertionOrder, Property, Theme, Template}
+  alias CodeFund.Schema.{Campaign, Impression, Property, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
     template_slug = params["template"] || "default"
@@ -62,8 +62,12 @@ defmodule CodeFundWeb.API.AdServeController do
            campaign_id: campaign_id,
            headline: headline
          } <- ad_tuple |> AdService.Display.render(),
-         %Campaign{insertion_order: %InsertionOrder{impression_count: impression_count}} = campaign <- Campaigns.get_campaign!(campaign_id),
-         {:ok, _} <- AdService.ImpressionSupervisor.can_create_impression?(campaign_id, impression_count) do
+         %Campaign{} = campaign <- Campaigns.get_campaign!(campaign_id),
+         {:ok, _} <-
+           AdService.ImpressionSupervisor.can_create_impression?(
+             campaign_id,
+             campaign.impression_count
+           ) do
       {:ok, %Impression{id: impression_id}} =
         Impressions.create_impression(%{
           ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),

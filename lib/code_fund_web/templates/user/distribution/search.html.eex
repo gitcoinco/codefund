@@ -4,7 +4,7 @@
   <li class="breadcrumb-item active">Users</li>
 </ol>
 
-<div class="container-fluid" data-controller="distribution">
+<div class="container-fluid" data-controller="past-date-range">
   <div class="card">
     <div class="card-body">
       <div class="form-group row">
@@ -20,12 +20,13 @@
             <label class="control-label col-sm-2">Choose Dates</label>
             <div class="col-sm-2">
               <div class="input-group">
-                <%= text_input fp, :dates, "data-target": "distribution.datePicker", class: "form-control" %>
+                <%= text_input fp, :dates, "data-target": "past-date-range.datePicker",
+                class: "form-control" %>
               </div>
             </div>
           </div>
-          <%= hidden_input fp, :click_range_start, "data-target": "distribution.startDate" %>
-          <%= hidden_input fp, :click_range_end, "data-target": "distribution.endDate"  %>
+          <%= hidden_input fp, :click_range_start, "data-target": "past-date-range.startDate" %>
+          <%= hidden_input fp, :click_range_end, "data-target": "past-date-range.endDate"  %>
           <div class="form-group row">
             <div class="col-sm-10">
               <div class="input-group">

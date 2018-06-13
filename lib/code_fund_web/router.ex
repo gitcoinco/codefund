@@ -81,7 +81,6 @@ defmodule CodeFundWeb.Router do
     resources("/campaigns", CampaignController)
     resources("/clicks", ClickController)
     resources("/creatives", CreativeController)
-    resources("/insertion_orders", InsertionOrderController)
     resources("/properties", PropertyController)
     resources("/sponsorships", SponsorshipController)
     resources("/templates", TemplateController)

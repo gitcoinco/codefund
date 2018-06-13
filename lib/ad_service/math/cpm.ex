@@ -1,11 +1,8 @@
 defmodule AdService.Math.CPM do
-  alias CodeFund.Schema.{Campaign, InsertionOrder, User}
+  alias CodeFund.Schema.{Campaign, User}
 
-  def revenue_amount(%Campaign{
-        total_spend: total_spend,
-        insertion_order: %InsertionOrder{impression_count: impression_count}
-      }) do
-    1 / impression_count * (total_spend |> Decimal.to_float())
+  def revenue_amount(%Campaign{ecpm: ecpm}) do
+    (ecpm |> Decimal.to_float()) / 1000
   end
 
   def distribution_amount(%Campaign{} = campaign, %User{

@@ -11,7 +11,7 @@ defmodule AdService.Math.CPMTest do
 
   describe "revenue_amount/1" do
     test "it takes a campaign and returns a revenue_amount", %{campaign: campaign} do
-      assert campaign |> AdService.Math.CPM.revenue_amount() == 0.003125
+      assert campaign |> AdService.Math.CPM.revenue_amount() == 0.002
     end
   end
 
@@ -20,7 +20,7 @@ defmodule AdService.Math.CPMTest do
       campaign: campaign,
       user: user
     } do
-      assert campaign |> AdService.Math.CPM.distribution_amount(user) == 0.001875
+      assert campaign |> AdService.Math.CPM.distribution_amount(user) == 0.0012
     end
   end
 end

@@ -10,7 +10,6 @@ export default class extends Controller {
       "name",
       "programmingLanguages",
       "topicCategories",
-      "excludedCountries",
       "estimatedImpressionsLow",
       "estimatedImpressionsHigh",
       "estimatedImpressionsProgress",
@@ -27,8 +26,7 @@ export default class extends Controller {
     this.payload = {
       filters: {
         programming_languages: this.programmingLanguages,
-        topic_categories: this.topicCategories,
-        excluded_countries: this.excludedCountries
+        topic_categories: this.topicCategories
       }
     };
     this.initSelectize();
@@ -175,11 +173,5 @@ export default class extends Controller {
 
   get topicCategories() {
     return _.map(this.targets.find("topicCategories").selectedOptions, opt => opt.value);
-  }
-
-  get excludedCountries() {
-    return _.map(
-      this.targets.find("excludedCountries").selectedOptions,
-      opt => opt.value);
   }
 }

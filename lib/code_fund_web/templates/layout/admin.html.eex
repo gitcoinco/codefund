@@ -117,12 +117,6 @@
               <% end %>
             </li>
             <li class="nav-item">
-              <%= active_link(@conn, to: insertion_order_path(@conn, :index), class: "nav-link") do %>
-                <i class="icon-energy"></i>
-                Insertion Orders
-              <% end %>
-            </li>
-            <li class="nav-item">
               <%= active_link(@conn, to: template_path(@conn, :index), class: "nav-link") do %>
                 <i class="icon-mustache"></i>
                 Templates

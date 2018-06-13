@@ -32,8 +32,8 @@ defmodule CodeFund.Factory do
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
       status: 2,
       creative: build(:creative),
-      insertion_order: build(:insertion_order),
-      bid_amount: Decimal.new(2),
+      ecpm: Decimal.new(2),
+      impression_count: 800_000,
       budget_daily_amount: Decimal.new(25),
       total_spend: Decimal.new(2500),
       user: build(:user)
@@ -66,15 +66,6 @@ defmodule CodeFund.Factory do
       headline: "Creative Headline",
       body: "This is a Test Creative",
       image_url: "http://example.com/some.png",
-      user: build(:user)
-    }
-  end
-
-  def insertion_order_factory do
-    %CodeFund.Schema.InsertionOrder{
-      impression_count: 800_000,
-      billing_cycle: "2018-01-01 00:00:00",
-      audience: build(:audience),
       user: build(:user)
     }
   end

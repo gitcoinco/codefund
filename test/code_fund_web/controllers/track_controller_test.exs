@@ -53,7 +53,7 @@ defmodule CodeFundWeb.TrackControllerTest do
           campaign:
             insert(
               :campaign,
-              bid_amount: Decimal.new(2.00),
+              ecpm: Decimal.new(2.00),
               redirect_url: "http://another.url"
             )
         )

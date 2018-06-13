@@ -1,15 +1,16 @@
 defmodule CodeFund.Schema.Campaign do
   use CodeFundWeb, :schema
   import Validation.URL
+  import Framework.Ecto.Changeset.Date
 
   alias CodeFund.Schema.{
+    Audience,
+    BudgetedCampaign,
+    Click,
     Creative,
     Impression,
-    InsertionOrder,
-    Click,
-    BudgetedCampaign,
-    User,
-    Sponsorship
+    Sponsorship,
+    User
   }
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -19,29 +20,33 @@ defmodule CodeFund.Schema.Campaign do
     has_many(:clicks, Click)
     has_many(:sponsorships, Sponsorship)
     has_one(:budgeted_campaign, BudgetedCampaign)
-    belongs_to(:insertion_order, InsertionOrder)
+    belongs_to(:audience, Audience)
     belongs_to(:creative, Creative)
     belongs_to(:user, User)
 
     field(:name, :string)
     field(:redirect_url, :string)
     field(:status, :integer, default: 1)
-    field(:description, :string)
-    field(:bid_amount, :decimal, default: Decimal.new(0.0))
+    field(:ecpm, :decimal, default: Decimal.new(0.0))
+    field(:included_countries, {:array, :string}, default: [])
+    field(:impression_count, :integer)
     field(:budget_daily_amount, :decimal, default: Decimal.new(0.0))
     field(:total_spend, :decimal, default: Decimal.new(0.0))
-    field(:fraud_check_url, :string)
+    field(:start_date, :naive_datetime)
+    field(:end_date, :naive_datetime)
 
     timestamps()
   end
 
   @required [
     :name,
-    :insertion_order_id,
     :creative_id,
     :redirect_url,
     :status,
-    :bid_amount,
+    :ecpm,
+    :start_date,
+    :end_date,
+    :impression_count,
     :budget_daily_amount,
     :total_spend,
     :user_id
@@ -52,11 +57,10 @@ defmodule CodeFund.Schema.Campaign do
   @doc false
   def changeset(%Campaign{} = campaign, params) do
     campaign
-    |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
+    |> cast(params, __MODULE__.__schema__(:fields) -- [:id, :start_date, :end_date])
+    |> cast_dates(params, [:start_date, :end_date])
     |> validate_required(@required)
     |> validate_url(:redirect_url)
-    |> validate_url(:fraud_check_url)
     |> foreign_key_constraint(:creative_id)
-    |> foreign_key_constraint(:insertion_order_id)
   end
 end

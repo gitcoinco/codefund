@@ -40,12 +40,9 @@ defmodule CodeFundWeb.CampaignController do
 
   defp controller_assigns(user) do
     [
-      insertion_orders:
-        CodeFund.InsertionOrders.list_insertion_orders()
-        |> FormHelpers.repo_objects_to_options(
-          [{:audience, :name}, {:user, :first_name}, {:user, :last_name}, :impression_count],
-          " "
-        ),
+      audiences:
+        CodeFund.Audiences.list_audiences()
+        |> FormHelpers.repo_objects_to_options(),
       creatives:
         CodeFund.Creatives.by_user(user)
         |> FormHelpers.repo_objects_to_options()

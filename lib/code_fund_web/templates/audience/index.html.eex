@@ -23,7 +23,6 @@
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th><%= table_link(@conn, "Programming Languages", :programming_languages) %></th>
                 <th><%= table_link(@conn, "Topic Categories", :topic_categories) %></th>
-                <th><%= table_link(@conn, "Excluded Countries", :excluded_countries) %></th>
                 <th></th>
               </tr>
             </thead>
@@ -33,14 +32,6 @@
                   <td><%= audience.name %></td>
                   <td><%=  audience.programming_languages  |> Enum.join(", ")%></td>
                   <td><%=  audience.topic_categories  |> Enum.join(", ")%></td>
-                  <td><%= Framework.Geolocation.Countries.list
-                          |> Enum.filter(
-                            fn {_, iso_code} ->
-                              Enum.member?(audience.excluded_countries, iso_code)
-                            end)
-                          |> Keyword.keys
-                          |> Enum.join(", ") %>
-                  </td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: audience_path(@conn, :show, audience), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: audience_path(@conn, :edit, audience), class: "btn btn-outline-primary btn-sm" %>

@@ -7,7 +7,6 @@ defmodule CodeFund.Schema.Audience do
     field(:name, :string)
     field(:programming_languages, {:array, :string}, default: [])
     field(:topic_categories, {:array, :string}, default: [])
-    field(:excluded_countries, {:array, :string}, default: [])
 
     timestamps()
   end

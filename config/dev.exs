@@ -45,5 +45,7 @@ config :code_fund, CodeFund.Repo,
 
 config :code_fund, CodeFund.Mailer, adapter: Bamboo.LocalAdapter
 
+config :redix, database: 1
+
 # Uncomment when developing locally
 # import_config "dev.secret.exs"
