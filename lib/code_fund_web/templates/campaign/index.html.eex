@@ -22,12 +22,13 @@
               <tr>
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
-                <th class="text-center"><%= table_link(@conn, "Audience", :audience_id) %></th>
+                <th class="text-center">Audience</th>
                 <th class="text-center"><%= table_link(@conn, "Creative", :creative_id) %></th>
-                <th class="text-center"><%= table_link(@conn, "Bid Amount", :bid_amount) %></th>
+                <th class="text-center"><%= table_link(@conn, "eCPM", :ecpm) %></th>
+                <th class="text-right">Targeted Countries</th>
                 <th class="text-right"><%= table_link(@conn, "Daily Budget", :budget_daily_amount) %></th>
-                <th class="text-right"><%= table_link(@conn, "Monthly Budget", :budget_monthly_amount) %></th>
-                <th class="text-right"><%= table_link(@conn, "Total Budget", :budget_total_amount) %></th>
+                <th class="text-right"><%= table_link(@conn, "Total Budget", :total_spend) %></th>
+                <th class="text-right"><%= table_link(@conn, "Estimated Impressions", :impression_count) %></th>
                 <th class="text-center">Funds?</th>
                 <th></th>
               </tr>
@@ -39,7 +40,15 @@
                   <td class="text-center"><%= campaign_status campaign.status %></td>
                   <td class="text-center"><%= if(not is_nil(campaign.audience), do: campaign.audience.name, else: "None") %></td>
                   <td class="text-center"><%= if(not is_nil(campaign.creative), do: campaign.creative.name, else: "None") %></td>
-                  <td class="text-center"><%= pretty_money campaign.bid_amount %></td>
+                  <td class="text-center"><%= pretty_money campaign.ecpm %></td>
+                                    <td><%= Framework.Geolocation.Countries.list
+                          |> Enum.filter(
+                            fn {_, iso_code} ->
+                              Enum.member?(campaign.included_countries, iso_code)
+                            end)
+                          |> Keyword.keys
+                          |> Enum.join(", ") %>
+                  </td>
                   <td>
                     <%= pretty_subtracted_money_with_total(
                           campaign.budget_daily_amount,
@@ -48,16 +57,11 @@
                   </td>
                   <td>
                     <%= pretty_subtracted_money_with_total(
-                          campaign.budget_monthly_amount,
-                          campaign.budgeted_campaign.month_spend,
-                          campaign.budgeted_campaign.month_remain) %>
-                  </td>
-                  <td>
-                    <%= pretty_subtracted_money_with_total(
-                          campaign.budget_total_amount,
+                          campaign.total_spend,
                           campaign.budgeted_campaign.total_spend,
                           campaign.budgeted_campaign.total_remain) %>
                   </td>
+                  <td class="text-center"><%= campaign.impression_count %></td>
                   <td class="text-center"><%= has_remaining_budget?(campaign) %></td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: campaign_path(@conn, :show, campaign), class: "btn btn-outline-info btn-sm" %>

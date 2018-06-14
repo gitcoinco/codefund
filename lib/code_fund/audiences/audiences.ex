@@ -4,7 +4,7 @@ defmodule CodeFund.Audiences do
   """
 
   use CodeFundWeb, :query
-  alias CodeFund.Schema.{Audience, User}
+  alias CodeFund.Schema.Audience
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -12,13 +12,25 @@ defmodule CodeFund.Audiences do
   def get_audience!(id) do
     Audience
     |> Repo.get!(id)
-    |> Repo.preload(:user)
+  end
+
+  @doc """
+  Returns the list of audiences.
+
+  ## Examples
+
+      iex> list_audiences()
+      [%Audience{}, ...]
+
+  """
+  def list_audiences do
+    Repo.all(Audience)
   end
 
   @doc """
   Paginate the list of audiences using filtrex filters.
   """
-  def paginate_audiences(user, params \\ %{}) do
+  def paginate_audiences(_user, params \\ %{}) do
     params =
       params
       |> Map.put_new("sort_direction", "desc")
@@ -29,7 +41,7 @@ defmodule CodeFund.Audiences do
 
     with {:ok, filter} <-
            Filtrex.parse_params(filter_config(:audiences), params["audience"] || %{}),
-         %Scrivener.Page{} = page <- do_paginate_audiences(user, filter, params) do
+         %Scrivener.Page{} = page <- do_paginate_audiences(filter, params) do
       {:ok,
        %{
          audiences: page.entries,
@@ -47,24 +59,9 @@ defmodule CodeFund.Audiences do
     end
   end
 
-  defp do_paginate_audiences(user, _filter, params) do
-    get_by_user(user, params)
+  defp do_paginate_audiences(_filter, params) do
+    Audience
     |> paginate(Repo, params, @pagination)
-  end
-
-  def get_by_user(%User{} = user, params \\ %{}) do
-    case Enum.member?(user.roles, "admin") do
-      true ->
-        Audience
-        |> preload(:user)
-        |> order_by(^sort(params))
-
-      false ->
-        Audience
-        |> where([p], p.user_id == ^user.id)
-        |> preload(:user)
-        |> order_by(^sort(params))
-    end
   end
 
   @doc """

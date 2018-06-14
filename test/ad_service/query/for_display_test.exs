@@ -7,72 +7,76 @@ defmodule AdService.Query.ForDisplayTest do
 
     insert(:audience, %{
       programming_languages: ["Ruby", "C"],
-      topic_categories: ["Programming"],
-      excluded_countries: ["US"]
+      topic_categories: ["Programming"]
     })
 
     insert(:audience, %{
       programming_languages: ["Ruby", "C"],
-      topic_categories: ["Development"],
-      excluded_countries: ["US"]
+      topic_categories: ["Development"]
     })
 
     audience =
       insert(:audience, %{
         programming_languages: ["Ruby", "C"],
-        topic_categories: ["Programming"],
-        excluded_countries: ["CN"]
+        topic_categories: ["Programming"]
       })
 
     insert(:audience, %{
       programming_languages: ["Java", "Rust"],
-      topic_categories: ["Development"],
-      excluded_countries: ["IN"]
+      topic_categories: ["Development"]
     })
 
     campaign =
       insert(
         :campaign,
         status: 2,
-        bid_amount: Decimal.new("1.00"),
+        ecpm: Decimal.new("1.00"),
         budget_daily_amount: Decimal.new(1),
-        budget_monthly_amount: Decimal.new(1),
-        budget_total_amount: Decimal.new(1),
+        total_spend: Decimal.new("100.00"),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience
+        audience: audience,
+        included_countries: ["US"]
       )
 
     insert(
       :campaign,
       status: 2,
-      bid_amount: Decimal.new(0),
+      ecpm: Decimal.new(0),
       budget_daily_amount: Decimal.new(0),
-      budget_monthly_amount: Decimal.new(0),
-      budget_total_amount: Decimal.new(0),
+      total_spend: Decimal.new(50),
+      start_date: Timex.now() |> Timex.shift(days: -4) |> DateTime.to_naive(),
+      end_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
       creative: creative,
-      audience: audience
+      audience: audience,
+      included_countries: ["US"]
     )
 
     insert(
       :campaign,
       status: 2,
-      bid_amount: Decimal.new(1),
+      ecpm: Decimal.new(1),
       budget_daily_amount: Decimal.new(1),
-      budget_monthly_amount: Decimal.new(1),
-      budget_total_amount: Decimal.new(1),
+      start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+      end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+      total_spend: Decimal.new(100),
       creative: creative,
+      included_countries: ["IN"],
       audience: insert(:audience, %{programming_languages: ["Java", "Rust"]})
     )
 
     insert(
       :campaign,
       status: 1,
-      bid_amount: Decimal.new(1),
+      ecpm: Decimal.new(1),
       budget_daily_amount: Decimal.new(1),
-      budget_monthly_amount: Decimal.new(1),
-      budget_total_amount: Decimal.new(1),
+      total_spend: Decimal.new(100),
+      start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+      end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
       creative: creative,
-      audience: audience
+      audience: audience,
+      included_countries: ["CN"]
     )
 
     {:ok, %{creative: creative, campaign: campaign}}
@@ -96,7 +100,7 @@ defmodule AdService.Query.ForDisplayTest do
                campaign_id: campaign.id,
                image_url: creative.image_url,
                headline: creative.headline,
-               bid_amount: campaign.bid_amount
+               total_spend: campaign.total_spend
              }
     end
 

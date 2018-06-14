@@ -5,10 +5,11 @@ defmodule CodeFundWeb.CampaignControllerTest do
     valid_params =
       string_params_with_assocs(:campaign)
       |> Map.merge(%{
-        "bid_amount" => "2.0",
+        "ecpm" => "2.0",
         "budget_daily_amount" => "25.0",
-        "budget_monthly_amount" => "25.0",
-        "budget_total_amount" => "25.0",
+        "total_spend" => "25.0",
+        "start_date" => "2018-10-14",
+        "end_date" => "2018-10-14",
         "override_revenue_rate" => "0.00"
       })
 
@@ -72,13 +73,14 @@ defmodule CodeFundWeb.CampaignControllerTest do
       conn = assign(conn, :current_user, users.sponsor)
 
       params = %{
-        "bid_amount" => "2.0",
+        "ecpm" => "2.0",
         "budget_daily_amount" => "25.0",
-        "budget_monthly_amount" => "25.0",
-        "budget_total_amount" => "25.0",
+        "total_spend" => "25.0",
         "name" => "Test Campaign",
+        "start_date" => "2018-10-14",
+        "end_date" => "2018-10-14",
+        "impression_count" => 800_000,
         "redirect_url" => "https://example.com/0",
-        "audience_id" => insert(:audience).id,
         "creative_id" => insert(:creative).id,
         "status" => 2
       }
@@ -97,7 +99,6 @@ defmodule CodeFundWeb.CampaignControllerTest do
       valid_params: valid_params
     } do
       conn = assign(conn, :current_user, users.sponsor)
-      audience = insert(:audience)
 
       conn =
         post(
@@ -105,7 +106,8 @@ defmodule CodeFundWeb.CampaignControllerTest do
           campaign_path(conn, :create, %{
             "params" => %{
               "campaign" =>
-                valid_params |> Map.merge(%{"name" => nil, "audience_id" => audience.id})
+                valid_params
+                |> Map.merge(%{"name" => nil})
             }
           })
         )
@@ -157,7 +159,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
     |> behaves_like([:authenticated, :sponsor], "PATCH /campaigns/update")
 
     test "updates a campaign", %{conn: conn, users: users, valid_params: valid_params} do
-      campaign = insert(:campaign, audience: insert(:audience))
+      campaign = insert(:campaign)
       conn = assign(conn, :current_user, users.admin)
 
       conn =
@@ -177,7 +179,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
       users: users,
       valid_params: valid_params
     } do
-      campaign = insert(:campaign, audience: insert(:audience))
+      campaign = insert(:campaign)
       conn = assign(conn, :current_user, users.sponsor)
 
       conn =

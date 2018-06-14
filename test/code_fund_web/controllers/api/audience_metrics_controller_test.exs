@@ -74,7 +74,7 @@ defmodule CodeFundWeb.API.AudienceMetricsControllerTest do
             "filters" => %{
               "programming_languages" => ["Ruby"],
               "topic_categories" => ["Programming"],
-              "excluded_countries" => ["CN"]
+              "included_countries" => ["US"]
             }
           })
         )
@@ -82,25 +82,6 @@ defmodule CodeFundWeb.API.AudienceMetricsControllerTest do
       assert json_response(conn, 200) == %{
                "property_count" => 1,
                "impression_count" => 11,
-               "unique_user_count" => 2
-             }
-    end
-
-    test "it runs the query correctly without excluded countries set", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          audience_metrics_path(conn, :index, %{
-            "filters" => %{
-              "programming_languages" => ["Ruby"],
-              "topic_categories" => ["Programming"]
-            }
-          })
-        )
-
-      assert json_response(conn, 200) == %{
-               "property_count" => 1,
-               "impression_count" => 31,
                "unique_user_count" => 2
              }
     end

@@ -183,7 +183,6 @@ defmodule CodeFund.Sponsorships do
       where: c.status == 2,
       where: s.property_id == ^property.id,
       where: b.day_remain > 0,
-      where: b.month_remain > 0,
       where: b.total_remain > 0,
       where: s.property_id == ^property.id
     )

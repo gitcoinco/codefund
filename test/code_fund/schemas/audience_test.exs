@@ -5,7 +5,7 @@ defmodule CodeFund.Schema.AudienceTest do
 
   describe "audiences" do
     setup do
-      valid_attrs = build(:audience, user_id: insert(:user).id) |> Map.from_struct()
+      valid_attrs = build(:audience) |> Map.from_struct()
       {:ok, %{valid_attrs: valid_attrs}}
     end
 

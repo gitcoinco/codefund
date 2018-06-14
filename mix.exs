@@ -36,6 +36,7 @@ defmodule CodeFund.Mixfile do
         :exq,
         :exq_ui,
         :geoip,
+        :redix,
         :scrivener_ecto,
         :scrivener_html,
         :timex,
@@ -51,7 +52,7 @@ defmodule CodeFund.Mixfile do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  # Specifies your project dependencies.
+  # Specifies your project dependencieas.
   #
   # Type `mix help deps` for examples and options.
   defp deps do
@@ -86,6 +87,7 @@ defmodule CodeFund.Mixfile do
       {:scrivener_ecto, "~> 1.0"},
       {:scrivener_html, "~> 1.7"},
       {:slack, "~> 0.13.0"},
+      {:redix, ">= 0.5.0"},
       {:filtrex, "~> 0.4.1"},
       {:inflex, "~> 1.10.0"},
       {:timex, "~> 3.1"},

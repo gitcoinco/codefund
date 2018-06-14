@@ -30,19 +30,6 @@
             class: "form-control audience-form-selectize",
             choices: CodeFund.Properties.topic_categories()
           ]
-        ],
-      excluded_countries: [
-          type: :multiple_select,
-          label: "Excluded Countries",
-          opts: [
-            data: [
-              target: "audience-form.excludedCountries",
-              action: "change->audience-form#generateEstimates",
-              key: "excluded_countries"
-            ],
-            class: "form-control audience-form-selectize",
-            choices: Framework.Geolocation.Countries.list()
-          ]
         ]
         ] |> render_fields(@form)
     %>

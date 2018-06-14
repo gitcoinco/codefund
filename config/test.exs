@@ -21,3 +21,5 @@ config :code_fund, CodeFund.Repo,
 config :code_fund, CodeFund.Mailer, adapter: Bamboo.TestAdapter
 
 config :code_fund, CodeFundWeb.Endpoint, slack_token: nil
+
+config :redix, database: 15

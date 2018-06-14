@@ -10,6 +10,7 @@ defmodule CodeFund.Campaigns do
 
   @pagination [page_size: 15]
   @pagination_distance 5
+  @default_preloads [:audience, :user, :creative, :budgeted_campaign]
 
   @doc """
   Returns the list of campaigns.
@@ -20,7 +21,7 @@ defmodule CodeFund.Campaigns do
       [%Campaign{}, ...]
 
   """
-  def paginate_campaigns(%User{} = user, params \\ %{}) do
+  def paginate_campaigns(%User{} = user, params \\ %{}, default_preloads \\ @default_preloads) do
     params =
       params
       |> Map.put_new("sort_direction", "desc")
@@ -31,7 +32,7 @@ defmodule CodeFund.Campaigns do
 
     with {:ok, filter} <-
            Filtrex.parse_params(filter_config(:campaigns), params["campaign"] || %{}),
-         %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params) do
+         %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params, default_preloads) do
       {:ok,
        %{
          campaigns: page.entries,
@@ -49,18 +50,19 @@ defmodule CodeFund.Campaigns do
     end
   end
 
-  defp do_paginate_campaigns(%User{} = user, _filter, params) do
+  defp do_paginate_campaigns(%User{} = user, _filter, params, default_preloads) do
     case Enum.member?(user.roles, "admin") do
       true ->
         Campaign
-        |> preload([:audience, :user, :creative, :budgeted_campaign])
+        |> preload([:user, :creative, :budgeted_campaign])
         |> order_by(^sort(params))
+        |> preload(^default_preloads)
         |> paginate(Repo, params, @pagination)
 
       false ->
         Campaign
         |> where([p], p.user_id == ^user.id)
-        |> preload([:audience, :user, :creative, :budgeted_campaign])
+        |> preload(^default_preloads)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
     end
@@ -80,16 +82,16 @@ defmodule CodeFund.Campaigns do
       ** (Ecto.NoResultsError)
 
   """
-  def get_campaign!(id) do
+  def get_campaign!(id, default_preloads \\ @default_preloads) do
     Campaign
     |> Repo.get!(id)
-    |> Repo.preload([:audience, :user, :creative, :budgeted_campaign])
+    |> Repo.preload(default_preloads)
   end
 
-  def get_campaign_by_name!(name) do
+  def get_campaign_by_name!(name, default_preloads \\ @default_preloads) do
     Campaign
     |> Repo.get_by!(name: name)
-    |> Repo.preload([:audience, :user, :creative, :budgeted_campaign])
+    |> Repo.preload(default_preloads)
   end
 
   @doc """
@@ -133,6 +135,17 @@ defmodule CodeFund.Campaigns do
     |> CodeFund.Repo.all()
   end
 
+  def archive(%Campaign{status: 3}), do: {:error, :already_archived}
+
+  def archive(%Campaign{} = campaign) do
+    campaign
+    |> update_campaign(%{
+      "status" => 3,
+      "start_date" => campaign.start_date,
+      "end_date" => campaign.end_date
+    })
+  end
+
   @doc """
   Deletes a Campaign.
 
@@ -167,7 +180,6 @@ defmodule CodeFund.Campaigns do
 
     Enum.all?([
       D.cmp(budgeted_campaign.day_remain, D.new(0)) == :gt,
-      D.cmp(budgeted_campaign.month_remain, D.new(0)) == :gt,
       D.cmp(budgeted_campaign.total_remain, D.new(0)) == :gt
     ])
   end

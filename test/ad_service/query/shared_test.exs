@@ -8,11 +8,11 @@ defmodule AdService.Query.SharedTest do
         |> AdService.Query.Shared.build_where_clauses_by_property_filters([
           {:programming_languages, ["Ruby"]},
           {:name, "Some Property"},
-          {:client_country, "CN"}
+          {:client_country, "US"}
         ])
 
       assert query.__struct__ == Ecto.Query
-      [programming_languages, name, excluded_countries] = query.wheres
+      [programming_languages, name, included_countries] = query.wheres
 
       assert programming_languages.expr ==
                {:fragment, [],
@@ -31,18 +31,12 @@ defmodule AdService.Query.SharedTest do
       assert name.op == :and
       assert name.params == [{"Some Property", {0, :name}}]
 
-      assert excluded_countries.expr ==
-               {:not, [],
-                [
-                  {:in, [],
-                   [
-                     {:^, [], [0]},
-                     {{:., [], [{:&, [], [0]}, :excluded_countries]}, [], []}
-                   ]}
-                ]}
+      assert included_countries.expr ==
+               {:in, [],
+                [{:^, [], [0]}, {{:., [], [{:&, [], [1]}, :included_countries]}, [], []}]}
 
-      assert excluded_countries.op == :and
-      assert excluded_countries.params == [{"CN", {:out, {0, :excluded_countries}}}]
+      assert included_countries.op == :and
+      assert included_countries.params == [{"US", {:out, {1, :included_countries}}}]
     end
   end
 end

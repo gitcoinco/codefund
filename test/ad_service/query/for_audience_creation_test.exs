@@ -5,14 +5,12 @@ defmodule AdService.Query.ForAudienceCreationTest do
   setup do
     insert(:audience, %{
       programming_languages: ["Ruby", "C"],
-      topic_categories: ["Programming"],
-      excluded_countries: ["US"]
+      topic_categories: ["Programming"]
     })
 
     insert(:audience, %{
       programming_languages: ["Java", "C"],
-      topic_categories: ["Development"],
-      excluded_countries: ["CN"]
+      topic_categories: ["Development"]
     })
 
     property =
@@ -80,14 +78,23 @@ defmodule AdService.Query.ForAudienceCreationTest do
   describe "metrics" do
     test "it returns the count of properties and counts of impressions and unique users for the last month that will be targeted by the defined audience" do
       assert AdService.Query.ForAudienceCreation.metrics(
+               included_countries: ["US"],
                programming_languages: ["Ruby"],
-               topic_categories: ["Programming"],
-               excluded_countries: ["CN"]
+               topic_categories: ["Programming"]
              ) == %{
                "impression_count" => 11,
                "property_count" => 1,
                "unique_user_count" => 2
              }
+    end
+
+    test "it raises if included_countries isn't set" do
+      assert_raise FunctionClauseError, fn ->
+        AdService.Query.ForAudienceCreation.metrics(
+          programming_languages: ["Ruby"],
+          topic_categories: ["Programming"]
+        )
+      end
     end
   end
 end

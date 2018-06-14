@@ -34,11 +34,10 @@ defmodule CodeFund.Factory do
       redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}"),
       status: 2,
       creative: build(:creative),
-      audience: build(:audience),
-      bid_amount: Decimal.new(2),
+      ecpm: Decimal.new(2),
+      impression_count: 800_000,
       budget_daily_amount: Decimal.new(25),
-      budget_monthly_amount: Decimal.new(500),
-      budget_total_amount: Decimal.new(2500),
+      total_spend: Decimal.new(2500),
       user: build(:user)
     }
   end
@@ -47,8 +46,7 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Audience{
       name: "Test Audience",
       programming_languages: ["Ruby"],
-      topic_categories: ["Programming"],
-      user: build(:user)
+      topic_categories: ["Programming"]
     }
   end
 

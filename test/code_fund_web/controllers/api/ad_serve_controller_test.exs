@@ -5,6 +5,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
   setup do
     property = insert(:property)
     theme = insert(:theme, slug: "light", template: insert(:template, slug: "default"))
+
+    on_exit(fn -> CodeFundWeb.RedisHelper.clean_redis() end)
     {:ok, %{property: property, theme: theme}}
   end
 
@@ -50,7 +52,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
   end
 
   describe "details" do
-    test "serves an ad if property has a campaign tied to an audience with both topic categories and programming languages and creates an impression",
+    test "serves an ad if property has a campaign tied to an audience with both topic categories and programming languages and creates an impression and records distribution and revenue amounts",
          %{conn: conn} do
       creative = insert(:creative)
 
@@ -83,12 +85,14 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         insert(
           :campaign,
           status: 2,
-          bid_amount: Decimal.new(1),
-          budget_daily_amount: Decimal.new(1),
-          budget_monthly_amount: Decimal.new(1),
-          budget_total_amount: Decimal.new(1),
+          ecpm: Decimal.new(2.50),
+          budget_daily_amount: Decimal.new(50),
+          total_spend: Decimal.new(2000),
+          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience
+          audience: audience,
+          included_countries: ["US"]
         )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -98,6 +102,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == campaign.id
+      assert impression.revenue_amount == Decimal.new("0.002500000000")
+      assert impression.distribution_amount == Decimal.new("0.001500000000")
 
       assert json_response(conn, 200) == %{
                "headline" => "Creative Headline",
@@ -138,12 +144,14 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         insert(
           :campaign,
           status: 2,
-          bid_amount: Decimal.new(1),
+          ecpm: Decimal.new(1),
           budget_daily_amount: Decimal.new(1),
-          budget_monthly_amount: Decimal.new(1),
-          budget_total_amount: Decimal.new(1),
+          total_spend: Decimal.new(1),
+          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience
+          audience: audience,
+          included_countries: ["US"]
         )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -184,12 +192,14 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         insert(
           :campaign,
           status: 2,
-          bid_amount: Decimal.new(1),
+          ecpm: Decimal.new(1),
           budget_daily_amount: Decimal.new(1),
-          budget_monthly_amount: Decimal.new(1),
-          budget_total_amount: Decimal.new(1),
+          total_spend: Decimal.new(1),
+          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience
+          audience: audience,
+          included_countries: ["US"]
         )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -222,10 +232,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       insert(
         :campaign,
         status: 2,
-        bid_amount: Decimal.new(1),
+        ecpm: Decimal.new(1),
         budget_daily_amount: Decimal.new(1),
-        budget_monthly_amount: Decimal.new(1),
-        budget_total_amount: Decimal.new(1),
+        total_spend: Decimal.new(1),
         creative: creative,
         audience: audience
       )

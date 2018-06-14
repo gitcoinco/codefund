@@ -26,7 +26,7 @@
               <th>Value</th>
             </tr>
           </thead>
-          <tbody>d
+          <tbody>
             <tr>
               <td><strong>ID</strong></td>
               <td><%= @campaign.id %></td>
@@ -44,8 +44,14 @@
               <td><%= campaign_status @campaign.status %></td>
             </tr>
             <tr>
-              <td><strong>Description</strong></td>
-              <td><%= @campaign.description %></td>
+              <td><strong>Targeted Countries</strong></td>
+              <td><%= Framework.Geolocation.Countries.list
+                          |> Enum.filter(
+                            fn {_, iso_code} ->
+                              Enum.member?(@campaign.included_countries, iso_code)
+                            end)
+                          |> Keyword.keys
+                          |> Enum.join(", ")  %></td>
             </tr>
             <tr>
               <td><strong>Audience</strong></td>
@@ -60,8 +66,12 @@
               <td><%= @campaign.redirect_url %></td>
             </tr>
             <tr>
-              <td><strong>Bid Amount</strong></td>
-              <td><%= pretty_money @campaign.bid_amount %></td>
+              <td><strong>eCPM</strong></td>
+              <td><%= pretty_money @campaign.ecpm %></td>
+            </tr>
+            <tr>
+              <td><strong>Estimated Impressions</strong></td>
+              <td><%= @campaign.impression_count %></td>
             </tr>
             <tr>
               <td><strong>Daily Budget</strong></td>
@@ -71,28 +81,11 @@
                       @campaign.budgeted_campaign.day_remain) %></td>
             </tr>
             <tr>
-              <td><strong>Monthly Budget</strong></td>
-              <td><%= pretty_subtracted_money_with_total(
-                      @campaign.budget_monthly_amount,
-                      @campaign.budgeted_campaign.month_spend,
-                      @campaign.budgeted_campaign.month_remain) %></td>
-            </tr>
-            <tr>
               <td><strong>Total Budget</strong></td>
               <td><%= pretty_subtracted_money_with_total(
-                      @campaign.budget_total_amount,
+                      @campaign.total_spend,
                       @campaign.budgeted_campaign.total_spend,
                       @campaign.budgeted_campaign.total_remain) %></td>
-            </tr>
-            <tr>
-              <td><strong>Fraud Check URL</strong></td>
-              <td>
-                <%= if @campaign.fraud_check_url do %>
-                  <%= @campaign.fraud_check_url %>
-                <% else %>
-                  <%= link "Generate Fraud Check URL", to: campaign_path(@conn, :generate_fraud_check_url, @campaign) %>
-                <% end %>
-              </td>
             </tr>
           </tbody>
         </table>

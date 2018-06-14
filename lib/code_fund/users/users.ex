@@ -1,5 +1,6 @@
 defmodule CodeFund.Users do
   @roles [Admin: "admin", Developer: "developer", Sponsor: "sponsor"]
+  import Ecto.Query
   alias CodeFund.Repo
   alias CodeFund.Schema.User
 
@@ -20,6 +21,10 @@ defmodule CodeFund.Users do
   def get_user!(id) do
     CodeFund.Schema.User
     |> Repo.get!(id)
+  end
+
+  def get_by_role(role) do
+    from(u in User, where: ^role in u.roles) |> Repo.all()
   end
 
   def roles, do: @roles

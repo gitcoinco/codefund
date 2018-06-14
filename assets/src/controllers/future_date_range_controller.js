@@ -20,25 +20,30 @@ export default class extends Controller {
   }
 
   initDatePicker() {
-    const { startDate, endDate } = this.element.dataset;
+    const startDate = _.isEmpty(this.startDateTarget.value)
+      ? moment()
+      : moment(this.startDateTarget.value);
+
+    const endDate = _.isEmpty(this.endDateTarget.value)
+      ? moment()
+      : moment(this.endDateTarget.value);
+
+    const beginDate = startDate > moment() ? moment() : startDate;
 
     const picker = $(this.datePickerTarget);
-    $(this.startDateTarget)[0].value = moment(startDate).format("YYYY-MM-DD");
-    $(this.endDateTarget)[0].value =  moment(endDate).format("YYYY-MM-DD");;
 
     picker.daterangepicker(
       {
-        startDate: moment(startDate),
-        endDate: moment(endDate),
-        maxDate: moment(),
+        startDate: startDate,
+        endDate: endDate,
+        minDate: beginDate,
         ranges: {
           'Today': [moment(), moment()],
-          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'Tomorrow': [moment().add(1, 'days'), moment().add(1, 'days')],
+          'Next 7 Days': [moment(), moment().add(6, 'days')],
+          'Next 30 Days': [moment(), moment().add(29, 'days')],
           'This Month': [moment().startOf('month'), moment().endOf('month')],
-          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
+          'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]}
       },
       (start, end) => {
         $(this.startDateTarget)[0].value = `${moment(start).format("YYYY-MM-DD")}`;

@@ -77,6 +77,7 @@ defmodule CodeFundWeb.Router do
 
     get("/dashboard", DashboardController, :index)
     get("/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url)
+    resources("/audiences", AudienceController)
     resources("/campaigns", CampaignController)
     resources("/clicks", ClickController)
     resources("/creatives", CreativeController)
@@ -89,7 +90,6 @@ defmodule CodeFundWeb.Router do
 
     resources("/users", UserController, only: [:index, :show, :edit, :update]) do
       get("/distributions/search", User.DistributionController, :search)
-      resources("/audiences", User.AudienceController)
 
       resources(
         "/distributions",

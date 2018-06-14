@@ -1,17 +1,40 @@
-<%= [
-    name: [type: :text_input, label: "Name"],
-    redirect_url: [type: :text_input, label: "Redirect URL", opts: [placeholder: "https://"]],
-    status: [type: :select, label: "Status", opts: [choices: [Pending: 1, Active: 2, Archived: 3]]],
-    description: [type: :textarea, label: "Description"],
-    audience_id: [type: :select, label: "Audience", opts: [choices: @conn.assigns.audiences]],
-    creative_id: [type: :select, label: "Creative", opts: [choices: @conn.assigns.creatives]],
-    bid_amount: [type: :currency_input, label: "Bid Amount",
-    opts: [
-          step: "0.01",
-          min: "0"
-        ]],
-    budget_daily_amount: [type: :currency_input, label: "Daily Budget"],
-    budget_monthly_amount: [type: :currency_input, label: "Monthly Budget"],
-    budget_total_amount: [type: :currency_input, label: "Total Budget"]
-  ] |> render_fields(@form)
-%>
+<span class="container-fluid" data-controller="campaign future-date-range">
+  <%=
+     [
+      name: [type: :text_input, label: "Name"],
+      redirect_url: [type: :text_input, label: "Redirect URL", opts: [placeholder: "https://"]],
+      status: [type: :select, label: "Status", opts: [choices: [Pending: 1, Active: 2, Archived: 3]]],
+      active_dates: [type: :text_input, label: "Date Range", opts: [
+        "data-target": "future-date-range.datePicker"
+      ]],
+      creative_id: [type: :select, label: "Creative", opts: [choices: @conn.assigns.creatives]],
+      audience_id: [type: :select, label: "Audience", opts: [choices: @conn.assigns.audiences]],
+      ecpm: [type: :currency_input, label: "eCPM",
+        opts: [
+              step: "0.01",
+              min: "0",
+              "data-target": "campaign.ecpm",
+              "data-action": "change->campaign#calculateImpressions"
+            ]
+      ],
+      included_countries: [
+          type: :multiple_select,
+          label: "Included Countries",
+          opts: [
+            data: [
+              target: "campaign-form.includedCountries",
+              action: "change->campaign-form#generateEstimates",
+              key: "included_countries"
+            ],
+            class: "form-control campaign-form selectize",
+            choices: Framework.Geolocation.Countries.list()
+          ]
+        ],
+      budget_daily_amount: [type: :currency_input, label: "Daily Max Spend"],
+      total_spend: [type: :currency_input, label: "Total Spend", opts: ["data-target": "campaign.totalBudget", "data-action": "change->campaign#calculateImpressions"]],
+      impression_count: [type: :number_input, label: "Estimated Impressions", opts: ["data-target": "campaign.estimatedImpressions", "readonly": "readonly"]],
+      start_date: [type: :hidden_input, label: "", opts: ["data-target": "future-date-range.startDate"]],
+      end_date: [type: :hidden_input, label: "", opts: ["data-target": "future-date-range.endDate"]]
+    ] |> render_fields(@form)
+  %>
+</span>
