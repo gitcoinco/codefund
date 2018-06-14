@@ -102,8 +102,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == campaign.id
-      assert impression.revenue_amount == Decimal.new("0.0025")
-      assert impression.distribution_amount == Decimal.new("0.0015")
+      assert impression.revenue_amount == Decimal.new("0.002500000000")
+      assert impression.distribution_amount == Decimal.new("0.001500000000")
 
       assert json_response(conn, 200) == %{
                "headline" => "Creative Headline",

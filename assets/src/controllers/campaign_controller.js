@@ -6,10 +6,7 @@ export default class extends Controller {
     return [
       "ecpm",
       "totalBudget",
-      "estimatedImpressions",
-      "datePicker",
-      "startDate",
-      "endDate"
+      "estimatedImpressions"
     ];
   }
 
@@ -17,10 +14,10 @@ export default class extends Controller {
     this.calculateImpressions();
   }
 
-  calculateImpressions() {
-    const ecpm = this.targets.find("ecpm").value;
-    const totalBudget = this.targets.find("totalBudget").value;
-    const estimatedImpressions = ((totalBudget / ecpm) * 1000);
-    $(this.targets.find("estimatedImpressions"))[0].value = estimatedImpressions;
-  }
+calculateImpressions() {
+  const ecpm = this.ecpmTarget.value;
+  const totalBudget = this.totalBudgetTarget.value;
+  const estimatedImpressions = ((totalBudget / ecpm) * 1000);
+  this.estimatedImpressionsTarget.innerHTML = estimatedImpressions;
+}
 }
