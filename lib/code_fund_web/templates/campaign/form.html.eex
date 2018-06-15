@@ -1,12 +1,11 @@
-<span class="container-fluid" data-controller="campaign future-date-range">
+<span class="container-fluid" data-controller="campaign">
   <%=
      [
       name: [type: :text_input, label: "Name"],
       redirect_url: [type: :text_input, label: "Redirect URL", opts: [placeholder: "https://"]],
       status: [type: :select, label: "Status", opts: [choices: [Pending: 1, Active: 2, Archived: 3]]],
-      active_dates: [type: :text_input, label: "Date Range", opts: [
-        "data-target": "future-date-range.datePicker"
-      ]],
+      start_date: [type: :text_input, label: "Start Date"],
+      end_date: [type: :text_input, label: "End Date"],
       creative_id: [type: :select, label: "Creative", opts: [choices: @conn.assigns.creatives]],
       audience_id: [type: :select, label: "Audience", opts: [choices: @conn.assigns.audiences]],
       ecpm: [type: :currency_input, label: "eCPM",
@@ -32,9 +31,7 @@
         ],
       budget_daily_amount: [type: :currency_input, label: "Daily Max Spend"],
       total_spend: [type: :currency_input, label: "Total Spend", opts: ["data-target": "campaign.totalBudget", "data-action": "change->campaign#calculateImpressions"]],
-      impression_count: [type: :number_input, label: "Estimated Impressions", opts: ["data-target": "campaign.estimatedImpressions"]],
-      start_date: [type: :hidden_input, label: "", opts: ["data-target": "future-date-range.startDate"]],
-      end_date: [type: :hidden_input, label: "", opts: ["data-target": "future-date-range.endDate"]]
+      impression_count: [type: :number_input, label: "Estimated Impressions", opts: ["data-target": "campaign.estimatedImpressions"]]
     ] |> render_fields(@form)
   %>
 </span>
