@@ -32,7 +32,7 @@
         ],
       budget_daily_amount: [type: :currency_input, label: "Daily Max Spend"],
       total_spend: [type: :currency_input, label: "Total Spend", opts: ["data-target": "campaign.totalBudget", "data-action": "change->campaign#calculateImpressions"]],
-      impression_count: [type: :number_input, label: "Estimated Impressions", opts: ["data-target": "campaign.estimatedImpressions", "readonly": "readonly"]],
+      impression_count: [type: :number_input, label: "Estimated Impressions", opts: ["data-target": "campaign.estimatedImpressions"]],
       start_date: [type: :hidden_input, label: "", opts: ["data-target": "future-date-range.startDate"]],
       end_date: [type: :hidden_input, label: "", opts: ["data-target": "future-date-range.endDate"]]
     ] |> render_fields(@form)
