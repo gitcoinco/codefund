@@ -14,10 +14,13 @@ export default class extends Controller {
     this.calculateImpressions();
   }
 
-calculateImpressions() {
-  const ecpm = this.ecpmTarget.value;
-  const totalBudget = this.totalBudgetTarget.value;
-  const estimatedImpressions = ((totalBudget / ecpm) * 1000);
-  this.estimatedImpressionsTarget.innerHTML = estimatedImpressions;
-}
+  calculateImpressions() {
+    let estimatedImpressions = 0;
+    const ecpm = parseFloat(this.ecpmTarget.value);
+    const totalBudget = parseFloat(this.totalBudgetTarget.value);
+    if (ecpm > 0) {
+      estimatedImpressions = ((totalBudget / ecpm) * 1000);
+    }
+    this.estimatedImpressionsTarget.value = Math.round(estimatedImpressions);
+  }
 }

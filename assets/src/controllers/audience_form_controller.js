@@ -138,8 +138,8 @@ export default class extends Controller {
   }
 
   round(number, precision) {
-    let shift = function(number, exponent) {
-      let numArray = (`${  number}`).split("e");
+    let shift = function (number, exponent) {
+      let numArray = (`${number}`).split("e");
       return +(
         numArray[0] +
         "e" +

@@ -32,7 +32,7 @@
               <td><%= @campaign.id %></td>
             </tr>
             <tr>
-              <td><strong>Sponsor</strong></td>
+              <td><strong>Advertiser</strong></td>
               <td><%= @campaign.user_id %></td>
             </tr>
             <tr>

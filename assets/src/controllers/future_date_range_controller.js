@@ -32,6 +32,8 @@ export default class extends Controller {
 
     const picker = $(this.datePickerTarget);
 
+    this.populateDateFields(startDate, endDate);
+
     picker.daterangepicker(
       {
         startDate: startDate,
@@ -43,20 +45,23 @@ export default class extends Controller {
           'Next 7 Days': [moment(), moment().add(6, 'days')],
           'Next 30 Days': [moment(), moment().add(29, 'days')],
           'This Month': [moment().startOf('month'), moment().endOf('month')],
-          'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]}
+          'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]
+        }
       },
-      (start, end) => {
-        $(this.startDateTarget)[0].value = `${moment(start).format("YYYY-MM-DD")}`;
-        $(this.endDateTarget)[0].value = `${moment(end).format("YYYY-MM-DD")}`;
-        $(this.dateRangeTarget).innerHTML = `${start} - ${end}`;
-      }
-    );
+      this.populateDateFields);
 
     picker.on("show.daterangepicker", () => {
       $(".main").css("opacity", 0.5);
     });
+
     picker.on("hide.daterangepicker", () => {
       $(".main").css("opacity", 1);
     });
+  }
+
+  populateDateFields(start, end) {
+    this.startDateTarget.value = `${moment(start).format("YYYY-MM-DD")}`;
+    this.endDateTarget.value = `${moment(end).format("YYYY-MM-DD")}`;
+    this.datePickerTarget.innerHTML = `${start} - ${end}`;
   }
 }
