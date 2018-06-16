@@ -10,7 +10,7 @@ defmodule AdService.ImpressionSupervisorTest do
       Redix.start_link(
         host: Application.get_env(:redix, :host),
         port: Application.get_env(:redix, :port),
-        database: Application.get_env(:redix, :database)
+        database: 15
       )
 
     on_exit(fn -> CodeFundWeb.RedisHelper.clean_redis() end)

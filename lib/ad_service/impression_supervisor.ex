@@ -13,6 +13,7 @@ defmodule AdService.ImpressionSupervisor do
       Redix.start_link(
         host: Application.get_env(:redix, :host),
         port: Application.get_env(:redix, :port),
+        database: Application.get_env(:redix, :database),
         password: Application.get_env(:redix, :password)
       )
 
