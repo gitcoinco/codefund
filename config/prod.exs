@@ -28,7 +28,7 @@ config :code_fund, CodeFund.Repo,
 config :redix,
   host: System.get_env("REDIS_HOST"),
   port: String.to_integer(System.get_env("REDIS_PORT")),
-  password: System.get_env("REDIS_PASSWORD"),
+  password: System.get_env("REDIS_PASSWORD")
 
 config :exq,
   name: Exq,
