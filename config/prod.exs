@@ -57,4 +57,4 @@ config :code_fund, CodeFund.Mailer,
   api_key: System.get_env("MAILGUN_API_KEY") || "MISSING",
   domain: System.get_env("MAILGUN_DOMAIN") || "MISSING"
 
-config :redix, database: 0
+config :redix, database: System.get_env("REDIS_DATABASE")
