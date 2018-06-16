@@ -25,6 +25,11 @@ config :code_fund, CodeFund.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
 
+config :redix,
+  host: System.get_env("REDIS_HOST"),
+  port: System.get_env("REDIS_PORT"),
+  password: System.get_env("REDIS_PASSWORD")
+
 config :exq,
   name: Exq,
   host: System.get_env("REDIS_HOST"),
