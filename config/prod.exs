@@ -26,14 +26,14 @@ config :code_fund, CodeFund.Repo,
   ssl: true
 
 config :redix,
-  host: Integer.parse(System.get_env("REDIS_HOST")),
-  port: Integer.parse(System.get_env("REDIS_PORT")),
+  host: System.get_env("REDIS_HOST"),
+  port: String.to_integer(System.get_env("REDIS_PORT"),
   password: System.get_env("REDIS_PASSWORD")
 
 config :exq,
   name: Exq,
   host: System.get_env("REDIS_HOST"),
-  port: System.get_env("REDIS_PORT"),
+  port: String.to_integer(System.get_env("REDIS_PORT")),
   password: System.get_env("REDIS_PASSWORD"),
   namespace: "exq",
   concurrency: :infinite,
