@@ -7,6 +7,7 @@ defmodule CodeFund.Impressions do
 
   alias CodeFund.Schema.Impression
   alias CodeFund.Schema.Sponsorship
+  import Framework.Ecto.Date
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -153,6 +154,26 @@ defmodule CodeFund.Impressions do
   """
   def delete_impression(%Impression{} = impression) do
     Repo.delete(impression)
+  end
+
+  def by_user_in_date_range(user_id, start_date, end_date) do
+    from(
+      i in CodeFund.Schema.Impression,
+      join: p in CodeFund.Schema.Property,
+      on: i.property_id == p.id,
+      where:
+        p.user_id == ^user_id and i.inserted_at >= ^parse(start_date) and
+          i.inserted_at <= ^parse(end_date) and is_nil(i.distribution_id)
+    )
+  end
+
+  def distribution_amount(user_id, start_date, end_date) do
+    by_user_in_date_range(user_id, start_date, end_date)
+    |> select([i], %{
+      "distribution_amount" => sum(i.distribution_amount),
+      "impression_count" => count(i.id)
+    })
+    |> CodeFund.Repo.one()
   end
 
   defp filter_config(:impressions) do

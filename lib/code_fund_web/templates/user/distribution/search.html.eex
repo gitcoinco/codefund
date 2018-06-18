@@ -25,8 +25,8 @@
               </div>
             </div>
           </div>
-          <%= hidden_input fp, :click_range_start, "data-target": "past-date-range.startDate" %>
-          <%= hidden_input fp, :click_range_end, "data-target": "past-date-range.endDate"  %>
+          <%= hidden_input fp, :range_start, "data-target": "past-date-range.startDate" %>
+          <%= hidden_input fp, :range_end, "data-target": "past-date-range.endDate"  %>
           <div class="form-group row">
             <div class="col-sm-10">
               <div class="input-group">

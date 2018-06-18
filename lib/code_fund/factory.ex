@@ -102,8 +102,8 @@ defmodule CodeFund.Factory do
     %CodeFund.Schema.Distribution{
       amount: Decimal.new("10.00"),
       currency: "USD",
-      click_range_start: "2018-01-01",
-      click_range_end: "2018-01-01"
+      range_start: "2018-01-01",
+      range_end: "2018-01-01"
     }
   end
 

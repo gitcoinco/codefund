@@ -5,12 +5,12 @@
     </div>
   </div>
 </div>
-<%= if @clicks["click_count"] > 0 do %>
+<%= if @impressions["impression_count"] > 0 do %>
   <%= [
-      amount: [type: :currency_input, label: "Distribution Amount", opts: [value: @clicks["distribution_amount"]]],
+      amount: [type: :currency_input, label: "Distribution Amount", opts: [value: @impressions["distribution_amount"]]],
       currency: [type: :select, label: "Currency", opts: [choices: ["USD"], class: "form-control col-sm-3"]],
-      click_range_start: [type: :hidden_input, label: "", opts: [value: @start_date]],
-      click_range_end: [type: :hidden_input, label: "", opts: [value: @end_date]],
+      range_start: [type: :hidden_input, label: "", opts: [value: @start_date]],
+      range_end: [type: :hidden_input, label: "", opts: [value: @end_date]],
     ] |> render_fields(@form)
   %>
 <% else %>

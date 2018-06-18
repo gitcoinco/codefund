@@ -9,41 +9,39 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
     distribution =
       insert(
         :distribution,
-        click_range_start: ~N[2018-01-01 00:00:00],
-        click_range_end: ~N[2018-01-01 00:00:00]
+        range_start: ~N[2018-01-01 00:00:00],
+        range_end: ~N[2018-01-01 00:00:00]
       )
 
     property = insert(:property, user: users.developer)
 
-    click_1 =
+    impression_1 =
       insert(
-        :click,
+        :impression,
         property: property,
         inserted_at: ~N[2018-01-02 00:00:00],
-        distribution_amount: "2.00",
-        status: 1
+        distribution_amount: "2.00"
       )
 
-    click_2 =
+    impression_2 =
       insert(
-        :click,
+        :impression,
         property: property,
         inserted_at: ~N[2018-01-02 00:00:00],
-        distribution_amount: "2.00",
-        status: 1
+        distribution_amount: "2.00"
       )
 
-    click_3 =
+    impression_3 =
       insert(
-        :click,
+        :impression,
         property: insert(:property, user: users.developer),
         inserted_at: ~N[2018-01-04 00:00:00],
         distribution_amount: "2.00"
       )
 
-    click_4 =
+    impression_4 =
       insert(
-        :click,
+        :impression,
         property: insert(:property, user: users.admin),
         inserted_at: ~N[2018-01-02 00:00:00],
         distribution_amount: "2.00"
@@ -56,7 +54,12 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
        authed_conn: authed_conn,
        users: users,
        distribution: distribution,
-       clicks: [click_1: click_1, click_2: click_2, click_3: click_3, click_4: click_4]
+       impressions: [
+         impression_1: impression_1,
+         impression_2: impression_2,
+         impression_3: impression_3,
+         impression_4: impression_4
+       ]
      }}
   end
 
@@ -65,9 +68,9 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
     assert conn.private.controller_config.nested == ["User"]
     assert conn.assigns.action == :create
 
-    assert conn.assigns.clicks == %{
-             "click_count" => 2,
-             "distribution_amount" => Decimal.new("4.00")
+    assert conn.assigns.impressions == %{
+             "impression_count" => 2,
+             "distribution_amount" => Decimal.new("4.000000000000")
            }
 
     assert conn.assigns.user == user
@@ -113,8 +116,8 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
           user_distribution_path(authed_conn, :new, users.developer, %{
             "params" => %{
               "distribution" => %{
-                "click_range_end" => "2018-01-03",
-                "click_range_start" => "2018-01-01"
+                "range_end" => "2018-01-03",
+                "range_start" => "2018-01-01"
               }
             }
           })
@@ -152,8 +155,8 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
         user_distribution_path(conn, :create, context.users.developer, %{
           "params" => %{
             "distribution" => %{
-              "click_range_end" => "2001-01-01",
-              "click_range_start" => "2001-01-01"
+              "range_end" => "2001-01-01",
+              "range_start" => "2001-01-01"
             }
           }
         })
@@ -164,7 +167,7 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
     test "successfully creates a distribution", %{
       users: users,
       authed_conn: authed_conn,
-      clicks: clicks
+      impressions: impressions
     } do
       authed_conn =
         post(
@@ -172,8 +175,8 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
           user_distribution_path(authed_conn, :create, users.developer, %{
             "params" => %{
               "distribution" => %{
-                "click_range_end" => "2018-01-03",
-                "click_range_start" => "2018-01-01",
+                "range_end" => "2018-01-03",
+                "range_start" => "2018-01-01",
                 "amount" => "5.00",
                 "currency" => "usd"
               }
@@ -182,12 +185,20 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
         )
 
       distribution = from(d in CodeFund.Schema.Distribution) |> CodeFund.Repo.all() |> List.last()
-      assert distribution.click_range_start == ~N[2018-01-01 00:00:00.000000]
-      assert distribution.click_range_end == ~N[2018-01-03 00:00:00.000000]
-      assert CodeFund.Clicks.get_click!(clicks[:click_1].id).distribution_id == distribution.id
-      assert CodeFund.Clicks.get_click!(clicks[:click_2].id).distribution_id == distribution.id
-      assert CodeFund.Clicks.get_click!(clicks[:click_3].id).distribution_id == nil
-      assert CodeFund.Clicks.get_click!(clicks[:click_4].id).distribution_id == nil
+      assert distribution.range_start == ~N[2018-01-01 00:00:00.000000]
+      assert distribution.range_end == ~N[2018-01-03 00:00:00.000000]
+
+      assert CodeFund.Impressions.get_impression!(impressions[:impression_1].id).distribution_id ==
+               distribution.id
+
+      assert CodeFund.Impressions.get_impression!(impressions[:impression_2].id).distribution_id ==
+               distribution.id
+
+      assert CodeFund.Impressions.get_impression!(impressions[:impression_3].id).distribution_id ==
+               nil
+
+      assert CodeFund.Impressions.get_impression!(impressions[:impression_4].id).distribution_id ==
+               nil
 
       assert redirected_to(authed_conn, 302) ==
                user_distribution_path(authed_conn, :show, users.developer, distribution)
@@ -205,8 +216,8 @@ defmodule CodeFundWeb.User.DistributionControllerTest do
           user_distribution_path(authed_conn, :create, users.developer, %{
             "params" => %{
               "distribution" => %{
-                "click_range_end" => "2018-01-03",
-                "click_range_start" => "2018-01-01",
+                "range_end" => "2018-01-03",
+                "range_start" => "2018-01-01",
                 "currency" => "usd"
               }
             }

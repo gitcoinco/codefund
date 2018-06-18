@@ -131,9 +131,7 @@ defmodule CodeFund.Audiences do
 
   defp filter_config(:audiences) do
     defconfig do
-      text(:amount)
-      date(:click_range_start)
-      text(:click_range_end)
+      text(:name)
     end
   end
 end

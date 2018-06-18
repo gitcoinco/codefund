@@ -34,17 +34,17 @@ defmodule CodeFundWeb.User.DistributionController do
          "user_id" => user_id,
          "params" => %{
            "distribution" => %{
-             "click_range_end" => end_date,
-             "click_range_start" => start_date
+             "range_end" => end_date,
+             "range_start" => start_date
            }
          }
        }) do
     user = Users.get_user!(user_id)
-    clicks = CodeFund.Clicks.distribution_amount(user_id, start_date, end_date)
+    impressions = CodeFund.Impressions.distribution_amount(user_id, start_date, end_date)
 
     [
       action: :create,
-      clicks: clicks,
+      impressions: impressions,
       user: user,
       start_date: start_date,
       end_date: end_date,
@@ -56,12 +56,12 @@ defmodule CodeFundWeb.User.DistributionController do
          "user_id" => user_id,
          "params" => %{
            "distribution" => %{
-             "click_range_end" => end_date,
-             "click_range_start" => start_date
+             "range_end" => end_date,
+             "range_start" => start_date
            }
          }
        }) do
-    CodeFund.Clicks.by_user_in_date_range(user_id, start_date, end_date)
+    CodeFund.Impressions.by_user_in_date_range(user_id, start_date, end_date)
     |> CodeFund.Repo.update_all(set: [distribution_id: distribution.id])
   end
 end
