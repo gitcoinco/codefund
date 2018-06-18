@@ -10,7 +10,7 @@ defmodule CodeFund.Campaigns do
 
   @pagination [page_size: 15]
   @pagination_distance 5
-  @default_preloads [:audience, :user, :creative, :budgeted_campaign]
+  @default_preloads [:audience, :user, :creative]
 
   @doc """
   Returns the list of campaigns.
@@ -54,7 +54,7 @@ defmodule CodeFund.Campaigns do
     case Enum.member?(user.roles, "admin") do
       true ->
         Campaign
-        |> preload([:user, :creative, :budgeted_campaign])
+        |> preload([:user, :creative])
         |> order_by(^sort(params))
         |> preload(^default_preloads)
         |> paginate(Repo, params, @pagination)

@@ -73,20 +73,6 @@
               <td><strong>Estimated Impressions</strong></td>
               <td><%= @campaign.impression_count %></td>
             </tr>
-            <tr>
-              <td><strong>Daily Budget</strong></td>
-              <td><%= pretty_subtracted_money_with_total(
-                      @campaign.budget_daily_amount,
-                      @campaign.budgeted_campaign.day_spend,
-                      @campaign.budgeted_campaign.day_remain) %></td>
-            </tr>
-            <tr>
-              <td><strong>Total Budget</strong></td>
-              <td><%= pretty_subtracted_money_with_total(
-                      @campaign.total_spend,
-                      @campaign.budgeted_campaign.total_spend,
-                      @campaign.budgeted_campaign.total_remain) %></td>
-            </tr>
           </tbody>
         </table>
       </div>
