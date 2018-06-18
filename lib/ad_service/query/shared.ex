@@ -21,7 +21,7 @@ defmodule AdService.Query.Shared do
 
   defp where_clause(query, field_name, value) when is_list(value) and length(value) > 0 do
     query
-    |> where(
+    |> or_where(
       [..., audience_or_property],
       fragment("? && ?::varchar[]", field(audience_or_property, ^field_name), ^value)
     )
@@ -29,7 +29,7 @@ defmodule AdService.Query.Shared do
 
   defp where_clause(query, field_name, value) when is_binary(value) do
     query
-    |> where([..., audience_or_property], field(audience_or_property, ^field_name) == ^value)
+    |> or_where([..., audience_or_property], field(audience_or_property, ^field_name) == ^value)
   end
 
   defp where_clause(query, _field_name, _value), do: query
