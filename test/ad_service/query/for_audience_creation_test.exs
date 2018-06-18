@@ -21,19 +21,20 @@ defmodule AdService.Query.ForAudienceCreationTest do
 
     property_2 =
       insert(:property, %{
-        programming_languages: ["Ruby", "C"],
-        topic_categories: ["Development"]
+        programming_languages: ["Java"],
+        topic_categories: ["Making de internetz"]
       })
 
     insert(:property, %{
-      programming_languages: ["C"],
+      programming_languages: ["Ruby", "C"],
       topic_categories: ["Development"]
     })
 
-    insert(:property, %{
-      programming_languages: ["Java"],
-      topic_categories: ["Making de internetz"]
-    })
+    property_3 =
+      insert(:property, %{
+        programming_languages: ["C"],
+        topic_categories: ["Development"]
+      })
 
     insert_list(10, :impression, property: property, inserted_at: Timex.now())
 
@@ -72,6 +73,14 @@ defmodule AdService.Query.ForAudienceCreationTest do
         Timex.shift(Timex.now(), months: -1) |> Timex.beginning_of_month() |> Timex.shift(days: 1)
     )
 
+    insert_list(
+      10,
+      :impression,
+      property: property_3,
+      inserted_at:
+        Timex.shift(Timex.now(), months: -1) |> Timex.beginning_of_month() |> Timex.shift(days: 1)
+    )
+
     {:ok, %{}}
   end
 
@@ -79,11 +88,11 @@ defmodule AdService.Query.ForAudienceCreationTest do
     test "it returns the count of properties and counts of impressions and unique users for the last month that will be targeted by the defined audience" do
       assert AdService.Query.ForAudienceCreation.metrics(
                included_countries: ["US"],
-               programming_languages: ["Ruby"],
+               programming_languages: ["Java"],
                topic_categories: ["Programming"]
              ) == %{
-               "impression_count" => 11,
-               "property_count" => 1,
+               "impression_count" => 41,
+               "property_count" => 2,
                "unique_user_count" => 2
              }
     end

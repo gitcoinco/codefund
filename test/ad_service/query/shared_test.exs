@@ -24,11 +24,11 @@ defmodule AdService.Query.SharedTest do
                   raw: "::varchar[]"
                 ]}
 
-      assert programming_languages.op == :and
+      assert programming_languages.op == :or
       assert programming_languages.params == [{["Ruby"], :any}]
 
       assert name.expr == {:==, [], [{{:., [], [{:&, [], [0]}, :name]}, [], []}, {:^, [], [0]}]}
-      assert name.op == :and
+      assert name.op == :or
       assert name.params == [{"Some Property", {0, :name}}]
 
       assert included_countries.expr ==

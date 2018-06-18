@@ -9,21 +9,21 @@ defmodule CodeFundWeb.API.AudienceMetricsControllerTest do
         topic_categories: ["Programming"]
       })
 
-    property_2 =
-      insert(:property, %{
-        programming_languages: ["Ruby", "C"],
-        topic_categories: ["Development"]
-      })
+    insert(:property, %{
+      programming_languages: ["Ruby", "C"],
+      topic_categories: ["Development"]
+    })
 
     insert(:property, %{
       programming_languages: ["C"],
       topic_categories: ["Development"]
     })
 
-    insert(:property, %{
-      programming_languages: ["Java"],
-      topic_categories: ["Making de internetz"]
-    })
+    property_2 =
+      insert(:property, %{
+        programming_languages: ["Java"],
+        topic_categories: ["Making de internetz"]
+      })
 
     insert_list(10, :impression, property: property, inserted_at: Timex.now())
 
@@ -81,7 +81,7 @@ defmodule CodeFundWeb.API.AudienceMetricsControllerTest do
 
       assert json_response(conn, 200) == %{
                "property_count" => 1,
-               "impression_count" => 11,
+               "impression_count" => 31,
                "unique_user_count" => 2
              }
     end

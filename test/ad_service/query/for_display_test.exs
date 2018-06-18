@@ -89,8 +89,8 @@ defmodule AdService.Query.ForDisplayTest do
     } do
       advertisement =
         AdService.Query.ForDisplay.build(
-          programming_languages: ["C"],
-          topic_categories: ["Programming"],
+          programming_languages: ["Rust"],
+          topic_categories: ["Development"],
           client_country: "US"
         )
         |> CodeFund.Repo.one()
@@ -106,8 +106,8 @@ defmodule AdService.Query.ForDisplayTest do
 
     test "get_by_property_filters excludes indicated countries" do
       refute AdService.Query.ForDisplay.build(
-               programming_languages: ["C"],
-               topic_categories: ["Programming"],
+               programming_languages: ["Rust"],
+               topic_categories: ["Development"],
                client_country: "CN"
              )
              |> CodeFund.Repo.one()
