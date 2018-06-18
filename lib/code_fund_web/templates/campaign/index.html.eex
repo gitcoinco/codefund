@@ -26,10 +26,7 @@
                   <th class="text-center">Audience</th>
                   <th class="text-center"><%= table_link(@conn, "Creative", :creative_id) %></th>
                   <th class="text-center"><%= table_link(@conn, "eCPM", :ecpm) %></th>
-                  <th class="text-right"><%= table_link(@conn, "Daily Budget", :budget_daily_amount) %></th>
-                  <th class="text-right"><%= table_link(@conn, "Total Budget", :total_spend) %></th>
-                  <th class="text-right"><%= table_link(@conn, "Estimated Impressions", :impression_count) %></th>
-                  <th class="text-center">Funds?</th>
+                  <th class="text-center"><%= table_link(@conn, "Estimated Impressions", :impression_count) %></th>
                   <th></th>
                 </tr>
               </thead>
@@ -41,20 +38,7 @@
                     <td class="text-center"><%= if(not is_nil(campaign.audience), do: campaign.audience.name, else: "None") %></td>
                     <td class="text-center"><%= if(not is_nil(campaign.creative), do: campaign.creative.name, else: "None") %></td>
                     <td class="text-center"><%= pretty_money campaign.ecpm %></td>
-                    <td>
-                      <%= pretty_subtracted_money_with_total(
-                            campaign.budget_daily_amount,
-                            campaign.budgeted_campaign.day_spend,
-                            campaign.budgeted_campaign.day_remain) %>
-                    </td>
-                    <td>
-                      <%= pretty_subtracted_money_with_total(
-                            campaign.total_spend,
-                            campaign.budgeted_campaign.total_spend,
-                            campaign.budgeted_campaign.total_remain) %>
-                    </td>
                     <td class="text-center"><%= campaign.impression_count %></td>
-                    <td class="text-center"><%= has_remaining_budget?(campaign) %></td>
                     <td class="text-right p-2">
                       <%= link 'Show', to: campaign_path(@conn, :show, campaign), class: "btn btn-outline-info btn-sm" %>
                       <%= link 'Edit', to: campaign_path(@conn, :edit, campaign), class: "btn btn-outline-primary btn-sm" %>
