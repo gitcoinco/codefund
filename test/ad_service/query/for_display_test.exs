@@ -84,8 +84,7 @@ defmodule AdService.Query.ForDisplayTest do
 
   describe "build/1" do
     test "it returns advertisements by property filters", %{
-      campaign: campaign,
-      creative: _creative
+      campaign: campaign
     } do
       advertisement =
         AdService.Query.ForDisplay.build(
