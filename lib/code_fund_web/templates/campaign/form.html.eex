@@ -1,4 +1,4 @@
-<span class="container-fluid" data-controller="campaign">
+<span class="container-fluid" data-controller="campaign-form">
   <%=
      [
       name: [type: :text_input, label: "Name"],
@@ -12,8 +12,8 @@
         opts: [
               step: "0.01",
               min: "0",
-              "data-target": "campaign.ecpm",
-              "data-action": "change->campaign#calculateImpressions"
+              "data-target": "campaign-form.ecpm",
+              "data-action": "change->campaign-form#calculateImpressions"
             ]
       ],
       included_countries: [
@@ -26,12 +26,20 @@
               key: "included_countries"
             ],
             class: "form-control campaign-form selectize",
-            choices: Framework.Geolocation.Countries.list()
+            choices: Framework.Geolocation.Countries.list(),
+            hint: ~s"""
+            <div>
+              <span class="click-option" data-action='click->campaign-form#selectRecommendedCountries'>Recommended</span> |
+              <span class="click-option" data-action='click->campaign-form#selectPopularCountries'>Popular</span> |
+              <span class="click-option" data-action='click->campaign-form#selectAllCountries'>All</span> |
+              <span class="click-option" data-action='click->campaign-form#selectNoCountries'>None</span>
+            </div>
+            """
           ]
         ],
       budget_daily_amount: [type: :currency_input, label: "Daily Max Spend"],
-      total_spend: [type: :currency_input, label: "Total Spend", opts: ["data-target": "campaign.totalBudget", "data-action": "change->campaign#calculateImpressions"]],
-      impression_count: [type: :number_input, label: "Estimated Impressions", opts: ["data-target": "campaign.estimatedImpressions"]]
+      total_spend: [type: :currency_input, label: "Total Spend", opts: ["data-target": "campaign-form.totalBudget", "data-action": "change->campaign-form#calculateImpressions"]],
+      impression_count: [type: :number_input, label: "Estimated Impressions", opts: ["data-target": "campaign-form.estimatedImpressions"]]
     ] |> render_fields(@form)
   %>
 </span>

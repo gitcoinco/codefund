@@ -13,6 +13,6 @@ defmodule CodeFundWeb.HintHelpers do
   end
 
   def hint_tag(hint) do
-    [content_tag(:small, hint, class: "form-text text-muted")]
+    [content_tag(:small, raw(hint), class: "form-text text-muted")]
   end
 end
