@@ -24,7 +24,8 @@
                   <th>User</th>
                 <% end %>
                 <th><%= table_link(@conn, "Name", :name) %></th>
-                <th>Text</th>
+                <th>Headline</th>
+                <th>Body</th>
                 <th></th>
               </tr>
             </thead>
@@ -35,6 +36,7 @@
                   <td><%= link full_name(creative.user), to: user_path(@conn, :show, creative.user) %></td>
                   <% end %>
                   <td><%= creative.name %></td>
+                  <td><%= creative.headline %></td>
                   <td><%= creative.body %></td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: creative_path(@conn, :show, creative), class: "btn btn-outline-info btn-sm" %>
