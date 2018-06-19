@@ -9,6 +9,6 @@ const initSelectize = () => {
   });
 };
 
-$(function () {
+document.addEventListener("turbolinks:load", () => {
   initSelectize();
 });
