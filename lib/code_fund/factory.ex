@@ -50,18 +50,6 @@ defmodule CodeFund.Factory do
     }
   end
 
-  def sponsorship_factory do
-    %CodeFund.Schema.Sponsorship{
-      property: build(:property),
-      campaign: build(:campaign),
-      creative: build(:creative),
-      bid_amount: Decimal.new(250),
-      override_revenue_rate: "0.3",
-      user: build(:user),
-      redirect_url: sequence(:redirect_url, &"https://example.com/#{&1}")
-    }
-  end
-
   def creative_factory do
     %CodeFund.Schema.Creative{
       name: "Test Creative",
@@ -104,21 +92,6 @@ defmodule CodeFund.Factory do
       currency: "USD",
       range_start: "2018-01-01",
       range_end: "2018-01-01"
-    }
-  end
-
-  def click_factory do
-    %CodeFund.Schema.Click{
-      sponsorship: build(:sponsorship),
-      property: build(:property),
-      campaign: build(:campaign),
-      ip: "51.52.53.54",
-      revenue_amount: Decimal.new(0),
-      distribution_amount: Decimal.new(0),
-      redirected_to_url: sequence(:redirected_to_url, &"https://example.com/#{&1}"),
-      redirected_at: ~N[2000-01-01 23:00:07],
-      user_agent:
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
     }
   end
 end

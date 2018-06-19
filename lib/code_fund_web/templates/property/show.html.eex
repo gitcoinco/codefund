@@ -34,10 +34,6 @@
                   </td>
                 </tr>
                 <tr>
-                  <td><strong>Current Advertiser</strong></td>
-                  <td><%= if (@property.sponsorship), do: @property.sponsorship.campaign.name, else: "None" %></td>
-                </tr>
-                <tr>
                   <td><strong>Developer</strong></td>
                   <td><%= full_name @property.user %></td>
                 </tr>

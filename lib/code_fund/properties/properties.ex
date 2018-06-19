@@ -216,14 +216,12 @@ defmodule CodeFund.Properties do
     case Enum.member?(user.roles, "admin") do
       true ->
         Property
-        |> preload(:sponsorship)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
       false ->
         Property
         |> where([p], p.user_id == ^user.id)
-        |> preload(:sponsorship)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
     end
@@ -271,17 +269,16 @@ defmodule CodeFund.Properties do
   def get_property!(id) do
     try do
       case Ecto.UUID.cast(id) do
-        {:ok, _} -> Repo.get!(Property, id) |> Repo.preload([:user, sponsorship: :campaign])
-        :error -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :sponsorship])
+        {:ok, _} -> Repo.get!(Property, id) |> Repo.preload([:user])
+        :error -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user])
       end
     rescue
       Ecto.NoResultsError ->
-        Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :sponsorship])
+        Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user])
     end
   end
 
-  def get_property_by_name!(name),
-    do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :sponsorship])
+  def get_property_by_name!(name), do: Repo.get_by!(Property, name: name) |> Repo.preload([:user])
 
   @doc """
   Creates a property.

@@ -5,11 +5,8 @@ defmodule CodeFund.Schema.Campaign do
 
   alias CodeFund.Schema.{
     Audience,
-    BudgetedCampaign,
-    Click,
     Creative,
     Impression,
-    Sponsorship,
     User
   }
 
@@ -17,9 +14,6 @@ defmodule CodeFund.Schema.Campaign do
   @foreign_key_type :binary_id
   schema "campaigns" do
     has_many(:impressions, Impression)
-    has_many(:clicks, Click)
-    has_many(:sponsorships, Sponsorship)
-    has_one(:budgeted_campaign, BudgetedCampaign)
     belongs_to(:audience, Audience)
     belongs_to(:creative, Creative)
     belongs_to(:user, User)

@@ -1,7 +1,7 @@
 defmodule CodeFund.Stats.Impressions do
   import Ecto.Query, warn: false
   alias CodeFund.Repo
-  alias CodeFund.Schema.{User, Property, Impression, Campaign, Sponsorship}
+  alias CodeFund.Schema.{User, Property, Impression, Campaign}
 
   def count(start_date, end_date) when start_date <= end_date do
     Repo.one(
@@ -19,18 +19,6 @@ defmodule CodeFund.Stats.Impressions do
       from(
         i in Impression,
         where: i.property_id == ^property.id,
-        where: fragment("?::date", i.inserted_at) >= ^start_date,
-        where: fragment("?::date", i.inserted_at) <= ^end_date,
-        select: fragment("count(*)")
-      )
-    )
-  end
-
-  def count(%Sponsorship{} = sponsorship, start_date, end_date) when start_date <= end_date do
-    Repo.one(
-      from(
-        i in Impression,
-        where: i.sponsorship_id == ^sponsorship.id,
         where: fragment("?::date", i.inserted_at) >= ^start_date,
         where: fragment("?::date", i.inserted_at) <= ^end_date,
         select: fragment("count(*)")
@@ -85,19 +73,6 @@ defmodule CodeFund.Stats.Impressions do
     from(
       i in Impression,
       where: i.property_id == ^property.id,
-      where: fragment("?::date", i.inserted_at) >= ^start_date,
-      where: fragment("?::date", i.inserted_at) <= ^end_date,
-      group_by: fragment("date_trunc('day', ?)", field(i, ^:inserted_at)),
-      select: [fragment("date_trunc('day', ?)", field(i, ^:inserted_at)), count("*")]
-    )
-    |> to_date_map()
-  end
-
-  def count_by_day(%Sponsorship{} = sponsorship, start_date, end_date)
-      when start_date <= end_date do
-    from(
-      i in Impression,
-      where: i.sponsorship_id == ^sponsorship.id,
       where: fragment("?::date", i.inserted_at) >= ^start_date,
       where: fragment("?::date", i.inserted_at) <= ^end_date,
       group_by: fragment("date_trunc('day', ?)", field(i, ^:inserted_at)),

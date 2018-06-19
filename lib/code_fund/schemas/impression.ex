@@ -7,7 +7,6 @@ defmodule CodeFund.Schema.Impression do
     belongs_to(:campaign, CodeFund.Schema.Campaign)
     belongs_to(:distribution, CodeFund.Schema.Distribution)
     belongs_to(:property, CodeFund.Schema.Property)
-    belongs_to(:sponsorship, CodeFund.Schema.Sponsorship)
 
     field(:ip, :string)
     field(:browser, :string)

@@ -26,7 +26,6 @@
                 <%= if has_any_role? @conn, ["admin"] do %>
                   <th><%= table_link(@conn, "Status", :status) %></th>
                 <% end %>
-                <th>Advertiser</th>
                 <th></th>
               </tr>
             </thead>
@@ -39,14 +38,6 @@
                   <%= if has_any_role? @conn, ["admin"] do %>
                     <td><%= CodeFund.Properties.statuses |> return_key_for_value(property.status) %></td>
                   <% end %>
-                  <!-- TODO: Refactor -->
-                  <td>
-                    <%= if property.sponsorship do %>
-                      <%= CodeFund.Repo.preload(property.sponsorship, :campaign).campaign.name %>
-                    <% else %>
-                      <span class="text-muted">None</span>
-                    <% end %>
-                  </td>
 
                   <td class="text-right p-2">
                     <%= link 'Show', to: property_path(@conn, :show, property), class: "btn btn-outline-info btn-sm" %>
