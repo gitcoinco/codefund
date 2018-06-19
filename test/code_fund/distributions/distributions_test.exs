@@ -7,13 +7,13 @@ defmodule CodeFund.DistributionsTest do
   describe "distributions" do
     @valid_attrs %{
       amount: "5.00",
-      click_range_start: "2018-01-01 00:00:00",
-      click_range_end: "2018-01-03 00:00:00",
+      range_start: "2018-01-01 00:00:00",
+      range_end: "2018-01-03 00:00:00",
       currency: "USD"
     }
     @invalid_attrs %{
-      click_range_start: "2018-01-01 00:00:00",
-      click_range_end: "2018-01-03 00:00:00",
+      range_start: "2018-01-01 00:00:00",
+      range_end: "2018-01-03 00:00:00",
       currency: "USD"
     }
 
@@ -41,14 +41,14 @@ defmodule CodeFund.DistributionsTest do
                  string_params_with_assocs(
                    :distribution,
                    amount: "5.00",
-                   click_range_end: "2018-01-03"
+                   range_end: "2018-01-03"
                  )
                )
 
       assert distribution.amount == Decimal.new("5.00")
       assert distribution.currency == "USD"
-      assert distribution.click_range_start == ~N[2018-01-01 00:00:00]
-      assert distribution.click_range_end == ~N[2018-01-03 00:00:00]
+      assert distribution.range_start == ~N[2018-01-01 00:00:00]
+      assert distribution.range_end == ~N[2018-01-03 00:00:00]
     end
 
     test "create_distribution/1 with invalid data returns error changeset" do

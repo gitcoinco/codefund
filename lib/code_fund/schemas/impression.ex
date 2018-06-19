@@ -4,9 +4,10 @@ defmodule CodeFund.Schema.Impression do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "impressions" do
+    belongs_to(:campaign, CodeFund.Schema.Campaign)
+    belongs_to(:distribution, CodeFund.Schema.Distribution)
     belongs_to(:property, CodeFund.Schema.Property)
     belongs_to(:sponsorship, CodeFund.Schema.Sponsorship)
-    belongs_to(:campaign, CodeFund.Schema.Campaign)
 
     field(:ip, :string)
     field(:browser, :string)

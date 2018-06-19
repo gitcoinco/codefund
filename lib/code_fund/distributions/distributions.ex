@@ -12,7 +12,7 @@ defmodule CodeFund.Distributions do
   def get_distribution!(id) do
     Distribution
     |> Repo.get!(id)
-    |> Repo.preload(clicks: [property: :user])
+    |> Repo.preload(impressions: [property: :user])
   end
 
   @doc """
@@ -74,8 +74,8 @@ defmodule CodeFund.Distributions do
   defp filter_config(:distributions) do
     defconfig do
       text(:amount)
-      date(:click_range_start)
-      text(:click_range_end)
+      date(:range_start)
+      date(:range_end)
     end
   end
 end

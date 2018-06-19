@@ -14,8 +14,8 @@
               <tr>
                 <th></th>
                 <th><%= table_link(@conn, "Amount", :amount) %></th>
-                <th><%= table_link(@conn, "Clicks Starting with Date", :click_range_start) %></th>
-                <th><%= table_link(@conn, "Clicks Ending with Date", :click_range_end) %></th>
+                <th><%= table_link(@conn, "Impressions Starting with Date", :range_start) %></th>
+                <th><%= table_link(@conn, "Impressions Ending with Date", :range_end) %></th>
                 <th></th>
               </tr>
             </thead>
@@ -23,8 +23,8 @@
               <%= for distribution <- @distributions do %>
                 <tr>
                   <td><%= distribution.amount %></td>
-                  <td><%= distribution.click_range_start %></td>
-                  <td><%= distribution.click_range_end %></td>
+                  <td><%= distribution.range_start %></td>
+                  <td><%= distribution.range_end %></td>
                 </tr>
               <% end %>
             </tbody>
