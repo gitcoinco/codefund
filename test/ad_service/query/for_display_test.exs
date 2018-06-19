@@ -56,7 +56,7 @@ defmodule AdService.Query.ForDisplayTest do
     insert(
       :campaign,
       status: 2,
-      ecpm: Decimal.new(1),
+      ecpm: Decimal.new(1.0),
       budget_daily_amount: Decimal.new(1),
       start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
       end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
@@ -69,7 +69,7 @@ defmodule AdService.Query.ForDisplayTest do
     insert(
       :campaign,
       status: 1,
-      ecpm: Decimal.new(1),
+      ecpm: Decimal.new(1.0),
       budget_daily_amount: Decimal.new(1),
       total_spend: Decimal.new(100),
       start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
@@ -85,7 +85,7 @@ defmodule AdService.Query.ForDisplayTest do
   describe "build/1" do
     test "it returns advertisements by property filters", %{
       campaign: campaign,
-      creative: creative
+      creative: _creative
     } do
       advertisement =
         AdService.Query.ForDisplay.build(
@@ -96,11 +96,12 @@ defmodule AdService.Query.ForDisplayTest do
         |> CodeFund.Repo.one()
 
       assert advertisement == %AdService.Advertisement{
-               body: creative.body,
+               body: "This is a Test Creative",
                campaign_id: campaign.id,
-               image_url: creative.image_url,
-               headline: creative.headline,
-               total_spend: campaign.total_spend
+               headline: "Creative Headline",
+               image_url: "http://example.com/some.png",
+               total_spend: Decimal.new("100.00"),
+               ecpm: Decimal.new("1.00")
              }
     end
 

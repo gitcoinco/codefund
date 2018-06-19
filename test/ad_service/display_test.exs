@@ -4,6 +4,7 @@ defmodule AdService.DisplayTest do
   setup do
     winning_ad = %AdService.Advertisement{
       total_spend: Decimal.new(200),
+      ecpm: Decimal.new(10),
       body: "ad body",
       campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
       headline: "ad headline",
@@ -13,6 +14,7 @@ defmodule AdService.DisplayTest do
     possible_ads_set_of_two = [
       %AdService.Advertisement{
         total_spend: Decimal.new(0),
+        ecpm: Decimal.new(0),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
         headline: "ad headline",
@@ -40,6 +42,7 @@ defmodule AdService.DisplayTest do
       possible_ads = [
         %AdService.Advertisement{
           total_spend: Decimal.new(200),
+          ecpm: Decimal.new(3.50),
           body: "ad body",
           campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
           headline: "ad headline",
