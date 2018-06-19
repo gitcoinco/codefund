@@ -90,30 +90,6 @@ defmodule CodeFund.ImpressionsTest do
       assert changeset.valid? == false
     end
 
-    test "create_from_sponsorship/1 merges attributes of a sponsorship before saving", %{
-      property: property
-    } do
-      sponsorship = insert(:sponsorship)
-      valid_attrs = @valid_attrs |> Map.put(:property_id, property.id)
-
-      {:ok, impression} = Impressions.create_from_sponsorship(valid_attrs, sponsorship)
-      reloaded_impression = CodeFund.Repo.get!(CodeFund.Schema.Impression, impression.id)
-
-      assert impression.campaign_id == reloaded_impression.campaign_id
-      assert impression.campaign_id == sponsorship.campaign_id
-
-      assert impression.sponsorship_id == reloaded_impression.sponsorship_id
-      assert impression.sponsorship_id == sponsorship.id
-    end
-
-    test "create_from_sponsorship/1 with a nil sponsorship still saves the impression", %{
-      property: property
-    } do
-      valid_attrs = @valid_attrs |> Map.merge(%{property_id: property.id})
-      {:ok, %Impression{} = impression} = Impressions.create_impression(valid_attrs)
-      assert !is_nil(impression.id)
-    end
-
     test "update_impression/2 with valid data updates the impression", %{impression: impression} do
       assert {:ok, impression} = Impressions.update_impression(impression, @update_attrs)
       assert %Impression{} = impression

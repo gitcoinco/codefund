@@ -6,7 +6,6 @@ defmodule CodeFund.Impressions do
   use CodeFundWeb, :query
 
   alias CodeFund.Schema.Impression
-  alias CodeFund.Schema.Sponsorship
   import Framework.Ecto.Date
 
   @pagination [page_size: 15]
@@ -96,28 +95,6 @@ defmodule CodeFund.Impressions do
     %Impression{}
     |> Impression.changeset(attrs)
     |> Repo.insert()
-  end
-
-  @doc """
-  Creates a impression from a merged with sponsorship details.
-
-  ## Examples
-
-      iex> create_from_sponsorship(%{field: value}, %Sponsorship{} \\ nil)
-      {:ok, %Impression{}}
-
-      iex> create_from_sponsorship(%{field: value}, %Sponsorship{} \\ nil)
-      {:error, %Ecto.Changeset{}}
-
-  """
-
-  def create_from_sponsorship(params, %Sponsorship{campaign_id: campaign_id, id: sponsorship_id}) do
-    params
-    |> Map.merge(%{
-      campaign_id: campaign_id,
-      sponsorship_id: sponsorship_id
-    })
-    |> create_impression()
   end
 
   def create_from_sponsorship(params, nil), do: params |> create_impression()

@@ -8,7 +8,6 @@ defmodule CodeFund.Schema.Creative do
   @foreign_key_type :binary_id
   schema "creatives" do
     belongs_to(:user, CodeFund.Schema.User)
-    has_many(:sponsorships, CodeFund.Schema.Sponsorship)
     has_many(:campaigns, CodeFund.Schema.Campaign)
     field(:name, :string)
     field(:headline, :string, default: "")
