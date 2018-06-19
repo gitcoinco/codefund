@@ -4,21 +4,21 @@ defmodule AdService.Math.BasicTest do
   setup do
     ad_details = [
       %AdService.Advertisement{
-        total_spend: Decimal.new(100),
+        ecpm: Decimal.new(2.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
         headline: "ad headline",
         image_url: "http://example.com"
       },
       %AdService.Advertisement{
-        total_spend: Decimal.new(50),
+        ecpm: Decimal.new(3.00),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
         headline: "ad headline",
         image_url: "http://example.com"
       },
       %AdService.Advertisement{
-        total_spend: Decimal.new(25),
+        ecpm: Decimal.new(3.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
         headline: "ad headline",
@@ -30,22 +30,22 @@ defmodule AdService.Math.BasicTest do
   end
 
   describe "sum/2" do
-    test "it returns the index + 1 of a total_spend in a list", %{ad_details: ad_details} do
-      assert AdService.Math.Basic.sum(ad_details) == 175.0
+    test "it returns the sum of ecpms in a list", %{ad_details: ad_details} do
+      assert AdService.Math.Basic.sum(ad_details) == 9.0
     end
   end
 
   describe "get_weight/2" do
-    test "it returns the index + 1 of a total_spend in a list" do
-      list_of_total_spends = [
-        %AdService.Advertisement{total_spend: Decimal.new(200)},
-        %AdService.Advertisement{total_spend: Decimal.new(300)},
-        %AdService.Advertisement{total_spend: Decimal.new(100)},
-        %AdService.Advertisement{total_spend: Decimal.new(200)},
-        %AdService.Advertisement{total_spend: Decimal.new(400)}
+    test "it returns the index + 1 of an ecpm in a list" do
+      list_of_ecpms = [
+        %AdService.Advertisement{ecpm: Decimal.new(2.0)},
+        %AdService.Advertisement{ecpm: Decimal.new(3.0)},
+        %AdService.Advertisement{ecpm: Decimal.new(1.0)},
+        %AdService.Advertisement{ecpm: Decimal.new(2.0)},
+        %AdService.Advertisement{ecpm: Decimal.new(4.0)}
       ]
 
-      assert AdService.Math.Basic.get_weight(Decimal.new(200), list_of_total_spends) == 2
+      assert AdService.Math.Basic.get_weight(Decimal.new(2.0), list_of_ecpms) == 2
     end
   end
 
@@ -55,16 +55,16 @@ defmodule AdService.Math.BasicTest do
     } do
       assert AdService.Math.Basic.get_all_display_rates(ad_details) == [
                %{
-                 campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-                 display_rate: 70.58823529411765
+                 campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
+                 display_rate: 55.26315789473685
                },
                %{
                  campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
-                 display_rate: 23.52941176470588
+                 display_rate: 31.578947368421044
                },
                %{
-                 campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
-                 display_rate: 5.88235294117647
+                 campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
+                 display_rate: 13.157894736842104
                }
              ]
     end

@@ -4,6 +4,7 @@ defmodule AdService.DisplayTest do
   setup do
     winning_ad = %AdService.Advertisement{
       total_spend: Decimal.new(200),
+      ecpm: Decimal.new(10),
       body: "ad body",
       campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
       headline: "ad headline",
@@ -13,6 +14,7 @@ defmodule AdService.DisplayTest do
     possible_ads_set_of_two = [
       %AdService.Advertisement{
         total_spend: Decimal.new(0),
+        ecpm: Decimal.new(1),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
         headline: "ad headline",
@@ -36,22 +38,14 @@ defmodule AdService.DisplayTest do
   end
 
   describe "choose_winner/1" do
-    test "it returns a winning ad and the list of possible ads if passed a list" do
-      possible_ads = [
-        %AdService.Advertisement{
-          total_spend: Decimal.new(200),
-          body: "ad body",
-          campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-          headline: "ad headline",
-          image_url: "http://example.com"
-        }
-      ]
-
-      assert AdService.Display.choose_winner(possible_ads) ==
+    test "it returns a winning ad and the list of possible ads if passed a list", %{
+      possible_ads_set_of_two: possible_ads_set_of_two
+    } do
+      assert AdService.Display.choose_winner(possible_ads_set_of_two) ==
                {:ok,
                 {
-                  possible_ads,
-                  {"9839afe6-5ac3-4443-be3c-dbb7a2af01e6", 0..100}
+                  possible_ads_set_of_two,
+                  {"9839afe6-5ac3-4443-be3c-dbb7a2af01e6", 0..95}
                 }}
     end
 
@@ -64,7 +58,7 @@ defmodule AdService.DisplayTest do
          {_uuid, starting_point..ending_point}
        }} = AdService.Display.choose_winner(possible_ads_set_of_two)
 
-      assert ending_point - starting_point == 100
+      assert ending_point - starting_point == 95
     end
 
     test "it returns an error if there are no ads that can be shown on a property" do

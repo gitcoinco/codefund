@@ -9,28 +9,28 @@ defmodule AdService.Math.Basic do
   @spec sum([%AdService.Advertisement{}]) :: Float.t()
   def sum(advertisements) do
     advertisements
-    |> Enum.map(&(&1.total_spend |> Decimal.to_float()))
+    |> Enum.map(&(&1.ecpm |> Decimal.to_float()))
     |> Enum.sum()
   end
 
   @spec get_weight(Decimal.t(), [%AdService.Advertisement{}]) :: integer
-  def get_weight(total_spend, ad_details) do
+  def get_weight(ecpm, ad_details) do
     index =
       ad_details
-      |> Enum.map(& &1.total_spend)
+      |> Enum.map(& &1.ecpm)
       |> Enum.uniq()
       |> Enum.sort()
-      |> Enum.find_index(fn amount -> amount == total_spend end)
+      |> Enum.find_index(fn amount -> amount == ecpm end)
 
     index + 1
   end
 
   @spec display_rate(%AdService.Advertisement{}, [%AdService.Advertisement{}]) :: map
   defp display_rate(
-         %AdService.Advertisement{campaign_id: campaign_id, total_spend: total_spend},
+         %AdService.Advertisement{campaign_id: campaign_id, ecpm: ecpm},
          ad_details
        ) do
-    multiplier = AdService.Math.Multiplier.calculate(total_spend, ad_details)
+    multiplier = AdService.Math.Multiplier.calculate(ecpm, ad_details)
     display_rate = multiplier / AdService.Math.Multiplier.sum(ad_details) * 100
 
     %{campaign_id: campaign_id, display_rate: display_rate}
