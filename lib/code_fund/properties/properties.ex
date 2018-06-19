@@ -81,7 +81,8 @@ defmodule CodeFund.Properties do
     "Android Development",
     "Game Development",
     "Resources",
-    "Computer Science"
+    "Computer Science",
+    "Blockchain"
   ]
 
   @languages [
