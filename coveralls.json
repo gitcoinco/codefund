@@ -1,0 +1,10 @@
+{
+  "skip_files": [
+    "lib/code_fund/coherence",
+    "lib/code_fund_web/views/coherence",
+    "lib/code_fund_web/controllers/coherence",
+    "lib/code_fund_web/emails/coherence",
+    "lib/code_fund_web/coherence_messages.ex",
+    "lib/code_fund_web/coherence_web.ex"
+  ]
+}
