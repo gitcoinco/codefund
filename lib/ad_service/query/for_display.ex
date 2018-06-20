@@ -19,7 +19,6 @@ defmodule AdService.Query.ForDisplay do
       image_url: creative.image_url,
       body: creative.body,
       ecpm: campaign.ecpm,
-      total_spend: campaign.total_spend,
       campaign_id: campaign.id,
       headline: creative.headline
     })

@@ -99,7 +99,6 @@ defmodule AdService.Query.ForDisplayTest do
                campaign_id: campaign.id,
                headline: "winning advertisement",
                image_url: "http://example.com/some.png",
-               total_spend: Decimal.new("100.00"),
                ecpm: Decimal.new("1.00")
              }
     end

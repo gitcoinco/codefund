@@ -4,7 +4,6 @@ defmodule AdService.Math.MultiplierTest do
   setup do
     ad_details = [
       %AdService.Advertisement{
-        total_spend: Decimal.new(100),
         ecpm: Decimal.new(2.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
@@ -12,7 +11,6 @@ defmodule AdService.Math.MultiplierTest do
         image_url: "http://example.com"
       },
       %AdService.Advertisement{
-        total_spend: Decimal.new(50),
         ecpm: Decimal.new(3.00),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
@@ -20,7 +18,6 @@ defmodule AdService.Math.MultiplierTest do
         image_url: "http://example.com"
       },
       %AdService.Advertisement{
-        total_spend: Decimal.new(25),
         ecpm: Decimal.new(3.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
