@@ -5,7 +5,11 @@
     "lib/code_fund_web/controllers/coherence",
     "lib/code_fund_web/emails/coherence",
     "lib/code_fund_web/coherence_messages.ex",
+<<<<<<< HEAD
     "lib/code_fund_web/coherence_web.ex",
     "test/support"
+=======
+    "lib/code_fund_web/coherence_web.ex"
+>>>>>>> ca7e79a2071a61f3d1862006df3f99813b679fc2
   ]
 }
