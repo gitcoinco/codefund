@@ -3,7 +3,7 @@ defmodule AdService.Query.ForDisplayTest do
   import CodeFund.Factory
 
   setup do
-    creative = insert(:creative)
+    creative = insert(:creative, headline: "winning advertisement")
 
     insert(:audience, %{
       programming_languages: ["Ruby", "C"],
@@ -89,7 +89,7 @@ defmodule AdService.Query.ForDisplayTest do
       advertisement =
         AdService.Query.ForDisplay.build(
           programming_languages: ["Rust"],
-          topic_categories: ["Development"],
+          topic_categories: ["Programming"],
           client_country: "US"
         )
         |> CodeFund.Repo.one()
@@ -97,7 +97,7 @@ defmodule AdService.Query.ForDisplayTest do
       assert advertisement == %AdService.Advertisement{
                body: "This is a Test Creative",
                campaign_id: campaign.id,
-               headline: "Creative Headline",
+               headline: "winning advertisement",
                image_url: "http://example.com/some.png",
                total_spend: Decimal.new("100.00"),
                ecpm: Decimal.new("1.00")
