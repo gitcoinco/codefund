@@ -64,7 +64,7 @@ defmodule CodeFundWeb.API.AdServeController do
          } <- ad_tuple |> AdService.Display.render(),
          %Campaign{} = campaign <- Campaigns.get_campaign!(campaign_id),
          {:ok, _} <-
-           AdService.ImpressionSupervisor.can_create_impression?(
+           AdService.CampaignImpressionManager.can_create_impression?(
              campaign_id,
              campaign.impression_count
            ) do
