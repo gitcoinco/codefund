@@ -15,7 +15,7 @@ defmodule CodeFund.Application do
       # Start your own worker by calling: CodeFund.Worker.start_link(arg1, arg2, arg3)
       # worker(CodeFund.Worker, [arg1, arg2, arg3]),
       worker(CodeFundWeb.Notificator, [], restart: :transient),
-      worker(AdService.ImpressionSupervisor, [], restart: :transient)
+      :poolboy.child_spec(:worker, Application.get_env(:redix, :pool), restart: :transient)
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

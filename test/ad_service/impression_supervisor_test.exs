@@ -1,4 +1,4 @@
-defmodule AdService.ImpressionSupervisorTest do
+defmodule AdService.CampaignImpressionManagerTest do
   use CodeFund.DataCase
   import CodeFund.Factory
 
@@ -20,7 +20,7 @@ defmodule AdService.ImpressionSupervisorTest do
   describe("can_create_impression?/2") do
     test "it returns {:ok, :impression_count_incremented} if it's able to increment a campaign's impression count" do
       assert {:ok, :impression_count_incremented} ==
-               AdService.ImpressionSupervisor.can_create_impression?("somecampaign", 100)
+               AdService.CampaignImpressionManager.can_create_impression?("somecampaign", 100)
     end
 
     test "it returns {:ok, :impression_count_reached} if the current impression will cause the campaign to hit its limit",
@@ -29,7 +29,7 @@ defmodule AdService.ImpressionSupervisorTest do
       |> Redix.command(["SET", "campaign:#{campaign.id}", "99"])
 
       assert {:ok, :impression_count_reached} ==
-               AdService.ImpressionSupervisor.can_create_impression?("#{campaign.id}", 100)
+               AdService.CampaignImpressionManager.can_create_impression?("#{campaign.id}", 100)
     end
 
     test "it returns {:error, :impression_count_exceeded} if the current impression will cause the campaign to exceed its limit",
@@ -38,7 +38,7 @@ defmodule AdService.ImpressionSupervisorTest do
       |> Redix.command(["SET", "campaign:#{campaign.id}", "100"])
 
       assert {:error, :impression_count_exceeded} ==
-               AdService.ImpressionSupervisor.can_create_impression?("#{campaign.id}", 100)
+               AdService.CampaignImpressionManager.can_create_impression?("#{campaign.id}", 100)
 
       assert redis_connection
              |> Redix.command(["MGET", "campaign:#{campaign.id}"]) == {:ok, ["100"]}
