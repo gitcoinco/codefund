@@ -258,7 +258,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "link" => "https://codefund.io",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io",
-               "reason" => "CodeFund does not have an advertiser for you at this time",
+               "reason" => "CodeFund does not have a paying advertiser for you at this time",
                "status" => -1
              }
     end
@@ -313,7 +313,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "link" => "https://codefund.io",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io",
-               "reason" => "CodeFund does not have an advertiser for you at this time",
+               "reason" => "CodeFund does not have a paying advertiser for you at this time",
                "status" => -1
              }
     end
