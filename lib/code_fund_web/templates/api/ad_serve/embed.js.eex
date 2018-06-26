@@ -1,16 +1,18 @@
-if (!window.hasOwnProperty('_codefund_theme')) {
-  window._codefund_theme = '<%= @theme.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
+if (!window.hasOwnProperty("_codefund_theme")) {
+  window._codefund_theme =
+    '<%= @theme.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
 }
 
-if (!window.hasOwnProperty('_codefund_template')) {
-  window._codefund_template = '<%= @template.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
+if (!window.hasOwnProperty("_codefund_template")) {
+  window._codefund_template =
+    '<%= @template.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
 }
 
 var _codefund = {
   init: function(config) {
     this.render = this.render.bind(this);
     this.targetId = config.targetId;
-    this.jsonUrl = '<%= @details_url %>';
+    this.jsonUrl = "<%= @details_url %>";
   },
 
   serve: function() {
@@ -24,10 +26,11 @@ var _codefund = {
 
   addTheme: function() {
     var css = this.decodeHtml(window._codefund_theme);
-    var head = document.getElementsByTagName('head')[0];
-    var s = document.createElement('style');
-    s.setAttribute('type', 'text/css');
-    if (s.styleSheet) { // IE
+    var head = document.getElementsByTagName("head")[0];
+    var s = document.createElement("style");
+    s.setAttribute("type", "text/css");
+    if (s.styleSheet) {
+      // IE
       s.styleSheet.cssText = css;
     } else {
       s.appendChild(document.createTextNode(css));
@@ -35,53 +38,68 @@ var _codefund = {
     head.appendChild(s);
   },
 
-  insertAd: function (ad) {
+  insertAd: function(ad) {
     var rawHtml = this.decodeHtml(window._codefund_template);
     var html = this.injectVariableIntoTemplate(rawHtml, ad);
     var el = document.createElement("span");
     el.innerHTML = html;
 
     const script = document.getElementById(this.targetId);
-    if (ad.link === "") {
-      console.log('CodeFund does not have a advertiser for you at this time.');
-    } else {
-      if (script && ad.link !== "") {
+    if (ad.status === 0) {
+      console.log(
+        "This property is not yet enabled. To enable, please contact the CodeFund team."
+      );
+    }
+
+    if (script) {
+      if (ad.link !== "") {
         script.appendChild(el);
       } else {
-        console.log('CodeFund target does not exist. You must create an element in the DOM with id="' + this.targetId + '"');
+        console.log(
+          "CodeFund does not have a advertiser for you at this time."
+        );
       }
+    } else {
+      console.log(
+        'CodeFund target does not exist. You must create an element in the DOM with id="' +
+          this.targetId +
+          '"'
+      );
     }
   },
 
-  hideAd: function () {
+  hideAd: function() {
     var cfAd = document.getElementById(this.targetId);
     cfAd.style.display = "none";
   },
 
-  decodeHtml: function (text) {
+  decodeHtml: function(text) {
     var entities = [
-      ['amp', '&'],
-      ['apos', '\''],
-      ['#x27', '\''],
-      ['#x2F', '/'],
-      ['#39', '\''],
-      ['#47', '/'],
-      ['lt', '<'],
-      ['gt', '>'],
-      ['nbsp', ' '],
-      ['quot', '"']
+      ["amp", "&"],
+      ["apos", "'"],
+      ["#x27", "'"],
+      ["#x2F", "/"],
+      ["#39", "'"],
+      ["#47", "/"],
+      ["lt", "<"],
+      ["gt", ">"],
+      ["nbsp", " "],
+      ["quot", '"']
     ];
 
     for (var i = 0, max = entities.length; i < max; ++i)
-      text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
+      text = text.replace(
+        new RegExp("&" + entities[i][0] + ";", "g"),
+        entities[i][1]
+      );
 
     return text;
   },
 
-  injectVariableIntoTemplate: function (template, data) {
+  injectVariableIntoTemplate: function(template, data) {
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
-        var re = new RegExp('{{' + key + '}}', 'g');
+        var re = new RegExp("{{" + key + "}}", "g");
         template = template.replace(re, data[key]);
       }
     }
@@ -92,7 +110,7 @@ var _codefund = {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open("GET", url, true);
-    xobj.onreadystatechange = function () {
+    xobj.onreadystatechange = function() {
       if (xobj.readyState === 4 && xobj.status === 200) {
         const json = JSON.parse(xobj.responseText);
         callback(json);
@@ -100,9 +118,9 @@ var _codefund = {
     };
     xobj.send(null);
   }
-}
+};
 
 _codefund.init({
-  targetId: '<%= @targetId %>'
+  targetId: "<%= @targetId %>"
 });
 _codefund.serve();
