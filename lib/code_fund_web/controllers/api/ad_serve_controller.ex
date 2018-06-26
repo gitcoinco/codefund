@@ -102,7 +102,7 @@ defmodule CodeFundWeb.API.AdServeController do
         |> error_details(
           property_id,
           -1,
-          "CodeFund does not have an advertiser for you at this time"
+          "CodeFund does not have a paying advertiser for you at this time"
         )
         |> details_render(conn)
     end
