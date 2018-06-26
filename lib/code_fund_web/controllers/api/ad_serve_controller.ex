@@ -83,25 +83,34 @@ defmodule CodeFundWeb.API.AdServeController do
         description: body,
         pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
         poweredByLink: "https://codefund.io?utm_content=#{campaign_id}",
+        status: 1,
         headline: headline
       }
       |> details_render(conn)
     else
-      %Property{} ->
+      %Property{status: status} ->
         conn
-        |> error_details(property_id, "This property is not currently active")
+        |> error_details(
+          property_id,
+          status,
+          "This property is not currently active. To activate, please contact the CodeFund team"
+        )
         |> details_render(conn)
 
       {:error, :no_possible_ads} ->
         conn
-        |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
+        |> error_details(
+          property_id,
+          -1,
+          "CodeFund does not have a paying advertiser for you at this time"
+        )
         |> details_render(conn)
     end
   end
 
   defp details_render(payload, conn), do: render(conn, "details.json", payload: payload)
 
-  defp error_details(conn, property_id, reason) do
+  defp error_details(conn, property_id, status, reason) do
     {:ok, %Impression{id: impression_id}} =
       Impressions.create_impression(%{
         property_id: property_id,
@@ -110,12 +119,13 @@ defmodule CodeFundWeb.API.AdServeController do
       })
 
     %{
-      image: "",
-      link: "",
-      headline: "",
-      description: "",
+      image: Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:default_ad_image_url] || "",
+      link: Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:default_ad_link] || "",
+      headline: Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:default_ad_headline] || "",
+      description: Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:default_ad_body] || "",
       pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
-      poweredByLink: "https://codefund.io?utm_content=",
+      poweredByLink: "https://codefund.io",
+      status: status,
       reason: reason
     }
   end

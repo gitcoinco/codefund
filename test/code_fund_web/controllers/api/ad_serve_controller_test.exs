@@ -111,7 +111,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "image" => "http://example.com/some.png",
                "link" => "https://www.example.com/c/#{impression.id}",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
+               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}",
+               "status" => 1
              }
     end
 
@@ -168,7 +169,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "image" => "http://example.com/some.png",
                "link" => "https://www.example.com/c/#{impression.id}",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
+               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}",
+               "status" => 1
              }
     end
 
@@ -216,11 +218,12 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "image" => "http://example.com/some.png",
                "link" => "https://www.example.com/c/#{impression.id}",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
+               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}",
+               "status" => 1
              }
     end
 
-    test "returns an error if property does not have a campaign but still creates an impression",
+    test "returns an error (with an ad) if property does not have a campaign but still creates an impression",
          %{conn: conn} do
       creative = insert(:creative)
       property = insert(:property, programming_languages: ["C++", "JavaScript"])
@@ -248,19 +251,22 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.campaign_id == nil
 
       assert json_response(conn, 200) == %{
-               "headline" => "",
-               "description" => "",
-               "image" => "",
-               "link" => "",
+               "headline" => "CodeFund",
+               "description" =>
+                 "is an ethical ad platform for developers to earn funding for their projects",
+               "image" => "https://s3-us-west-2.amazonaws.com/codesponsor/creatives/codefund.png",
+               "link" => "https://codefund.io",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "CodeFund does not have an advertiser for you at this time"
+               "poweredByLink" => "https://codefund.io",
+               "reason" => "CodeFund does not have a paying advertiser for you at this time",
+               "status" => -1
              }
     end
 
-    test "returns an error if property is not active but still creates an impression", %{
-      conn: conn
-    } do
+    test "returns an error (with an ad) if property is not active but still creates an impression",
+         %{
+           conn: conn
+         } do
       property = insert(:property, %{status: 0})
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
@@ -272,17 +278,20 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.campaign_id == nil
 
       assert json_response(conn, 200) == %{
-               "headline" => "",
-               "description" => "",
-               "image" => "",
-               "link" => "",
+               "headline" => "CodeFund",
+               "description" =>
+                 "is an ethical ad platform for developers to earn funding for their projects",
+               "image" => "https://s3-us-west-2.amazonaws.com/codesponsor/creatives/codefund.png",
+               "link" => "https://codefund.io",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "This property is not currently active"
+               "poweredByLink" => "https://codefund.io",
+               "reason" =>
+                 "This property is not currently active. To activate, please contact the CodeFund team",
+               "status" => 0
              }
     end
 
-    test "returns an error if viewer is from a blocked country but still creates an impression",
+    test "returns an errorf (with an ad) if viewer is from a blocked country but still creates an impression",
          %{conn: conn} do
       property = insert(:property)
       conn = conn |> Map.put(:remote_ip, {163, 177, 112, 32})
@@ -297,13 +306,15 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.campaign_id == nil
 
       assert json_response(conn, 200) == %{
-               "headline" => "",
-               "description" => "",
-               "image" => "",
-               "link" => "",
+               "headline" => "CodeFund",
+               "description" =>
+                 "is an ethical ad platform for developers to earn funding for their projects",
+               "image" => "https://s3-us-west-2.amazonaws.com/codesponsor/creatives/codefund.png",
+               "link" => "https://codefund.io",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "CodeFund does not have an advertiser for you at this time"
+               "poweredByLink" => "https://codefund.io",
+               "reason" => "CodeFund does not have a paying advertiser for you at this time",
+               "status" => -1
              }
     end
   end

@@ -23,3 +23,9 @@ config :code_fund, CodeFund.Mailer, adapter: Bamboo.TestAdapter
 config :code_fund, CodeFundWeb.Endpoint, slack_token: nil
 
 config :redix, database: 15
+
+config :code_fund, CodeFundWeb.Endpoint,
+  default_ad_headline: "CodeFund",
+  default_ad_body: "is an ethical ad platform for developers to earn funding for their projects",
+  default_ad_image_url: "https://s3-us-west-2.amazonaws.com/codesponsor/creatives/codefund.png",
+  default_ad_link: "https://codefund.io"
