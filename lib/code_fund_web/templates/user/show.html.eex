@@ -36,6 +36,10 @@
           <span><%= full_name @user %></span>
         </li>
         <li class="list-group-item">
+          <strong>Company</strong>
+          <span><%= @user.company %></span>
+        </li>
+        <li class="list-group-item">
           <strong>Email</strong>
           <span><%= @user.email %></span>
         </li>

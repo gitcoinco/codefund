@@ -2,6 +2,7 @@
     first_name: [type: :text_input, label: "First Name"],
     last_name: [type: :text_input, label: "Last Name"],
     email: [type: :email_input, label: "Email"],
+    company: [type: :text_input, label: "Company"],
     address_1: [type: :text_input, label: "Street Address"],
     address_2: [type: :text_input, label: "Suite/Apt"],
     city: [type: :text_input, label: "City"],
