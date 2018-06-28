@@ -9,7 +9,11 @@ use Mix.Config
 config :code_fund,
   ecto_repos: [CodeFund.Repo],
   generators: [binary_id: true],
-  metabase_dashboard_mappings: [admin: 1, sponsor: 3, user: 2]
+  metabase_dashboard_mappings: [
+    admin: String.to_integer(System.get_env("METABASE_ADMIN_DASHBOARD_ID") || "1"),
+    sponsor: String.to_integer(System.get_env("METABASE_ADVERTISER_DASHBOARD_ID") || "3"),
+    user: String.to_integer(System.get_env("METABASE_PUBLISHER_DASHBOARD_ID") || "2")
+  ]
 
 # Configures the endpoint
 config :code_fund, CodeFundWeb.Endpoint,
