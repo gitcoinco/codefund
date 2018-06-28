@@ -14,9 +14,7 @@ defmodule CodeFund.Schema.Property do
     :property_type,
     :status,
     :user_id,
-    :language,
-    :estimated_monthly_page_views,
-    :estimated_monthly_visitors
+    :slug
   ]
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -29,6 +27,7 @@ defmodule CodeFund.Schema.Property do
     field(:legacy_id, :string)
     field(:description, :string)
     field(:name, :string)
+    field(:slug, :string)
     field(:property_type, :integer, default: 1)
     field(:url, :string)
     field(:estimated_monthly_page_views, :integer)
@@ -48,20 +47,35 @@ defmodule CodeFund.Schema.Property do
   def changeset(%Property{} = property, params) do
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
+    |> update_slug()
     |> validate_required(@required)
-    |> force_array_change(:programming_languages, params)
-    |> force_array_change(:topic_categories, params)
-    |> validate_length(:programming_languages, min: 1)
-    |> validate_length(:topic_categories, min: 1)
+    |> unique_constraint(:slug)
     |> validate_url(:url)
     |> validate_url(:screenshot_url)
   end
 
-  def force_array_change(changeset, field, params) do
-    value = Map.get(params, field) || Map.get(params, field |> to_string) || []
+  defp update_slug(%Ecto.Changeset{changes: %{name: name}} = changeset) do
+    case from(p in __MODULE__, select: count(p.id), where: p.slug == ^slugify(name))
+         |> CodeFund.Repo.one() do
+      0 ->
+        changeset
+        |> put_change(:slug, slugify(name))
 
-    changeset
-    |> force_change(field, value)
+      1 ->
+        changeset
+        |> put_change(:slug, "#{slugify(name)}_#{Enum.random(0..255)}")
+    end
+  end
+
+  defp update_slug(changeset), do: changeset
+
+  defp slugify(nil), do: UUID.uuid4()
+
+  defp slugify(field_to_base_slug_on) do
+    field_to_base_slug_on
+    |> Macro.underscore()
+    |> String.replace(~r/\(|\//, "_")
+    |> String.replace(~r/-| |\)/, "")
   end
 
   def property_types, do: @property_types

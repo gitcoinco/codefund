@@ -63,10 +63,10 @@ defmodule CodeFundWeb.TrackControllerTest do
 
       impression = CodeFund.Impressions.get_impression!(impression.id)
 
-      assert impression.redirected_to_url == "http://another.url"
+      assert impression.redirected_to_url == "http://another.url?utm_term=#{property.slug}"
       refute impression.redirected_at |> is_nil
 
-      assert redirected_to(conn, 302) =~ "http://another.url"
+      assert redirected_to(conn, 302) =~ "http://another.url?utm_term=#{property.slug}"
     end
   end
 end

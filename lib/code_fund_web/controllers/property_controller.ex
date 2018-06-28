@@ -86,6 +86,7 @@ defmodule CodeFundWeb.PropertyController do
   defp admin_fields() do
     [
       status: [type: :select, label: "Status", opts: [choices: CodeFund.Properties.statuses()]],
+      slug: [type: :text_input, label: "Slug"],
       alexa_site_rank: [type: :number_input, label: "Alexa Ranking"],
       screenshot_url: [
         type: :text_input,

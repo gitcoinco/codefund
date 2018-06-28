@@ -25,17 +25,18 @@ defmodule CodeFundWeb.TrackController do
     impression =
       impression_id
       |> Impressions.get_impression!()
-      |> CodeFund.Repo.preload(:campaign)
+      |> CodeFund.Repo.preload([:campaign, :property])
 
     update_attributes = %{
-      redirected_to_url: impression.campaign.redirect_url,
+      redirected_to_url:
+        "#{impression.campaign.redirect_url}?utm_term=#{impression.property.slug}",
       redirected_at: Timex.now()
     }
 
-    {:ok, impression} =
+    {:ok, _impression} =
       impression
       |> Impressions.update_impression(update_attributes)
 
-    redirect(conn, external: impression.campaign.redirect_url)
+    redirect(conn, external: update_attributes.redirected_to_url)
   end
 end

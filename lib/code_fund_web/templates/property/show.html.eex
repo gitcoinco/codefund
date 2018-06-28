@@ -49,6 +49,12 @@
                   <td><strong>Description</strong></td>
                   <td><%= @property.description %></td>
                 </tr>
+                <%= if has_any_role? @conn, ["admin"] do %>
+                  <tr>
+                    <td><strong>Slug</strong></td>
+                    <td><%= @property.slug %></td>
+                  </tr>
+                <% end %>
                 <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
                   <tr>
                     <td><strong>Status</strong></td>
