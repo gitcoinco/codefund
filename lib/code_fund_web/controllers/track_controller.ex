@@ -2,6 +2,8 @@ defmodule CodeFundWeb.TrackController do
   use CodeFundWeb, :controller
   import Framework.Worker
   alias CodeFund.Impressions
+  alias CodeFund.Schema.Campaign
+  alias CodeFund.Schema.Property
 
   @transparent_png <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33,
                      249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
@@ -28,8 +30,7 @@ defmodule CodeFundWeb.TrackController do
       |> CodeFund.Repo.preload([:campaign, :property])
 
     update_attributes = %{
-      redirected_to_url:
-        "#{impression.campaign.redirect_url}?utm_term=#{impression.property.slug}",
+      redirected_to_url: construct_redirected_to_url(impression.campaign, impression.property),
       redirected_at: Timex.now()
     }
 
@@ -38,5 +39,31 @@ defmodule CodeFundWeb.TrackController do
       |> Impressions.update_impression(update_attributes)
 
     redirect(conn, external: update_attributes.redirected_to_url)
+  end
+
+  defp construct_redirected_to_url(%Campaign{redirect_url: redirect_url}, %Property{slug: slug}) do
+    uri_struct =
+      redirect_url
+      |> URI.parse()
+
+    utm_term_query_string =
+      uri_struct
+      |> build_query_string(slug)
+
+    uri_struct
+    |> Map.put(:query, utm_term_query_string)
+    |> to_string
+  end
+
+  defp build_query_string(%URI{query: nil}, slug) do
+    %{"utm_term" => slug}
+    |> URI.encode_query()
+  end
+
+  defp build_query_string(%URI{query: query}, slug) do
+    query
+    |> URI.decode_query()
+    |> Map.put("utm_term", slug)
+    |> URI.encode_query()
   end
 end

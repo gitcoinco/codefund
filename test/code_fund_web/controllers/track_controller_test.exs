@@ -68,5 +68,37 @@ defmodule CodeFundWeb.TrackControllerTest do
 
       assert redirected_to(conn, 302) =~ "http://another.url?utm_term=#{property.slug}"
     end
+
+    test "it adds to but does not overwrite any existing query strings", %{
+      conn: conn
+    } do
+      user = insert(:user, revenue_rate: Decimal.new(0.3))
+      property = insert(:property, user: user)
+
+      impression =
+        insert(
+          :impression,
+          property: property,
+          campaign:
+            insert(
+              :campaign,
+              ecpm: Decimal.new(2.00),
+              redirect_url: "http://another.url?sure=whatever"
+            )
+        )
+
+      conn = conn |> put_req_header("user-agent", @user_agent)
+      conn = get(conn, track_path(conn, :click, impression))
+
+      impression = CodeFund.Impressions.get_impression!(impression.id)
+
+      assert impression.redirected_to_url ==
+               "http://another.url?sure=whatever&utm_term=#{property.slug}"
+
+      refute impression.redirected_at |> is_nil
+
+      assert redirected_to(conn, 302) =~
+               "http://another.url?sure=whatever&utm_term=#{property.slug}"
+    end
   end
 end
