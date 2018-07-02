@@ -9,6 +9,11 @@ const initSelectize = () => {
   });
 };
 
+const initFontAwesome = () => {
+  return FontAwesome.dom.i2svg();
+};
+
 document.addEventListener("turbolinks:load", () => {
   initSelectize();
+  initFontAwesome();
 });

@@ -22,7 +22,7 @@
         <table class="table table-responsive-sm">
           <thead>
             <tr>
-              <th>Field</th>
+              <th style="width: 210px;">Field</th>
               <th>Value</th>
             </tr>
           </thead>
@@ -73,6 +73,24 @@
               <td><strong>Estimated Impressions</strong></td>
               <td><%= @campaign.impression_count %></td>
             </tr>
+            <%= if @campaign.budgeted_campaign do %>
+              <tr>
+                <td><strong>Total Ad Spend</strong></td>
+                <td><%= pretty_money @campaign.budgeted_campaign.revenue_amount %></td>
+              </tr>
+              <tr>
+                <td><strong>Total Impressions</strong></td>
+                <td><%= pretty_integer @campaign.budgeted_campaign.total_impressions %></td>
+              </tr>
+              <tr>
+                <td><strong>Balance</strong></td>
+                <td><%= pretty_money @campaign.budgeted_campaign.balance %></td>
+              </tr>
+              <tr>
+                <td><strong>Actual eCPM</strong></td>
+                <td><%= pretty_money @campaign.budgeted_campaign.actual_ecpm %></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>

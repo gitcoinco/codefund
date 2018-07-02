@@ -13,6 +13,36 @@ defmodule CodeFundWeb.ViewHelpers do
     String.replace(ret, "US", "")
   end
 
+  @doc ~S"""
+  Converts an Integer to a formatted number
+
+  ## Examples
+
+      iex> CodeFundWeb.ViewHelpers.pretty_integer(12345678)
+      "12,345,678"
+
+  """
+  def pretty_integer(num) do
+    Number.Delimit.number_to_delimited(num, separator: ",", precision: 0)
+  end
+
+  @doc ~S"""
+  Converts an Date to a formatted date
+
+  ## Examples
+
+      iex> CodeFundWeb.ViewHelpers.pretty_date(~D[2016-03-03])
+      "Mar 3, 2016"
+
+  """
+  def pretty_date(%NaiveDateTime{} = date, format \\ "%b %-d, %Y") do
+    Timex.format!(date, format, :strftime)
+  end
+
+  def pretty_date(_date, _format) do
+    "-"
+  end
+
   def pretty_subtracted_money_with_total(a, b, c) do
     html = """
     <span class="money-subtract-wrapper">
@@ -33,6 +63,21 @@ defmodule CodeFundWeb.ViewHelpers do
     options
     |> Enum.find(fn {_key, val} -> val == status end)
     |> elem(0)
+  end
+
+  def campaign_status_icon(status) do
+    options = [
+      "fas fa-pause-circle text-muted": 1,
+      "fas fa-play-circle text-success": 2,
+      "fas fa-archive": 3
+    ]
+
+    icon =
+      options
+      |> Enum.find(fn {_key, val} -> val == status end)
+      |> elem(0)
+
+    {:safe, "<span class=\"#{icon}\"></span>"}
   end
 
   def has_any_role?(conn, target_roles) do
@@ -122,6 +167,26 @@ defmodule CodeFundWeb.ViewHelpers do
         api_key: "#{iubenda_api_key}"
     });
     </script>
+    """
+
+    {:safe, html}
+  end
+
+  def show_button(path) do
+    html = """
+      <a href="#{path}" class="btn btn-secondary btn-sm mb-1">
+        <i class="fal fa-eye"></i>
+      </a>
+    """
+
+    {:safe, html}
+  end
+
+  def edit_button(path) do
+    html = """
+      <a href="#{path}" class="btn btn-secondary btn-sm mb-1">
+        <i class="fal fa-pencil"></i>
+      </a>
     """
 
     {:safe, html}
