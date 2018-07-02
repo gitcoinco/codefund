@@ -1,0 +1,9 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  </head>
+  <body>
+    Click here to finish your integration.
+    <%= link("Finish", to: passwordless_path(@conn, :complete, email: @email, token: @token)) %>
+  </body>
+</html>

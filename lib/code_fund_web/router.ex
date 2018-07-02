@@ -63,6 +63,9 @@ defmodule CodeFundWeb.Router do
   scope "/", CodeFundWeb do
     pipe_through(:browser)
 
+    get("/integrations/new", Authentication.PasswordlessController, :new)
+    post("/integrations/send", Authentication.PasswordlessController, :send)
+    get("/integrations/complete", Authentication.PasswordlessController, :complete)
     get("/", PageController, :index)
     post("/register/:type", PageController, :deliver_form)
     get("/register/:type", PageController, :contact)
