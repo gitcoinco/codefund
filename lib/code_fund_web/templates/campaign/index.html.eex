@@ -21,28 +21,78 @@
             <table class="table table-responsive-sm table-striped">
               <thead>
                 <tr>
-                  <th><%= table_link(@conn, "Name", :name) %></th>
                   <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
-                  <th class="text-center">Audience</th>
-                  <th class="text-center"><%= table_link(@conn, "Creative", :creative_id) %></th>
-                  <th class="text-center"><%= table_link(@conn, "eCPM", :ecpm) %></th>
-                  <th class="text-center"><%= table_link(@conn, "Estimated Impressions", :impression_count) %></th>
+                  <th><%= table_link(@conn, "Name", :name) %></th>
+                  <th><%= table_link(@conn, "Audience", :audience_id) %> / <%= table_link(@conn, "Creative", :creative_id) %></th>
+                  <th class="text-center">Dates<small class="d-block">(start / end)</small></th>
+                  <th class="text-center"><%= table_link(@conn, "eCPM", :ecpm) %><small class="d-block">(actual / target)</small></th>
+                  <th class="text-center"><%= table_link(@conn, "Impressions", :impression_count) %><small class="d-block">(actual / estimate)</small></th>
+                  <th class="text-center">Budget</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <%= for campaign <- @campaigns do %>
                   <tr>
-                    <td><%= campaign.name %></td>
-                    <td class="text-center"><%= campaign_status campaign.status %></td>
-                    <td class="text-center"><%= if(not is_nil(campaign.audience), do: campaign.audience.name, else: "None") %></td>
-                    <td class="text-center"><%= if(not is_nil(campaign.creative), do: campaign.creative.name, else: "None") %></td>
-                    <td class="text-center"><%= pretty_money campaign.ecpm %></td>
-                    <td class="text-center"><%= campaign.impression_count %></td>
+                    <td class="text-center"><%= campaign_status_icon campaign.status %></td>
+                    <td>
+                      <%= campaign.name %>
+                      <small class="d-block">
+                        <%= if campaign.budgeted_campaign do %>
+                          <%= campaign.budgeted_campaign.advertiser_company_name %>
+                        <% else %>
+                          &nbsp;
+                        <% end %>
+                      </small>
+                    </td>
+                    <td>
+                      <%= if(not is_nil(campaign.audience), do: campaign.audience.name, else: "None") %>
+                      <small class="d-block"><%= if(not is_nil(campaign.creative), do: campaign.creative.name, else: "None") %></small>
+                    </td>
+                    <td class="text-center">
+                      <%= pretty_date campaign.start_date %>
+                      <small class="d-block text-muted">
+                        <%= pretty_date campaign.end_date %>  
+                      </small>
+                    </td>
+                    <td class="text-center">
+                      <%= if campaign.budgeted_campaign do %>
+                        <%= pretty_money campaign.budgeted_campaign.actual_ecpm %>
+                      <% else %>
+                        -
+                      <% end %>
+                      <small class="d-block text-muted">
+                        <%= pretty_money campaign.ecpm %>  
+                      </small>
+                    </td>
+                    <td class="text-center">
+                      <%= if campaign.budgeted_campaign do %>
+                        <%= pretty_integer campaign.budgeted_campaign.total_impressions %>
+                      <% else %>
+                        0
+                      <% end %>
+                      <small class="d-block text-muted">
+                        <%= pretty_integer campaign.impression_count %>  
+                      </small>
+                    </td>
+                    <td class="text-center">
+                      <%= if campaign.budgeted_campaign do %>
+                        <%= pretty_subtracted_money_with_total(
+                          campaign.total_spend,
+                          campaign.budgeted_campaign.revenue_amount,
+                          campaign.budgeted_campaign.balance
+                        ) %>
+                      <% else %>
+                        <%= pretty_subtracted_money_with_total(
+                          campaign.total_spend,
+                          0,
+                          campaign.total_spend
+                        ) %>
+                      <% end %>
+                    </td>
                     <td class="text-right p-2">
-                      <%= link 'Show', to: campaign_path(@conn, :show, campaign), class: "btn btn-outline-info btn-sm" %>
-                      <%= link 'Edit', to: campaign_path(@conn, :edit, campaign), class: "btn btn-outline-primary btn-sm" %>
-                      <%= link 'Delete', to: campaign_path(@conn, :delete, campaign), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
+                      <%= show_button(campaign_path(@conn, :show, campaign)) %>
+                      <%= edit_button(campaign_path(@conn, :edit, campaign)) %>
                     </td>
                   </tr>
                 <% end %>

@@ -4,6 +4,8 @@ defmodule CodeFund.Schema.Audience do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "audiences" do
+    has_many(:budgeted_campaigns, CodeFund.Schema.BudgetedCampaign)
+
     field(:name, :string)
     field(:programming_languages, {:array, :string}, default: [])
     field(:topic_categories, {:array, :string}, default: [])

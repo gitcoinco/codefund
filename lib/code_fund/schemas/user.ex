@@ -10,6 +10,7 @@ defmodule CodeFund.Schema.User do
     has_many(:campaigns, CodeFund.Schema.Campaign)
     has_many(:properties, CodeFund.Schema.Property)
     has_many(:creatives, CodeFund.Schema.Creative)
+    has_many(:budgeted_campaigns, CodeFund.Schema.BudgetedCampaign)
 
     field(:first_name, :string)
     field(:last_name, :string)
