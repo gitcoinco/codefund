@@ -75,6 +75,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :programming_languages,
                :topic_categories,
                :status,
+               :slug,
                :alexa_site_rank,
                :screenshot_url
              ]
@@ -132,6 +133,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :programming_languages,
                :topic_categories,
                :status,
+               :slug,
                :alexa_site_rank,
                :screenshot_url
              ]
@@ -181,6 +183,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :programming_languages,
                :topic_categories,
                :status,
+               :slug,
                :alexa_site_rank,
                :screenshot_url
              ]
@@ -250,6 +253,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :programming_languages,
                :topic_categories,
                :status,
+               :slug,
                :alexa_site_rank,
                :screenshot_url
              ]

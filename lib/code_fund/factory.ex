@@ -20,6 +20,7 @@ defmodule CodeFund.Factory do
       property_type: 1,
       status: 1,
       user: build(:user),
+      slug: UUID.uuid4(),
       language: "English",
       programming_languages: ["Ruby"],
       topic_categories: ["Frontend Frameworks & Tools"],
