@@ -61,9 +61,9 @@ defmodule CodeFund.Schema.Property do
         changeset
         |> put_change(:slug, slugify(name))
 
-      1 ->
+      count ->
         changeset
-        |> put_change(:slug, "#{slugify(name)}_#{Enum.random(0..255)}")
+        |> put_change(:slug, "#{slugify(name)}_#{count + 1}")
     end
   end
 
