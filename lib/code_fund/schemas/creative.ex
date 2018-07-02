@@ -9,7 +9,6 @@ defmodule CodeFund.Schema.Creative do
   schema "creatives" do
     belongs_to(:user, CodeFund.Schema.User)
     has_many(:campaigns, CodeFund.Schema.Campaign)
-    has_many(:budgeted_campaigns, CodeFund.Schema.BudgetedCampaign)
 
     field(:name, :string)
     field(:headline, :string, default: "")

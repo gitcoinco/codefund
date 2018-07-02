@@ -10,8 +10,6 @@ defmodule CodeFund.Schema.BudgetedCampaign do
   schema "budgeted_campaigns" do
     belongs_to(:campaign, CodeFund.Schema.Campaign)
     belongs_to(:user, CodeFund.Schema.User)
-    belongs_to(:audience, CodeFund.Schema.Audience)
-    belongs_to(:creative, CodeFund.Schema.Creative)
 
     field(:total_spend, :decimal)
     field(:status, :integer)
