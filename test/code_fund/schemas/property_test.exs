@@ -19,7 +19,7 @@ defmodule CodeFund.Schema.PropertyTest do
       {:ok, property} = CodeFund.Properties.create_property(valid_attrs |> Map.delete(:slug))
       assert property.slug == "some_thing"
       changeset = Property.changeset(%Property{}, valid_attrs)
-      assert Regex.match?(~r/some_thing_\d*/, changeset.changes.slug)
+      assert changeset.changes.slug == "some_thing_2"
     end
 
     test "changeset with missing required attributes", %{valid_attrs: valid_attrs} do
