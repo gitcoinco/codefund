@@ -12,8 +12,7 @@ defmodule CodeFundWeb.TrackController do
     with %CodeFund.Schema.Impression{} = impression <- Impressions.get_impression!(impression_id),
          {:ok, %CodeFund.Schema.Impression{id: impression_id}} <-
            impression |> Impressions.update_impression(Framework.Browser.details(conn)),
-         {:ok, _} <-
-           enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id]) do
+         :ok <- enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id]) do
       conn
       |> put_resp_content_type("image/png")
       |> send_resp(200, @transparent_png)

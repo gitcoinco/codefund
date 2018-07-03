@@ -1,11 +1,13 @@
 defmodule CodeFundWeb.UpdateImpressionGeolocationWorker do
+  alias CodeFund.Schema.Impression
   alias CodeFund.Impressions
   import CodeFund.Reporter
 
   def perform(impression_id) do
-    impression = Impressions.get_impression!(impression_id)
+    %Impression{ip: ip} = impression = Impressions.get_impression!(impression_id)
+    ip_tuple = ip |> String.split(".") |> Enum.map(&String.to_integer(&1)) |> List.to_tuple()
 
-    case GeoIP.lookup(impression.ip) do
+    case Framework.Geolocation.find_by_ip(ip_tuple, :city) do
       {:ok, location} ->
         location_data = %{
           "city" => location.city,
@@ -18,9 +20,8 @@ defmodule CodeFundWeb.UpdateImpressionGeolocationWorker do
 
         Impressions.update_impression(impression, location_data)
 
-      {:error, %GeoIP.Error{reason: _reason}} ->
+      {:error, :could_not_resolve} ->
         report(:error)
-        IO.puts("Unable to find geolocation for IP: #{impression.ip}")
     end
   end
 end

@@ -1,23 +1,26 @@
 defmodule Framework.Geolocation do
-  require Logger
+  import CodeFund.Reporter
 
-  @spec find_country_by_ip({integer, integer, integer, integer}) :: boolean
-  def find_country_by_ip(ip) when is_tuple(ip) do
+  @spec find_by_ip({integer, integer, integer, integer}, atom) ::
+          {:ok, map | String.t()} | {:error, :could_not_resolve}
+  def find_by_ip(ip, lookup_type) when is_tuple(ip) do
     try do
-      ip
-      |> tuple_size()
-      |> cast_ip_address(stub_ip_for_dev(ip))
-      |> Geolix.lookup(as: :struct, where: :country)
-      |> Map.get(:country)
-      |> Map.get(:iso_code)
+      result =
+        ip
+        |> tuple_size()
+        |> cast_ip_address(stub_ip_for_dev(ip))
+        |> Geolix.lookup(as: :struct, where: lookup_type)
+        |> Framework.Geolocation.Protocol.parse()
+
+      {:ok, result}
     rescue
       _exception ->
-        Logger.error("An error occurred during geolocation")
-        true
+        report(:error, "An error occurred during geolocation")
+        {:error, :could_not_resolve}
     end
   end
 
-  @spec cast_ip_address(integer, {integer}) :: {integer}
+  @spec cast_ip_address(integer, tuple) :: tuple
   defp cast_ip_address(4, ip), do: ip
 
   defp cast_ip_address(8, ip) do

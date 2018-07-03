@@ -48,11 +48,12 @@ defmodule CodeFundWeb.API.AdServeController do
            topic_categories: topic_categories,
            user: property_owner
          } <- Properties.get_property!(property_id) |> CodeFund.Repo.preload(:user),
+         {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
          {:ok, ad_tuple} <-
            AdService.Query.ForDisplay.build(
              programming_languages: programming_languages,
              topic_categories: topic_categories,
-             client_country: Framework.Geolocation.find_country_by_ip(conn.remote_ip)
+             client_country: client_country
            )
            |> CodeFund.Repo.all()
            |> AdService.Display.choose_winner(),
@@ -92,7 +93,7 @@ defmodule CodeFundWeb.API.AdServeController do
         |> error_details(property_id, "This property is not currently active")
         |> details_render(conn)
 
-      {:error, :no_possible_ads} ->
+      {:error, _reason} ->
         conn
         |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
         |> details_render(conn)
