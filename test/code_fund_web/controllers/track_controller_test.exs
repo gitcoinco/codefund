@@ -8,7 +8,9 @@ defmodule CodeFundWeb.TrackControllerTest do
       <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0,
         0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
 
-    {:ok, %{transparent_png: transparent_png}}
+    conn = build_conn() |> Map.put(:remote_ip, {67, 139, 178, 66})
+
+    {:ok, %{transparent_png: transparent_png, conn: conn}}
   end
 
   describe "pixel/2" do
@@ -29,13 +31,20 @@ defmodule CodeFundWeb.TrackControllerTest do
       assert conn.resp_body == transparent_png
 
       impression = CodeFund.Impressions.get_impression!(impression.id)
-      assert impression.ip == "127.0.0.1"
+      assert impression.ip == "67.139.178.66"
 
       assert impression.user_agent ==
                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36"
 
       assert impression.os == "mac"
       assert impression.device_type == "desktop"
+
+      assert impression.country == "US"
+      assert impression.city == "Portland"
+      assert impression.region == "Oregon"
+      assert impression.latitude == Decimal.new(45.5171)
+      assert impression.longitude == Decimal.new(-122.6802)
+      assert impression.postal_code == "97205"
     end
   end
 
