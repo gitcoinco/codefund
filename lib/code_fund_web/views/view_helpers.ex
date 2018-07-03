@@ -35,7 +35,9 @@ defmodule CodeFundWeb.ViewHelpers do
       "Mar 3, 2016"
 
   """
-  def pretty_date(%NaiveDateTime{} = date, format \\ "%b %-d, %Y") do
+  def pretty_date(date, format \\ "%b %-d, %Y")
+
+  def pretty_date(%NaiveDateTime{} = date, format) do
     Timex.format!(date, format, :strftime)
   end
 

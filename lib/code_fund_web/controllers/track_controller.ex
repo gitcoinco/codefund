@@ -1,6 +1,5 @@
 defmodule CodeFundWeb.TrackController do
   use CodeFundWeb, :controller
-  import Framework.Worker
   alias CodeFund.Impressions
   alias CodeFund.Schema.Campaign
   alias CodeFund.Schema.Property
@@ -10,10 +9,10 @@ defmodule CodeFundWeb.TrackController do
 
   def pixel(conn, %{"impression_id" => impression_id}) do
     with %CodeFund.Schema.Impression{} = impression <- Impressions.get_impression!(impression_id),
-         {:ok, %CodeFund.Schema.Impression{id: impression_id}} <-
-           impression |> Impressions.update_impression(Framework.Browser.details(conn)),
-         {:ok, _} <-
-           enqueue_worker(CodeFundWeb.UpdateImpressionGeolocationWorker, [impression_id]) do
+         {:ok, location_information} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :city),
+         update_details <- Framework.Browser.details(conn) |> Map.merge(location_information),
+         {:ok, %CodeFund.Schema.Impression{id: ^impression_id}} <-
+           impression |> Impressions.update_impression(update_details) do
       conn
       |> put_resp_content_type("image/png")
       |> send_resp(200, @transparent_png)

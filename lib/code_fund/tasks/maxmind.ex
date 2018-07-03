@@ -3,10 +3,16 @@ defmodule Mix.Tasks.Maxmind.Setup do
 
   @shortdoc "Installs a geolocation database for development"
   def run(_) do
-    maxmind_url =
-      System.get_env("MMDB_LOCATION") ||
-        "http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz"
+    (System.get_env("MMDB_COUNTRY_LOCATION") ||
+       "http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz")
+    |> install_max_mind(:country)
 
+    (System.get_env("MMDB_CITY_LOCATION") ||
+       "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz")
+    |> install_max_mind(:city)
+  end
+
+  defp install_max_mind(maxmind_url, db_type) do
     tmp_dir = System.tmp_dir()
     location_of_tarball = tmp_dir <> "/mmdb.tar.gz"
 
@@ -29,7 +35,13 @@ defmodule Mix.Tasks.Maxmind.Setup do
       |> List.last()
 
     "tar" |> System.cmd(["-xvzf", location_of_tarball, "-C", tmp_dir, file_name])
-    "mv" |> System.cmd([tmp_dir <> "/" <> file_name, MaxMindInitializer.get_priv_dir(Mix.env())])
+
+    "mv"
+    |> System.cmd([
+      tmp_dir <> "/" <> file_name,
+      MaxMindInitializer.get_priv_dir(Mix.env(), db_type)
+    ])
+
     "rm" |> System.cmd([location_of_tarball])
 
     "rm"
