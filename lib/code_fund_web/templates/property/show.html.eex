@@ -33,6 +33,18 @@
                     <% end %>
                   </td>
                 </tr>
+                <%= if has_any_role? @conn, ["admin"] do %>
+                  <tr>
+                    <td><strong>Advertisers</strong></td>
+                    <td>
+                      <ul>  
+                      <%= for advertiser <- @display_rates do %>
+                        <li><strong><%= Number.Percentage.number_to_percentage(advertiser.display_rate, precision: 1) %></strong> <%= advertiser.campaign_name %></li>
+                      <% end %>
+                      </ul>
+                    </td>
+                  </tr>  
+                <% end %>
                 <tr>
                   <td><strong>Developer</strong></td>
                   <td><%= full_name @property.user %></td>

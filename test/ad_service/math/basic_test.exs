@@ -7,6 +7,7 @@ defmodule AdService.Math.BasicTest do
         ecpm: Decimal.new(2.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
+        campaign_name: "Campaign 1",
         headline: "ad headline",
         image_url: "http://example.com"
       },
@@ -14,6 +15,7 @@ defmodule AdService.Math.BasicTest do
         ecpm: Decimal.new(3.00),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
+        campaign_name: "Campaign 2",
         headline: "ad headline",
         image_url: "http://example.com"
       },
@@ -21,6 +23,7 @@ defmodule AdService.Math.BasicTest do
         ecpm: Decimal.new(3.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
+        campaign_name: "Campaign 3",
         headline: "ad headline",
         image_url: "http://example.com"
       }
@@ -56,15 +59,18 @@ defmodule AdService.Math.BasicTest do
       assert AdService.Math.Basic.get_all_display_rates(ad_details) == [
                %{
                  campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
-                 display_rate: 55.26315789473685
+                 display_rate: 55.26315789473685,
+                 campaign_name: "Campaign 3"
                },
                %{
                  campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
-                 display_rate: 31.578947368421044
+                 display_rate: 31.578947368421044,
+                 campaign_name: "Campaign 2"
                },
                %{
                  campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-                 display_rate: 13.157894736842104
+                 display_rate: 13.157894736842104,
+                 campaign_name: "Campaign 1"
                }
              ]
     end

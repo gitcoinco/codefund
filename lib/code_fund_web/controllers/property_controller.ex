@@ -2,11 +2,26 @@ defmodule CodeFundWeb.PropertyController do
   use CodeFundWeb, :controller
   use Framework.Controller
 
-  use Framework.Controller.Stub.Definitions, [:index, :show, :delete]
+  use Framework.Controller.Stub.Definitions, [:index, :delete]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "developer"])
 
   defconfig do
     [schema: "Property"]
+  end
+
+  def show(conn, %{"id" => id}) do
+    user = Coherence.current_user(conn)
+    property = CodeFund.Properties.get_property!(id)
+    display_rates = CodeFund.Properties.get_all_display_rates(property)
+
+    render(
+      conn,
+      "show.html",
+      property: property,
+      user: user,
+      display_rates: display_rates,
+      layout: {CodeFundWeb.LayoutView, "admin.html"}
+    )
   end
 
   defstub new do
