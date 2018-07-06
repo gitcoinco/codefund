@@ -20,6 +20,7 @@ defmodule AdService.Query.ForDisplay do
       body: creative.body,
       ecpm: campaign.ecpm,
       campaign_id: campaign.id,
+      campaign_name: campaign.name,
       headline: creative.headline
     })
   end

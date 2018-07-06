@@ -27,12 +27,16 @@ defmodule AdService.Math.Basic do
 
   @spec display_rate(%AdService.Advertisement{}, [%AdService.Advertisement{}]) :: map
   defp display_rate(
-         %AdService.Advertisement{campaign_id: campaign_id, ecpm: ecpm},
+         %AdService.Advertisement{
+           campaign_id: campaign_id,
+           ecpm: ecpm,
+           campaign_name: campaign_name
+         },
          ad_details
        ) do
     multiplier = AdService.Math.Multiplier.calculate(ecpm, ad_details)
     display_rate = multiplier / AdService.Math.Multiplier.sum(ad_details) * 100
 
-    %{campaign_id: campaign_id, display_rate: display_rate}
+    %{campaign_id: campaign_id, display_rate: display_rate, campaign_name: campaign_name}
   end
 end

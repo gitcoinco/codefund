@@ -40,6 +40,8 @@ defmodule CodeFundWeb do
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+      use Phoenix.HTML.SimplifiedHelpers
+
       import Framework.Phoenix.Form.Helpers
 
       import Framework.Module

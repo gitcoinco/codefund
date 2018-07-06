@@ -43,7 +43,8 @@ defmodule CodeFund.Mixfile do
         :timex_ecto,
         :rollbax,
         :corsica,
-        :bamboo
+        :bamboo,
+        :phoenix_html_simplified_helpers
       ]
     ]
   end
@@ -97,6 +98,7 @@ defmodule CodeFund.Mixfile do
       {:corsica, "~> 1.0"},
       {:joken, "~> 1.5.0"},
       {:bamboo, "~> 0.8"},
+      {:phoenix_html_simplified_helpers, "~> 2.0.1"},
       {:mock, "~> 0.3.0", only: :test},
       {:excoveralls, "~> 0.8", only: :test}
     ]
