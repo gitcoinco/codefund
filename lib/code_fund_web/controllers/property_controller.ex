@@ -2,6 +2,7 @@ defmodule CodeFundWeb.PropertyController do
   use CodeFundWeb, :controller
   use Framework.Controller
 
+  alias Framework.Phoenix.Form.Helpers, as: FormHelpers
   use Framework.Controller.Stub.Definitions, [:index, :delete]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "developer"])
 
@@ -91,7 +92,7 @@ defmodule CodeFundWeb.PropertyController do
 
     fields =
       case conn.assigns.current_user.roles |> CodeFund.Users.has_role?(["admin"]) do
-        true -> Enum.concat(fields, admin_fields())
+        true -> Enum.concat(admin_fields(), fields)
         false -> fields
       end
 
@@ -100,6 +101,15 @@ defmodule CodeFundWeb.PropertyController do
 
   defp admin_fields() do
     [
+      audience_id: [
+        type: :select,
+        label: "Audience",
+        opts: [
+          class: "form-control selectize",
+          choices: CodeFund.Audiences.list_audiences() |> FormHelpers.repo_objects_to_options(),
+          hint: "Which audience does this property belong to?"
+        ]
+      ],
       status: [type: :select, label: "Status", opts: [choices: CodeFund.Properties.statuses()]],
       slug: [type: :text_input, label: "Slug"],
       alexa_site_rank: [type: :number_input, label: "Alexa Ranking"],
