@@ -10,19 +10,8 @@ defmodule CodeFundWeb.PropertyController do
     [schema: "Property"]
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Coherence.current_user(conn)
-    property = CodeFund.Properties.get_property!(id)
-    display_rates = CodeFund.Properties.get_all_display_rates(property)
-
-    render(
-      conn,
-      "show.html",
-      property: property,
-      user: user,
-      display_rates: display_rates,
-      layout: {CodeFundWeb.LayoutView, "admin.html"}
-    )
+  defstub show do
+    before_hook(&get_property_display_rates/2)
   end
 
   defstub new do
@@ -97,6 +86,14 @@ defmodule CodeFundWeb.PropertyController do
       end
 
     [fields: fields]
+  end
+
+  defp get_property_display_rates(_conn, params) do
+    [
+      display_rates:
+        CodeFund.Properties.get_property!(params["id"])
+        |> CodeFund.Properties.get_all_display_rates()
+    ]
   end
 
   defp admin_fields() do

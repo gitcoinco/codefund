@@ -286,8 +286,7 @@ defmodule CodeFund.Properties do
   def get_all_display_rates(%Property{} = property) do
     AdService.Query.ForDisplay.build(
       programming_languages: property.programming_languages,
-      topic_categories: property.topic_categories,
-      client_country: "US"
+      topic_categories: property.topic_categories
     )
     |> CodeFund.Repo.all()
     |> AdService.Math.Basic.get_all_display_rates()

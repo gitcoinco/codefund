@@ -49,7 +49,7 @@ defmodule CodeFundWeb.API.AdServeController do
          } <- Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
          {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
          {:ok, ad_tuple} <-
-           AdService.Query.ForDisplay.build(audience: audience, client_country: client_country)
+           AdService.Query.ForDisplay.build(audience, client_country)
            |> CodeFund.Repo.all()
            |> AdService.Display.choose_winner(),
          %AdService.Advertisement{
