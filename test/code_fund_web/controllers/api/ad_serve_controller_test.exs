@@ -52,33 +52,24 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
   end
 
   describe "details" do
-    test "serves an ad if property has a campaign tied to an audience with both topic categories and programming languages and creates an impression and records distribution and revenue amounts",
+    test "serves an ad if property has a campaign tied to an audience and creates an impression and records distribution and revenue amounts",
          %{conn: conn} do
       creative = insert(:creative)
+
+      audience_1 = insert(:audience, name: "right one")
+      audience_2 = insert(:audience, name: "wrong one")
 
       property =
         insert(
           :property,
-          programming_languages: ["C", "JavaScript"],
-          topic_categories: ["Programming"]
+          audience: audience_1
         )
 
       insert(
         :property,
-        programming_languages: ["C", "JavaScript"],
-        topic_categories: ["Development"]
+        audience: audience_2
       )
 
-      audience =
-        insert(:audience, %{
-          programming_languages: ["Ruby", "C"],
-          topic_categories: ["Programming"]
-        })
-
-      insert(:audience, %{programming_languages: ["Ruby", "C"], topic_categories: ["Development"]})
-
-      insert(:audience, %{programming_languages: ["Java", "Rust"]})
-      insert(:audience, %{topic_categories: ["Things"]})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
 
       campaign =
@@ -91,9 +82,22 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience,
+          audience: audience_1,
           included_countries: ["US"]
         )
+
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new(2.50),
+        budget_daily_amount: Decimal.new(50),
+        total_spend: Decimal.new(2000),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+        creative: creative,
+        audience: audience_2,
+        included_countries: ["US"]
+      )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
       conn = get(conn, ad_serve_path(conn, :details, property))
@@ -115,118 +119,12 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
              }
     end
 
-    test "serves an ad if property has a campaign tied to an audience with only programming languages and creates an impression",
-         %{conn: conn} do
-      creative = insert(:creative)
-
-      property =
-        insert(:property, programming_languages: ["C", "JavaScript"], topic_categories: [])
-
-      insert(
-        :property,
-        programming_languages: ["C", "JavaScript"],
-        topic_categories: ["Development"]
-      )
-
-      audience =
-        insert(:audience, %{
-          topic_categories: ["Programming"],
-          programming_languages: ["C", "JavaScript"]
-        })
-
-      insert(:audience, %{programming_languages: ["Ruby", "C"], topic_categories: ["Development"]})
-
-      insert(:audience, %{programming_languages: ["Java", "Rust"]})
-      insert(:audience, %{topic_categories: ["Things"]})
-      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
-
-      campaign =
-        insert(
-          :campaign,
-          status: 2,
-          ecpm: Decimal.new(1),
-          budget_daily_amount: Decimal.new(1),
-          total_spend: Decimal.new(1),
-          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
-          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
-          creative: creative,
-          audience: audience,
-          included_countries: ["US"]
-        )
-
-      conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
-      conn = get(conn, ad_serve_path(conn, :details, property))
-
-      impression = CodeFund.Impressions.list_impressions() |> List.first()
-      assert impression.ip == "12.109.12.14"
-      assert impression.property_id == property.id
-      assert impression.campaign_id == campaign.id
-
-      assert json_response(conn, 200) == %{
-               "headline" => "Creative Headline",
-               "description" => "This is a Test Creative",
-               "image" => "http://example.com/some.png",
-               "link" => "https://www.example.com/c/#{impression.id}",
-               "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
-             }
-    end
-
-    test "serves an ad if property has a campaign tied to an audience with only a topic category",
-         %{conn: conn} do
-      insert(:creative)
-      creative = insert(:creative)
-      property = insert(:property, programming_languages: [], topic_categories: ["Programming"])
-      insert(:property, topic_categories: ["Development"], topic_categories: ["Development"])
-
-      audience =
-        insert(:audience, %{topic_categories: ["Programming"], programming_languages: ["Ruby"]})
-
-      insert(:audience, %{programming_languages: ["Ruby", "C"], topic_categories: ["Development"]})
-
-      insert(:audience, %{programming_languages: ["Java", "Rust"]})
-      insert(:audience, %{topic_categories: ["Things"]})
-      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
-
-      campaign =
-        insert(
-          :campaign,
-          status: 2,
-          ecpm: Decimal.new(1),
-          budget_daily_amount: Decimal.new(1),
-          total_spend: Decimal.new(1),
-          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
-          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
-          creative: creative,
-          audience: audience,
-          included_countries: ["US"]
-        )
-
-      conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
-      conn = get(conn, ad_serve_path(conn, :details, property))
-
-      impression = CodeFund.Impressions.list_impressions() |> List.first()
-      assert impression.ip == "12.109.12.14"
-      assert impression.property_id == property.id
-      assert impression.campaign_id == campaign.id
-
-      assert json_response(conn, 200) == %{
-               "headline" => "Creative Headline",
-               "description" => "This is a Test Creative",
-               "image" => "http://example.com/some.png",
-               "link" => "https://www.example.com/c/#{impression.id}",
-               "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
-             }
-    end
-
     test "returns an error if property does not have a campaign but still creates an impression",
          %{conn: conn} do
       creative = insert(:creative)
-      property = insert(:property, programming_languages: ["C++", "JavaScript"])
-      audience = insert(:audience, %{programming_languages: ["Ruby", "C"]})
+      property = insert(:property, audience: insert(:audience))
+      audience = insert(:audience)
 
-      insert(:audience, %{programming_languages: ["Java", "Rust"]})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
 
       insert(
@@ -261,7 +159,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
     test "returns an error if property is not active but still creates an impression", %{
       conn: conn
     } do
-      property = insert(:property, %{status: 0})
+      property = insert(:property, %{status: 0, audience: insert(:audience)})
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
       conn = get(conn, ad_serve_path(conn, :details, property))
@@ -284,7 +182,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
     test "returns an error if viewer is from a blocked country but still creates an impression",
          %{conn: conn} do
-      property = insert(:property)
+      property = insert(:property, audience: insert(:audience))
       conn = conn |> Map.put(:remote_ip, {163, 177, 112, 32})
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0

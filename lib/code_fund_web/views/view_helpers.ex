@@ -82,6 +82,23 @@ defmodule CodeFundWeb.ViewHelpers do
     {:safe, "<span class=\"#{icon}\"></span>"}
   end
 
+  def property_status_icon(status) do
+    options = [
+      "fas fa-pause-circle text-muted": 0,
+      "fas fa-play-circle text-success": 1,
+      "fas fa-thumbs-down": 2,
+      "fas fa-archive": 3,
+      "fas fa-ban": 4
+    ]
+
+    icon =
+      options
+      |> Enum.find(fn {_key, val} -> val == status end)
+      |> elem(0)
+
+    {:safe, "<span class=\"#{icon}\"></span>"}
+  end
+
   def has_any_role?(conn, target_roles) do
     if Coherence.logged_in?(conn) do
       current_user = Coherence.current_user(conn)

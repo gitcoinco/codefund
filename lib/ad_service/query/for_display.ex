@@ -2,19 +2,36 @@ defmodule AdService.Query.ForDisplay do
   import Ecto.Query
   alias AdService.Advertisement
   alias AdService.Query.Shared
-  alias CodeFund.Schema.{Campaign, Creative}
+  alias CodeFund.Schema.{Audience, Campaign, Creative}
+
+  def build(%Audience{} = audience, client_country) do
+    fn query ->
+      query
+      |> where_country_in(client_country)
+      |> where([_creative, campaign, ...], campaign.audience_id == ^audience.id)
+    end
+    |> core_query()
+  end
 
   def build(property_filters) do
+    fn query ->
+      query
+      |> Shared.build_where_clauses_by_property_filters(property_filters)
+    end
+    |> core_query()
+  end
+
+  defp core_query(specialized_function) do
     from(
       creative in Creative,
       join: campaign in Campaign,
       on: campaign.creative_id == creative.id,
       join: audience in assoc(campaign, :audience)
     )
-    |> Shared.build_where_clauses_by_property_filters(property_filters)
-    |> where([creative, campaign, ...], campaign.status == 2)
-    |> where([creative, campaign, ...], campaign.start_date <= fragment("current_timestamp"))
-    |> where([creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
+    |> specialized_function.()
+    |> where([_creative, campaign, ...], campaign.status == 2)
+    |> where([_creative, campaign, ...], campaign.start_date <= fragment("current_timestamp"))
+    |> where([_creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
     |> select([creative, campaign, _, _], %Advertisement{
       image_url: creative.image_url,
       body: creative.body,
@@ -23,5 +40,15 @@ defmodule AdService.Query.ForDisplay do
       campaign_name: campaign.name,
       headline: creative.headline
     })
+  end
+
+  defp where_country_in(query, nil), do: query
+
+  defp where_country_in(query, client_country) do
+    query
+    |> where(
+      [_creative, campaign, ...],
+      ^client_country in campaign.included_countries
+    )
   end
 end

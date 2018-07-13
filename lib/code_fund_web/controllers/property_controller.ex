@@ -2,6 +2,7 @@ defmodule CodeFundWeb.PropertyController do
   use CodeFundWeb, :controller
   use Framework.Controller
 
+  alias Framework.Phoenix.Form.Helpers, as: FormHelpers
   use Framework.Controller.Stub.Definitions, [:index, :delete]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "developer"])
 
@@ -9,19 +10,8 @@ defmodule CodeFundWeb.PropertyController do
     [schema: "Property"]
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Coherence.current_user(conn)
-    property = CodeFund.Properties.get_property!(id)
-    display_rates = CodeFund.Properties.get_all_display_rates(property)
-
-    render(
-      conn,
-      "show.html",
-      property: property,
-      user: user,
-      display_rates: display_rates,
-      layout: {CodeFundWeb.LayoutView, "admin.html"}
-    )
+  defstub show do
+    before_hook(&get_property_display_rates/2)
   end
 
   defstub new do
@@ -91,15 +81,32 @@ defmodule CodeFundWeb.PropertyController do
 
     fields =
       case conn.assigns.current_user.roles |> CodeFund.Users.has_role?(["admin"]) do
-        true -> Enum.concat(fields, admin_fields())
+        true -> Enum.concat(admin_fields(), fields)
         false -> fields
       end
 
     [fields: fields]
   end
 
+  defp get_property_display_rates(_conn, params) do
+    [
+      display_rates:
+        CodeFund.Properties.get_property!(params["id"])
+        |> CodeFund.Properties.get_all_display_rates()
+    ]
+  end
+
   defp admin_fields() do
     [
+      audience_id: [
+        type: :select,
+        label: "Audience",
+        opts: [
+          class: "form-control selectize",
+          choices: CodeFund.Audiences.list_audiences() |> FormHelpers.repo_objects_to_options(),
+          hint: "Which audience does this property belong to?"
+        ]
+      ],
       status: [type: :select, label: "Status", opts: [choices: CodeFund.Properties.statuses()]],
       slug: [type: :text_input, label: "Slug"],
       alexa_site_rank: [type: :number_input, label: "Alexa Ranking"],

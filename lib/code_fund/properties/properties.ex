@@ -216,11 +216,13 @@ defmodule CodeFund.Properties do
     case Enum.member?(user.roles, "admin") do
       true ->
         Property
+        |> preload([:user, :audience])
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
       false ->
         Property
+        |> preload([:user, :audience])
         |> where([p], p.user_id == ^user.id)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
@@ -269,22 +271,22 @@ defmodule CodeFund.Properties do
   def get_property!(id) do
     try do
       case Ecto.UUID.cast(id) do
-        {:ok, _} -> Repo.get!(Property, id) |> Repo.preload([:user])
-        :error -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user])
+        {:ok, _} -> Repo.get!(Property, id) |> Repo.preload([:user, :audience])
+        :error -> Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :audience])
       end
     rescue
       Ecto.NoResultsError ->
-        Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user])
+        Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :audience])
     end
   end
 
-  def get_property_by_name!(name), do: Repo.get_by!(Property, name: name) |> Repo.preload([:user])
+  def get_property_by_name!(name),
+    do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :audience])
 
   def get_all_display_rates(%Property{} = property) do
     AdService.Query.ForDisplay.build(
       programming_languages: property.programming_languages,
-      topic_categories: property.topic_categories,
-      client_country: "US"
+      topic_categories: property.topic_categories
     )
     |> CodeFund.Repo.all()
     |> AdService.Math.Basic.get_all_display_rates()

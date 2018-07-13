@@ -20,12 +20,12 @@
           <table class="table table-responsive-sm table-striped">
             <thead>
               <tr>
+                <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
                 <th></th>
                 <th><%= table_link(@conn, "Name", :name) %></th>
-                <th><%= table_link(@conn, "URL", :url) %></th>
+                <th><%= table_link(@conn, "Audience", :audience_id) %></th>
                 <%= if has_any_role? @conn, ["admin"] do %>
                   <th><%= table_link(@conn, "Slug", :slug) %></th>
-                  <th><%= table_link(@conn, "Status", :status) %></th>
                 <% end %>
                 <th></th>
               </tr>
@@ -33,12 +33,15 @@
             <tbody>
               <%= for property <- @properties do %>
                 <tr>
+                  <td class="text-center"><%= property_status_icon property.status %></td>
                   <td><img src="<%= favicon_image_url(property.url) %>" width="16" height="16" /></td>
-                  <td><%= property.name %></td>
-                  <td><%= link property.url, to: property.url, target: "_blank" %></td>
+                  <td>
+                    <%= property.name %><br/>
+                    <%= link truncate(property.url), to: property.url, target: "_blank" %>
+                  </td>
+                  <td><%= if property.audience, do: property.audience.name, else: "Not Assigned" %></td>
                   <%= if has_any_role? @conn, ["admin"] do %>
                     <td><%= property.slug %></td>
-                    <td><%= CodeFund.Properties.statuses |> return_key_for_value(property.status) %></td>
                   <% end %>
 
                   <td class="text-right p-2">
