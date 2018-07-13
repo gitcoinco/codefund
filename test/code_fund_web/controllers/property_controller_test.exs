@@ -66,6 +66,11 @@ defmodule CodeFundWeb.PropertyControllerTest do
       conn = get(conn, property_path(conn, :new))
 
       assert conn.assigns.fields |> Keyword.keys() == [
+               :audience_id,
+               :status,
+               :slug,
+               :alexa_site_rank,
+               :screenshot_url,
                :name,
                :description,
                :url,
@@ -73,11 +78,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories,
-               :status,
-               :slug,
-               :alexa_site_rank,
-               :screenshot_url
+               :topic_categories
              ]
 
       assert html_response(conn, 200) =~ "Property"
@@ -124,6 +125,11 @@ defmodule CodeFundWeb.PropertyControllerTest do
                "Oops, something went wrong! Please check the errors below."
 
       assert conn.assigns.fields |> Keyword.keys() == [
+               :audience_id,
+               :status,
+               :slug,
+               :alexa_site_rank,
+               :screenshot_url,
                :name,
                :description,
                :url,
@@ -131,11 +137,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories,
-               :status,
-               :slug,
-               :alexa_site_rank,
-               :screenshot_url
+               :topic_categories
              ]
 
       assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
@@ -174,6 +176,11 @@ defmodule CodeFundWeb.PropertyControllerTest do
       assert html_response(conn, 200) =~ property.name
 
       assert conn.assigns.fields |> Keyword.keys() == [
+               :audience_id,
+               :status,
+               :slug,
+               :alexa_site_rank,
+               :screenshot_url,
                :name,
                :description,
                :url,
@@ -181,11 +188,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories,
-               :status,
-               :slug,
-               :alexa_site_rank,
-               :screenshot_url
+               :topic_categories
              ]
     end
   end
@@ -244,6 +247,11 @@ defmodule CodeFundWeb.PropertyControllerTest do
                "Oops, something went wrong! Please check the errors below."
 
       assert conn.assigns.fields |> Keyword.keys() == [
+               :audience_id,
+               :status,
+               :slug,
+               :alexa_site_rank,
+               :screenshot_url,
                :name,
                :description,
                :url,
@@ -251,11 +259,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories,
-               :status,
-               :slug,
-               :alexa_site_rank,
-               :screenshot_url
+               :topic_categories
              ]
 
       assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
