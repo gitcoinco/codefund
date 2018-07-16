@@ -13,6 +13,14 @@ defmodule AdService.Query.ForDisplay do
     |> core_query()
   end
 
+  def build(nil, _client_country) do
+    fn query ->
+      query
+      |> where(fragment("1 = 0"))
+    end
+    |> core_query()
+  end
+
   def build(property_filters) do
     fn query ->
       query
