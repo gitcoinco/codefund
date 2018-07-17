@@ -50,10 +50,10 @@ defmodule CodeFundWeb.CampaignControllerTest do
     fn conn, _context ->
       get(conn, campaign_path(conn, :new))
     end
-    |> behaves_like([:authenticated, :sponsor], "GET /campaigns/new")
+    |> behaves_like([:authenticated, :admin], "GET /campaigns/new")
 
-    test "renders the new template", %{conn: conn} do
-      conn = assign(conn, :current_user, insert(:user))
+    test "renders the new template", %{conn: conn, users: users} do
+      conn = assign(conn, :current_user, users.admin)
       conn = get(conn, campaign_path(conn, :new))
 
       assert html_response(conn, 200) =~ "Campaign"
@@ -67,10 +67,10 @@ defmodule CodeFundWeb.CampaignControllerTest do
         campaign_path(conn, :create, %{"params" => %{"campaign" => context.valid_params}})
       )
     end
-    |> behaves_like([:authenticated, :sponsor], "POST /campaigns/create")
+    |> behaves_like([:authenticated, :admin], "POST /campaigns/create")
 
     test "creates a campaign", %{conn: conn, users: users} do
-      conn = assign(conn, :current_user, users.sponsor)
+      conn = assign(conn, :current_user, users.admin)
 
       params = %{
         "ecpm" => "2.0",
@@ -98,7 +98,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
       users: users,
       valid_params: valid_params
     } do
-      conn = assign(conn, :current_user, users.sponsor)
+      conn = assign(conn, :current_user, users.admin)
 
       conn =
         post(
@@ -142,13 +142,50 @@ defmodule CodeFundWeb.CampaignControllerTest do
     end
     |> behaves_like([:authenticated, :sponsor], "GET /campaigns/edit")
 
-    test "renders the edit template", %{conn: conn} do
-      conn = assign(conn, :current_user, insert(:user))
+    test "renders the edit template as an admin", %{conn: conn, users: users} do
+      conn = assign(conn, :current_user, users.admin)
+      campaign = insert(:campaign, user: users.admin)
+      conn = get(conn, campaign_path(conn, :edit, campaign))
+
+      assert html_response(conn, 200) =~ "Campaign"
+      assert html_response(conn, 200) =~ campaign.name
+
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :name,
+               :redirect_url,
+               :status,
+               :start_date,
+               :end_date,
+               :creative_id,
+               :audience_id,
+               :ecpm,
+               :included_countries,
+               :budget_daily_amount,
+               :total_spend,
+               :impression_count
+             ]
+    end
+
+    test "renders the edit template as a sponsor", %{conn: conn, users: users} do
+      conn = assign(conn, :current_user, users.sponsor)
       campaign = insert(:campaign)
       conn = get(conn, campaign_path(conn, :edit, campaign))
 
       assert html_response(conn, 200) =~ "Campaign"
       assert html_response(conn, 200) =~ campaign.name
+
+      assert conn.assigns.fields |> Keyword.keys() == [
+               :name,
+               :redirect_url,
+               :status,
+               :start_date,
+               :end_date,
+               :creative_id,
+               :ecpm,
+               :included_countries,
+               :budget_daily_amount,
+               :impression_count
+             ]
     end
   end
 
