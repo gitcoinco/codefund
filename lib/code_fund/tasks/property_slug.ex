@@ -11,10 +11,12 @@ defmodule Mix.Tasks.PropertySlug.Generate do
     ensure_migrations_path(@repo)
     {:ok, _pid, _apps} = ensure_started(@repo, [])
 
-    for property <- CodeFund.Properties.list_properties() do
-      CodeFund.Schema.Property.changeset(property, %{slug: property.slug || "stub"})
-      |> update_slug(property.name)
-      |> CodeFund.Repo.update()
+    if Mix.env() != :test do
+      for property <- CodeFund.Properties.list_properties() do
+        CodeFund.Schema.Property.changeset(property, %{slug: property.slug || "stub"})
+        |> update_slug(property.name)
+        |> CodeFund.Repo.update()
+      end
     end
   end
 

@@ -7,7 +7,7 @@
       start_date: [type: :text_input, label: "Start Date"],
       end_date: [type: :text_input, label: "End Date"],
       creative_id: [type: :select, label: "Creative", opts: [choices: @conn.assigns.creatives]],
-      audience_id: [type: :select, label: "Audience", opts: [choices: @conn.assigns.audiences]],
+      audience_id: [type: :select, label: "Audience", opts: [choices: @conn.assigns.audiences, disabled: @conn.assigns.current_user.roles |> CodeFund.Users.has_role?(["admin"]) == false ]],
       ecpm: [type: :currency_input, label: "eCPM",
         opts: [
               step: "0.01",
