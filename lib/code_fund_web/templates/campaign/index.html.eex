@@ -5,8 +5,10 @@
 
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
-      <%= link to: campaign_path(@conn, :new), class: "btn" do %>
-        <i class="fa fa-plus"></i> Add Campaign
+      <%=  if has_any_role?(@conn, [:admin]) do %>
+        <% link to: campaign_path(@conn, :new), class: "btn" do %>
+          <i class="fa fa-plus"></i> Add Campaign
+        <% end %>
       <% end %>
     </div>
   </li>
@@ -52,7 +54,7 @@
                     <td class="text-center">
                       <%= pretty_date campaign.start_date %>
                       <small class="d-block text-muted">
-                        <%= pretty_date campaign.end_date %>  
+                        <%= pretty_date campaign.end_date %>
                       </small>
                     </td>
                     <td class="text-center">
@@ -62,7 +64,7 @@
                         -
                       <% end %>
                       <small class="d-block text-muted">
-                        <%= pretty_money campaign.ecpm %>  
+                        <%= pretty_money campaign.ecpm %>
                       </small>
                     </td>
                     <td class="text-center">
@@ -72,7 +74,7 @@
                         0
                       <% end %>
                       <small class="d-block text-muted">
-                        <%= pretty_integer campaign.impression_count %>  
+                        <%= pretty_integer campaign.impression_count %>
                       </small>
                     </td>
                     <td class="text-center">
