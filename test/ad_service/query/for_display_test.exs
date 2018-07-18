@@ -79,7 +79,7 @@ defmodule AdService.Query.ForDisplayTest do
       included_countries: ["CN"]
     )
 
-    {:ok, %{creative: creative, campaign: campaign}}
+    {:ok, %{creative: creative, campaign: campaign, audience: audience}}
   end
 
   describe "build/1" do
@@ -110,6 +110,38 @@ defmodule AdService.Query.ForDisplayTest do
                topic_categories: ["Development"],
                client_country: "CN"
              )
+             |> CodeFund.Repo.one()
+    end
+  end
+
+  describe "build/2" do
+    test "it returns advertisements by audience and country", %{
+      campaign: campaign,
+      audience: audience
+    } do
+      advertisement =
+        AdService.Query.ForDisplay.build(audience, "US")
+        |> CodeFund.Repo.one()
+
+      assert advertisement == %AdService.Advertisement{
+               body: "This is a Test Creative",
+               campaign_id: campaign.id,
+               headline: "winning advertisement",
+               image_url: "http://example.com/some.png",
+               ecpm: Decimal.new("1.00"),
+               campaign_name: "Test Campaign"
+             }
+    end
+
+    test "it does not return advertisements if no audience is passed" do
+      refute AdService.Query.ForDisplay.build(nil, "US")
+             |> CodeFund.Repo.one()
+    end
+
+    test "it does not return advertisements if excludes indicated countries", %{
+      audience: audience
+    } do
+      refute AdService.Query.ForDisplay.build(audience, "IE")
              |> CodeFund.Repo.one()
     end
   end
