@@ -42,14 +42,16 @@ defmodule CodeFundWeb.API.AdServeController do
   end
 
   def details(conn, %{"property_id" => property_id}) do
-    with %Property{
+    with {:error, :no_cache_found} <-
+           AdService.ImpressionCache.lookup(conn.remote_ip, property_id),
+         {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
+         %Property{
            status: 1,
            user: property_owner,
            audience: audience
          }
          when not is_nil(audience) <-
            Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
-         {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
          {:ok, ad_tuple} <-
            AdService.Query.ForDisplay.build(audience, client_country)
            |> CodeFund.Repo.all()
@@ -75,7 +77,7 @@ defmodule CodeFundWeb.API.AdServeController do
           distribution_amount: AdService.Math.CPM.distribution_amount(campaign, property_owner)
         })
 
-      %{
+      payload = %{
         image: image_url,
         link: "https://#{conn.host}/c/#{impression_id}",
         description: body,
@@ -83,8 +85,17 @@ defmodule CodeFundWeb.API.AdServeController do
         poweredByLink: "https://codefund.io?utm_content=#{campaign_id}",
         headline: headline
       }
+
+      {:ok, :cache_stored} =
+        payload
+        |> AdService.ImpressionCache.store(conn.remote_ip, conn.params["property_id"])
+
+      payload
       |> details_render(conn)
     else
+      {:ok, :cache_loaded, details} ->
+        details |> details_render(conn)
+
       %Property{} ->
         conn
         |> error_details(property_id, "This property is not currently active")
