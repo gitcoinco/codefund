@@ -46,7 +46,9 @@ defmodule CodeFundWeb.API.AdServeController do
            status: 1,
            user: property_owner,
            audience: audience
-         } <- Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
+         }
+         when not is_nil(audience) <-
+           Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
          {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
          {:ok, ad_tuple} <-
            AdService.Query.ForDisplay.build(audience, client_country)
