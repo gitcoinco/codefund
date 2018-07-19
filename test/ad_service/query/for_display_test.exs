@@ -37,7 +37,8 @@ defmodule AdService.Query.ForDisplayTest do
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
         audience: audience,
-        included_countries: ["US"]
+        included_countries: ["US"],
+        user: insert(:user, company: "Acme")
       )
 
     insert(
@@ -79,7 +80,7 @@ defmodule AdService.Query.ForDisplayTest do
       included_countries: ["CN"]
     )
 
-    {:ok, %{creative: creative, campaign: campaign}}
+    {:ok, %{audience: audience, creative: creative, campaign: campaign}}
   end
 
   describe "build/1" do
@@ -111,6 +112,38 @@ defmodule AdService.Query.ForDisplayTest do
                client_country: "CN"
              )
              |> CodeFund.Repo.one()
+    end
+
+    test "it returns advertisements by audience, included country and excluded advertisers", %{
+      audience: audience,
+      campaign: campaign,
+      creative: creative
+    } do
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new("1.00"),
+        budget_daily_amount: Decimal.new(1),
+        total_spend: Decimal.new("100.00"),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+        creative: creative,
+        audience: audience,
+        included_countries: ["US"],
+        user: insert(:user, company: "Foobar")
+      )
+
+      advertisement =
+        AdService.Query.ForDisplay.build(audience, "US", ["Foobar"]) |> CodeFund.Repo.one()
+
+      assert advertisement == %AdService.Advertisement{
+               body: "This is a Test Creative",
+               campaign_id: campaign.id,
+               headline: "winning advertisement",
+               image_url: "http://example.com/some.png",
+               ecpm: Decimal.new("1.00"),
+               campaign_name: "Test Campaign"
+             }
     end
   end
 end

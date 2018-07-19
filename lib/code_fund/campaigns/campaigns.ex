@@ -183,6 +183,18 @@ defmodule CodeFund.Campaigns do
     ])
   end
 
+  @spec list_of_ids_for_companies([String.t()]) :: [UUID.t()]
+  def list_of_ids_for_companies(list_of_companies) when is_list(list_of_companies) do
+    from(
+      c in Campaign,
+      join: user in assoc(c, :user),
+      where: user.company in ^list_of_companies,
+      distinct: c.id,
+      select: c.id
+    )
+    |> Repo.all()
+  end
+
   defp filter_config(:campaigns) do
     defconfig do
       text(:name)

@@ -76,6 +76,14 @@ defmodule CodeFundWeb.PropertyController do
           choices: CodeFund.Properties.topic_categories(),
           hint: "Which general topics apply to this website?"
         ]
+      ],
+      excluded_advertisers: [
+        type: :multiple_select,
+        label: "Advertisers To Exclude",
+        opts: [
+          class: "form-control selectize",
+          choices: CodeFund.Users.distinct_companies()
+        ]
       ]
     ]
 

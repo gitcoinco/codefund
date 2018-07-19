@@ -21,5 +21,25 @@ defmodule CodeFund.UsersTest do
       assert User == user.__struct__
       assert user.first_name == "New Name"
     end
+
+    test "update_user/2 updates excluded advertisers in properties if company name is changed" do
+      user = insert(:user, company: "Acme")
+      property = insert(:property, excluded_advertisers: ["Acme"])
+      assert {:ok, user} = Users.update_user(user, %{"company" => "Foobar"})
+      # reload
+      user = Users.get_user!(user.id)
+      assert User == user.__struct__
+      assert user.company == "Foobar"
+      assert CodeFund.Properties.get_property!(property.id).excluded_advertisers == ["Foobar"]
+    end
+
+    test "distinct_companies/0 returns a unique list of all the companies users belong to sorted alphabetically" do
+      insert_list(3, :user, company: "Acme")
+      insert_pair(:user, company: "Foobar, Inc")
+      insert(:user, company: "BarFoo")
+      insert(:user, company: nil)
+
+      assert Users.distinct_companies() == ["Acme", "BarFoo", "Foobar, Inc"]
+    end
   end
 end

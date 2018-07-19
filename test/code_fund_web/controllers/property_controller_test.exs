@@ -4,6 +4,10 @@ defmodule CodeFundWeb.PropertyControllerTest do
   setup do
     users = stub_users()
 
+    insert_pair(:user, company: "Foobar, Inc")
+    insert(:user, company: "BarFoo")
+    insert(:user, company: nil)
+
     valid_params = string_params_with_assocs(:property, user: nil)
 
     {:ok, %{valid_params: valid_params, users: users}}
@@ -55,7 +59,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories
+               :topic_categories,
+               :excluded_advertisers
              ]
 
       assert html_response(conn, 200) =~ "Property"
@@ -78,7 +83,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories
+               :topic_categories,
+               :excluded_advertisers
              ]
 
       assert html_response(conn, 200) =~ "Property"
@@ -137,7 +143,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories
+               :topic_categories,
+               :excluded_advertisers
              ]
 
       assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
@@ -188,7 +195,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories
+               :topic_categories,
+               :excluded_advertisers
              ]
     end
   end
@@ -259,7 +267,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :estimated_monthly_visitors,
                :language,
                :programming_languages,
-               :topic_categories
+               :topic_categories,
+               :excluded_advertisers
              ]
 
       assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
