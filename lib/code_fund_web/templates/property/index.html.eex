@@ -27,6 +27,9 @@
                 <%= if has_any_role? @conn, ["admin"] do %>
                   <th><%= table_link(@conn, "Slug", :slug) %></th>
                 <% end %>
+                <%= if has_any_role? @conn, ["admin", "developer"] do %>
+                  <th>Excluded Advertisers</th>
+                <% end %>
                 <th></th>
               </tr>
             </thead>
@@ -43,7 +46,9 @@
                   <%= if has_any_role? @conn, ["admin"] do %>
                     <td><%= property.slug %></td>
                   <% end %>
-
+                  <%= if has_any_role? @conn, ["admin", "developer"] do %>
+                    <td><%= property.excluded_advertisers |> Enum.join(", ") %></td>
+                  <% end %>
                   <td class="text-right p-2">
                     <%= link 'Show', to: property_path(@conn, :show, property), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: property_path(@conn, :edit, property), class: "btn btn-outline-primary btn-sm" %>

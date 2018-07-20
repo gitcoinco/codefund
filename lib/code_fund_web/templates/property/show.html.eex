@@ -37,13 +37,13 @@
                   <tr>
                     <td><strong>Advertisers</strong></td>
                     <td>
-                      <ul>  
+                      <ul>
                       <%= for advertiser <- @display_rates do %>
                         <li><strong><%= Number.Percentage.number_to_percentage(advertiser.display_rate, precision: 1) %></strong> <%= advertiser.campaign_name %></li>
                       <% end %>
                       </ul>
                     </td>
-                  </tr>  
+                  </tr>
                 <% end %>
                 <tr>
                   <td><strong>Developer</strong></td>
@@ -95,6 +95,10 @@
                   <tr>
                     <td><strong>Topic Categories</strong></td>
                     <td><%= @property.topic_categories |> Enum.join(", ") %></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Excluded Advertisers</strong></td>
+                    <td><%= @property.excluded_advertisers |> Enum.join(", ") %></td>
                   </tr>
                   <tr>
                     <td><strong>Preview</strong></td>

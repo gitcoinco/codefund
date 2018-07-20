@@ -48,12 +48,13 @@ defmodule CodeFundWeb.API.AdServeController do
          %Property{
            status: 1,
            user: property_owner,
-           audience: audience
+           audience: audience,
+           excluded_advertisers: excluded_advertisers
          }
          when not is_nil(audience) <-
            Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
          {:ok, ad_tuple} <-
-           AdService.Query.ForDisplay.build(audience, client_country)
+           AdService.Query.ForDisplay.build(audience, client_country, excluded_advertisers)
            |> CodeFund.Repo.all()
            |> AdService.Display.choose_winner(),
          %AdService.Advertisement{

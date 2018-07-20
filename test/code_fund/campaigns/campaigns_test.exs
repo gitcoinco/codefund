@@ -18,4 +18,35 @@ defmodule CodeFund.CampaignsTest do
       assert CodeFund.Campaigns.archive(campaign) == {:error, :already_archived}
     end
   end
+
+  describe("list_of_ids_for_companies/1") do
+    test "returns a list of campaign ids for the companies passed in" do
+      user_1 = insert(:user, company: "Foobar, Inc")
+      user_2 = insert(:user, company: "BarFoo")
+      user_3 = insert(:user, company: nil)
+      user_4 = insert(:user, company: "Acme")
+      user_5 = insert(:user, company: "Foobar, Inc")
+
+      campaign_1 = insert(:campaign, user: user_1)
+      campaign_2 = insert(:campaign, user: user_1)
+      _campaign_3 = insert(:campaign, user: user_2)
+      _campaign_4 = insert(:campaign, user: user_3)
+      campaign_5 = insert(:campaign, user: user_4)
+      campaign_6 = insert(:campaign, user: user_5)
+
+      result =
+        CodeFund.Campaigns.list_of_ids_for_companies(["Foobar, Inc", "Acme"]) |> Enum.sort()
+
+      list_of_ids =
+        [
+          campaign_1.id,
+          campaign_2.id,
+          campaign_5.id,
+          campaign_6.id
+        ]
+        |> Enum.sort()
+
+      assert result == list_of_ids
+    end
+  end
 end

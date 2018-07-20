@@ -30,8 +30,13 @@ defmodule CodeFund.Users do
   def roles, do: @roles
 
   def update_user(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
+    changeset =
+      user
+      |> User.changeset(attrs)
+
+    CodeFund.Properties.update_excluded_advertisers(changeset)
+
+    changeset
     |> Repo.update()
   end
 
@@ -39,5 +44,17 @@ defmodule CodeFund.Users do
     Enum.any?(target_roles, fn role ->
       Enum.member?(existing_roles, role)
     end)
+  end
+
+  @spec distinct_companies() :: [String.t()]
+  def distinct_companies() do
+    from(
+      u in User,
+      select: u.company,
+      distinct: u.company,
+      where: not is_nil(u.company),
+      order_by: [asc: u.company]
+    )
+    |> Repo.all()
   end
 end

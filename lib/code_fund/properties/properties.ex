@@ -357,6 +357,49 @@ defmodule CodeFund.Properties do
     Property.changeset(property, %{})
   end
 
+  @spec update_excluded_advertisers(Ecto.Changeset.t()) :: :ok
+  def update_excluded_advertisers(%Ecto.Changeset{
+        data: %CodeFund.Schema.User{} = data,
+        changes: changes
+      }) do
+    case :company in Map.keys(changes) do
+      true ->
+        data.company
+        |> update_or_remove_advertiser(changes.company)
+        |> Repo.update_all([])
+
+        :ok
+
+      false ->
+        :ok
+    end
+  end
+
+  defp update_or_remove_advertiser(old_name, nil) do
+    from(
+      p in Property,
+      update: [
+        set: [
+          excluded_advertisers: fragment("array_remove(excluded_advertisers, ?)", ^old_name)
+        ]
+      ],
+      where: ^old_name in p.excluded_advertisers
+    )
+  end
+
+  defp update_or_remove_advertiser(old_name, new_name) do
+    from(
+      p in Property,
+      update: [
+        set: [
+          excluded_advertisers:
+            fragment("array_replace(excluded_advertisers, ?, ?)", ^old_name, ^new_name)
+        ]
+      ],
+      where: ^old_name in p.excluded_advertisers
+    )
+  end
+
   defp filter_config(:properties) do
     defconfig do
       text(:name)

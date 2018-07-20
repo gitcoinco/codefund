@@ -87,5 +87,56 @@ defmodule CodeFund.PropertiesTest do
     test "change_property/1 returns a property changeset", %{property: property} do
       assert %Ecto.Changeset{} = Properties.change_property(property)
     end
+
+    test "update_excluded_advertisers/1 takes a user changeset where company is changed and updates excluded advertisers on properties" do
+      property_1 = insert(:property, excluded_advertisers: ["Acme", "Foobar"])
+      property_2 = insert(:property, excluded_advertisers: ["Foobar"])
+      property_3 = insert(:property, excluded_advertisers: ["Acme"])
+      property_4 = insert(:property, excluded_advertisers: [])
+
+      user = insert(:user, company: "Foobar")
+
+      assert CodeFund.Schema.User.changeset(user, %{company: "Barfoo"})
+             |> Properties.update_excluded_advertisers() == :ok
+
+      assert Properties.get_property!(property_1.id).excluded_advertisers == ["Acme", "Barfoo"]
+      assert Properties.get_property!(property_2.id).excluded_advertisers == ["Barfoo"]
+      assert Properties.get_property!(property_3.id).excluded_advertisers == ["Acme"]
+      assert Properties.get_property!(property_4.id).excluded_advertisers == []
+    end
+
+    test "update_excluded_advertisers/1 takes a user changeset where company is not changed and does nothing" do
+      property_1 = insert(:property, excluded_advertisers: ["Acme", "Foobar"])
+      property_2 = insert(:property, excluded_advertisers: ["Foobar"])
+      property_3 = insert(:property, excluded_advertisers: ["Acme"])
+      property_4 = insert(:property, excluded_advertisers: [])
+
+      user = insert(:user, company: "Foobar")
+
+      assert CodeFund.Schema.User.changeset(user, %{first_name: "Jim"})
+             |> Properties.update_excluded_advertisers() == :ok
+
+      assert Properties.get_property!(property_1.id).excluded_advertisers == ["Acme", "Foobar"]
+      assert Properties.get_property!(property_2.id).excluded_advertisers == ["Foobar"]
+      assert Properties.get_property!(property_3.id).excluded_advertisers == ["Acme"]
+      assert Properties.get_property!(property_4.id).excluded_advertisers == []
+    end
+
+    test "update_excluded_advertisers/1 takes a user changeset where company is changed to null and removes it from all properties" do
+      property_1 = insert(:property, excluded_advertisers: ["Acme", "Foobar"])
+      property_2 = insert(:property, excluded_advertisers: ["Foobar"])
+      property_3 = insert(:property, excluded_advertisers: ["Acme"])
+      property_4 = insert(:property, excluded_advertisers: [])
+
+      user = insert(:user, company: "Foobar")
+
+      assert CodeFund.Schema.User.changeset(user, %{company: nil})
+             |> Properties.update_excluded_advertisers() == :ok
+
+      assert Properties.get_property!(property_1.id).excluded_advertisers == ["Acme"]
+      assert Properties.get_property!(property_2.id).excluded_advertisers == []
+      assert Properties.get_property!(property_3.id).excluded_advertisers == ["Acme"]
+      assert Properties.get_property!(property_4.id).excluded_advertisers == []
+    end
   end
 end

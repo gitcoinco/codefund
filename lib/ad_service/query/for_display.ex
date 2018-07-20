@@ -2,13 +2,18 @@ defmodule AdService.Query.ForDisplay do
   import Ecto.Query
   alias AdService.Advertisement
   alias AdService.Query.Shared
+  alias CodeFund.Campaigns
   alias CodeFund.Schema.{Audience, Campaign, Creative}
 
-  def build(%Audience{} = audience, client_country) do
+  def build(%Audience{} = audience, client_country, excluded_advertisers \\ []) do
     fn query ->
       query
       |> where_country_in(client_country)
       |> where([_creative, campaign, ...], campaign.audience_id == ^audience.id)
+      |> where(
+        [_creative, campaign, ...],
+        campaign.id not in ^Campaigns.list_of_ids_for_companies(excluded_advertisers)
+      )
     end
     |> core_query()
   end
