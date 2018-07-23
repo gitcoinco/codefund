@@ -5,8 +5,8 @@
 
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
-      <%=  if has_any_role?(@conn, [:admin]) do %>
-        <% link to: campaign_path(@conn, :new), class: "btn" do %>
+      <%=  if has_any_role?(@conn, ["admin"]) do %>
+        <%= link to: campaign_path(@conn, :new), class: "btn" do %>
           <i class="fa fa-plus"></i> Add Campaign
         <% end %>
       <% end %>

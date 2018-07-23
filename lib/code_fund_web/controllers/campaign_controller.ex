@@ -42,10 +42,10 @@ defmodule CodeFundWeb.CampaignController do
     form_fields(true, conn.assigns.current_user)
   end
 
-  defp edit_assigns(_conn, %{"id" => campaign_id}) do
+  defp edit_assigns(conn, %{"id" => campaign_id}) do
     campaign = Campaigns.get_campaign!(campaign_id)
 
-    campaign.user.roles
+    conn.assigns.current_user.roles
     |> CodeFund.Users.has_role?(["admin"])
     |> form_fields(campaign.user)
   end
