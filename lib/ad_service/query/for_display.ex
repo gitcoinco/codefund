@@ -43,7 +43,11 @@ defmodule AdService.Query.ForDisplay do
       ecpm: campaign.ecpm,
       campaign_id: campaign.id,
       campaign_name: campaign.name,
-      headline: creative.headline
+      headline: creative.headline,
+      small_image_object: creative.small_image_object,
+      small_image_bucket: creative.small_image_bucket,
+      large_image_object: creative.large_image_object,
+      large_image_bucket: creative.large_image_bucket
     })
   end
 

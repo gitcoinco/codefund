@@ -42,8 +42,16 @@
                   <td><%= @creative.body %></td>
                 </tr>
                 <tr>
-                  <td><strong>Image</strong></td>
+                  <td><strong>Legacy Image</strong></td>
                   <td><img src="<%= @creative.image_url %>" style="max-width: 350px;" />
+                </tr>
+                <tr>
+                  <td><strong>Small Image</strong></td>
+                  <td><img src="<%= Framework.FileStorage.url(@creative.small_image_bucket, @creative.small_image_object) %>" style="max-width: 350px;" />
+                </tr>
+                <tr>
+                  <td><strong>Large Image</strong></td>
+                  <td><img src="<%= Framework.FileStorage.url(@creative.large_image_bucket, @creative.large_image_object) %>" style="max-width: 350px;" />
                 </tr>
               </tbody>
             </table>

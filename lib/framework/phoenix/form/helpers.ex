@@ -86,6 +86,8 @@ defmodule Framework.Phoenix.Form.Helpers do
         opts
       )
 
+    IO
+
     field_html =
       case type do
         :select ->
@@ -99,6 +101,9 @@ defmodule Framework.Phoenix.Form.Helpers do
 
         :percentage_input ->
           addon_input(form, field_name, "%", opts)
+
+        :image_preview ->
+          image_preview(opts[:src])
 
         _other ->
           apply(Phoenix.HTML.Form, type, [form, field_name, opts])
@@ -115,6 +120,9 @@ defmodule Framework.Phoenix.Form.Helpers do
   defp render_field({field_name, args_list}, form) do
     render_field({field_name, Keyword.merge(args_list, opts: [])}, form)
   end
+
+  defp image_preview(nil), do: nil
+  defp image_preview(image_url), do: img_tag(image_url)
 
   @spec select_fields(Phoenix.HTML.Form.t(), atom, Keyword.t(), atom) :: String.t()
   defp select_fields(form, field_name, opts, type) do

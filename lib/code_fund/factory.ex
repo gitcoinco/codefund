@@ -57,7 +57,14 @@ defmodule CodeFund.Factory do
       headline: "Creative Headline",
       body: "This is a Test Creative",
       image_url: "http://example.com/some.png",
-      user: build(:user)
+      user: build(:user),
+      large_image_bucket: "stub",
+      large_image_object: "image.jpg",
+      large_image: %Plug.Upload{
+        content_type: "image/jpeg",
+        path: Path.expand("../../test/support/mock.jpg", __DIR__),
+        filename: "mock.jpg"
+      }
     }
   end
 

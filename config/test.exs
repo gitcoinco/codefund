@@ -23,3 +23,14 @@ config :code_fund, CodeFund.Mailer, adapter: Bamboo.TestAdapter
 config :code_fund, CodeFundWeb.Endpoint, slack_token: nil
 
 config :redix, database: 15
+
+config :ex_aws,
+  region: "fakes3",
+  access_key_id: "123",
+  secret_access_key: "asdf",
+  bucket: "stub"
+
+config :ex_aws, :s3,
+  scheme: "http://",
+  host: "localhost",
+  port: 4567
