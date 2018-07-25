@@ -1,0 +1,22 @@
+<div class="row">
+  Enter your email, first name and last name to begin.
+  <div class="col-md-9 col-sm-8">
+    <%= form_for @conn, passwordless_path(@conn, :send), fn f -> %>
+      <div class="input-group col-sm-10">
+         <%= label f, :first_name %>
+         <%= text_input f, :first_name, [required: :required] %>
+     </div>
+      <div class="input-group col-sm-10">
+         <%= label f, :last_name %>
+         <%= text_input f, :last_name, [required: :required] %>
+      </div>
+      <div class="input-group col-sm-10">
+         <%= label f, :email %>
+         <%= email_input f, :email, [required: :required]  %>
+      </div>
+      <div class="input-group col-sm-10">
+         <%= submit "Send" %>
+      </div>
+    <% end %>
+  </div>
+</div>

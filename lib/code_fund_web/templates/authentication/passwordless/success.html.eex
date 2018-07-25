@@ -1,0 +1,2 @@
+Check your email to finish.
+    <%= link("Finish", to: passwordless_path(@conn, :complete, email: @email, token: @token)) %>

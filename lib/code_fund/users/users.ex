@@ -27,6 +27,10 @@ defmodule CodeFund.Users do
     from(u in User, where: ^role in u.roles) |> Repo.all()
   end
 
+  def get_by_email(email) do
+    from(u in User, where: ^email == u.email) |> Repo.one()
+  end
+
   def roles, do: @roles
 
   def update_user(%User{} = user, attrs) do

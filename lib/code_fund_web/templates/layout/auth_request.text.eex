@@ -1,0 +1,2 @@
+    Click here to finish your integration.
+    <%= Phoenix.HTML.safe_to_string(link("Finish", to: passwordless_path(@conn, :complete, email: @email, token: @token))) %>

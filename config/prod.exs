@@ -58,3 +58,7 @@ config :code_fund, CodeFund.Mailer,
   domain: System.get_env("MAILGUN_DOMAIN") || "MISSING"
 
 config :redix, database: System.get_env("REDIS_DATABASE")
+
+config :code_fund, Authentication.Token,
+  secret_key: System.get_env("AUTH_TOKEN_SECRET"),
+  salt: System.get_env("AUTH_TOKEN_SALT")

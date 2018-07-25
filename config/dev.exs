@@ -45,6 +45,10 @@ config :code_fund, CodeFund.Repo,
 
 config :code_fund, CodeFund.Mailer, adapter: Bamboo.LocalAdapter
 
+config :code_fund, Authentication.Token,
+  secret_key: "c00d0782995d76ca3dce7584aeb12ae7b6bf0723",
+  salt: "18c80dfee980a1b29ce29fdc46f0dd4b11629c04"
+
 config :redix, database: 0
 
 # Uncomment when developing locally

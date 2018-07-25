@@ -13,6 +13,12 @@ defmodule CodeFund.UsersTest do
       refute Users.has_role?(["admin", "sponsor"], ["developer"])
     end
 
+    test "get_by_email/1 finds a user by email" do
+      insert(:user, email: "wrong_one@example.com")
+      user = insert(:user, email: "right_one@example.com")
+      assert user == Users.get_by_email("right_one@example.com")
+    end
+
     test "update_user/2 with valid data updates the user" do
       user = insert(:user, first_name: "Old Name")
       assert {:ok, user} = Users.update_user(user, %{"first_name" => "New Name"})
