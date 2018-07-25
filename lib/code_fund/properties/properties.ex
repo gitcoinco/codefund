@@ -5,8 +5,7 @@ defmodule CodeFund.Properties do
 
   use CodeFundWeb, :query
 
-  alias CodeFund.Schema.Property
-  alias CodeFund.Schema.User
+  alias CodeFund.Schema.{Property, User, Audience}
 
   @programming_languages [
     "Java",
@@ -284,12 +283,17 @@ defmodule CodeFund.Properties do
     do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :audience])
 
   def get_all_display_rates(%Property{} = property) do
-    AdService.Query.ForDisplay.build(
-      programming_languages: property.programming_languages,
-      topic_categories: property.topic_categories
-    )
-    |> CodeFund.Repo.all()
-    |> AdService.Math.Basic.get_all_display_rates()
+    audience = property.audience
+
+    case audience do
+      nil ->
+        []
+
+      %Audience{} = audience ->
+        AdService.Query.ForDisplay.build(audience, nil)
+        |> CodeFund.Repo.all()
+        |> AdService.Math.Basic.get_all_display_rates()
+    end
   end
 
   @doc """
