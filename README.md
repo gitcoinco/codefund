@@ -76,7 +76,7 @@ mix phx.server
 
 #### Running Tests
 We use `fakes3` for mocking S3 uploads so you will need to have this service running prior to running tests.
-The way to do this is by running `fakes3 -r /tmp/fakes3_root -p 4567`
+You can run this and tests automatically with `./bin/run_tests`
 
 #### What To Consider On Your Pull Requests
 

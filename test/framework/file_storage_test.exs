@@ -28,7 +28,7 @@ defmodule Framework.FileStorageTest do
   describe "url/3" do
     test "it returns the signed s3 url for the asset" do
       assert Framework.FileStorage.url("bucket", "stub.jpg") =~
-               "http://localhost:4567/bucket/stub.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=123%2F20180724%2Ffakes3%2Fs3%2Faws4_request&X-Amz-Date="
+               "http://localhost:4567/bucket/stub.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=123"
     end
 
     test "it returns nil if bucket or object is nil" do

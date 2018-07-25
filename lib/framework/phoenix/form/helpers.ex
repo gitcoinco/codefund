@@ -86,8 +86,6 @@ defmodule Framework.Phoenix.Form.Helpers do
         opts
       )
 
-    IO
-
     field_html =
       case type do
         :select ->
