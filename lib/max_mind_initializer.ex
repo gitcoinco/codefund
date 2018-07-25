@@ -47,7 +47,7 @@ defmodule MaxMindInitializer do
     end
   end
 
-  defp stringify(type), do: type |> Atom.to_string() |> String.capitalize()
-
   defp write_max_mind_db(_, _), do: true
+
+  defp stringify(type), do: type |> Atom.to_string() |> String.capitalize()
 end

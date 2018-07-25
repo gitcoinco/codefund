@@ -101,7 +101,11 @@ defmodule AdService.Query.ForDisplayTest do
                headline: "winning advertisement",
                image_url: "http://example.com/some.png",
                ecpm: Decimal.new("1.00"),
-               campaign_name: "Test Campaign"
+               campaign_name: "Test Campaign",
+               small_image_bucket: nil,
+               small_image_object: nil,
+               large_image_bucket: "stub",
+               large_image_object: "image.jpg"
              }
     end
 
@@ -142,7 +146,11 @@ defmodule AdService.Query.ForDisplayTest do
                headline: "winning advertisement",
                image_url: "http://example.com/some.png",
                ecpm: Decimal.new("1.00"),
-               campaign_name: "Test Campaign"
+               campaign_name: "Test Campaign",
+               small_image_bucket: nil,
+               small_image_object: nil,
+               large_image_bucket: "stub",
+               large_image_object: "image.jpg"
              }
     end
   end

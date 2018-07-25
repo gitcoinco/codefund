@@ -47,5 +47,22 @@ config :code_fund, CodeFund.Mailer, adapter: Bamboo.LocalAdapter
 
 config :redix, database: 0
 
+config :ex_aws,
+  region: System.get_env("S3_REGION") || "fakes3",
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID") || "123",
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY") || "asdf",
+  bucket: System.get_env("S3_BUCKET") || "stub"
+
+case System.get_env("AWS_ACCESS_KEY_ID") == nil do
+  true ->
+    config :ex_aws, :s3,
+      scheme: "http://",
+      host: "localhost",
+      port: 4567
+
+  false ->
+    []
+end
+
 # Uncomment when developing locally
 # import_config "dev.secret.exs"

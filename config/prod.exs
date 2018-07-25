@@ -58,3 +58,9 @@ config :code_fund, CodeFund.Mailer,
   domain: System.get_env("MAILGUN_DOMAIN") || "MISSING"
 
 config :redix, database: System.get_env("REDIS_DATABASE")
+
+config :ex_aws,
+  region: System.get_env("S3_REGION"),
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  bucket: System.get_env("S3_BUCKET")
