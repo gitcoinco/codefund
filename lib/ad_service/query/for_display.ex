@@ -3,12 +3,13 @@ defmodule AdService.Query.ForDisplay do
   alias AdService.Advertisement
   alias AdService.Query.Shared
   alias CodeFund.Campaigns
-  alias CodeFund.Schema.{Audience, Campaign, Creative}
+  alias CodeFund.Schema.{Audience, Campaign, Creative, Impression}
 
   def build(%Audience{} = audience, client_country, excluded_advertisers \\ []) do
     fn query ->
       query
       |> where_country_in(client_country)
+      |> with_daily_budget()
       |> where([_creative, campaign, ...], campaign.audience_id == ^audience.id)
       |> where(
         [_creative, campaign, ...],
@@ -37,7 +38,7 @@ defmodule AdService.Query.ForDisplay do
     |> where([_creative, campaign, ...], campaign.status == 2)
     |> where([_creative, campaign, ...], campaign.start_date <= fragment("current_timestamp"))
     |> where([_creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
-    |> select([creative, campaign, _, _], %Advertisement{
+    |> select([creative, campaign, ...], %Advertisement{
       image_url: creative.image_url,
       body: creative.body,
       ecpm: campaign.ecpm,
@@ -49,6 +50,21 @@ defmodule AdService.Query.ForDisplay do
       large_image_object: creative.large_image_object,
       large_image_bucket: creative.large_image_bucket
     })
+  end
+
+  defp with_daily_budget(query) do
+    daily_budget_query =
+      from(
+        campaign in Campaign,
+        left_join: impression in Impression,
+        on: campaign.id == impression.campaign_id,
+        where: fragment("?::date = now()::date", impression.inserted_at),
+        select: %{daily_spend: fragment("COALESCE(SUM(?), 0)", impression.revenue_amount)}
+      )
+
+    query
+    |> join(:inner_lateral, [...], sub in subquery(daily_budget_query))
+    |> where([_, campaign, _, sub], sub.daily_spend <= campaign.budget_daily_amount)
   end
 
   defp where_country_in(query, nil), do: query
