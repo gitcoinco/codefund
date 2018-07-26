@@ -14,8 +14,8 @@ defmodule Framework.Geolocation do
 
       {:ok, result}
     rescue
-      _exception ->
-        report(:error, "An error occurred during geolocation")
+      exception ->
+        report(:error, exception, "An error occurred during geolocation")
         {:error, :could_not_resolve}
     end
   end

@@ -5,7 +5,7 @@ defmodule CodeFund.Properties do
 
   use CodeFundWeb, :query
 
-  alias CodeFund.Schema.{Property, User, Audience}
+  alias CodeFund.Schema.{Property, User}
 
   @programming_languages [
     "Java",
@@ -149,20 +149,20 @@ defmodule CodeFund.Properties do
 
   def programming_languages do
     @programming_languages
-    |> Enum.chunk(1)
+    |> Enum.chunk_every(1)
     |> Enum.map(fn [a] -> {a, a} end)
   end
 
   def topic_categories do
     @topic_categories
-    |> Enum.chunk(1)
+    |> Enum.chunk_every(1)
     |> Enum.map(fn [a] -> {a, a} end)
   end
 
   def languages do
     @languages
     |> Enum.sort()
-    |> Enum.chunk(1)
+    |> Enum.chunk_every(1)
     |> Enum.map(fn [a] -> {a, a} end)
   end
 
@@ -288,7 +288,7 @@ defmodule CodeFund.Properties do
     |> AdService.Math.Basic.get_all_display_rates()
   end
 
-  def get_all_display_rates(%Property{audience: nil} = property), do: []
+  def get_all_display_rates(%Property{audience: nil}), do: []
 
   @doc """
   Creates a property.

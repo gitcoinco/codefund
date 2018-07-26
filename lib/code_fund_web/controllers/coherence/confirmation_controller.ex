@@ -79,7 +79,7 @@ defmodule CodeFundWeb.Coherence.ConfirmationController do
 
     case user do
       nil ->
-        changeset = Helpers.changeset(:confirmation, user_schema, user_schema.__struct__)
+        Helpers.changeset(:confirmation, user_schema, user_schema.__struct__)
 
         conn
         |> put_flash(:error, Messages.backend().invalid_confirmation_token())

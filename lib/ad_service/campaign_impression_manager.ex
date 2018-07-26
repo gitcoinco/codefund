@@ -28,7 +28,7 @@ defmodule AdService.CampaignImpressionManager do
         {:ok, :impression_count_reached}
 
       {:error, :impression_count_exceeded} ->
-        report(:error, "#{campaign_redis_key} has exceeded impression count")
+        report(:warning, "#{campaign_redis_key} has exceeded impression count")
         {:error, :impression_count_exceeded}
     end
   end

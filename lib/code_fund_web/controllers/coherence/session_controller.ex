@@ -92,7 +92,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
           user_schema.lockable?() and user_schema.locked?(user)
         )
       else
-        report(:error)
+        report(:warning, "User doesn't have confirmed access #{user.email}")
 
         conn
         |> put_flash(:error, Messages.backend().you_must_confirm_your_account())
@@ -100,7 +100,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
         |> render(:new, new_bindings)
       end
     else
-      report(:error)
+      report(:warning, "Failed user login #{user.email}")
 
       conn
       |> track_failed_login(user, user_schema.trackable_table?())
@@ -269,7 +269,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
       {:error, :invalid_token} ->
         # this is a case of potential fraud
         Logger.warn("Invalid token. Potential Fraud.")
-        Rollbax.report(:error, :invalid_token, System.stacktrace())
+        report(:warning, "Invalid token")
 
         conn
         |> delete_req_header(opts[:login_key])
