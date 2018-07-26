@@ -9,7 +9,8 @@ defmodule AdService.Query.ForDisplay do
       creative in Creative,
       join: campaign in Campaign,
       on: campaign.creative_id == creative.id,
-      join: audience in assoc(campaign, :audience)
+      join: audience in assoc(campaign, :audience),
+      distinct: campaign.id
     )
     |> where_country_in(client_country)
     |> with_daily_budget()
@@ -42,7 +43,8 @@ defmodule AdService.Query.ForDisplay do
         left_join: impression in Impression,
         on: campaign.id == impression.campaign_id,
         where: fragment("?::date = now()::date", impression.inserted_at),
-        select: %{daily_spend: fragment("COALESCE(SUM(?), 0)", impression.revenue_amount)}
+        select: %{daily_spend: fragment("COALESCE(SUM(?), 0)", impression.revenue_amount)},
+        group_by: campaign.id
       )
 
     query
