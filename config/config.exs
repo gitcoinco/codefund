@@ -28,3 +28,6 @@ import_config "./configs/*.exs"
 # of this file so it overrides the configuration defined above.
 
 import_config "#{Mix.env()}.exs"
+
+config :coherence,
+  logged_out_url: "/sessions/new"

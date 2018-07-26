@@ -41,14 +41,23 @@ defmodule AdService.Query.ForDisplay do
       from(
         campaign in Campaign,
         left_join: impression in Impression,
-        on: campaign.id == impression.campaign_id,
-        where: fragment("?::date = now()::date", impression.inserted_at),
-        select: %{daily_spend: fragment("COALESCE(SUM(?), 0)", impression.revenue_amount)},
+        on:
+          campaign.id == impression.campaign_id and
+            fragment("?::date = now()::date", impression.inserted_at),
+        select: %{
+          id: campaign.id,
+          daily_spend: fragment("COALESCE(SUM(?), 0)", impression.revenue_amount)
+        },
         group_by: campaign.id
       )
 
     query
-    |> join(:inner_lateral, [...], sub in subquery(daily_budget_query))
+    |> join(
+      :inner,
+      [_, campaign, ...],
+      sub in subquery(daily_budget_query),
+      sub.id == campaign.id
+    )
     |> where([_, campaign, _, sub], sub.daily_spend <= campaign.budget_daily_amount)
   end
 
