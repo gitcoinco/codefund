@@ -18,8 +18,12 @@ defmodule CodeFund.Templates do
 
   """
   def list_templates do
-    Template
-    |> Repo.all()
+    Repo.all(
+      from(
+        t in Template,
+        order_by: fragment("lower(?)", t.name)
+      )
+    )
     |> Repo.preload([:themes])
   end
 
