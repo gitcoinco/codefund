@@ -72,6 +72,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
+               :template,
+               :theme,
                :status,
                :slug,
                :alexa_site_rank,
@@ -132,6 +134,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
+               :template,
+               :theme,
                :status,
                :slug,
                :alexa_site_rank,
@@ -184,6 +188,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
+               :template,
+               :theme,
                :status,
                :slug,
                :alexa_site_rank,
@@ -256,6 +262,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
+               :template,
+               :theme,
                :status,
                :slug,
                :alexa_site_rank,
