@@ -62,6 +62,9 @@ defmodule CodeFundWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      use Plug.ErrorHandler
+      use Sentry.Plug
+      use Coherence.Router
     end
   end
 
@@ -89,6 +92,13 @@ defmodule CodeFundWeb do
     quote do
       use Phoenix.Channel
       import CodeFundWeb.Gettext
+    end
+  end
+
+  def endpoint do
+    quote do
+      use Phoenix.Endpoint, otp_app: :code_fund
+      use Sentry.Phoenix.Endpoint
     end
   end
 

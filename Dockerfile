@@ -1,5 +1,5 @@
 # base image elixer to start with
-FROM elixir:1.6.4-slim
+FROM elixir:1.7-slim
 
 RUN apt-get update && apt-get -y install python2.7 curl make gcc inotify-tools git gnupg
 

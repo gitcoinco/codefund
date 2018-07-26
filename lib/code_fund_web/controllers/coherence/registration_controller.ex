@@ -67,7 +67,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
         |> redirect_or_login(user, params, Config.allow_unconfirmed_access_for())
 
       {:error, changeset} ->
-        report(:error)
+        report(:warning, "Changeset Error")
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -127,7 +127,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
         |> redirect_to(:registration_update, params, user)
 
       {:error, changeset} ->
-        report(:error)
+        report(:warning, "Changeset Error")
         render(conn, "edit.html", user: user, changeset: changeset)
     end
   end

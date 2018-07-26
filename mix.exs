@@ -5,7 +5,7 @@ defmodule CodeFund.Mixfile do
     [
       app: :code_fund,
       version: "0.0.1",
-      elixir: "~> 1.6.4",
+      elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -41,7 +41,7 @@ defmodule CodeFund.Mixfile do
         :scrivener_html,
         :timex,
         :timex_ecto,
-        :rollbax,
+        :sentry,
         :corsica,
         :bamboo,
         :phoenix_html_simplified_helpers
@@ -97,7 +97,7 @@ defmodule CodeFund.Mixfile do
       {:timex, "~> 3.1"},
       {:timex_ecto, "~> 3.0"},
       {:remote_ip, "~> 0.1.0"},
-      {:rollbax, "0.9.0"},
+      {:sentry, "~> 6.4"},
       {:corsica, "~> 1.0"},
       {:joken, "~> 1.5.0"},
       {:bamboo, "~> 0.8"},

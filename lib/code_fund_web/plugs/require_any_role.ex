@@ -21,7 +21,10 @@ defmodule CodeFundWeb.Plugs.RequireAnyRole do
       conn
     else
       _ ->
-        report(:error)
+        report(
+          :warning,
+          "Insufficent roles for request for user #{fetch_user_email_from_conn(conn)}"
+        )
 
         conn
         |> Phoenix.Controller.redirect(to: opts[:to])
@@ -29,4 +32,11 @@ defmodule CodeFundWeb.Plugs.RequireAnyRole do
         |> halt
     end
   end
+
+  def fetch_user_email_from_conn(%Plug.Conn{
+        assigns: %{current_user: %CodeFund.Schema.User{email: email}}
+      }),
+      do: email
+
+  def fetch_user_email_from_conn(_), do: ""
 end

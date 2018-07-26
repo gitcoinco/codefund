@@ -4,45 +4,35 @@ defmodule CodeFund.Reporter do
 
   defmacro report(:info, message) do
     quote do
-      fn ->
-        Rollbax.report_message(:info, unquote(message), %{})
-      end
-      |> CodeFund.Reporter.check_env()
+      Sentry.capture_message(unquote(message), extra: %{level: :info})
     end
   end
 
   defmacro report(:warning, message) do
     quote do
-      fn ->
-        {function_name, arity} = __ENV__.function
+      {function_name, arity} = __ENV__.function
 
-        Rollbax.report_message(:warning, unquote(message), %{
+      Sentry.capture_message(unquote(message),
+        extra: %{
+          level: :warning,
           function: "#{__MODULE__}##{function_name}/#{arity}",
           line: "#{__ENV__.file}:#{__ENV__.line}"
-        })
-      end
-      |> CodeFund.Reporter.check_env()
+        }
+      )
     end
   end
 
-  defmacro report(:error, message) do
+  defmacro report(:error, exception, message) do
     quote do
-      fn ->
-        {function_name, arity} = __ENV__.function
+      {function_name, arity} = __ENV__.function
 
-        Rollbax.report(:error, "#{__MODULE__}##{function_name}/#{arity}", System.stacktrace(), %{
+      Sentry.capture_exception(unquote(exception),
+        stacktrace: __STACKTRACE__,
+        extra: %{
+          function: "#{__MODULE__}##{function_name}/#{arity}",
           message: unquote(message)
-        })
-      end
-      |> CodeFund.Reporter.check_env()
-    end
-  end
-
-  @spec check_env(function) :: atom
-  def check_env(function) do
-    case Mix.env() do
-      :prod -> function.()
-      _other -> :ok
+        }
+      )
     end
   end
 end

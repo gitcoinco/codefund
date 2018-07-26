@@ -1,5 +1,5 @@
 defmodule CodeFundWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :code_fund
+  use CodeFundWeb, :endpoint
 
   socket("/socket", CodeFundWeb.UserSocket)
 
@@ -56,7 +56,7 @@ defmodule CodeFundWeb.Endpoint do
 
   plug(CodeFundWeb.Router)
 
-  @doc """
+  @moduledoc """
   Callback invoked for dynamically configuring the endpoint.
 
   It receives the endpoint configuration and checks if

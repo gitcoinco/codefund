@@ -33,7 +33,7 @@ defmodule CodeFundWeb.Plugs.RequireOwnership do
       conn
     else
       _ ->
-        report(:error)
+        report(:warning, "Insufficent roles for request")
 
         conn
         |> Phoenix.Controller.redirect(to: opts[:to])

@@ -1,6 +1,5 @@
 defmodule CodeFundWeb.Router do
   use CodeFundWeb, :router
-  use Coherence.Router
 
   if Mix.env() == :dev do
     forward("/sent_emails", Bamboo.EmailPreviewPlug)

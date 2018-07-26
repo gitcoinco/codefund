@@ -113,24 +113,31 @@ defmodule Framework.Controller.Stub.Definitions do
 
   @spec action(atom, %Controller.Config{}, %Plug.Conn{}, map, list) :: %Plug.Conn{}
   defp action(:index, config, conn, params, _after_hooks) do
-    case apply(module_name(config.schema, :context), paginate(config.schema), [
-           current_user(conn),
-           params
-         ]) do
-      {:ok, assigns} ->
-        render(conn, "index.html", assigns)
+    try do
+      case apply(module_name(config.schema, :context), paginate(config.schema), [
+             current_user(conn),
+             params
+           ]) do
+        {:ok, assigns} ->
+          render(conn, "index.html", assigns)
 
-      error ->
-        report(:error)
-
-        conn
-        |> put_flash(
+        error ->
+          conn
+          |> put_flash(
+            :error,
+            "There was an error rendering #{pretty(config.schema, :upcase, :plural)}. #{
+              inspect(error)
+            }"
+          )
+          |> redirect(to: construct_path(conn, :index))
+      end
+    rescue
+      exception ->
+        report(
           :error,
-          "There was an error rendering #{pretty(config.schema, :upcase, :plural)}. #{
-            inspect(error)
-          }"
+          exception,
+          "error rendering index #{pretty(config.schema, :upcase, :plural)}"
         )
-        |> redirect(to: construct_path(conn, :index))
     end
   end
 
