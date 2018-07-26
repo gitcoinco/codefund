@@ -84,38 +84,8 @@ defmodule AdService.Query.ForDisplayTest do
   end
 
   describe "build/1" do
-    test "it returns advertisements by property filters", %{
-      campaign: campaign
-    } do
-      advertisement =
-        AdService.Query.ForDisplay.build(
-          programming_languages: ["Rust"],
-          topic_categories: ["Programming"],
-          client_country: "US"
-        )
-        |> CodeFund.Repo.one()
-
-      assert advertisement == %AdService.Advertisement{
-               body: "This is a Test Creative",
-               campaign_id: campaign.id,
-               headline: "winning advertisement",
-               image_url: "http://example.com/some.png",
-               ecpm: Decimal.new("1.00"),
-               campaign_name: "Test Campaign",
-               small_image_bucket: nil,
-               small_image_object: nil,
-               large_image_bucket: "stub",
-               large_image_object: "image.jpg"
-             }
-    end
-
-    test "get_by_property_filters excludes indicated countries" do
-      refute AdService.Query.ForDisplay.build(
-               programming_languages: ["Rust"],
-               topic_categories: ["Development"],
-               client_country: "CN"
-             )
-             |> CodeFund.Repo.one()
+    test "get_by_property_filters excludes indicated countries", %{audience: audience} do
+      refute AdService.Query.ForDisplay.build(audience, "CN", ["Foobar"]) |> CodeFund.Repo.one()
     end
 
     test "it returns advertisements by audience, included country and excluded advertisers", %{
