@@ -48,10 +48,6 @@ config :exq,
   max_retries: 5,
   shutdown_timeout: 5000
 
-config :rollbax,
-  access_token: System.get_env("ROLLBAR_ACCESS_TOKEN"),
-  environment: "production"
-
 config :code_fund, CodeFund.Mailer,
   adapter: Bamboo.MailgunAdapter,
   api_key: System.get_env("MAILGUN_API_KEY") || "MISSING",
