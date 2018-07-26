@@ -237,7 +237,6 @@ defmodule Framework.Controller.Stub.Definitions do
 
       {:error, changeset} ->
         report(:warning, "Changeset Error")
-        after_hooks[:error].(conn, params)
 
         conn
         |> put_private(:controller_config, config)
@@ -253,6 +252,7 @@ defmodule Framework.Controller.Stub.Definitions do
             {:current_user, current_user},
             {:changeset, changeset}
           ])
+          |> Keyword.merge(after_hooks[:error].(conn, params))
         )
     end
   end

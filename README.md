@@ -61,6 +61,8 @@ cd codefund/
 # Optionally set the following environment variables (see .env-sample)
 # config postgres in config/dev.exs
 # start postgres
+gem install fakes3
+
 mix deps.get
 mix ecto.create
 mix ecto.migrate
@@ -68,8 +70,13 @@ mix code_fund.seed
 cd assets && npm install
 cd ../
 mix maxmind.setup
+fakes3 -r /tmp/fakes3_root -p 4567
 mix phx.server
 ```
+
+#### Running Tests
+We use `fakes3` for mocking S3 uploads so you will need to have this service running prior to running tests.
+You can run this and tests automatically with `./bin/run_tests`
 
 #### What To Consider On Your Pull Requests
 

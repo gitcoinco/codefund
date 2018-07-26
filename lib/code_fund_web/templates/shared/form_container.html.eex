@@ -15,7 +15,7 @@
           Oops, something went wrong! Please check the errors below.
         </div>
       <% end %>
-      <%= form_for @conn, construct_path(@conn), [method: rest_method(@conn.assigns.action), as: :params], fn f -> %>
+      <%= form_for @conn, construct_path(@conn), [method: rest_method(@conn.assigns.action), as: :params, multipart: (@conn.assigns |> Map.get(:multipart_form) || false)], fn f -> %>
         <%= inputs_for f, :"#{pretty(@conn.private.controller_config.schema, :downcase, :singular)}", [default: @conn.assigns |> Map.get(:object) || struct(Module.concat([CodeFund, Schema, "#{@conn.private.controller_config.schema}"]))], fn fp -> %>
           <%= render(Module.concat([CodeFundWeb, "#{fully_qualified(@conn)}View"]), "form.html", (@conn.assigns |> Map.merge(%{form: fp, layout: false}))) %>
         <% end %>

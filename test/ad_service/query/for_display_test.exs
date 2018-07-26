@@ -101,7 +101,11 @@ defmodule AdService.Query.ForDisplayTest do
                headline: "winning advertisement",
                image_url: "http://example.com/some.png",
                ecpm: Decimal.new("1.00"),
-               campaign_name: "Test Campaign"
+               campaign_name: "Test Campaign",
+               small_image_bucket: nil,
+               small_image_object: nil,
+               large_image_bucket: "stub",
+               large_image_object: "image.jpg"
              }
     end
 
@@ -142,8 +146,43 @@ defmodule AdService.Query.ForDisplayTest do
                headline: "winning advertisement",
                image_url: "http://example.com/some.png",
                ecpm: Decimal.new("1.00"),
-               campaign_name: "Test Campaign"
+               campaign_name: "Test Campaign",
+               small_image_bucket: nil,
+               small_image_object: nil,
+               large_image_bucket: "stub",
+               large_image_object: "image.jpg"
              }
+    end
+
+    test "it will exclude campaigns that are over their daily budget", %{
+      audience: audience,
+      creative: creative
+    } do
+      CodeFund.Schema.Campaign
+      |> CodeFund.Repo.all()
+      |> Enum.map(&CodeFund.Campaigns.delete_campaign(&1))
+
+      campaign =
+        insert(
+          :campaign,
+          status: 2,
+          ecpm: Decimal.new("1.00"),
+          budget_daily_amount: Decimal.new(1),
+          total_spend: Decimal.new("100.00"),
+          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+          creative: creative,
+          audience: audience,
+          included_countries: ["US"],
+          user: insert(:user, company: "Acme")
+        )
+
+      insert(:impression, campaign: campaign, revenue_amount: Decimal.new(9.5))
+
+      advertisement =
+        AdService.Query.ForDisplay.build(audience, "US", ["Foobar"]) |> CodeFund.Repo.one()
+
+      refute advertisement
     end
   end
 end
