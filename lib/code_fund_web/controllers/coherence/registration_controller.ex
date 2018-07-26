@@ -10,7 +10,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   * update - update the user account
   * delete - delete the user account
   """
-  use Coherence.Web, :controller
+  use CoherenceWeb, :controller
 
   alias Coherence.ControllerHelpers, as: Helpers
   alias Coherence.{Messages, Schemas}

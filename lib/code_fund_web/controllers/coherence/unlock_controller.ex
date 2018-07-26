@@ -7,7 +7,7 @@ defmodule CodeFundWeb.Coherence.UnlockController do
 
   Basic locking and unlocking does not use this controller.
   """
-  use Coherence.Web, :controller
+  use CoherenceWeb, :controller
   use Timex
   use Coherence.Config
 

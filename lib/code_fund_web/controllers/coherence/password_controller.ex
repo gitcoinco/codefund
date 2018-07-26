@@ -11,7 +11,7 @@ defmodule CodeFundWeb.Coherence.PasswordController do
   * edit - render the reset password form
   * update - verify password, password confirmation, and update the database
   """
-  use Coherence.Web, :controller
+  use CoherenceWeb, :controller
   use Timex
 
   alias Coherence.ControllerHelpers, as: Helpers

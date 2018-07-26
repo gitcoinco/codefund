@@ -3,7 +3,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
   Handle the authentication actions.
 
   """
-  use Coherence.Web, :controller
+  use CoherenceWeb, :controller
   use Timex
   use Coherence.Config
   import CodeFund.Reporter

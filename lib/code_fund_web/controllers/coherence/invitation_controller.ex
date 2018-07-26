@@ -10,11 +10,10 @@ defmodule CodeFundWeb.Coherence.InvitationController do
   * create_user - create a new user database record
   * resend - resend an invitation token email
   """
-  use Coherence.Web, :controller
+  use CoherenceWeb, :controller
   use Timex
 
   import Ecto.Changeset
-  import Coherence.ControllerHelpers
 
   alias Coherence.{Config}
   alias Coherence.ControllerHelpers, as: Helpers
