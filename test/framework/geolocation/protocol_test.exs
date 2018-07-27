@@ -158,5 +158,18 @@ defmodule Framework.Geolocation.ProtocolTest do
                region: "Oregon"
              }
     end
+
+    test "it returns city map for an incomplete city struct", %{city_struct: city_struct} do
+      city_struct = city_struct |> Map.delete(:subdivisions)
+
+      assert Framework.Geolocation.Protocol.parse(city_struct) == %{
+               city: "Portland",
+               country: "US",
+               latitude: 45.5171,
+               longitude: -122.6802,
+               postal_code: "",
+               region: ""
+             }
+    end
   end
 end

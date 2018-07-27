@@ -12,11 +12,7 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.Country do
 end
 
 defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
-  import CodeFund.Reporter
-
-  def parse(result) do
-    try do
-      %Geolix.Result.City{
+  def parse(%Geolix.Result.City{
         city: %Geolix.Record.City{
           name: city_name
         },
@@ -35,45 +31,36 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
             name: region_name
           }
         ]
-      } = result
+      }) do
+    %{
+      city: city_name,
+      country: country_iso_code,
+      latitude: latitude,
+      longitude: longitude,
+      postal_code: postal_code,
+      region: region_name
+    }
+  end
 
-      %{
-        city: city_name,
-        country: country_iso_code,
-        latitude: latitude,
-        longitude: longitude,
-        postal_code: postal_code,
-        region: region_name
-      }
-    rescue
-      exception ->
-        report(
-          :error,
-          exception,
-          "Geolocation protocol parsing error, #{result |> Poison.encode!()}"
-        )
-
-        %Geolix.Result.City{
-          city: %Geolix.Record.City{
-            name: city_name
-          },
-          country: %Geolix.Record.Country{
-            iso_code: country_iso_code
-          },
-          location: %Geolix.Record.Location{
-            latitude: latitude,
-            longitude: longitude
-          }
-        } = result
-
-        %{
-          city: city_name,
-          country: country_iso_code,
+  def parse(%Geolix.Result.City{
+        city: %Geolix.Record.City{
+          name: city_name
+        },
+        country: %Geolix.Record.Country{
+          iso_code: country_iso_code
+        },
+        location: %Geolix.Record.Location{
           latitude: latitude,
-          longitude: longitude,
-          postal_code: "",
-          region: ""
+          longitude: longitude
         }
-    end
+      }) do
+    %{
+      city: city_name,
+      country: country_iso_code,
+      latitude: latitude,
+      longitude: longitude,
+      postal_code: "",
+      region: ""
+    }
   end
 end
