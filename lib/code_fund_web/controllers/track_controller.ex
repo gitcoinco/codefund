@@ -19,6 +19,7 @@ defmodule CodeFundWeb.TrackController do
     else
       {:error, _} ->
         conn
+        |> put_status(500)
     end
   end
 
