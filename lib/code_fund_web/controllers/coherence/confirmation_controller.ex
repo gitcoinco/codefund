@@ -5,7 +5,7 @@ defmodule CodeFundWeb.Coherence.ConfirmationController do
   A single action, `edit`, is required for the confirmation module.
 
   """
-  use Coherence.Web, :controller
+  use CoherenceWeb, :controller
   use Timex
 
   alias Coherence.ControllerHelpers, as: Helpers
