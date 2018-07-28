@@ -58,6 +58,10 @@
                   <td><%= link @property.url, to: @property.url, target: "_blank" %></td>
                 </tr>
                 <tr>
+                  <td><strong>Template</strong></td>
+                  <td><%= if @property.template, do: @property.template.name %></td>
+                </tr>
+                <tr>
                   <td><strong>Description</strong></td>
                   <td><%= @property.description %></td>
                 </tr>

@@ -5,9 +5,9 @@ defmodule CodeFundWeb.API.AdServeController do
   alias CodeFund.Schema.{Campaign, Impression, Property, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
-    template_slug = params["template"] || "default"
+    template_slug = get_template_slug(property_id, params["template"])
     theme_slug = params["theme"] || "light"
-    targetId = params["target"] || "codefund_ad"
+    target_id = params["target"] || "codefund_ad"
 
     with %Theme{template: %Template{}} = theme <-
            Themes.get_template_or_theme_by_slugs(theme_slug, template_slug),
@@ -17,7 +17,7 @@ defmodule CodeFundWeb.API.AdServeController do
       |> render(
         "embed.js",
         template: theme.template,
-        targetId: targetId,
+        targetId: target_id,
         theme: theme,
         details_url: details_url
       )
@@ -27,6 +27,15 @@ defmodule CodeFundWeb.API.AdServeController do
 
       nil ->
         error_render(conn, "template", Templates.list_templates())
+    end
+  end
+
+  defp get_template_slug(property_id, requested_template_slug) do
+    %Property{template: template} = Properties.get_property!(property_id)
+
+    case template do
+      nil -> if requested_template_slug, do: requested_template_slug, else: "default"
+      _ -> template.slug
     end
   end
 

@@ -23,6 +23,7 @@ defmodule CodeFund.Schema.Property do
     has_many(:impressions, CodeFund.Schema.Impression)
     belongs_to(:user, CodeFund.Schema.User)
     belongs_to(:audience, CodeFund.Schema.Audience)
+    belongs_to(:template, CodeFund.Schema.Template)
 
     # This is used to tranfer legacy sponsored projects to the new system
     field(:legacy_id, :string)

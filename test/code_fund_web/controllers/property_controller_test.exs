@@ -55,6 +55,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :name,
                :description,
                :url,
+               :template_id,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :language,
@@ -72,8 +73,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
-               :template,
-               :theme,
                :status,
                :slug,
                :alexa_site_rank,
@@ -81,6 +80,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :name,
                :description,
                :url,
+               :template_id,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :language,
@@ -134,8 +134,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
-               :template,
-               :theme,
                :status,
                :slug,
                :alexa_site_rank,
@@ -143,6 +141,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :name,
                :description,
                :url,
+               :template_id,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :language,
@@ -188,8 +187,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
-               :template,
-               :theme,
                :status,
                :slug,
                :alexa_site_rank,
@@ -197,6 +194,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :name,
                :description,
                :url,
+               :template_id,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :language,
@@ -262,8 +260,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() == [
                :audience_id,
-               :template,
-               :theme,
                :status,
                :slug,
                :alexa_site_rank,
@@ -271,6 +267,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :name,
                :description,
                :url,
+               :template_id,
                :estimated_monthly_page_views,
                :estimated_monthly_visitors,
                :language,

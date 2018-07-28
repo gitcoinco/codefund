@@ -36,6 +36,16 @@ defmodule CodeFundWeb.PropertyController do
       name: [type: :text_input, label: "Name"],
       description: [type: :textarea, label: "Description", opts: [rows: 4]],
       url: [type: :text_input, label: "URL", opts: [placeholder: "https://"]],
+      template_id: [
+        type: :select,
+        label: "Template (optional)",
+        opts: [
+          prompt: "",
+          choices: CodeFund.Templates.list_templates() |> FormHelpers.repo_objects_to_options(),
+          hint:
+            "Override the <code>template</code> passed in the query string i.e. https://codefund.io/scripts/xxxxxxxxx/embed.js?template=<code>OVERRIDES_THIS</code>"
+        ]
+      ],
       estimated_monthly_page_views: [
         type: :number_input,
         label: "Est. Monthly Page Views",
@@ -113,20 +123,6 @@ defmodule CodeFundWeb.PropertyController do
           class: "form-control selectize",
           choices: CodeFund.Audiences.list_audiences() |> FormHelpers.repo_objects_to_options(),
           hint: "Which audience does this property belong to?"
-        ]
-      ],
-      template: [
-        type: :text_input,
-        label: "Template",
-        opts: [
-          hint: "Override the <code>template</code> passed in the query string i.e. https://codefund.io/scripts/xxxxxxxxx/embed.js?template=<code>OVERRIDES_THIS</code>"
-        ]
-      ],
-      theme: [
-        type: :text_input,
-        label: "Theme",
-        opts: [
-          hint: "Override the <code>theme</code> passed in the query string i.e. https://codefund.io/scripts/xxxxxxxxx/embed.js?theme=<code>OVERRIDES_THIS</code>"
         ]
       ],
       status: [type: :select, label: "Status", opts: [choices: CodeFund.Properties.statuses()]],
