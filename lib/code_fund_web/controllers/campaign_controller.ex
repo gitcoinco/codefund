@@ -64,8 +64,23 @@ defmodule CodeFundWeb.CampaignController do
         ],
         start_date: [type: :text_input, label: "Start Date"],
         end_date: [type: :text_input, label: "End Date"],
-        creative_id: [type: :select, label: "Creative", opts: [choices: creatives]],
+        creative_id: [
+          type: :select,
+          label: "Creative",
+          opts: [choices: creatives, "data-target": "campaign-form.creatives"]
+        ],
         audience_id: [type: :select, label: "Audience", opts: [choices: audiences]],
+        user_id: [
+          type: :select,
+          label: "User",
+          opts: [
+            choices:
+              CodeFund.Users.get_by_role("sponsor")
+              |> FormHelpers.repo_objects_to_options([:first_name, :last_name], " "),
+            "data-target": "campaign-form.userId",
+            "data-action": "change->campaign-form#creativesForUser"
+          ]
+        ],
         ecpm: [
           type: :currency_input,
           label: "eCPM",
@@ -124,7 +139,7 @@ defmodule CodeFundWeb.CampaignController do
         CodeFund.Audiences.list_audiences()
         |> FormHelpers.repo_objects_to_options(),
       creatives:
-        CodeFund.Creatives.by_user(user)
+        CodeFund.Creatives.by_user_id(user.id)
         |> FormHelpers.repo_objects_to_options()
     ]
   end
