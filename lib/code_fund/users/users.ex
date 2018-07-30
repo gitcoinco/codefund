@@ -24,7 +24,7 @@ defmodule CodeFund.Users do
   end
 
   def get_by_role(role) do
-    from(u in User, where: ^role in u.roles) |> Repo.all()
+    from(u in User, where: ^role in u.roles, order_by: [asc: u.first_name]) |> Repo.all()
   end
 
   def roles, do: @roles

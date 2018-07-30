@@ -60,8 +60,8 @@ defmodule CodeFund.Creatives do
     end
   end
 
-  def by_user(%User{id: id}) do
-    from(o in Creative, where: o.user_id == ^id)
+  def by_user_id(user_id) do
+    from(o in Creative, where: o.user_id == ^user_id)
     |> CodeFund.Repo.all()
   end
 

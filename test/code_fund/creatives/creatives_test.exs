@@ -27,12 +27,12 @@ defmodule CodeFund.CreativesTest do
       assert length(results.creatives) == 15
     end
 
-    test "by_user/1 returns creatives by user" do
+    test "by_user_id/1 returns creatives by user" do
       user = insert(:user)
       insert_list(25, :creative, user: user)
       insert_list(25, :creative)
 
-      assert Creatives.by_user(user) |> length == 25
+      assert Creatives.by_user_id(user.id) |> length == 25
     end
 
     test "list_creatives/0 returns all creatives", %{creative: creative} do

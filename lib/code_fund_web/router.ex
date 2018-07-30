@@ -112,5 +112,6 @@ defmodule CodeFundWeb.Router do
     get("/t/s/:property_id/details.json", AdServeController, :details)
 
     resources("/audience_metrics", AudienceMetricsController, only: [:index])
+    get("/users/:user_id/creatives/index.json", User.CreativeController, :index)
   end
 end

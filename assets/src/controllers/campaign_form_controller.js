@@ -1,5 +1,6 @@
 import { Controller } from "stimulus";
-import $ from "jquery/dist/jquery";
+import _ from "lodash";
+import axios from "../utils/axios";
 
 export default class extends Controller {
   static get targets() {
@@ -7,12 +8,33 @@ export default class extends Controller {
       "ecpm",
       "totalBudget",
       "estimatedImpressions",
-      "includedCountries"
+      "includedCountries",
+      "creatives",
+      "userId"
     ];
   }
 
   connect() {
     this.calculateImpressions();
+  }
+
+  creativesForUser(context) {
+    axios({
+      url: `/users/${context.srcElement.value}/creatives/index.json`,
+      method: "GET",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded"
+      }
+    })
+    .then(this.handleCreativesResponse.bind(this))
+  }
+
+  handleCreativesResponse(response) {
+    var len = response.data.creatives.length;
+    var options = _.map(response.data.creatives, function(creative) {
+      return '<option value="'+ creative.id +'">'+ creative.name +'</option>';
+    })
+    this.creativesTarget.innerHTML = options;
   }
 
   calculateImpressions() {
