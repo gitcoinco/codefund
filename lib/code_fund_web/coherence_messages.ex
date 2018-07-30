@@ -22,6 +22,9 @@ defmodule CodeFundWeb.Coherence.Messages do
   # Messages
 
   def account_already_confirmed, do: dgettext(@domain, "Account already confirmed.")
+  def account_created_successfully,
+  do: dgettext(@domain, "Registration created successfully.")
+
   def account_is_not_locked, do: dgettext(@domain, "Account is not locked.")
   def account_updated_successfully, do: dgettext(@domain, "Account updated successfully.")
   def already_confirmed, do: dgettext(@domain, "already confirmed")
