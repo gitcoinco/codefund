@@ -10,9 +10,17 @@ defmodule Framework.GeolocationTest do
       assert Framework.Geolocation.find_by_ip({163, 177, 112, 32}, :country) == {:ok, "CN"}
     end
 
-    test "returns an error tuple if country lookup fails" do
+    test "returns an empty location map if country lookup fails" do
       assert Framework.Geolocation.find_by_ip({999, 999, 999, 999}, :country) ==
-               {:error, :could_not_resolve}
+               {:ok,
+                %{
+                  city: "",
+                  country: "",
+                  latitude: "",
+                  longitude: "",
+                  postal_code: "",
+                  region: ""
+                }}
     end
 
     test "returns the city details" do
@@ -28,9 +36,17 @@ defmodule Framework.GeolocationTest do
                 }}
     end
 
-    test "returns an error tuple if city look up fails" do
+    test "returns an empty location map if city look up fails" do
       assert Framework.Geolocation.find_by_ip({999, 999, 999, 999}, :city) ==
-               {:error, :could_not_resolve}
+               {:ok,
+                %{
+                  city: "",
+                  country: "",
+                  latitude: "",
+                  longitude: "",
+                  postal_code: "",
+                  region: ""
+                }}
     end
   end
 
@@ -42,11 +58,20 @@ defmodule Framework.GeolocationTest do
              ) == {:ok, "JP"}
     end
 
-    test "returns an error tuple if country lookup fails" do
+    test "returns an empty location map if country lookup fails" do
       assert Framework.Geolocation.find_by_ip(
                {"9999", "9999", "9999", "9999", "9989", "9999", "9999", "9999"},
                :country
-             ) == {:error, :could_not_resolve}
+             ) ==
+               {:ok,
+                %{
+                  city: "",
+                  country: "",
+                  latitude: "",
+                  longitude: "",
+                  postal_code: "",
+                  region: ""
+                }}
     end
 
     test "returns the city details" do
@@ -65,11 +90,20 @@ defmodule Framework.GeolocationTest do
                 }}
     end
 
-    test "returns an error tuple if city look up fails" do
+    test "returns an empty location map if city look up fails" do
       assert Framework.Geolocation.find_by_ip(
                {"9999", "9999", "9999", "9999", "9989", "9999", "9999", "9999"},
                :city
-             ) == {:error, :could_not_resolve}
+             ) ==
+               {:ok,
+                %{
+                  city: "",
+                  country: "",
+                  latitude: "",
+                  longitude: "",
+                  postal_code: "",
+                  region: ""
+                }}
     end
   end
 end

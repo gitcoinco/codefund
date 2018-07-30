@@ -1,4 +1,6 @@
 defprotocol Framework.Geolocation.Protocol do
+  @fallback_to_any true
+
   @spec parse(struct) :: map | String.t()
   def parse(date)
 end
@@ -62,5 +64,17 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
       postal_code: "",
       region: ""
     }
+  end
+
+  defimpl Framework.Geolocation.Protocol, for: Any do
+    def parse(_),
+      do: %{
+        city: "",
+        country: "",
+        latitude: "",
+        longitude: "",
+        postal_code: "",
+        region: ""
+      }
   end
 end
