@@ -171,5 +171,16 @@ defmodule Framework.Geolocation.ProtocolTest do
                region: ""
              }
     end
+
+    test "it falls back to any if passed nil" do
+      assert Framework.Geolocation.Protocol.parse(nil) == %{
+               city: "",
+               country: "",
+               latitude: "",
+               longitude: "",
+               postal_code: "",
+               region: ""
+             }
+    end
   end
 end
