@@ -13,6 +13,8 @@ defmodule CodeFund.Schema.Impression do
     field(:city, :string)
     field(:country, :string)
     field(:device_type, :string)
+    field(:browser_height, :string)
+    field(:browser_width, :string)
     field(:latitude, :decimal)
     field(:longitude, :decimal)
     field(:os, :string)
