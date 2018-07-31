@@ -41,7 +41,7 @@ defmodule CodeFundWeb.API.AdServeController do
     )
   end
 
-  def details(conn, %{"property_id" => property_id}) do
+  def details(conn, %{"property_id" => property_id, "width" => width, "height" => height}) do
     with {:error, :no_cache_found} <-
            AdService.ImpressionCache.lookup(conn.remote_ip, property_id),
          {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
@@ -80,7 +80,9 @@ defmodule CodeFundWeb.API.AdServeController do
           property_id: property_id,
           campaign_id: campaign_id,
           revenue_amount: AdService.Math.CPM.revenue_amount(campaign),
-          distribution_amount: AdService.Math.CPM.distribution_amount(campaign, property_owner)
+          distribution_amount: AdService.Math.CPM.distribution_amount(campaign, property_owner),
+          browser_height: height,
+          browser_width: width
         })
 
       payload = %{
@@ -106,7 +108,12 @@ defmodule CodeFundWeb.API.AdServeController do
 
       %Property{} ->
         conn
-        |> create_impression_with_error(property_id, "This property is not currently active")
+        |> create_impression_with_error(
+          property_id,
+          "This property is not currently active",
+          height,
+          width
+        )
         |> details_render(conn)
 
       {:error, :is_bot} ->
@@ -117,7 +124,9 @@ defmodule CodeFundWeb.API.AdServeController do
         conn
         |> create_impression_with_error(
           property_id,
-          "CodeFund does not have an advertiser for you at this time"
+          "CodeFund does not have an advertiser for you at this time",
+          height,
+          width
         )
         |> details_render(conn)
     end
@@ -125,12 +134,14 @@ defmodule CodeFundWeb.API.AdServeController do
 
   defp details_render(payload, conn), do: render(conn, "details.json", payload: payload)
 
-  defp create_impression_with_error(conn, property_id, reason) do
+  defp create_impression_with_error(conn, property_id, reason, height, width) do
     {:ok, %Impression{id: impression_id}} =
       Impressions.create_impression(%{
         property_id: property_id,
         campaign_id: nil,
-        ip: conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
+        ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
+        browser_height: height,
+        browser_width: width
       })
 
     error_map(reason, "//#{conn.host}/p/#{impression_id}/pixel.png")

@@ -6,11 +6,18 @@ if (!window.hasOwnProperty('_codefund_template')) {
   window._codefund_template = '<%= @template.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
 }
 
+var buildJsonUrl = function(url){
+    browserWidth = window.innerWidth;
+    browserHeight = window.innerHeight;
+
+    return url + '?width=' + browserWidth + '&height=' + browserHeight;
+  };
+
 var _codefund = {
   init: function(config) {
     this.render = this.render.bind(this);
     this.targetId = config.targetId;
-    this.jsonUrl = '<%= @details_url %>';
+    this.jsonUrl = buildJsonUrl('<%= @details_url %>');
   },
 
   serve: function() {

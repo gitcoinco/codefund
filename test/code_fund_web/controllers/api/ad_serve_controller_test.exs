@@ -111,7 +111,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         included_countries: ["US"]
       )
 
-      conn = get(conn, ad_serve_path(conn, :details, property))
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
@@ -119,6 +120,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.campaign_id == campaign.id
       assert impression.revenue_amount == Decimal.new("0.002500000000")
       assert impression.distribution_amount == Decimal.new("0.001500000000")
+      assert impression.browser_height == 800
+      assert impression.browser_width == 1200
 
       payload = %{
         "small_image_url" =>
@@ -169,7 +172,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           "Googlebot/2.1 (+http://www.googlebot.com/bot.html)"
         )
 
-      conn = get(conn, ad_serve_path(conn, :details, property))
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
 
       assert CodeFund.Impressions.list_impressions() == []
 
@@ -217,7 +221,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           included_countries: ["US"]
         )
 
-      conn = get(conn, ad_serve_path(conn, :details, property))
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
+
       initial_response = conn |> json_response(200)
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
@@ -239,8 +245,11 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == payload
       new_conn = build_conn() |> Map.put(:remote_ip, {12, 109, 12, 14})
 
-      assert get(new_conn, ad_serve_path(conn, :details, property)) |> json_response(200) ==
-               initial_response
+      assert get(
+               new_conn,
+               ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200})
+             )
+             |> json_response(200) == initial_response
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 1
     end
@@ -264,12 +273,16 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
-      conn = get(conn, ad_serve_path(conn, :details, property))
+
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+      assert impression.browser_height == 800
+      assert impression.browser_width == 1200
 
       assert json_response(conn, 200) == %{
                "headline" => "",
@@ -288,12 +301,16 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       property = insert(:property, %{status: 0, audience: insert(:audience)})
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
-      conn = get(conn, ad_serve_path(conn, :details, property))
+
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+      assert impression.browser_height == 800
+      assert impression.browser_width == 1200
 
       assert json_response(conn, 200) == %{
                "headline" => "",
@@ -312,7 +329,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       conn = conn |> Map.put(:remote_ip, {163, 177, 112, 32})
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
-      conn = get(conn, ad_serve_path(conn, :details, property))
+
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "163.177.112.32"
@@ -337,7 +356,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       property = insert(:property)
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
-      conn = get(conn, ad_serve_path(conn, :details, property))
+
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
