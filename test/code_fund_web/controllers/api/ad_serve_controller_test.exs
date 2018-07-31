@@ -11,6 +11,38 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
   end
 
   describe "embed" do
+    test "it uses the default template", %{conn: conn, property: property} do
+      conn = get(conn, ad_serve_path(conn, :embed, property.id))
+      assert response(conn, 200)
+      assert conn.assigns.template.slug == "default"
+    end
+
+    test "it uses the requested template", %{conn: conn, property: property} do
+      insert(:theme, slug: "light", template: insert(:template, slug: "custom"))
+      conn = get(conn, ad_serve_path(conn, :embed, property.id, template: "custom"))
+      assert response(conn, 200)
+      assert conn.assigns.template.slug == "custom"
+    end
+
+    test "it uses the override template defined on the property", %{conn: conn} do
+      template = insert(:template, slug: "override")
+      property = insert(:property, template: template)
+      insert(:theme, slug: "light", template: template)
+      conn = get(conn, ad_serve_path(conn, :embed, property.id))
+      assert response(conn, 200)
+      assert conn.assigns.template.slug == "override"
+    end
+
+    test "it uses the override template defined on the property even when a different template was requested",
+         %{conn: conn} do
+      template = insert(:template, slug: "override")
+      property = insert(:property, template: template)
+      insert(:theme, slug: "light", template: template)
+      conn = get(conn, ad_serve_path(conn, :embed, property.id, template: "default"))
+      assert response(conn, 200)
+      assert conn.assigns.template.slug == "override"
+    end
+
     test "it returns template and theme if one is found", %{
       conn: conn,
       property: property,
