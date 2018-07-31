@@ -7,7 +7,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
     theme = insert(:theme, slug: "light", template: insert(:template, slug: "default"))
 
     conn =
-      build_conn
+      build_conn()
       |> put_req_header(
         "user-agent",
         "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36"

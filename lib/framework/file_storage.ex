@@ -24,17 +24,22 @@ defmodule Framework.FileStorage do
     {:error, :invalid_file_type}
   end
 
-  @spec url(String.t(), String.t(), integer) :: String.t() | nil
-  def url(bucket, object, expires_in \\ 3600)
+  @spec url(String.t(), String.t()) :: String.t() | nil
+  def url(bucket, object)
 
-  def url(bucket, object, expires_in) when not is_nil(bucket) and not is_nil(object) do
-    {:ok, url} =
+  def url(bucket, object) when not is_nil(bucket) and not is_nil(object) do
+    %{scheme: scheme, host: host, port: port} =
       :s3
       |> ExAws.Config.new()
-      |> ExAws.S3.presigned_url(:get, bucket, object, expires_in: expires_in)
 
-    url
+    %URI{
+      host: host,
+      scheme: scheme |> String.replace("://", ""),
+      port: port,
+      path: "/#{bucket}/#{object}"
+    }
+    |> URI.to_string()
   end
 
-  def url(_, _, _), do: nil
+  def url(_, _), do: nil
 end
