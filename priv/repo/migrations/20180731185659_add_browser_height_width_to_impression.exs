@@ -3,8 +3,8 @@ defmodule CodeFund.Repo.Migrations.AddBrowserHeightWidthToImpression do
 
   def change do
     alter table(:impressions) do
-      add :browser_height, :string
-      add :browser_width, :string
+      add :browser_height, :integer
+      add :browser_width, :integer
     end
   end
 end
