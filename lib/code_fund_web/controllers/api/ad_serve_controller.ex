@@ -53,6 +53,7 @@ defmodule CodeFundWeb.API.AdServeController do
          }
          when not is_nil(audience) <-
            Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
+         :ok <- Framework.Browser.certify_human(conn),
          {:ok, ad_tuple} <-
            AdService.Query.ForDisplay.build(audience, client_country, excluded_advertisers)
            |> CodeFund.Repo.all()
@@ -105,19 +106,26 @@ defmodule CodeFundWeb.API.AdServeController do
 
       %Property{} ->
         conn
-        |> error_details(property_id, "This property is not currently active")
+        |> create_impression_with_error(property_id, "This property is not currently active")
+        |> details_render(conn)
+
+      {:error, :is_bot} ->
+        error_map("CodeFund does not have an advertiser for you at this time")
         |> details_render(conn)
 
       {:error, _reason} ->
         conn
-        |> error_details(property_id, "CodeFund does not have an advertiser for you at this time")
+        |> create_impression_with_error(
+          property_id,
+          "CodeFund does not have an advertiser for you at this time"
+        )
         |> details_render(conn)
     end
   end
 
   defp details_render(payload, conn), do: render(conn, "details.json", payload: payload)
 
-  defp error_details(conn, property_id, reason) do
+  defp create_impression_with_error(conn, property_id, reason) do
     {:ok, %Impression{id: impression_id}} =
       Impressions.create_impression(%{
         property_id: property_id,
@@ -125,12 +133,16 @@ defmodule CodeFundWeb.API.AdServeController do
         ip: conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
       })
 
+    error_map(reason, "//#{conn.host}/p/#{impression_id}/pixel.png")
+  end
+
+  defp error_map(reason, pixel_url \\ "") do
     %{
       image: "",
       link: "",
       headline: "",
       description: "",
-      pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
+      pixel: pixel_url,
       poweredByLink: "https://codefund.io?utm_content=",
       reason: reason
     }

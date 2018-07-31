@@ -6,8 +6,15 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
     property = insert(:property)
     theme = insert(:theme, slug: "light", template: insert(:template, slug: "default"))
 
+    conn =
+      build_conn
+      |> put_req_header(
+        "user-agent",
+        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36"
+      )
+
     on_exit(fn -> CodeFundWeb.RedisHelper.clean_redis() end)
-    {:ok, %{property: property, theme: theme}}
+    {:ok, %{property: property, theme: theme, conn: conn}}
   end
 
   describe "embed" do
@@ -128,6 +135,53 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
       assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
       assert json_response(conn, 200) == payload
+    end
+
+    test "returns an error and doesn't create an impression if the traffic is from a bot",
+         %{conn: conn} do
+      creative = insert(:creative)
+
+      audience_1 = insert(:audience, name: "right one")
+
+      property =
+        insert(
+          :property,
+          audience: audience_1
+        )
+
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new(2.50),
+        budget_daily_amount: Decimal.new(50),
+        total_spend: Decimal.new(2000),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+        creative: creative,
+        audience: audience_1,
+        included_countries: ["US"]
+      )
+
+      conn =
+        Plug.Conn.put_req_header(
+          conn,
+          "user-agent",
+          "Googlebot/2.1 (+http://www.googlebot.com/bot.html)"
+        )
+
+      conn = get(conn, ad_serve_path(conn, :details, property))
+
+      assert CodeFund.Impressions.list_impressions() == []
+
+      assert json_response(conn, 200) == %{
+               "headline" => "",
+               "description" => "",
+               "image" => "",
+               "link" => "",
+               "pixel" => "",
+               "poweredByLink" => "https://codefund.io?utm_content=",
+               "reason" => "CodeFund does not have an advertiser for you at this time"
+             }
     end
 
     test "serves an ad from cache if multiple requests are made to the same property and ip within a time frame and does not create a new impression",
