@@ -42,14 +42,15 @@ critique our code and ensure we are being honest.
 #### Using Docker
 
 1.  Setup a complete docker and docker-compose installation
-2.  Clone this repository
-3.  Copy `.env-sample` to `.env`
-4.  Built the phoenix app into image: `docker-compose build`
-5.  Create the database: `docker-compose run web mix ecto.create`
-6.  Run the migrations: `docker-compose run web mix ecto.migrate`
-7.  Seed the db: `docker-compose run web mix code_fund.seed`
-8.  Run the services: `docker-compose up -d`
-9.  Visit [localhost:4000](http://localhost:4000) to see CodeFund running.
+1.  Clone this repository
+1.  Copy `.env-sample` to `.env`
+1.  Built the phoenix app into image: `docker-compose build`
+1.  Install dependencies: `docker-compose run web mix deps.get`
+1.  Create the database: `docker-compose run web mix ecto.create`
+1.  Run the migrations: `docker-compose run web mix ecto.migrate`
+1.  Seed the db: `docker-compose run web mix code_fund.seed`
+1.  Run the services: `docker-compose up -d`
+1.  Visit [localhost:4000](http://localhost:4000) to see CodeFund running.
 
 #### Without Docker (native setup)
 

@@ -21,7 +21,14 @@
             <table class="table table-responsive-sm">
               <tbody>
                 <tr>
-                  <td style="width: 200px;"><strong>Embed Code</strong></td>
+                  <td style="width: 200px;"><strong>Preview</strong></td>
+                  <td>
+                    <%= content_tag :script, "", src: script_embed_url(@conn, @property) %>
+                    <div id="codefund_ad"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Embed Code</strong></td>
                   <td>
                     <%= if @property.property_type == CodeFund.Schema.Property.property_types[:website] do %>
                       <p>Embed the following script into your website and create a div with <code>id="codefund_ad"</code></p>
@@ -56,6 +63,10 @@
                 <tr>
                   <td><strong>URL</strong></td>
                   <td><%= link @property.url, to: @property.url, target: "_blank" %></td>
+                </tr>
+                <tr>
+                  <td><strong>Template</strong></td>
+                  <td><%= if @property.template, do: @property.template.name %></td>
                 </tr>
                 <tr>
                   <td><strong>Description</strong></td>

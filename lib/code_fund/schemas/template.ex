@@ -7,6 +7,7 @@ defmodule CodeFund.Schema.Template do
   @foreign_key_type :binary_id
   schema "templates" do
     has_many(:themes, CodeFund.Schema.Theme)
+    has_many(:properties, CodeFund.Schema.Property)
     field(:body, :string)
     field(:name, :string)
     field(:slug, :string)
