@@ -4,6 +4,7 @@ defmodule CodeFund.Templates do
   import Ecto.Query, warn: false
   alias CodeFund.Repo
   alias CodeFund.Schema.Template
+  alias CodeFund.Schema.Property
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -85,6 +86,25 @@ defmodule CodeFund.Templates do
     |> Repo.get_by(slug: slug)
     |> Repo.preload([:themes])
   end
+
+  def for_property_id(property_id, requested_template_slug) do
+    from(
+      t in Template,
+      join: p in Property,
+      on: p.template_id == t.id,
+      where: p.id == ^property_id
+    )
+    |> Repo.one()
+    |> return_template(requested_template_slug)
+  end
+
+  defp return_template(%Template{slug: slug}, requested_template_slug) when not is_nil(slug),
+    do: slug
+
+  defp return_template(_, requested_template_slug) when not is_nil(requested_template_slug),
+    do: requested_template_slug
+
+  defp return_template(_, _), do: "default"
 
   @doc """
   Creates a template.
