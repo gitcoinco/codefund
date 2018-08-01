@@ -5,7 +5,7 @@ defmodule CodeFundWeb.API.AdServeController do
   alias CodeFund.Schema.{Campaign, Impression, Property, Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
-    template_slug = Templates.for_property_id(property_id, params["template"])
+    template_slug = Templates.slug_for_property_id(property_id, params["template"])
     theme_slug = params["theme"] || "light"
     target_id = params["target"] || "codefund_ad"
 

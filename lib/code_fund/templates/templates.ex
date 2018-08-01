@@ -87,7 +87,7 @@ defmodule CodeFund.Templates do
     |> Repo.preload([:themes])
   end
 
-  def for_property_id(property_id, requested_template_slug) do
+  def slug_for_property_id(property_id, requested_template_slug) when not is_nil(property_id) do
     from(
       t in Template,
       join: p in Property,
@@ -95,16 +95,20 @@ defmodule CodeFund.Templates do
       where: p.id == ^property_id
     )
     |> Repo.one()
-    |> return_template(requested_template_slug)
+    |> return_template_slug(requested_template_slug)
   end
 
-  defp return_template(%Template{slug: slug}, requested_template_slug) when not is_nil(slug),
+  def slug_for_property_id(_, requested_template_slug) do
+    return_template_slug(nil, requested_template_slug)
+  end
+
+  defp return_template_slug(%Template{slug: slug}, requested_template_slug) when not is_nil(slug),
     do: slug
 
-  defp return_template(_, requested_template_slug) when not is_nil(requested_template_slug),
+  defp return_template_slug(_, requested_template_slug) when not is_nil(requested_template_slug),
     do: requested_template_slug
 
-  defp return_template(_, _), do: "default"
+  defp return_template_slug(_, _), do: "default"
 
   @doc """
   Creates a template.
