@@ -14,6 +14,16 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.Country do
 end
 
 defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
+  def parse(%Geolix.Result.City{country: %Geolix.Record.Country{iso_code: iso_code}, city: nil}),
+    do: %{
+      city: "",
+      country: iso_code,
+      latitude: "",
+      longitude: "",
+      postal_code: "",
+      region: ""
+    }
+
   def parse(%Geolix.Result.City{
         city: %Geolix.Record.City{
           name: city_name
