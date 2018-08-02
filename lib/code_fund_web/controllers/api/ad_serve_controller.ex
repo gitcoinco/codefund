@@ -41,7 +41,7 @@ defmodule CodeFundWeb.API.AdServeController do
     )
   end
 
-  def details(conn, %{"property_id" => property_id, "width" => width, "height" => height}) do
+  def details(conn, %{"property_id" => property_id} = params) do
     with {:error, :no_cache_found} <-
            AdService.ImpressionCache.lookup(conn.remote_ip, property_id),
          {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
@@ -81,8 +81,8 @@ defmodule CodeFundWeb.API.AdServeController do
           campaign_id: campaign_id,
           revenue_amount: AdService.Math.CPM.revenue_amount(campaign),
           distribution_amount: AdService.Math.CPM.distribution_amount(campaign, property_owner),
-          browser_height: height,
-          browser_width: width
+          browser_height: params["height"] || "",
+          browser_width: params["width"] || ""
         })
 
       payload = %{
@@ -111,8 +111,8 @@ defmodule CodeFundWeb.API.AdServeController do
         |> create_impression_with_error(
           property_id,
           "This property is not currently active",
-          height,
-          width
+          params["height"] || "",
+          params["width"] || ""
         )
         |> details_render(conn)
 
@@ -125,8 +125,8 @@ defmodule CodeFundWeb.API.AdServeController do
         |> create_impression_with_error(
           property_id,
           "CodeFund does not have an advertiser for you at this time",
-          height,
-          width
+          params["height"] || "",
+          params["width"] || ""
         )
         |> details_render(conn)
     end
