@@ -102,8 +102,9 @@ defmodule CodeFund.Templates do
     return_template_slug(nil, requested_template_slug)
   end
 
-  defp return_template_slug(%Template{slug: slug}, requested_template_slug) when not is_nil(slug),
-    do: slug
+  defp return_template_slug(%Template{slug: slug}, _requested_template_slug)
+       when not is_nil(slug),
+       do: slug
 
   defp return_template_slug(_, requested_template_slug) when not is_nil(requested_template_slug),
     do: requested_template_slug

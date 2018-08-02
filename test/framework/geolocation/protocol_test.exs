@@ -172,6 +172,19 @@ defmodule Framework.Geolocation.ProtocolTest do
              }
     end
 
+    test "it returns country map if city is missing in city struct", %{city_struct: city_struct} do
+      city_struct = city_struct |> Map.put(:city, nil)
+
+      assert Framework.Geolocation.Protocol.parse(city_struct) == %{
+               city: "",
+               country: "US",
+               latitude: "",
+               longitude: "",
+               postal_code: "",
+               region: ""
+             }
+    end
+
     test "it falls back to any if passed nil" do
       assert Framework.Geolocation.Protocol.parse(nil) == %{
                city: "",
