@@ -12,6 +12,9 @@ defmodule CodeFund.Campaigns do
   @pagination_distance 5
   @default_preloads [:audience, :user, :creative, :budgeted_campaign]
 
+  @statuses [Pending: 1, Active: 2, Archived: 3]
+  def statuses, do: @statuses
+
   @doc """
   Returns the list of campaigns.
 
@@ -21,7 +24,20 @@ defmodule CodeFund.Campaigns do
       [%Campaign{}, ...]
 
   """
+
   def paginate_campaigns(%User{} = user, params \\ %{}, default_preloads \\ @default_preloads) do
+    campaign_params =
+      case params |> Map.get("campaign") do
+        params = %{} ->
+          params
+          |> Map.to_list()
+          |> Enum.reject(fn {_, v} -> v == "" end)
+          |> Enum.into(%{})
+
+        nil ->
+          %{}
+      end
+
     params =
       params
       |> Map.put_new("sort_direction", "desc")
@@ -30,8 +46,7 @@ defmodule CodeFund.Campaigns do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <-
-           Filtrex.parse_params(filter_config(:campaigns), params["campaign"] || %{}),
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:campaigns), campaign_params),
          %Scrivener.Page{} = page <- do_paginate_campaigns(user, filter, params, default_preloads) do
       {:ok,
        %{
@@ -50,11 +65,12 @@ defmodule CodeFund.Campaigns do
     end
   end
 
-  defp do_paginate_campaigns(%User{} = user, _filter, params, default_preloads) do
+  defp do_paginate_campaigns(%User{} = user, filter, params, default_preloads) do
     case Enum.member?(user.roles, "admin") do
       true ->
         Campaign
         |> preload(^default_preloads)
+        |> Filtrex.query(filter)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
@@ -62,6 +78,7 @@ defmodule CodeFund.Campaigns do
         Campaign
         |> where([p], p.user_id == ^user.id)
         |> preload(^default_preloads)
+        |> Filtrex.query(filter)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
     end
@@ -200,6 +217,8 @@ defmodule CodeFund.Campaigns do
       text(:name)
       text(:redirect_url)
       number(:status)
+      text(:audience_id)
+      text(:creative_id)
       text(:description)
       number(:bid_amount_cents)
       number(:daily_budget_cents)

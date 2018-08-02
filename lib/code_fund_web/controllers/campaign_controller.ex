@@ -60,7 +60,7 @@ defmodule CodeFundWeb.CampaignController do
         status: [
           type: :select,
           label: "Status",
-          opts: [choices: [Pending: 1, Active: 2, Archived: 3]]
+          opts: [choices: CodeFund.Campaigns.statuses()]
         ],
         start_date: [type: :text_input, label: "Start Date"],
         end_date: [type: :text_input, label: "End Date"],

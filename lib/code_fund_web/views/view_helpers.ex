@@ -60,7 +60,7 @@ defmodule CodeFundWeb.ViewHelpers do
   end
 
   def campaign_status(status) do
-    options = [Pending: 1, Active: 2, Archived: 3]
+    options = CodeFund.Campaigns.statuses()
 
     options
     |> Enum.find(fn {_key, val} -> val == status end)

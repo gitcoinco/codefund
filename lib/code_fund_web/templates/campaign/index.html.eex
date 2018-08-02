@@ -18,6 +18,36 @@
   <div class="card">
     <div class="card-body">
       <section>
+        <table class="table table-responsive-sm ">
+          <tr>
+            <div class="text-center">
+            Filters
+            <%= form_for @conn, campaign_path(@conn, :index), [as: :campaign, method: :get], fn f -> %>
+              <div><%= select(f, :status, CodeFund.Campaigns.statuses, prompt: "Status", class: "col-md-5 col-sm-5") %></div>
+              <div><%= select(f, :audience_id,
+                CodeFund.Audiences.list_audiences
+                |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "Audience", class: "col-md-5 col-sm-5")
+              %></div>
+              <%= if has_any_role?(@conn, ["admin"]) do %>
+                <div><%= select(f, :creative_id,
+                  CodeFund.Creatives.list_creatives
+                  |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "Creative", class: "col-md-5 col-sm-5")
+                %></div>
+              <% else %>
+                <div><%= select(f, :creative_id,
+                  @conn.assigns.current_user.id
+                  |> CodeFund.Creatives.by_user_id
+                  |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "Creative", class: "col-md-5 col-sm-5")
+                %></div>
+              <% end %>
+              <div>
+                <%= link("Clear", to:  campaign_path(@conn, :index), class: "btn btn-outline-danger btn-sm")%>
+                <%= submit "Submit", class: "btn btn-outline-primary btn-sm" %>
+              </div>
+              <% end %>
+            </div>
+          </tr>
+        </table>
         <%= if length(@campaigns) > 0 do %>
           <div class="table-responsive">
             <table class="table table-responsive-sm table-striped">
