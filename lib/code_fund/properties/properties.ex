@@ -420,6 +420,7 @@ defmodule CodeFund.Properties do
       text(:url)
       text(:description)
       number(:status)
+      text(:audience_id)
     end
   end
 end

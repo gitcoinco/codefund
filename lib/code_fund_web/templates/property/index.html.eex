@@ -16,62 +16,69 @@
   <div class="card">
     <div class="card-body">
       <section>
-        <table class="table table-responsive-sm ">
-          <tr>
-            <div class="text-center">
-            Filters
-            <%= form_for @conn, property_path(@conn, :index), [as: :property, method: :get], fn f -> %>
-              <div><%= select(f, :status, CodeFund.Properties.statuses, prompt: "Status") %></div>
-              <div>
-                <%= link("Clear", to:  property_path(@conn, :index), class: "btn btn-outline-danger btn-sm")%>
-                <%= submit "Submit", class: "btn btn-outline-primary btn-sm" %>
+        <div class="mb-3">
+          <%= form_for @conn, property_path(@conn, :index), [as: :property, method: :get], fn f -> %>
+            <div class="row">
+              <div class="col-sm-4">
+                <%= select(f, :status, CodeFund.Properties.statuses, prompt: "-- Status --", class: "form-control") %>
               </div>
-              <% end %>
-            </div>
-          </tr>
-        </table>
+              <div class="col-sm-4">
+                <%= select(f, :audience_id,
+                  CodeFund.Audiences.list_audiences
+                  |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control")
+                %>
+              </div>
+              <div class="col-sm-4 text-right">
+                <%= submit "Submit", class: "btn btn-outline-primary btn" %>
+                <%= link("Clear", to:  property_path(@conn, :index), class: "btn btn-outline-danger btn")%>
+              </div>
+            <% end %>
+          </div>
+        </div>
         <%= if length(@properties) > 0 do %>
-          <table class="table table-responsive-sm table-striped">
-            <thead>
-              <tr>
-                <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
-                <th></th>
-                <th><%= table_link(@conn, "Name", :name) %></th>
-                <th><%= table_link(@conn, "Audience", :audience_id) %></th>
-                <%= if has_any_role? @conn, ["admin"] do %>
-                  <th><%= table_link(@conn, "Slug", :slug) %></th>
-                <% end %>
-                <%= if has_any_role? @conn, ["admin", "developer"] do %>
-                  <th>Excluded Advertisers</th>
-                <% end %>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <%= for property <- @properties do %>
+          <div class="table-responsive">
+            <table class="table table-responsive-sm table-striped">
+              <thead>
                 <tr>
-                  <td class="text-center"><%= property_status_icon property.status %></td>
-                  <td><img src="<%= favicon_image_url(property.url) %>" width="16" height="16" /></td>
-                  <td>
-                    <%= property.name %><br/>
-                    <%= link truncate(property.url), to: property.url, target: "_blank" %>
-                  </td>
-                  <td><%= if property.audience, do: property.audience.name, else: "Not Assigned" %></td>
+                  <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
+                  <th></th>
+                  <th><%= table_link(@conn, "Name", :name) %></th>
+                  <th><%= table_link(@conn, "Audience", :audience_id) %></th>
                   <%= if has_any_role? @conn, ["admin"] do %>
-                    <td><%= property.slug %></td>
+                    <th><%= table_link(@conn, "Slug", :slug) %></th>
                   <% end %>
                   <%= if has_any_role? @conn, ["admin", "developer"] do %>
-                    <td><%= property.excluded_advertisers |> Enum.join(", ") %></td>
+                    <th>Excluded Advertisers</th>
                   <% end %>
-                  <td class="text-right p-2">
-                    <%= link 'Show', to: property_path(@conn, :show, property), class: "btn btn-outline-info btn-sm" %>
-                    <%= link 'Edit', to: property_path(@conn, :edit, property), class: "btn btn-outline-primary btn-sm" %>
-                    <%= link 'Delete', to: property_path(@conn, :delete, property), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
-                  </td>
+                  <th></th>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <%= for property <- @properties do %>
+                  <tr>
+                    <td class="text-center"><%= property_status_icon property.status %></td>
+                    <td><img src="<%= favicon_image_url(property.url) %>" width="16" height="16" /></td>
+                    <td>
+                      <%= property.name %><br/>
+                      <%= link truncate(property.url), to: property.url, target: "_blank" %>
+                    </td>
+                    <td><%= if property.audience, do: property.audience.name, else: "Not Assigned" %></td>
+                    <%= if has_any_role? @conn, ["admin"] do %>
+                      <td><%= property.slug %></td>
+                    <% end %>
+                    <%= if has_any_role? @conn, ["admin", "developer"] do %>
+                      <td><%= property.excluded_advertisers |> Enum.join(", ") %></td>
+                    <% end %>
+                    <td class="text-right p-2">
+                      <%= link 'Show', to: property_path(@conn, :show, property), class: "btn btn-outline-info btn-sm" %>
+                      <%= link 'Edit', to: property_path(@conn, :edit, property), class: "btn btn-outline-primary btn-sm" %>
+                      <%= link 'Delete', to: property_path(@conn, :delete, property), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-sm" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
           <%= render CodeFundWeb.PaginationView, "_pagination.html", assigns %>
         <% else %>
           <p>No data matches your search</p>

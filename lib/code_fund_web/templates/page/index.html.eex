@@ -401,12 +401,12 @@
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> How much can I make?</h3>
               <p class="faq-sub-title text-muted pt-2">
                 The earnings vary based on the website and advertisers willing to spend money on it.
-                Typically we see around a 0.4% click rate (1 click per 250 impressions). Average earnings
-                per click is around $0.50 but can fluctuate based on advertiser demand.
+                Typically we see around a $3.50 CPM (cost per 1,000 impressions). Average earnings
+                per 1,000 impressions is around $1.75 but can fluctuate based on advertiser demand.
               </p>
               <p class="faq-sub-title text-muted">
-                For example, a moderately popular website with 500,000 impressions per month at a 0.4%
-                click rate with $.50 per click rate would generate approx $1,000/month.
+                For example, a moderately popular website with 500,000 ad impressions per month at
+                a $3.50 CPM would generate anywhere between $875 and $1,200/month.
               </p>
             </div>
           </div>
@@ -415,8 +415,9 @@
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> How often am I paid?</h3>
               <p class="faq-sub-title text-muted pt-2">
-                We pay the publishers in the first week of each month for the clicks generated the
-                month prior. Currently we only support payments via PayPal. US tax laws apply.
+                We pay the publishers by the 20th of the following month the ad impressions generated the
+                month prior. Currently we only support payments via PayPal and JustWorks (for US residents).
+                US tax laws apply.
               </p>
             </div>
           </div>

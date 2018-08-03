@@ -220,6 +220,7 @@ defmodule CodeFund.Campaigns do
       text(:audience_id)
       text(:creative_id)
       text(:description)
+      text(:user_id)
       number(:bid_amount_cents)
       number(:daily_budget_cents)
       number(:monthly_budget_cents)
