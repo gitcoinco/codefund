@@ -31,3 +31,4 @@ cover
 *.mmdb
 .DS_Store
 *.tar.gz
+.vscode
