@@ -16,6 +16,20 @@
   <div class="card">
     <div class="card-body">
       <section>
+        <table class="table table-responsive-sm ">
+          <tr>
+            <div class="text-center">
+            Filters
+            <%= form_for @conn, property_path(@conn, :index), [as: :property, method: :get], fn f -> %>
+              <div><%= select(f, :status, CodeFund.Properties.statuses, prompt: "Status") %></div>
+              <div>
+                <%= link("Clear", to:  property_path(@conn, :index), class: "btn btn-outline-danger btn-sm")%>
+                <%= submit "Submit", class: "btn btn-outline-primary btn-sm" %>
+              </div>
+              <% end %>
+            </div>
+          </tr>
+        </table>
         <%= if length(@properties) > 0 do %>
           <table class="table table-responsive-sm table-striped">
             <thead>

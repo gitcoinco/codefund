@@ -48,7 +48,7 @@ defmodule Framework.Controller.Stub.Definitions do
     end
   end
 
-  def define(action, block, config, conn, params) do
+  def define(action, block, config, conn, params \\ %{}) do
     after_hooks = [
       success: block[:after_hooks][:success] || fn _object, _params -> [] end,
       error: block[:after_hooks][:error] || fn _conn, _params -> [] end

@@ -183,6 +183,18 @@ defmodule CodeFund.Properties do
   Paginate the list of properties using filtrex filters.
   """
   def paginate_properties(%User{} = user, params \\ %{}) do
+    property_params =
+      case params |> Map.get("property") do
+        params = %{} ->
+          params
+          |> Map.to_list()
+          |> Enum.reject(fn {_, v} -> v == "" end)
+          |> Enum.into(%{})
+
+        nil ->
+          %{}
+      end
+
     params =
       params
       |> Map.put_new("sort_direction", "desc")
@@ -191,8 +203,7 @@ defmodule CodeFund.Properties do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <-
-           Filtrex.parse_params(filter_config(:properties), params["property"] || %{}),
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:properties), property_params),
          %Scrivener.Page{} = page <- do_paginate_properties(user, filter, params) do
       {:ok,
        %{
@@ -211,17 +222,19 @@ defmodule CodeFund.Properties do
     end
   end
 
-  defp do_paginate_properties(%User{} = user, _filter, params) do
+  defp do_paginate_properties(%User{} = user, filter, params) do
     case Enum.member?(user.roles, "admin") do
       true ->
         Property
         |> preload([:user, :audience, :template])
+        |> Filtrex.query(filter)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
       false ->
         Property
         |> preload([:user, :audience, :template])
+        |> Filtrex.query(filter)
         |> where([p], p.user_id == ^user.id)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
@@ -406,6 +419,7 @@ defmodule CodeFund.Properties do
       text(:name)
       text(:url)
       text(:description)
+      number(:status)
     end
   end
 end
