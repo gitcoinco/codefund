@@ -24,12 +24,14 @@
               <div class="col-sm-2">
                 <%= select(f, :status, CodeFund.Campaigns.statuses, prompt: "-- Status --", class: "form-control") %>
               </div>
-              <div class="col-sm-2">
-                <%= select(f, :user_id,
-                  CodeFund.Users.get_by_role("sponsor")
-                  |> Framework.Phoenix.Form.Helpers.repo_objects_to_options([:first_name, :last_name], " "), prompt: "-- User --", class: "form-control")
-                %>
-              </div>
+              <%= if has_any_role?(@conn, ["admin"]) do %>
+                <div class="col-sm-2">
+                  <%= select(f, :user_id,
+                    CodeFund.Users.get_by_role("sponsor")
+                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options([:first_name, :last_name], " "), prompt: "-- User --", class: "form-control")
+                  %>
+                </div>
+              <% end %>
               <div class="col-sm-2">
                 <%= select(f, :audience_id,
                   CodeFund.Audiences.list_audiences
