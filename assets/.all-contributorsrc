@@ -94,6 +94,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "hopsoft",
+      "name": "Nathan Hopkins",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/32920?v=4",
+      "profile": "https://twitter.com/@hopsoft",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ]
 }
