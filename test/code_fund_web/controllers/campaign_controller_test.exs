@@ -154,8 +154,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :name,
                :redirect_url,
                :status,
-               :start_date,
-               :end_date,
+               :active_dates,
                :creative_id,
                :audience_id,
                :user_id,
@@ -163,7 +162,9 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :included_countries,
                :budget_daily_amount,
                :total_spend,
-               :impression_count
+               :impression_count,
+               :start_date,
+               :end_date
              ]
     end
 
@@ -179,14 +180,15 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :name,
                :redirect_url,
                :status,
-               :start_date,
-               :end_date,
+               :active_dates,
                :creative_id,
                :user_id,
                :ecpm,
                :included_countries,
                :budget_daily_amount,
-               :impression_count
+               :impression_count,
+               :start_date,
+               :end_date
              ]
     end
   end

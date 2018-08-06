@@ -1,7 +1,6 @@
 import { Controller } from "stimulus";
 import _ from "lodash";
 import moment from "moment";
-import Chart from "chart.js";
 import daterangepicker from "bootstrap-daterangepicker";
 
 import $ from "jquery/dist/jquery";
@@ -18,8 +17,8 @@ export default class extends Controller {
   connect() {
     this.initDatePicker();
   }
-
   initDatePicker() {
+    var that = this;
     const startDate = _.isEmpty(this.startDateTarget.value)
       ? moment()
       : moment(this.startDateTarget.value);
@@ -48,7 +47,9 @@ export default class extends Controller {
           'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]
         }
       },
-      this.populateDateFields);
+      function(start, end, label) {
+       that.populateDateFields(start, end);
+      });
 
     picker.on("show.daterangepicker", () => {
       $(".main").css("opacity", 0.5);

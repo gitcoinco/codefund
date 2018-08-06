@@ -1,4 +1,4 @@
-<span class="container-fluid" data-controller="campaign-form">
+<span class="container-fluid" data-controller="campaign-form future-date-range">
   <%=
     @fields |> render_fields(@form)
   %>

@@ -62,8 +62,13 @@ defmodule CodeFundWeb.CampaignController do
           label: "Status",
           opts: [choices: CodeFund.Campaigns.statuses()]
         ],
-        start_date: [type: :text_input, label: "Start Date"],
-        end_date: [type: :text_input, label: "End Date"],
+        active_dates: [
+          type: :text_input,
+          label: "Date Range",
+          opts: [
+            "data-target": "future-date-range.datePicker"
+          ]
+        ],
         creative_id: [
           type: :select,
           label: "Creative",
@@ -125,6 +130,16 @@ defmodule CodeFundWeb.CampaignController do
           type: :number_input,
           label: "Estimated Impressions",
           opts: ["data-target": "campaign-form.estimatedImpressions"]
+        ],
+        start_date: [
+          type: :hidden_input,
+          label: "",
+          opts: ["data-target": "future-date-range.startDate"]
+        ],
+        end_date: [
+          type: :hidden_input,
+          label: "",
+          opts: ["data-target": "future-date-range.endDate"]
         ]
       ]
     ]
