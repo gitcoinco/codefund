@@ -9,8 +9,7 @@ defmodule AdService.Display do
   end
 
   @spec choose_winner([%AdService.Advertisement{}]) ::
-          {:ok | :error,
-           {[%AdService.Advertisement{}], %AdService.Advertisement{}} | :no_possible_ads}
+          {:ok, {[%AdService.Advertisement{}], {UUID.t(), Keyword.t()}}} | {:error, :no_possible_ads}
   def choose_winner([]), do: {:error, :no_possible_ads}
 
   def choose_winner(possible_ads) when length(possible_ads) > 0 do
