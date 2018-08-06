@@ -3,7 +3,7 @@ import _ from "lodash";
 import moment from "moment";
 import daterangepicker from "bootstrap-daterangepicker";
 
-import $ from "jquery/dist/jquery";
+import $ from "jquery";
 
 export default class extends Controller {
   static get targets() {
@@ -37,7 +37,6 @@ export default class extends Controller {
       {
         startDate: startDate,
         endDate: endDate,
-        minDate: beginDate,
         ranges: {
           'Today': [moment(), moment()],
           'Tomorrow': [moment().add(1, 'days'), moment().add(1, 'days')],

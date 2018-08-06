@@ -66,7 +66,7 @@ defmodule CodeFundWeb.CampaignController do
           type: :text_input,
           label: "Date Range",
           opts: [
-            "data-target": "future-date-range.datePicker"
+            "data-target": "date-range.datePicker"
           ]
         ],
         creative_id: [
@@ -134,12 +134,12 @@ defmodule CodeFundWeb.CampaignController do
         start_date: [
           type: :hidden_input,
           label: "",
-          opts: ["data-target": "future-date-range.startDate"]
+          opts: ["data-target": "date-range.startDate"]
         ],
         end_date: [
           type: :hidden_input,
           label: "",
-          opts: ["data-target": "future-date-range.endDate"]
+          opts: ["data-target": "date-range.endDate"]
         ]
       ]
     ]
