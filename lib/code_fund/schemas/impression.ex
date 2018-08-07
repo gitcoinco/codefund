@@ -20,6 +20,7 @@ defmodule CodeFund.Schema.Impression do
     field(:os, :string)
     field(:postal_code, :string)
     field(:region, :string)
+    field(:error_code, :integer)
     field(:revenue_amount, :decimal)
     field(:distribution_amount, :decimal)
     field(:user_agent, :string)

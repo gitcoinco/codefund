@@ -110,7 +110,10 @@ defmodule CodeFundWeb.API.AdServeController do
         conn
         |> create_impression_with_error(
           property_id,
-          "This property is not currently active",
+          "This property is not currently active - code: #{
+            AdService.ImpressionErrors.fetch_code(:property_inactive)
+          }",
+          :property_inactive,
           params["height"] || "",
           params["width"] || ""
         )
@@ -120,11 +123,14 @@ defmodule CodeFundWeb.API.AdServeController do
         error_map("CodeFund does not have an advertiser for you at this time")
         |> details_render(conn)
 
-      {:error, _reason} ->
+      {:error, reason_atom} ->
         conn
         |> create_impression_with_error(
           property_id,
-          "CodeFund does not have an advertiser for you at this time",
+          "CodeFund does not have an advertiser for you at this time - code: #{
+            AdService.ImpressionErrors.fetch_code(reason_atom)
+          }",
+          reason_atom,
           params["height"] || "",
           params["width"] || ""
         )
@@ -134,20 +140,21 @@ defmodule CodeFundWeb.API.AdServeController do
 
   defp details_render(payload, conn), do: render(conn, "details.json", payload: payload)
 
-  defp create_impression_with_error(conn, property_id, reason, height, width) do
+  defp create_impression_with_error(conn, property_id, reason_message, reason_atom, height, width) do
     {:ok, %Impression{id: impression_id}} =
       Impressions.create_impression(%{
         property_id: property_id,
         campaign_id: nil,
+        error_code: AdService.ImpressionErrors.fetch_code(reason_atom),
         ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
         browser_height: height,
         browser_width: width
       })
 
-    error_map(reason, "//#{conn.host}/p/#{impression_id}/pixel.png")
+    error_map(reason_message, "//#{conn.host}/p/#{impression_id}/pixel.png")
   end
 
-  defp error_map(reason, pixel_url \\ "") do
+  defp error_map(reason_message, pixel_url \\ "") do
     %{
       image: "",
       link: "",
@@ -155,7 +162,7 @@ defmodule CodeFundWeb.API.AdServeController do
       description: "",
       pixel: pixel_url,
       poweredByLink: "https://codefund.io?utm_content=",
-      reason: reason
+      reason: reason_message
     }
   end
 end
