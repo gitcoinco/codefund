@@ -172,6 +172,69 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == payload
     end
 
+    test "serves an ad if property has a campaign tied to an audience but has exceeded impression_count so it records an impression with an error",
+         %{conn: conn} do
+      creative = insert(:creative)
+
+      audience = insert(:audience, name: "right one")
+
+      property =
+        insert(
+          :property,
+          audience: audience
+        )
+
+      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
+      conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
+      ip_string = conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
+      redis_key = ip_string <> "/" <> property.id
+
+      assert {:ok, nil} == Redis.Pool.command(["GET", redis_key])
+
+      campaign =
+        insert(
+          :campaign,
+          status: 2,
+          ecpm: Decimal.new(2.50),
+          budget_daily_amount: Decimal.new(50),
+          total_spend: Decimal.new(2000),
+          impression_count: 100,
+          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+          creative: creative,
+          audience: audience,
+          included_countries: ["US"]
+        )
+
+      Redis.Pool.command(["SET", "campaign:#{campaign.id}", "100"])
+
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
+
+      impression = CodeFund.Impressions.list_impressions() |> List.first()
+      assert impression.ip == "12.109.12.14"
+      assert impression.property_id == property.id
+      assert impression.campaign_id == nil
+
+      assert impression.error_code ==
+               AdService.ImpressionErrors.fetch_code(:impression_count_exceeded)
+
+      assert impression.revenue_amount |> Decimal.to_integer() == 0
+      assert impression.distribution_amount |> Decimal.to_integer() == 0
+      assert impression.browser_height == 800
+      assert impression.browser_width == 1200
+
+      assert json_response(conn, 200) == %{
+               "headline" => "",
+               "description" => "",
+               "image" => "",
+               "link" => "",
+               "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
+               "poweredByLink" => "https://codefund.io?utm_content=",
+               "reason" => "CodeFund does not have an advertiser for you at this time - code: 1"
+             }
+    end
+
     test "serves an ad if property has a campaign tied to an audience and creates an impression without height and width",
          %{conn: conn} do
       creative = insert(:creative)
@@ -391,6 +454,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
+      assert impression.error_code == AdService.ImpressionErrors.fetch_code(:no_possible_ads)
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
       assert impression.browser_height == 800
@@ -403,7 +467,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "link" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "CodeFund does not have an advertiser for you at this time"
+               "reason" => "CodeFund does not have an advertiser for you at this time - code: 2"
              }
     end
 
@@ -420,6 +484,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
+      assert impression.error_code == AdService.ImpressionErrors.fetch_code(:property_inactive)
       assert impression.campaign_id == nil
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
@@ -431,7 +496,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "link" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "This property is not currently active"
+               "reason" => "This property is not currently active - code: 0"
              }
     end
 
@@ -450,6 +515,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+      assert impression.error_code == AdService.ImpressionErrors.fetch_code(:no_possible_ads)
 
       assert json_response(conn, 200) == %{
                "headline" => "",
@@ -458,7 +524,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "link" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "CodeFund does not have an advertiser for you at this time"
+               "reason" => "CodeFund does not have an advertiser for you at this time - code: 2"
              }
     end
 
@@ -476,6 +542,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+      assert impression.error_code == AdService.ImpressionErrors.fetch_code(:property_inactive)
 
       assert json_response(conn, 200) == %{
                "headline" => "",
@@ -484,7 +551,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "link" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "This property is not currently active"
+               "reason" => "This property is not currently active - code: 0"
              }
     end
   end
