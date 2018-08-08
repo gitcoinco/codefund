@@ -93,7 +93,8 @@ defmodule CodeFundWeb.CampaignController do
             step: "0.01",
             min: "0",
             "data-target": "campaign-form.ecpm",
-            "data-action": "change->campaign-form#calculateImpressions"
+            "data-action": "change->campaign-form#calculateImpressions",
+            step: "0.01"
           ]
         ],
         included_countries: [
@@ -117,13 +118,18 @@ defmodule CodeFundWeb.CampaignController do
             """
           ]
         ],
-        budget_daily_amount: [type: :currency_input, label: "Daily Max Spend"],
+        budget_daily_amount: [
+          type: :currency_input,
+          label: "Daily Max Spend",
+          opts: [step: "0.01"]
+        ],
         total_spend: [
           type: :currency_input,
           label: "Total Spend",
           opts: [
             "data-target": "campaign-form.totalBudget",
-            "data-action": "change->campaign-form#calculateImpressions"
+            "data-action": "change->campaign-form#calculateImpressions",
+            step: "0.01"
           ]
         ],
         impression_count: [
