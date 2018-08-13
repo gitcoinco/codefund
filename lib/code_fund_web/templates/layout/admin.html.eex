@@ -162,7 +162,7 @@
       Powered by <a href="https://github.com/gitcoinco/codefund">Open Source</a>
     </span>
   </footer>
-
+  <%= chatlio_tag() %>
   <%= ga_tag() %>
 </body>
 </html>
