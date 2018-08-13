@@ -8,6 +8,7 @@ use Mix.Config
 # General application configuration
 config :code_fund,
   ecto_repos: [CodeFund.Repo],
+  ad_cache_timeout: System.get_env("AD_CACHE_TIMEOUT") || 30,
   generators: [binary_id: true],
   metabase_dashboard_mappings: [
     admin: String.to_integer(System.get_env("METABASE_ADMIN_DASHBOARD_ID") || "1"),

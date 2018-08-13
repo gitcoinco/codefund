@@ -12,7 +12,16 @@ defmodule AdService.ImpressionCache do
   @spec store(map, tuple, UUID.t()) :: {:ok, :cache_stored}
   def store(payload, ip, property_id) do
     redis_key = get_redis_key(ip, property_id)
-    {:ok, _} = Redis.Pool.command(["SET", redis_key, payload |> Poison.encode!(), "EX", 30])
+
+    {:ok, _} =
+      Redis.Pool.command([
+        "SET",
+        redis_key,
+        payload |> Poison.encode!(),
+        "EX",
+        Application.get_env(:code_fund, :ad_cache_timeout)
+      ])
+
     {:ok, :cache_stored}
   end
 
