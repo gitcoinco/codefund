@@ -703,6 +703,7 @@
   <!-- Scroll to top -->
   <a href="#page-top" class="page-scroll scroll-to-top"><i class="fa fa-angle-up"></i></a>
 
+  <%= chatlio_tag() %>
 
   <!-- Main JS -->
   <script src="<%= static_path(@conn, "/canvab/js/jquery.min.js") %>"></script>

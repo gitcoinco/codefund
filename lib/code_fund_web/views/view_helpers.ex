@@ -152,6 +152,25 @@ defmodule CodeFundWeb.ViewHelpers do
     end
   end
 
+  def chatlio_tag do
+    chatlio_widget_id = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:chatlio_widget_id]
+
+    html = """
+    <script type="text/javascript">
+    window._chatlio = window._chatlio||[];
+    !function(){ var t=document.getElementById("chatlio-widget-embed");if(t&&window.ChatlioReact&&_chatlio.init)return void _chatlio.init(t,ChatlioReact);for(var e=function(t){return function(){_chatlio.push([t].concat(arguments)) }},i=["configure","identify","track","show","hide","isShown","isOnline", "page", "open", "showOrHide"],a=0;a<i.length;a++)_chatlio[i[a]]||(_chatlio[i[a]]=e(i[a]));var n=document.createElement("script"),c=document.getElementsByTagName("script")[0];n.id="chatlio-widget-embed",n.src="https://w.chatlio.com/w.chatlio-widget.js",n.async=!0,n.setAttribute("data-embed-version","2.3");
+       n.setAttribute('data-widget-id','#{chatlio_widget_id}');
+       c.parentNode.insertBefore(n,c);
+    }();
+    </script>
+    """
+
+    case chatlio_widget_id do
+      nil -> {:safe, ""}
+      _ -> {:safe, html}
+    end
+  end
+
   def privacy_policy_link do
     html = """
     <a href="https://www.iubenda.com/privacy-policy/47597768" class="iubenda-nostyle no-brand iubenda-embed iub-legal-only" title="Privacy Policy">Privacy Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
