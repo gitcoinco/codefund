@@ -92,7 +92,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
           user_schema.lockable?() and user_schema.locked?(user)
         )
       else
-        report(:warning, "User doesn't have confirmed access #{user.email}")
+        report(:warning, "User doesn't have confirmed access #{params[:session][:email]}")
 
         conn
         |> put_flash(:error, Messages.backend().you_must_confirm_your_account())
@@ -100,7 +100,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
         |> render(:new, new_bindings)
       end
     else
-      report(:warning, "Failed user login #{user.email}")
+      report(:warning, "Failed user login #{params[:session][:email]}")
 
       conn
       |> track_failed_login(user, user_schema.trackable_table?())
