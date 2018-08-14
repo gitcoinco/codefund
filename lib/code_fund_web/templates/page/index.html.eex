@@ -81,7 +81,7 @@
       <div class="float-left">
         <div class="phone-topbar text-dark">
           <p class="mb-0">
-            <a class="text-secondary" href="https://medium.com/gitcoin/code-sponsor-gitcoin-oss-sustainability-5684c4adf4b4" target="_blank">CodeFund + Gitcoin = OSS Sustainability</a>
+            <%= headline_link() %>
           </p>
         </div>
       </div>
@@ -103,7 +103,7 @@
       <!-- Logo container-->
       <div>
         <a href="/" class="logo">
-          <img src="<%= static_path(@conn, "/images/codefund-logo.png") %>" style="height: 25px;">
+          <img src="<%= static_path(@conn, "/images/codefund-by-gitcoin-logo.png") %>" style="height: 36px;">
         </a>
       </div>
       <!-- End Logo container-->
@@ -419,6 +419,10 @@
                 month prior. Currently we only support payments via PayPal and JustWorks (for US residents).
                 US tax laws apply.
               </p>
+              <p class="faq-sub-title text-muted pt-2">
+                Payments are made once the publisher has accrued $20 of distributions. We also provide the option
+                to be paid without a minimum amount via ETH or DAI crypto-currencies.
+              </p>
             </div>
           </div>
           <div class="faq pt-4">
@@ -426,10 +430,10 @@
             <div class="faq-ans">
               <h3 class="faq-title"><i class="mdi mdi-help-circle"></i> How do I get started?</h3>
               <p class="faq-sub-title text-muted pt-2">
-                Getting started is very easy. Just <%= link "register your account", to: registration_path(@conn, :new) %>,
-                then add your websites that you believe will make good candidates for advertising.
-                Remember, our advertisers are wanting to reach software developers. Documentation
-                websites, blogs and online applications tend to work the best.
+                Getting started is very easy. Just <%= link "fill out this form", to: page_path(@conn, :contact, :publisher) %>
+                to submit your website. If your site fits our criteria, you will receive an invitation
+                to register. Remember, our advertisers are wanting to reach software developers.
+                Documentation websites, blogs and online applications tend to work the best.
               </p>
             </div>
           </div>

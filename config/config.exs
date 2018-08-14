@@ -10,6 +10,7 @@ config :code_fund,
   ecto_repos: [CodeFund.Repo],
   ad_cache_timeout: System.get_env("AD_CACHE_TIMEOUT") || 30,
   generators: [binary_id: true],
+  property_id: System.get_env("CODEFUND_PROPERTY_ID"),
   metabase_dashboard_mappings: [
     admin: String.to_integer(System.get_env("METABASE_ADMIN_DASHBOARD_ID") || "1"),
     sponsor: String.to_integer(System.get_env("METABASE_ADVERTISER_DASHBOARD_ID") || "3"),
