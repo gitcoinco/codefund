@@ -39,6 +39,7 @@
               <div class="form-group">
                 <label for="visitors_per_month">How many visitors does your website get per month? <sup>*</sup></label>
                 <input type="number" name="form[visitors_per_month]" class="form-control" step="1" required />
+                <span class="help-block text-muted">We typically require a minimum of 5,000 visitors per month</span>
               </div>
             </div>
           </div>

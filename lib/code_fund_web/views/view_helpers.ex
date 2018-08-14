@@ -152,6 +152,22 @@ defmodule CodeFundWeb.ViewHelpers do
     end
   end
 
+  def codefund_sidebar_ad_tag(conn, target) do
+    template =
+      case has_any_role?(conn, ["admin"]) do
+        true -> "centered"
+        _ -> "vertical"
+      end
+
+    property_id = Application.get_env(:code_fund, :property_id)
+
+    html = """
+    <script src="https://codefund.io/scripts/#{property_id}/embed.js?target=#{target}&template=#{template}&theme=dark"></script>
+    """
+
+    {:safe, html}
+  end
+
   def chatlio_tag do
     chatlio_widget_id = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:chatlio_widget_id]
 

@@ -28,6 +28,27 @@
 
   <!-- Main scripts (leave in header for Turbolinks) -->
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+  <%= if !has_any_role? @conn, ["admin"] do %>
+  <!--
+    Example of ad usage and CSS override
+    `!important` must be used if CSS is in `<head>` tag
+  -->
+  <style>
+  #cf_ad {
+    background-color: #363e46 !important;
+    width: 100% !important;
+    padding: 15px !important;
+    border-bottom: 1px solid #444d58 !important;
+  }
+  #cf_ad .cf-wrapper {
+    width: 125px !important;
+  }
+  .sidebar-minimized #cf_ad {
+    display: none !important;
+  }
+  </style>
+  <% end %>
 </head>
 
 <body data-target="admin.body"
@@ -142,6 +163,7 @@
           </li>
         </ul>
       </nav>
+      <div id="cf-nav"></div>
       <button data-action="click->admin#minimizeSidebarAndBrand" class="sidebar-minimizer brand-minimizer" type="button"></button>
     </div>
 
@@ -162,6 +184,8 @@
       Powered by <a href="https://github.com/gitcoinco/codefund">Open Source</a>
     </span>
   </footer>
+  
+  <%= codefund_sidebar_ad_tag(@conn, "cf-nav") %>
   <%= chatlio_tag() %>
   <%= ga_tag() %>
 </body>
