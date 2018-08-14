@@ -25,8 +25,21 @@ var _codefund = {
   },
 
   render: function(ad) {
+    this.cleanAd();
     this.addTheme();
     this.insertAd(ad);
+  },
+
+  cleanAd: function() {
+    var cfStyle = document.getElementById('cf-style');
+    if (cfStyle != null) {
+      cfStyle.remove();
+    }
+
+    var cfAd = document.getElementById(this.targetId);
+    if (cfAd != null) {
+      cfAd.innerHTML = "";
+    }
   },
 
   addTheme: function() {
@@ -34,6 +47,7 @@ var _codefund = {
     var head = document.getElementsByTagName('head')[0];
     var s = document.createElement('style');
     s.setAttribute('type', 'text/css');
+    s.setAttribute('id', 'cf-style');
     if (s.styleSheet) { // IE
       s.styleSheet.cssText = css;
     } else {
