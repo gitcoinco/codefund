@@ -162,7 +162,7 @@ defmodule CodeFundWeb.ViewHelpers do
     property_id = Application.get_env(:code_fund, :property_id)
 
     html = """
-    <script src="https://codefund.io/scripts/#{property_id}/embed.js?target=#{target}&template=#{
+    <script src="/scripts/#{property_id}/embed.js?target=#{target}&template=#{
       template
     }&theme=dark"></script>
     """
