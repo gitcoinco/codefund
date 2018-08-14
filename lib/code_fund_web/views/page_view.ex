@@ -11,6 +11,7 @@ defmodule CodeFundWeb.PageView do
     headline_title = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:home_headline_title]
     headline_link = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:home_headline_link]
 
-    {:safe, "<a class=\"text-secondary\" href=\"#{headline_link}\" target=\"_blank\">#{headline_title}</a>"}
+    {:safe,
+     "<a class=\"text-secondary\" href=\"#{headline_link}\" target=\"_blank\">#{headline_title}</a>"}
   end
 end
