@@ -34,3 +34,6 @@ config :ex_aws, :s3,
   scheme: "http://",
   host: "localhost",
   port: 4567
+
+config :code_fund, AdService.Tracking.AnalyticsManager,
+  google_analytics_property_id: "SomeStubPropertyID"

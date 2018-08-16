@@ -77,7 +77,7 @@ defmodule CodeFund.Impressions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_impression!(id), do: Repo.get!(Impression, id)
+  def get_impression!(id), do: Repo.get!(Impression, id) |> Repo.preload([:property, :campaign])
 
   @doc """
   Creates a impression.
