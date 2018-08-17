@@ -82,7 +82,7 @@ defmodule CodeFund.Mixfile do
       {:geoip, "~> 0.1"},
       {:geolix, "~> 0.16"},
       {:staccato,
-       github: "StareIntoTheBeard/staccato-ex", ref: "eeb39416286798d398d4187bd02f804f75edc86f"},
+       github: "StareIntoTheBeard/staccato-ex", branch: "fix_a_bunch_of_random_things"},
       {:httpoison, "~> 1.0", override: true},
       {:phoenix_active_link, "~> 0.1.1"},
       {:scrivener, "~> 2.0"},

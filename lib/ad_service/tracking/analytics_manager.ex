@@ -56,7 +56,7 @@ defmodule AdService.Tracking.AnalyticsManager do
   defp track_impression(tracker, impression, nil) do
     tracker
     |> event(params_for_tracking(impression))
-    |> track!(impression.user_agent)
+    |> track!()
   end
 
   defp track_impression(tracker, impression, geo_id) do
@@ -67,7 +67,7 @@ defmodule AdService.Tracking.AnalyticsManager do
 
     tracker
     |> event(params)
-    |> track!(impression.user_agent)
+    |> track!()
   end
 
   @spec params_for_tracking(%Impression{}) :: Keyword.t()
@@ -76,6 +76,7 @@ defmodule AdService.Tracking.AnalyticsManager do
       category: impression.property.name,
       action: impression.campaign.name,
       label: "impression",
-      value: 1
+      value: 1,
+      user_agent: impression.user_agent
     ]
 end
