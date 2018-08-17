@@ -3,7 +3,8 @@ defmodule AdService.Tracking.GeoIDETSHandler do
   def import_geo_id_csv(table_name) do
     :ets.new(table_name, [:set, :protected, :named_table])
 
-    Path.expand("../../../priv/ga/2018-07-02-geoid.csv", __DIR__)
+    Mix.env()
+    |> get_priv_dir()
     |> File.stream!()
     |> CSV.decode()
     |> Enum.map(&:ets.insert_new(table_name, &1 |> elem(1) |> List.to_tuple()))
@@ -41,4 +42,10 @@ defmodule AdService.Tracking.GeoIDETSHandler do
 
     sanitize_ets_match(tail, collection)
   end
+
+  defp get_priv_dir(:prod),
+    do: Path.expand("~/priv/ga/2018-07-02-geoid.csv", __DIR__)
+
+  defp get_priv_dir(_env),
+    do: Path.expand("../../../priv/ga/2018-07-02-geoid.csv", __DIR__)
 end

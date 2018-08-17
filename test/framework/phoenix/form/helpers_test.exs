@@ -20,12 +20,12 @@ defmodule Framework.Phoenix.Form.HelpersTest do
         form_fields = FormHelpers.render_fields(fields, f)
 
         assert form_fields |> Phoenix.HTML.html_escape() |> Phoenix.HTML.safe_to_string() ==
-                 "<div class=\"form-group row\"><label class=\"control-label col-sm-2\">Description</label>\
-<div class=\"col-sm-10\"><div class=\"input-group\"><input class=\" form-control\" id=\"description\" name=\"description\" type=\"text\">\
-</div></div></div><div class=\"form-group row\"><label class=\"control-label col-sm-2\">Bid Amount</label><div class=\"col-sm-10\">\
-<div class=\"input-group\"><div><div class=\"input-currency\">$</div><input class=\" form-control\" id=\"bid_amount\" name=\"bid_amount\" type=\"number\">\
-</div></div></div></div><div class=\"form-group row\"><label class=\"control-label col-sm-2\">An Image</label><div class=\"col-sm-10\">\
-<div class=\"input-group\"><img src=\"http://example.com/logo\"></div></div></div><button class=\"btn btn-primary\">Submit</button>"
+        "<div class=\"form-group row\"><label class=\"control-label col-sm-2\">Description</label>\
+<div class=\"col-sm-10\"><div class=\"input-group\"><input class=\" form-control\" name=\"description\" type=\"text\">\
+</div></div></div><div class=\"form-group row\"><label class=\"control-label col-sm-2\">Bid Amount</label>\
+<div class=\"col-sm-10\"><div class=\"input-group\"><div><div class=\"input-currency\">$</div>\
+<input class=\" form-control\" name=\"bid_amount\" type=\"number\"></div></div></div></div><div class=\"form-group row\">\
+<label class=\"control-label col-sm-2\">An Image</label><div class=\"col-sm-10\"><div class=\"input-group\"><img src=\"http://example.com/logo\"></div></div></div><button class=\"btn btn-primary\">Submit</button>"
 
         form_fields
       end)
