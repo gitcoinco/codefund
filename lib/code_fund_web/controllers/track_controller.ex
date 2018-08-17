@@ -13,6 +13,8 @@ defmodule CodeFundWeb.TrackController do
          update_details <- Framework.Browser.details(conn) |> Map.merge(location_information),
          {:ok, %CodeFund.Schema.Impression{id: ^impression_id}} <-
            impression |> Impressions.update_impression(update_details) do
+      AdService.Tracking.AnalyticsManager.send_event(impression)
+
       conn
       |> put_resp_content_type("image/png")
       |> send_resp(200, @transparent_png)
