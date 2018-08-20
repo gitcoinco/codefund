@@ -34,12 +34,17 @@ defmodule CodeFundWeb.CampaignController do
 
   defstub create do
     before_hook(&new_assigns/2)
-    |> inject_params(&CodeFundWeb.Hooks.Shared.join_to_user_id/2)
     |> error(&new_assigns/2)
   end
 
-  defp new_assigns(conn, _params) do
-    form_fields(true, conn.assigns.current_user)
+  defp new_assigns(conn, params) do
+    user =
+      case params["params"]["campaign"]["user_id"] do
+        nil -> conn.assigns.current_user
+        user_id -> CodeFund.Users.get_user!(user_id)
+      end
+
+    form_fields(true, user)
   end
 
   defp edit_assigns(conn, %{"id" => campaign_id}) do
@@ -72,13 +77,18 @@ defmodule CodeFundWeb.CampaignController do
         creative_id: [
           type: :select,
           label: "Creative",
-          opts: [choices: creatives, "data-target": "campaign-form.creatives"]
+          opts: [
+            prompt: "Select a Creative",
+            choices: creatives,
+            "data-target": "campaign-form.creatives"
+          ]
         ],
         audience_id: [type: :select, label: "Audience", opts: [choices: audiences]],
         user_id: [
           type: :select,
           label: "User",
           opts: [
+            prompt: "Select a User",
             choices:
               CodeFund.Users.get_by_role("sponsor")
               |> FormHelpers.repo_objects_to_options([:first_name, :last_name], " "),
