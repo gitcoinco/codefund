@@ -156,12 +156,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.browser_width == 1200
 
       payload = %{
-        "small_image_url" =>
-          Framework.FileStorage.url(creative.small_image_bucket, creative.small_image_object),
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
         "headline" => "Creative Headline",
         "description" => "This is a Test Creative",
-        "large_image_url" =>
-          Framework.FileStorage.url(creative.large_image_bucket, creative.large_image_object),
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
         "image" => "http://example.com/some.png",
         "link" => "https://www.example.com/c/#{impression.id}",
         "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
@@ -299,12 +297,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.browser_width == nil
 
       payload = %{
-        "small_image_url" =>
-          Framework.FileStorage.url(creative.small_image_bucket, creative.small_image_object),
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
         "headline" => "Creative Headline",
         "description" => "This is a Test Creative",
-        "large_image_url" =>
-          Framework.FileStorage.url(creative.large_image_bucket, creative.large_image_object),
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
         "image" => "http://example.com/some.png",
         "link" => "https://www.example.com/c/#{impression.id}",
         "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
@@ -404,12 +400,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       impression = CodeFund.Impressions.list_impressions() |> List.first()
 
       payload = %{
-        "small_image_url" =>
-          Framework.FileStorage.url(creative.small_image_bucket, creative.small_image_object),
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
         "headline" => "Creative Headline",
         "description" => "This is a Test Creative",
-        "large_image_url" =>
-          Framework.FileStorage.url(creative.large_image_bucket, creative.large_image_object),
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
         "image" => "http://example.com/some.png",
         "link" => "https://www.example.com/c/#{impression.id}",
         "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",

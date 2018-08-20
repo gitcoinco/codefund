@@ -64,9 +64,7 @@ defmodule CodeFundWeb.API.AdServeController do
            campaign_id: campaign_id,
            headline: headline,
            small_image_object: small_image_object,
-           small_image_bucket: small_image_bucket,
-           large_image_object: large_image_object,
-           large_image_bucket: large_image_bucket
+           large_image_object: large_image_object
          } <- ad_tuple |> AdService.Display.render(),
          %Campaign{} = campaign <- Campaigns.get_campaign!(campaign_id),
          {:ok, _} <-
@@ -87,8 +85,8 @@ defmodule CodeFundWeb.API.AdServeController do
 
       payload = %{
         image: image_url,
-        small_image_url: Framework.FileStorage.url(small_image_bucket, small_image_object),
-        large_image_url: Framework.FileStorage.url(large_image_bucket, large_image_object),
+        small_image_url: Framework.FileStorage.url(small_image_object),
+        large_image_url: Framework.FileStorage.url(large_image_object),
         link: "https://#{conn.host}/c/#{impression_id}",
         description: body,
         pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",

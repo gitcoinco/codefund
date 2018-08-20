@@ -29,6 +29,9 @@ config :phoenix, :template_engines,
   eex: Appsignal.Phoenix.Template.EExEngine,
   exs: Appsignal.Phoenix.Template.ExsEngine
 
+config :code_fund, Framework.FileStorage,
+  cdn_host: System.get_env("CDN_HOST") || "d2nhukomolqgak.cloudfront.net"
+
 import_config "./configs/*.exs"
 
 # Import environment specific config. This must remain at the bottom

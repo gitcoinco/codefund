@@ -24,22 +24,17 @@ defmodule Framework.FileStorage do
     {:error, :invalid_file_type}
   end
 
-  @spec url(String.t(), String.t()) :: String.t() | nil
-  def url(bucket, object)
-
-  def url(bucket, object) when not is_nil(bucket) and not is_nil(object) do
-    %{scheme: scheme, host: host, port: port} =
-      :s3
-      |> ExAws.Config.new()
+  @spec url(String.t()) :: String.t() | nil
+  def url(object) when not is_nil(object) do
+    [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
 
     %URI{
-      host: host,
-      scheme: scheme |> String.replace("://", ""),
-      port: port,
-      path: "/#{bucket}/#{object}"
+      host: cdn_host,
+      scheme: "https",
+      path: "/#{object}"
     }
     |> URI.to_string()
   end
 
-  def url(_, _), do: nil
+  def url(_), do: nil
 end
