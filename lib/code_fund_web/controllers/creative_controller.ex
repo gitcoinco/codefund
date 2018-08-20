@@ -35,14 +35,12 @@ defmodule CodeFundWeb.CreativeController do
   defp fetch_image_urls(_conn, params) do
     %CodeFund.Schema.Creative{
       small_image_object: small_image_object,
-      small_image_bucket: small_image_bucket,
-      large_image_object: large_image_object,
-      large_image_bucket: large_image_bucket
+      large_image_object: large_image_object
     } = CodeFund.Creatives.get_creative!(params["id"])
 
     [
-      small_image_url: Framework.FileStorage.url(small_image_bucket, small_image_object),
-      large_image_url: Framework.FileStorage.url(large_image_bucket, large_image_object)
+      small_image_url: Framework.FileStorage.url(small_image_object),
+      large_image_url: Framework.FileStorage.url(large_image_object)
     ]
   end
 end

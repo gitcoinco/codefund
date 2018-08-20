@@ -27,14 +27,12 @@ defmodule Framework.FileStorageTest do
 
   describe "url/3" do
     test "it returns the signed s3 url for the asset" do
-      assert Framework.FileStorage.url("bucket", "stub.jpg") ==
-               "http://localhost:4567/bucket/stub.jpg"
+      assert Framework.FileStorage.url("stub.jpg") ==
+               "https://d2nhukomolqgak.cloudfront.net/stub.jpg"
     end
 
-    test "it returns nil if bucket or object is nil" do
-      refute Framework.FileStorage.url(nil, "stub")
-      refute Framework.FileStorage.url("stub", nil)
-      refute Framework.FileStorage.url(nil, nil)
+    test "it returns nil if object is nil" do
+      refute Framework.FileStorage.url(nil)
     end
   end
 end
