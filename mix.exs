@@ -44,7 +44,8 @@ defmodule CodeFund.Mixfile do
         :sentry,
         :corsica,
         :bamboo,
-        :phoenix_html_simplified_helpers
+        :phoenix_html_simplified_helpers,
+        :appsignal
       ]
     ]
   end
@@ -100,6 +101,7 @@ defmodule CodeFund.Mixfile do
       {:joken, "~> 1.5.0"},
       {:bamboo, "~> 0.8"},
       {:phoenix_html_simplified_helpers, "~> 2.0.1"},
+      {:appsignal, "~> 1.0"},
       {:mock, "~> 0.3.0", only: :test},
       {:excoveralls, "~> 0.8", only: :test}
     ]

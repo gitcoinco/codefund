@@ -41,7 +41,8 @@ config :code_fund, CodeFund.Repo,
   password: System.get_env("POSTGRES_PASSWORD") || "postgres",
   hostname: System.get_env("POSTGRES_HOST") || "localhost",
   database: "code_fund_dev",
-  pool_size: 10
+  pool_size: 10,
+  loggers: [Appsignal.Ecto, Ecto.LogEntry]
 
 config :code_fund, CodeFund.Mailer, adapter: Bamboo.LocalAdapter
 
