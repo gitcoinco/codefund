@@ -3,6 +3,6 @@
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item active">Dashboard</li>
 </ol>
-<div class="metamask-container">
+<div class="metabase-container">
   <iframe src="<%= @iframe_url %>" frameBorder="0" scrolling="no" allowTransparency></iframe>
 </div>
