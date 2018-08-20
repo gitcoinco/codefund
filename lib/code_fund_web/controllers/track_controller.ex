@@ -40,6 +40,8 @@ defmodule CodeFundWeb.TrackController do
       impression
       |> Impressions.update_impression(update_attributes)
 
+    Appsignal.increment_counter("impressions.clicks.count", 1)
+
     redirect(conn, external: update_attributes.redirected_to_url)
   end
 

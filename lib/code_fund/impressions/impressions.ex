@@ -92,6 +92,8 @@ defmodule CodeFund.Impressions do
 
   """
   def create_impression(attrs \\ %{}) do
+    Appsignal.increment_counter("impressions.create", 1)
+
     %Impression{}
     |> Impression.changeset(attrs)
     |> Repo.insert()

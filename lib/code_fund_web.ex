@@ -98,6 +98,7 @@ defmodule CodeFundWeb do
   def endpoint do
     quote do
       use Phoenix.Endpoint, otp_app: :code_fund
+      use Appsignal.Phoenix
       use Sentry.Phoenix.Endpoint
     end
   end
