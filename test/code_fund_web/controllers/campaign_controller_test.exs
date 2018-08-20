@@ -82,6 +82,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
         "impression_count" => 800_000,
         "redirect_url" => "https://example.com/0",
         "creative_id" => insert(:creative).id,
+        "user_id" => users.admin.id,
         "status" => 2
       }
 

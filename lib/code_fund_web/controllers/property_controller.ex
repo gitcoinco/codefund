@@ -19,7 +19,7 @@ defmodule CodeFundWeb.PropertyController do
   end
 
   defstub create do
-    inject_params(&CodeFundWeb.Hooks.Shared.join_to_user_id/2)
+    inject_params(&CodeFundWeb.Hooks.Shared.join_to_current_user_id/2)
     |> error(&fields/2)
   end
 
