@@ -1,4 +1,6 @@
 defmodule AdService.Tracking.GeoIDETSHandler do
+  import CodeFund.Reporter
+
   @spec import_geo_id_csv(atom) :: {:ok, atom}
   def import_geo_id_csv(table_name) do
     :ets.new(table_name, [:set, :protected, :named_table])
@@ -20,9 +22,19 @@ defmodule AdService.Tracking.GeoIDETSHandler do
   def fetch_geo_id(table_name, city, region, country) do
     with location <- [city, region, :_, country],
          [[geo_id]] <- :ets.match(table_name, sanitize_ets_match(location)) do
+      report(:warning, "GeoID look up succeeded -
+          geo_id: #{geo_id},
+          city: #{city},
+          region: #{region},
+          country: #{country}")
       {:ok, geo_id}
     else
-      [] -> {:error, :no_matching_geo_id}
+      [] ->
+        report(:warning, "GeoID look up failed with parameters -
+        city: #{city},
+        region: #{region},
+        country: #{country}")
+        {:error, :no_matching_geo_id}
     end
   end
 
