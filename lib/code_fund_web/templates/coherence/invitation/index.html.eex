@@ -5,7 +5,7 @@
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
       <%= link to: invitation_path(@conn, :new), class: "btn" do %>
-        <i class="fa fa-edit"></i> Invite a invitation
+        <i class="fa fa-edit"></i> Invite User
       <% end %>
     </div>
   </li>
@@ -22,6 +22,7 @@
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Date Sent</th>
               </tr>
             </thead>
             <tbody>
@@ -32,6 +33,7 @@
                   <td class="text-right p-2">
                     <%= link "Resend Invitation", to: invitation_path(@conn, :resend, invitation), class: "btn btn-outline-warning btn-sm" %>
                   </td>
+                  <td><%= invitation.updated_at %></td>
                 </tr>
               <% end %>
             </tbody>
