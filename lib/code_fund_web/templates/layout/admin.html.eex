@@ -154,6 +154,13 @@
                 <i class="icon-user"></i>
                 Users
             <% end %>
+            </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: invitation_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-envelope"></i>
+                Invitations
+              <% end %>
+            </li>
           <% end %>
           <li class="nav-item">
             <%= active_link(@conn, to: registration_path(@conn, :show), class: "nav-link") do %>

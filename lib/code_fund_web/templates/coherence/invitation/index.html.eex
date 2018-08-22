@@ -1,0 +1,45 @@
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item active">Invitations</li>
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: invitation_path(@conn, :new), class: "btn" do %>
+        <i class="fa fa-edit"></i> Invite a invitation
+      <% end %>
+    </div>
+  </li>
+</ol>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+
+      <section>
+        <%= if length(@invitations) > 0 do %>
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for invitation <- @invitations do %>
+                <tr>
+                  <td><%= "#{invitation.first_name} #{invitation.last_name}" %></td>
+                  <td><%= invitation.email %></td>
+                  <td class="text-right p-2">
+                    <%= link "Resend Invitation", to: invitation_path(@conn, :resend, invitation), class: "btn btn-outline-warning btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>No data matches your search</p>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>
