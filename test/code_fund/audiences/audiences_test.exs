@@ -70,7 +70,7 @@ defmodule CodeFund.AudiencesTest do
     test "update_audience/2 with invalid data returns error changeset" do
       audience = insert(:audience)
       assert {:error, %Ecto.Changeset{}} = Audiences.update_audience(audience, @invalid_attrs)
-      assert audience == Audiences.get_audience!(audience.id)
+      assert audience.updated_at == Audiences.get_audience!(audience.id).updated_at
     end
 
     test "delete_audience/1 deletes the audience" do

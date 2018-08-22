@@ -138,6 +138,8 @@ defmodule Framework.Controller.Stub.Definitions do
           exception,
           "error rendering index #{pretty(config.schema, :upcase, :plural)}"
         )
+
+        reraise(exception, __STACKTRACE__)
     end
   end
 

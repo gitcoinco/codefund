@@ -36,6 +36,10 @@
               <td><%= @audience.name %></td>
             </tr>
             <tr>
+              <td><strong>Fallback Campaign</strong></td>
+              <td><%= if @audience.campaigns, do: @audience.campaigns.name, else: "None" %></td>
+            </tr>
+            <tr>
               <td><strong>Programming Languages</strong></td>
               <td><%=  @audience.programming_languages  |> Enum.join(", ")%></td>
             </tr>

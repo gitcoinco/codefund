@@ -465,6 +465,54 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
              }
     end
 
+    test "returns an error if property does not have a campaign but the audience has a fallback ad so it still creates an impression",
+         %{conn: conn} do
+      creative = insert(:creative)
+      fallback_campaign = insert(:campaign)
+
+      property =
+        insert(:property, audience: insert(:audience, fallback_campaign_id: fallback_campaign.id))
+
+      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
+
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new(1),
+        budget_daily_amount: Decimal.new(1),
+        total_spend: Decimal.new(1),
+        creative: creative,
+        audience: property.audience
+      )
+
+      conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
+
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
+
+      impression = CodeFund.Impressions.list_impressions() |> List.first()
+      assert impression.ip == "12.109.12.14"
+      assert impression.error_code == AdService.ImpressionErrors.fetch_code(:no_possible_ads)
+      assert impression.property_id == property.id
+      assert impression.campaign_id == fallback_campaign.id
+      assert impression.browser_height == 800
+      assert impression.browser_width == 1200
+      assert impression.house_ad == true
+      assert impression.revenue_amount |> Decimal.to_integer() == 0
+      assert impression.distribution_amount |> Decimal.to_integer() == 0
+
+      assert json_response(conn, 200) == %{
+               "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
+               "headline" => "Creative Headline",
+               "description" => "This is a Test Creative",
+               "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
+               "image" => "http://example.com/some.png",
+               "link" => "https://www.example.com/c/#{impression.id}",
+               "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
+               "poweredByLink" => "https://codefund.io?utm_content=#{fallback_campaign.id}"
+             }
+    end
+
     test "returns an error if property is not active but still creates an impression", %{
       conn: conn
     } do

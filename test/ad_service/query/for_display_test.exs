@@ -83,6 +83,27 @@ defmodule AdService.Query.ForDisplayTest do
     {:ok, %{audience: audience, creative: creative, campaign: campaign}}
   end
 
+  describe "fallback_ad_by_property_id/1" do
+    test "it returns advertisements for the fallback ad in the audience the property is associated with" do
+      fallback_campaign = insert(:campaign)
+
+      property =
+        insert(:property, audience: insert(:audience, fallback_campaign_id: fallback_campaign.id))
+
+      assert AdService.Query.ForDisplay.fallback_ad_by_property_id(property.id) ==
+               %AdService.Advertisement{
+                 body: "This is a Test Creative",
+                 campaign_id: fallback_campaign.id,
+                 headline: "Creative Headline",
+                 image_url: "http://example.com/some.png",
+                 ecpm: Decimal.new("2.00"),
+                 campaign_name: "Test Campaign",
+                 small_image_object: nil,
+                 large_image_object: "image.jpg"
+               }
+    end
+  end
+
   describe "build/1" do
     test "get_by_property_filters excludes indicated countries", %{audience: audience} do
       refute AdService.Query.ForDisplay.build(audience, "CN", ["Foobar"]) |> CodeFund.Repo.one()
@@ -117,9 +138,7 @@ defmodule AdService.Query.ForDisplayTest do
                image_url: "http://example.com/some.png",
                ecpm: Decimal.new("1.00"),
                campaign_name: "Test Campaign",
-               small_image_bucket: nil,
                small_image_object: nil,
-               large_image_bucket: "stub",
                large_image_object: "image.jpg"
              }
     end

@@ -12,6 +12,7 @@ defmodule CodeFund.Audiences do
   def get_audience!(id) do
     Audience
     |> Repo.get!(id)
+    |> Repo.preload(:campaigns)
   end
 
   @doc """
@@ -25,6 +26,7 @@ defmodule CodeFund.Audiences do
   """
   def list_audiences do
     Repo.all(Audience)
+    |> Repo.preload(:campaigns)
   end
 
   @doc """
@@ -61,6 +63,7 @@ defmodule CodeFund.Audiences do
 
   defp do_paginate_audiences(_filter, params) do
     Audience
+    |> preload(:campaigns)
     |> paginate(Repo, params, @pagination)
   end
 

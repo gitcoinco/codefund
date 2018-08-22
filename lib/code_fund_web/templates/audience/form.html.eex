@@ -5,6 +5,14 @@
           type: :text_input,
           label: "Name"
         ],
+      fallback_campaign_id: [
+        type: :select,
+        label: "Fallback Campaign",
+        opts: [
+          choices: CodeFund.Campaigns.list_campaigns()
+          |> Framework.Phoenix.Form.Helpers.repo_objects_to_options()
+        ]
+      ],
       programming_languages: [
           type: :multiple_select,
           label: "Languages",

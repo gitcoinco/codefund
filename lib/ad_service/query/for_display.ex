@@ -2,7 +2,28 @@ defmodule AdService.Query.ForDisplay do
   import Ecto.Query
   alias AdService.Advertisement
   alias CodeFund.Campaigns
-  alias CodeFund.Schema.{Audience, Campaign, Creative, Impression}
+  alias CodeFund.Schema.{Audience, Campaign, Creative, Impression, Property}
+
+  def fallback_ad_by_property_id(property_id) do
+    from(property in Property,
+      join: audience in assoc(property, :audience),
+      join: campaign in Campaign,
+      on: campaign.id == audience.fallback_campaign_id,
+      join: creative in assoc(campaign, :creative),
+      where: property.id == ^property_id,
+      select: %Advertisement{
+        image_url: creative.image_url,
+        body: creative.body,
+        ecpm: campaign.ecpm,
+        campaign_id: campaign.id,
+        campaign_name: campaign.name,
+        headline: creative.headline,
+        small_image_object: creative.small_image_object,
+        large_image_object: creative.large_image_object
+      }
+    )
+    |> CodeFund.Repo.one()
+  end
 
   def build(%Audience{} = audience, client_country, excluded_advertisers \\ []) do
     from(
@@ -30,9 +51,7 @@ defmodule AdService.Query.ForDisplay do
       campaign_name: campaign.name,
       headline: creative.headline,
       small_image_object: creative.small_image_object,
-      small_image_bucket: creative.small_image_bucket,
-      large_image_object: creative.large_image_object,
-      large_image_bucket: creative.large_image_bucket
+      large_image_object: creative.large_image_object
     })
   end
 
