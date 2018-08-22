@@ -56,6 +56,7 @@ defmodule CodeFundWeb.Router do
 
   scope "/", CodeFundWeb do
     pipe_through(:protected)
+    get("/invitations", Coherence.InvitationController, :index)
     coherence_routes(:protected)
   end
 

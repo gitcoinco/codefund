@@ -30,6 +30,19 @@ defmodule CodeFundWeb.Coherence.InvitationController do
   @type params :: Map.t()
 
   @doc """
+  Render the invitation index.
+  """
+  @spec index(conn, params) :: conn
+  def index(conn, _params) do
+    invitations = Schemas.list_invitation()
+
+    render(conn, "index.html",
+      invitations: invitations,
+      layout: {CodeFundWeb.LayoutView, "admin.html"}
+    )
+  end
+
+  @doc """
   Render the new invitation form.
   """
   @spec new(conn, params) :: conn
