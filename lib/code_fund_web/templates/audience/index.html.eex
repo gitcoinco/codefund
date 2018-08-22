@@ -21,6 +21,7 @@
             <thead>
               <tr>
                 <th><%= table_link(@conn, "Name", :name) %></th>
+                <th>Fallback Campaign</th>
                 <th><%= table_link(@conn, "Programming Languages", :programming_languages) %></th>
                 <th><%= table_link(@conn, "Topic Categories", :topic_categories) %></th>
                 <th>Advertisers</th>
@@ -31,6 +32,7 @@
               <%= for audience <- @audiences do %>
                 <tr>
                   <td><%= audience.name %></td>
+                  <td><%= if audience.campaigns, do: audience.campaigns.name, else: "None"  %></td>
                   <td><%= truncate(audience.programming_languages |> Enum.join(", ")) %></td>
                   <td><%= truncate(audience.topic_categories |> Enum.join(", ")) %></td>
                   <td>

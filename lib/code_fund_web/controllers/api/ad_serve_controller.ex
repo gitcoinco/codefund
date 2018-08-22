@@ -1,6 +1,7 @@
 defmodule CodeFundWeb.API.AdServeController do
   use CodeFundWeb, :controller
 
+  alias AdService.Advertisement
   alias CodeFund.{Campaigns, Impressions, Properties, Templates, Themes}
   alias CodeFund.Schema.{Campaign, Impression, Property, Theme, Template}
 
@@ -58,14 +59,8 @@ defmodule CodeFundWeb.API.AdServeController do
            AdService.Query.ForDisplay.build(audience, client_country, excluded_advertisers)
            |> CodeFund.Repo.all()
            |> AdService.Display.choose_winner(),
-         %AdService.Advertisement{
-           image_url: image_url,
-           body: body,
-           campaign_id: campaign_id,
-           headline: headline,
-           small_image_object: small_image_object,
-           large_image_object: large_image_object
-         } <- ad_tuple |> AdService.Display.render(),
+         %Advertisement{campaign_id: campaign_id} = advertisement <-
+           ad_tuple |> AdService.Display.render(),
          %Campaign{} = campaign <- Campaigns.get_campaign!(campaign_id),
          {:ok, _} <-
            AdService.CampaignImpressionManager.can_create_impression?(
@@ -83,16 +78,7 @@ defmodule CodeFundWeb.API.AdServeController do
           browser_width: params["width"] || ""
         })
 
-      payload = %{
-        image: image_url,
-        small_image_url: Framework.FileStorage.url(small_image_object),
-        large_image_url: Framework.FileStorage.url(large_image_object),
-        link: "https://#{conn.host}/c/#{impression_id}",
-        description: body,
-        pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
-        poweredByLink: "https://codefund.io?utm_content=#{campaign_id}",
-        headline: headline
-      }
+      payload = payload(advertisement, conn, impression_id)
 
       {:ok, :cache_stored} =
         payload
@@ -137,6 +123,65 @@ defmodule CodeFundWeb.API.AdServeController do
   end
 
   defp details_render(payload, conn), do: render(conn, "details.json", payload: payload)
+
+  defp payload(
+         %Advertisement{
+           image_url: image_url,
+           body: body,
+           campaign_id: campaign_id,
+           headline: headline,
+           small_image_object: small_image_object,
+           large_image_object: large_image_object
+         },
+         conn,
+         impression_id
+       ) do
+    %{
+      image: image_url,
+      small_image_url: Framework.FileStorage.url(small_image_object),
+      large_image_url: Framework.FileStorage.url(large_image_object),
+      link: "https://#{conn.host}/c/#{impression_id}",
+      description: body,
+      pixel: "//#{conn.host}/p/#{impression_id}/pixel.png",
+      poweredByLink: "https://codefund.io?utm_content=#{campaign_id}",
+      headline: headline
+    }
+  end
+
+  defp create_impression_with_error(
+         conn,
+         property_id,
+         reason_message,
+         :no_possible_ads,
+         height,
+         width
+       ) do
+    params = %{
+      property_id: property_id,
+      error_code: AdService.ImpressionErrors.fetch_code(:no_possible_ads),
+      ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
+      browser_height: height,
+      browser_width: width
+    }
+
+    case property_id |> AdService.Query.ForDisplay.fallback_ad_by_property_id() do
+      %Advertisement{} = advertisement ->
+        {:ok, %Impression{id: impression_id}} =
+          params
+          |> Map.merge(%{campaign_id: advertisement.campaign_id, house_ad: true})
+          |> Impressions.create_impression()
+
+        advertisement
+        |> payload(conn, impression_id)
+
+      nil ->
+        {:ok, %Impression{id: impression_id}} =
+          params
+          |> Impressions.create_impression()
+
+        error_map(reason_message, "//#{conn.host}/p/#{impression_id}/pixel.png")
+    end
+  end
 
   defp create_impression_with_error(conn, property_id, reason_message, reason_atom, height, width) do
     {:ok, %Impression{id: impression_id}} =

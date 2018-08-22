@@ -26,6 +26,7 @@ defmodule CodeFund.Schema.Impression do
     field(:user_agent, :string)
     field(:redirected_at, :naive_datetime)
     field(:redirected_to_url, :string)
+    field(:house_ad, :boolean)
 
     timestamps()
   end

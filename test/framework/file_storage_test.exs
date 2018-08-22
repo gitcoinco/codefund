@@ -27,8 +27,9 @@ defmodule Framework.FileStorageTest do
 
   describe "url/3" do
     test "it returns the signed s3 url for the asset" do
-      assert Framework.FileStorage.url("stub.jpg") ==
-               "https://d2nhukomolqgak.cloudfront.net/stub.jpg"
+      [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
+
+      assert Framework.FileStorage.url("stub.jpg") == "https://#{cdn_host}/stub.jpg"
     end
 
     test "it returns nil if object is nil" do

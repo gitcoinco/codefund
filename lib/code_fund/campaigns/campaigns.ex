@@ -24,6 +24,9 @@ defmodule CodeFund.Campaigns do
       [%Campaign{}, ...]
 
   """
+  def list_campaigns do
+    Repo.all(Campaign)
+  end
 
   def paginate_campaigns(%User{} = user, params \\ %{}, default_preloads \\ @default_preloads) do
     campaign_params =
