@@ -33,6 +33,12 @@
                     <%= if @property.property_type == CodeFund.Schema.Property.property_types[:website] do %>
                       <p>Embed the following script into your website and create a div with <code>id="codefund_ad"</code></p>
                       <pre><code><%= script_embed_code(@conn, @property) %></code></pre>
+
+                      <p><em>Do you have a Single Page App (SPA)?</em><br/>
+                      You can manually trigger the refresh of ads using
+                      <code>_codefund.serve()</code>. For an example, go to
+                      <a target="_blank" href="https://codesandbox.io/embed/github/coderberry/codefund-refresh-example/tree/master/">
+                      this sandbox</a></p>
                     <% else %>
                       <div class="alert">
                         We do not yet support properties of type '<%= @property.property_type %>'
