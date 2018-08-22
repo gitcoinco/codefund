@@ -498,6 +498,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
       assert impression.house_ad == true
+      assert impression.revenue_amount |> Decimal.to_integer() == 0
+      assert impression.distribution_amount |> Decimal.to_integer() == 0
 
       assert json_response(conn, 200) == %{
                "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
