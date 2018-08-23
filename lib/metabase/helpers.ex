@@ -7,7 +7,14 @@ defmodule Metabase.Helpers do
   def dashboard_map(%CodeFund.Schema.User{id: id, roles: ["sponsor" | _roles]}),
     do: %{resource: %{dashboard: dashboard_role_mapping(:sponsor)}, params: %{user_id: id}}
 
-  def dashboard_map(%CodeFund.Schema.User{id: id}),
+  def dashboard_map(%CodeFund.Schema.User{} = user),
+    do: user |> developer_dashboard_map
+
+  @spec developer_dashboard_map(CodeFund.Schema.User.t()) :: %{
+          params: %{user_id: any()},
+          resource: %{dashboard: integer()}
+        }
+  def developer_dashboard_map(%CodeFund.Schema.User{id: id}),
     do: %{resource: %{dashboard: dashboard_role_mapping(:user)}, params: %{user_id: id}}
 
   @spec dashboard_role_mapping(atom) :: integer

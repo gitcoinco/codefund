@@ -76,6 +76,7 @@ defmodule CodeFundWeb.Router do
     pipe_through(:protected)
 
     get("/dashboard", DashboardController, :index)
+    get("/publisher_dashboard", DashboardController, :publisher_dashboard)
     get("/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url)
     resources("/audiences", AudienceController)
     resources("/campaigns", CampaignController)
