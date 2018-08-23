@@ -34,7 +34,7 @@ defmodule AdService.Query.TimeManagementTest do
       assert us_hours_wheres.op == :and
     end
 
-    test "it does not the us_hours_only campaigns if the current time is not outside of us hours" do
+    test "it does not exclude the us_hours_only campaigns if the current time is not outside of us hours" do
       TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[1985-10-26 13:00:00], "Etc/UTC"))
 
       query =

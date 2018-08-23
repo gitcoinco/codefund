@@ -193,10 +193,6 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
-      ip_string = conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
-      redis_key = ip_string <> "/" <> property.id
-
-      assert {:ok, nil} == Redis.Pool.command(["GET", redis_key])
 
       campaign =
         insert(
@@ -263,7 +259,6 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
       }
 
-      assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
       assert json_response(conn, 200) == payload
     end
 
