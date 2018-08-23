@@ -22,19 +22,9 @@ defmodule AdService.Tracking.GeoIDETSHandler do
   def fetch_geo_id(table_name, city, region, country) do
     with location <- [city, region, :_, country],
          [[geo_id]] <- :ets.match(table_name, sanitize_ets_match(location)) do
-      report(:warning, "GeoID look up succeeded -
-          geo_id: #{geo_id},
-          city: #{city},
-          region: #{region},
-          country: #{country}")
       {:ok, geo_id}
     else
-      [] ->
-        report(:warning, "GeoID look up failed with parameters -
-        city: #{city},
-        region: #{region},
-        country: #{country}")
-        {:error, :no_matching_geo_id}
+      [] -> {:error, :no_matching_geo_id}
     end
   end
 
