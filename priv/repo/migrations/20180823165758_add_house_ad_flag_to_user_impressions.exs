@@ -27,21 +27,6 @@ defmodule CodeFund.Repo.Migrations.AddHouseAdFlagToUserImpressions do
         JOIN users ON campaigns.user_id = users.id;
     """)
 
-    create(unique_index("user_impressions", [:id]))
-
-    create(index("user_impressions", [:campaign_user_id]))
-    create(index("user_impressions", [:property_user_id]))
-    create(index("user_impressions", [:revenue_amount]))
-    create(index("user_impressions", [:distribution_amount]))
-    create(index("user_impressions", [:property_name]))
-    create(index("user_impressions", [:audience_name]))
-    create(index("user_impressions", [:campaign_name]))
-    create(index("user_impressions", [:advertiser_company_name]))
-    create(index("user_impressions", [:inserted_at]))
-    create(index("user_impressions", [:redirected_at]))
-    create(index("user_impressions", [:country]))
-    create(index("user_impressions", [:house_ad]))
-
     execute("""
     CREATE MATERIALIZED VIEW budgeted_campaigns AS
       WITH data AS (
@@ -74,14 +59,5 @@ defmodule CodeFund.Repo.Migrations.AddHouseAdFlagToUserImpressions do
         ((revenue_amount / total_impressions) * 1000) AS actual_ecpm
       FROM data;
   """)
-
-  create(unique_index("budgeted_campaigns", [:campaign_id]))
-  create(index("budgeted_campaigns", [:user_id]))
-  create(index("budgeted_campaigns", [:campaign_name]))
-  create(index("budgeted_campaigns", [:advertiser_company_name]))
-  create(index("budgeted_campaigns", [:audience_id]))
-  create(index("budgeted_campaigns", [:creative_id]))
-  create(index("budgeted_campaigns", [:audience_name]))
-  create(index("budgeted_campaigns", [:creative_name]))
   end
 end
