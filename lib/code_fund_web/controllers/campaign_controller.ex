@@ -147,6 +147,13 @@ defmodule CodeFundWeb.CampaignController do
           label: "Estimated Impressions",
           opts: ["data-target": "campaign-form.estimatedImpressions"]
         ],
+        us_hours_only: [
+          type: :checkbox,
+          label: "US Hours Only",
+          opts: [
+            hint: "If checked, this campaign will only run between 5AM - 5PM PST (San Francisco)"
+          ]
+        ],
         start_date: [
           type: :hidden_input,
           label: "",

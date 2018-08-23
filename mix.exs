@@ -102,6 +102,7 @@ defmodule CodeFund.Mixfile do
       {:bamboo, "~> 0.8"},
       {:phoenix_html_simplified_helpers, "~> 2.0.1"},
       {:appsignal, "~> 1.0"},
+      {:time_machinex, "~> 0.1.0"},
       {:mock, "~> 0.3.0", only: :test},
       {:excoveralls, "~> 0.8", only: :test}
     ]

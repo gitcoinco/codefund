@@ -71,6 +71,7 @@
                   <th class="text-center">Dates<small class="d-block">(start / end)</small></th>
                   <th class="text-center"><%= table_link(@conn, "eCPM", :ecpm) %><small class="d-block">(actual / target)</small></th>
                   <th class="text-center"><%= table_link(@conn, "Impressions", :impression_count) %><small class="d-block">(actual / estimate)</small></th>
+                  <th class="text-center"><%= table_link(@conn, "US Hours Only", :us_hours_only) %></th>
                   <th class="text-center">Budget</th>
                   <th></th>
                 </tr>
@@ -119,6 +120,7 @@
                         <%= pretty_integer campaign.impression_count %>
                       </small>
                     </td>
+                    <td class="text-center"><%= campaign.us_hours_only %></td>
                     <td class="text-center">
                       <%= if campaign.budgeted_campaign do %>
                         <%= pretty_subtracted_money_with_total(

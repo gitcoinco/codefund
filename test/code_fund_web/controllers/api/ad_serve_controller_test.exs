@@ -4,6 +4,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
   setup do
     property = insert(:property)
+    {:ok, _pid} = TimeMachinex.ManagedClock.start()
+
     theme = insert(:theme, slug: "light", template: insert(:template, slug: "default"))
 
     conn =
@@ -129,6 +131,101 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           audience: audience_1,
           included_countries: ["US"]
         )
+
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new(2.50),
+        budget_daily_amount: Decimal.new(50),
+        total_spend: Decimal.new(2000),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+        creative: creative,
+        audience: audience_2,
+        included_countries: ["US"]
+      )
+
+      conn =
+        get(conn, ad_serve_path(conn, :details, property, %{"height" => 800, "width" => 1200}))
+
+      impression = CodeFund.Impressions.list_impressions() |> List.first()
+      assert impression.ip == "12.109.12.14"
+      assert impression.property_id == property.id
+      assert impression.campaign_id == campaign.id
+      assert impression.revenue_amount == Decimal.new("0.002500000000")
+      assert impression.distribution_amount == Decimal.new("0.001500000000")
+      assert impression.browser_height == 800
+      assert impression.browser_width == 1200
+
+      payload = %{
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
+        "headline" => "Creative Headline",
+        "description" => "This is a Test Creative",
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
+        "image" => "http://example.com/some.png",
+        "link" => "https://www.example.com/c/#{impression.id}",
+        "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
+        "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
+      }
+
+      assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
+      assert json_response(conn, 200) == payload
+    end
+
+    test "excludes us_only_hours campaigns if it is outside of us hours",
+         %{conn: conn} do
+      TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[1985-10-26 11:00:00], "Etc/UTC"))
+      creative = insert(:creative)
+
+      audience_1 = insert(:audience, name: "right one")
+      audience_2 = insert(:audience, name: "wrong one")
+
+      property =
+        insert(
+          :property,
+          audience: audience_1
+        )
+
+      insert(
+        :property,
+        audience: audience_2
+      )
+
+      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
+      conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
+      ip_string = conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
+      redis_key = ip_string <> "/" <> property.id
+
+      assert {:ok, nil} == Redis.Pool.command(["GET", redis_key])
+
+      campaign =
+        insert(
+          :campaign,
+          status: 2,
+          ecpm: Decimal.new(2.50),
+          budget_daily_amount: Decimal.new(50),
+          total_spend: Decimal.new(2000),
+          start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+          end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+          creative: creative,
+          audience: audience_1,
+          included_countries: ["US"],
+          us_hours_only: false
+        )
+
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new(2.50),
+        budget_daily_amount: Decimal.new(50),
+        total_spend: Decimal.new(2000),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+        creative: creative,
+        audience: audience_1,
+        included_countries: ["US"],
+        us_hours_only: true
+      )
 
       insert(
         :campaign,

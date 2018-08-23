@@ -56,6 +56,8 @@ config :code_fund, CodeFund.Mailer,
 
 config :redix, database: System.get_env("REDIS_DATABASE")
 
+config :time_machinex, TimeMachinex, adapter: TimeMachinex.SystemClock
+
 config :ex_aws,
   region: System.get_env("S3_REGION"),
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),

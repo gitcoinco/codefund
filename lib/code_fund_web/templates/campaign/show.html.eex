@@ -73,6 +73,10 @@
               <td><strong>Estimated Impressions</strong></td>
               <td><%= @campaign.impression_count %></td>
             </tr>
+            <tr>
+              <td><strong>US Hours Only</strong></td>
+              <td><%= @campaign.us_hours_only %></td>
+            </tr>
             <%= if @campaign.budgeted_campaign do %>
               <tr>
                 <td><strong>Total Ad Spend</strong></td>
