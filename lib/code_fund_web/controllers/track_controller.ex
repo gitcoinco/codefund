@@ -4,8 +4,10 @@ defmodule CodeFundWeb.TrackController do
   alias CodeFund.Schema.Campaign
   alias CodeFund.Schema.Property
 
-  @transparent_png <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33,
-                     249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
+  @transparent_png <<137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 1, 0,
+                     0, 0, 1, 8, 4, 0, 0, 0, 181, 28, 12, 2, 0, 0, 0, 11, 73, 68, 65, 84, 120,
+                     156, 99, 250, 207, 0, 0, 2, 7, 1, 2, 154, 28, 49, 113, 0, 0, 0, 0, 73, 69,
+                     78, 68, 174, 66, 96, 130>>
 
   def pixel(conn, %{"impression_id" => impression_id}) do
     with %CodeFund.Schema.Impression{} = impression <- Impressions.get_impression!(impression_id),
