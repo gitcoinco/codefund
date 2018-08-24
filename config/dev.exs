@@ -48,6 +48,8 @@ config :code_fund, CodeFund.Mailer, adapter: Bamboo.LocalAdapter
 
 config :redix, database: 0
 
+config :time_machinex, TimeMachinex, adapter: TimeMachinex.SystemClock
+
 config :ex_aws,
   region: System.get_env("S3_REGION") || "fakes3",
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID") || "123",

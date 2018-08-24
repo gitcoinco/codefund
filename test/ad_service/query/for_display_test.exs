@@ -3,6 +3,8 @@ defmodule AdService.Query.ForDisplayTest do
   import CodeFund.Factory
 
   setup do
+    {:ok, _pid} = TimeMachinex.ManagedClock.start()
+
     creative = insert(:creative, headline: "winning advertisement")
 
     insert(:audience, %{

@@ -43,6 +43,7 @@ defmodule AdService.Query.ForDisplay do
     |> where([_creative, campaign, ...], campaign.status == 2)
     |> where([_creative, campaign, ...], campaign.start_date <= fragment("current_timestamp"))
     |> where([_creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
+    |> AdService.Query.TimeManagement.optionally_exclude_us_hours_only_campaigns()
     |> select([creative, campaign, ...], %Advertisement{
       image_url: creative.image_url,
       body: creative.body,

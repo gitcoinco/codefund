@@ -164,6 +164,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :budget_daily_amount,
                :total_spend,
                :impression_count,
+               :us_hours_only,
                :start_date,
                :end_date
              ]
@@ -188,6 +189,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :included_countries,
                :budget_daily_amount,
                :impression_count,
+               :us_hours_only,
                :start_date,
                :end_date
              ]
