@@ -100,12 +100,31 @@
               <% end %>
             </li>
           <% end %>
+          <%= if(
+            has_any_role?(@conn, ["developer"])
+            and has_any_role?( @conn, ["sponsor"])
+            and !has_any_role?(@conn, ["admin"])
+            )do %>
+            <li class="nav-item">
+              <%= active_link(@conn, to: dashboard_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-speedometer"></i>
+                Advertiser Dashboard
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: dashboard_path(@conn, :publisher_dashboard), class: "nav-link") do %>
+                <i class="icon-speedometer"></i>
+                Publisher Dashboard
+              <% end %>
+            </li>
+          <% else %>
           <li class="nav-item">
             <%= active_link(@conn, to: dashboard_path(@conn, :index), class: "nav-link") do %>
               <i class="icon-speedometer"></i>
               Dashboard
             <% end %>
           </li>
+          <% end %>
           <%= if has_any_role? @conn, ["admin", "developer"] do %>
             <li class="nav-item">
               <%= active_link(@conn, to: property_path(@conn, :index), class: "nav-link") do %>
@@ -191,7 +210,7 @@
       Powered by <a href="https://github.com/gitcoinco/codefund">Open Source</a>
     </span>
   </footer>
-  
+
   <%= codefund_sidebar_ad_tag(@conn, "cf-nav") %>
   <%= chatlio_tag() %>
   <%= ga_tag() %>
