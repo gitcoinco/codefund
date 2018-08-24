@@ -1,7 +1,7 @@
 defmodule CodeFund.Repo.Migrations.AddHouseAdFlagToUserImpressions do
   use Ecto.Migration
 
-  def change do
+  def up do
     execute("DROP MATERIALIZED VIEW user_impressions CASCADE")
 
     execute("""

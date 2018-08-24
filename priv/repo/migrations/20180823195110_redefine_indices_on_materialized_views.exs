@@ -2,7 +2,7 @@ defmodule CodeFund.Repo.Migrations.RedefineIndicesOnMaterializedViews do
   use Ecto.Migration
   @disable_ddl_transaction true
 
-  def change do
+  def up do
     create(unique_index("user_impressions", [:id], concurrently: true))
 
     create(index("user_impressions", [:campaign_user_id], concurrently: true))
