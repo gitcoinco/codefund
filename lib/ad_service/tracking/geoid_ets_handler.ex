@@ -1,6 +1,4 @@
 defmodule AdService.Tracking.GeoIDETSHandler do
-  import CodeFund.Reporter
-
   @spec import_geo_id_csv(atom) :: {:ok, atom}
   def import_geo_id_csv(table_name) do
     :ets.new(table_name, [:set, :protected, :named_table])

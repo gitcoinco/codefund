@@ -81,7 +81,7 @@ defmodule CodeFundWeb.Coherence.PasswordController do
   Verify the passwords and update the database
   """
   @spec update(conn, params) :: conn
-  def update(conn, %{"password" => password_params} = params) do
+  def update(conn, %{"password" => password_params}) do
     user_schema = Config.user_schema()
     token = password_params["reset_password_token"]
 

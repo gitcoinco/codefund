@@ -32,6 +32,7 @@ defmodule CodeFund.Schema.Campaign do
     field(:total_spend, :decimal, default: Decimal.new(0.0))
     field(:start_date, :naive_datetime)
     field(:end_date, :naive_datetime)
+    field(:us_hours_only, :boolean)
 
     timestamps()
   end

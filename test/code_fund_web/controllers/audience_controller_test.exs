@@ -6,6 +6,7 @@ defmodule CodeFundWeb.AudienceControllerTest do
   setup do
     users = stub_users()
     audience = insert(:audience, name: "Some Audience")
+    {:ok, _pid} = TimeMachinex.ManagedClock.start()
 
     authed_conn = assign(build_conn(), :current_user, users.admin)
 
