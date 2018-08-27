@@ -17,7 +17,7 @@ defmodule AdService.Tracking.AnalyticsManager do
       property_id ->
         {:ok, :ga_geoids} = AdService.Tracking.GeoIDETSHandler.import_geo_id_csv(:ga_geoids)
 
-        tracker = Staccato.tracker(property_id, "AnalyticsManager", ssl: true)
+        tracker = Staccato.tracker(property_id, return_unique_client_id(), ssl: true)
 
         {:ok, [tracker: tracker]}
     end
@@ -47,6 +47,7 @@ defmodule AdService.Tracking.AnalyticsManager do
         track_impression(tracker, impression, nil)
     end
 
+    tracker = tracker |> set_client_id()
     {:noreply, [tracker: tracker]}
   end
 
@@ -70,6 +71,13 @@ defmodule AdService.Tracking.AnalyticsManager do
     |> track!()
   end
 
+  @spec set_client_id(%Staccato.Tracker{}) :: %Staccato.Tracker{}
+  defp set_client_id(%Staccato.Tracker{} = tracker),
+    do: tracker |> Map.put(:client_id, return_unique_client_id())
+
+  @spec return_unique_client_id() :: String.t()
+  defp return_unique_client_id(), do: "AnalyticsManager_#{UUID.uuid4()}"
+
   @spec params_for_tracking(%Impression{}) :: Keyword.t()
   defp params_for_tracking(impression),
     do: [
@@ -77,6 +85,8 @@ defmodule AdService.Tracking.AnalyticsManager do
       action: impression.campaign.name,
       label: "impression",
       value: 1,
+      user_id: UUID.uuid4(),
+      user_ip: impression.ip,
       user_agent: impression.user_agent
     ]
 end
