@@ -2,7 +2,7 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item active">Creatives</li>
-  
+
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
       <%= link to: creative_path(@conn, :new), class: "btn" do %>
@@ -26,6 +26,7 @@
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th>Headline</th>
                 <th>Body</th>
+                <th>Large Image</th>
                 <th></th>
               </tr>
             </thead>
@@ -38,6 +39,9 @@
                   <td><%= creative.name %></td>
                   <td><%= creative.headline %></td>
                   <td><%= creative.body %></td>
+                  <td><%= creative.large_image_object
+                  |> Framework.FileStorage.url()
+                  |> img_tag(width: "50px") %></td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: creative_path(@conn, :show, creative), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: creative_path(@conn, :edit, creative), class: "btn btn-outline-primary btn-sm" %>
