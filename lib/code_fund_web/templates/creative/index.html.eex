@@ -26,6 +26,7 @@
                 <th><%= table_link(@conn, "Name", :name) %></th>
                 <th>Headline</th>
                 <th>Body</th>
+                <th>Large Image</th>
                 <th></th>
               </tr>
             </thead>

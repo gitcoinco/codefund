@@ -23,6 +23,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Date Sent</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -30,10 +31,10 @@
                 <tr>
                   <td><%= "#{invitation.first_name} #{invitation.last_name}" %></td>
                   <td><%= invitation.email %></td>
+                  <td><%= invitation.updated_at %></td>
                   <td class="text-right p-2">
                     <%= link "Resend Invitation", to: invitation_path(@conn, :resend, invitation), class: "btn btn-outline-warning btn-sm" %>
                   </td>
-                  <td><%= invitation.updated_at %></td>
                 </tr>
               <% end %>
             </tbody>
