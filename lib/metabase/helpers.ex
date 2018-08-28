@@ -24,6 +24,9 @@ defmodule Metabase.Helpers do
     do: %{resource: %{dashboard: dashboard_role_mapping(:sponsor)}, params: %{user_id: user_id}}
 
   @spec dashboard_role_mapping(atom) :: integer
-  defp dashboard_role_mapping(role),
-    do: Application.get_env(:code_fund, :metabase_dashboard_mappings) |> Keyword.get(role)
+  defp dashboard_role_mapping(role) do
+    Application.get_env(:code_fund, __MODULE__)
+    |> Keyword.get(:metabase_dashboard_mappings)
+    |> Keyword.get(role)
+  end
 end

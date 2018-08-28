@@ -11,8 +11,6 @@ config :code_fund, CodeFundWeb.Endpoint,
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
   ga_tracking_id: System.get_env("GA_TRACKING_ID"),
-  metabase_site_url: System.get_env("METABASE_SITE_URL"),
-  metabase_secret_key: System.get_env("METABASE_SECRET_KEY"),
   iubenda_api_key: System.get_env("IUBENDA_API_KEY")
 
 # Do not print debug messages in production
