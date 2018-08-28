@@ -9,7 +9,6 @@
     large_image: [type: :file_input, label: "Large Image",opts: [
       hint: "200x260px"
     ]],
-    large_image: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:large_image_url) || nil ]],
-    image_url: [type: :text_input, label: "Image URL", opts: [placeholder: "https://"]]
+    large_image: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:large_image_url) || nil ]]
   ] |> render_fields(@form)
 %>
