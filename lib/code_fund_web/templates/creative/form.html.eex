@@ -2,13 +2,19 @@
     name: [type: :text_input, label: "Name"],
     headline: [type: :text_input, label: "Headline"],
     body: [type: :text_input, label: "Body"],
-    small_image: [type: :file_input, label: "Small Image", opts: [
+    small_image_asset_id: [type: :select, label: "Small Image", opts: [
+      choices: @assets,
+      prompt: "Select an Asset",
       hint: "200x200px"
     ]],
-    small_image: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:small_image_url) || nil ]],
-    large_image: [type: :file_input, label: "Large Image",opts: [
+    small_image_asset_id: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:small_image_url) || nil ]],
+    large_image_asset_id: [type: :select, label: "Large Image", opts: [
+      choices: @assets,
+      prompt: "Select an Asset",
       hint: "200x260px"
     ]],
-    large_image: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:large_image_url) || nil ]]
+    large_image_asset_id: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:large_image_url) || nil ]]
   ] |> render_fields(@form)
 %>
+
+

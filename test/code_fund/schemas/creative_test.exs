@@ -5,7 +5,14 @@ defmodule CodeFund.Schema.CreativeTest do
 
   describe "creatives" do
     setup do
-      valid_attrs = build(:creative, user_id: insert(:user).id) |> Map.from_struct()
+      valid_attrs =
+        build(:creative,
+          user_id: insert(:user).id,
+          large_image_asset: nil,
+          large_image_asset_id: insert(:asset).id
+        )
+        |> Map.from_struct()
+
       {:ok, %{valid_attrs: valid_attrs}}
     end
 
@@ -19,26 +26,6 @@ defmodule CodeFund.Schema.CreativeTest do
         Creative.required(),
         valid_attrs |> Map.delete(:large_image)
       )
-    end
-
-    test "changeset with invalid image_url", %{valid_attrs: valid_attrs} do
-      SharedExample.ModelTests.url_validation_test(Creative, :image_url, valid_attrs)
-    end
-
-    test "it casts an upload struct to keys for the database" do
-      valid_attrs =
-        build(
-          :creative,
-          user_id: insert(:user).id,
-          large_image_object: nil,
-          large_image_bucket: nil
-        )
-        |> Map.from_struct()
-
-      changeset = Creative.changeset(%Creative{}, valid_attrs)
-
-      assert changeset.changes.large_image_bucket == "stub"
-      assert changeset.changes.large_image_object =~ "_mock.jpg"
     end
   end
 end

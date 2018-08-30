@@ -43,11 +43,23 @@
                 </tr>
                 <tr>
                   <td><strong>Small Image</strong></td>
-                  <td><img src="<%= Framework.FileStorage.url(@creative.small_image_object) %>" style="max-width: 350px;" />
+                  <td>
+                    <%= if @creative.small_image_asset do %>
+                      <img src="<%= Framework.FileStorage.url(@creative.small_image_asset.image_object) %>" style="max-width: 350px;" />
+                    <% else %>
+                      None
+                    <% end %>
+                  </td>
                 </tr>
                 <tr>
                   <td><strong>Large Image</strong></td>
-                  <td><img src="<%= Framework.FileStorage.url(@creative.large_image_object) %>" style="max-width: 350px;" />
+                    <td>
+                    <%= if @creative.large_image_asset != nil do %>
+                      <img src="<%= Framework.FileStorage.url(@creative.large_image_asset.image_object) %>" style="max-width: 350px;" />
+                    <% else %>
+                      None
+                    <% end %>
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -44,7 +44,7 @@ defmodule CodeFund.CreativesTest do
 
     test "get_creative!/1 returns the creative with given id", %{creative: creative} do
       insert(:creative)
-      assert Creatives.get_creative!(creative.id) == creative |> Map.put(:large_image, nil)
+      assert Creatives.get_creative!(creative.id).id == creative.id
     end
 
     test "create_creative/1 with valid data creates a creative" do

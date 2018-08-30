@@ -2,8 +2,7 @@ defmodule CodeFundWeb.CreativeControllerTest do
   use CodeFundWeb.ConnCase
 
   setup do
-    # JBEAN TODO: figure out issue w/ plug upload structs on the controller request
-    valid_params = string_params_with_assocs(:creative, user: nil) |> Map.delete("large_image")
+    valid_params = string_params_with_assocs(:creative, user: nil)
 
     {:ok, %{valid_params: valid_params, users: stub_users()}}
   end

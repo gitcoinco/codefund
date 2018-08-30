@@ -60,7 +60,17 @@ defmodule CodeFund.Factory do
       user: build(:user),
       large_image_bucket: "stub",
       large_image_object: "image.jpg",
-      large_image: %Plug.Upload{
+      large_image_asset: insert(:asset)
+    }
+  end
+
+  def asset_factory do
+    %CodeFund.Schema.Asset{
+      name: "Stub Image",
+      user: insert(:user),
+      image_bucket: "stub",
+      image_object: "image.jpg",
+      image: %Plug.Upload{
         content_type: "image/jpeg",
         path: Path.expand("../../test/support/mock.jpg", __DIR__),
         filename: "mock.jpg"

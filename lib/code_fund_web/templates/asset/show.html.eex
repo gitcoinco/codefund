@@ -1,0 +1,51 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item"><%= link "Assets", to: asset_path(@conn, :index) %></li>
+  <li class="breadcrumb-item active"><%= @asset.name %></li>
+
+  <li class="breadcrumb-menu">
+    <div class="btn-group" role="group">
+      <%= link to: asset_path(@conn, :edit, @asset), class: "btn" do %>
+        <i class="fa fa-edit"></i> Edit Asset
+      <% end %>
+    </div>
+  </li>
+</ol>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Details
+        </div>
+        <div class="card-body">
+          <div class="details-table">
+            <table class="table table-responsive-sm">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ID</strong></td>
+                  <td><%= @asset.id %></td>
+                </tr>
+                <tr>
+                  <td><strong>Name</strong></td>
+                  <td><%= @asset.name %></td>
+                </tr>
+                <tr>
+                  <td><strong>Image</strong></td>
+                  <td><img src="<%= Framework.FileStorage.url(@asset.image_object) %>" style="max-width: 350px;" />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
