@@ -42,6 +42,7 @@ defmodule CodeFundWeb.API.AdServeController do
     )
   end
 
+  @spec details(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def details(conn, %{"property_id" => property_id} = params) do
     with {:error, :no_cache_found} <-
            AdService.ImpressionCache.lookup(conn.remote_ip, property_id),
