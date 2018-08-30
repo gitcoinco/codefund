@@ -72,6 +72,7 @@ defmodule CodeFundWeb.API.AdServeController do
           ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
           property_id: property_id,
           campaign_id: campaign_id,
+          country: client_country,
           revenue_amount: AdService.Math.CPM.revenue_amount(campaign),
           distribution_amount: AdService.Math.CPM.distribution_amount(campaign, property_owner),
           browser_height: params["height"] || "",
@@ -161,7 +162,8 @@ defmodule CodeFundWeb.API.AdServeController do
       error_code: AdService.ImpressionErrors.fetch_code(:no_possible_ads),
       ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
       browser_height: height,
-      browser_width: width
+      browser_width: width,
+      country: conn.remote_ip |> parse_country
     }
 
     case property_id |> AdService.Query.ForDisplay.fallback_ad_by_property_id() do
@@ -188,6 +190,7 @@ defmodule CodeFundWeb.API.AdServeController do
       Impressions.create_impression(%{
         property_id: property_id,
         campaign_id: nil,
+        country: conn.remote_ip |> parse_country,
         error_code: AdService.ImpressionErrors.fetch_code(reason_atom),
         ip: conn.remote_ip |> Tuple.to_list() |> Enum.join("."),
         browser_height: height,
@@ -195,6 +198,11 @@ defmodule CodeFundWeb.API.AdServeController do
       })
 
     error_map(reason_message, "//#{conn.host}/p/#{impression_id}/pixel.png")
+  end
+
+  defp parse_country(ip) do
+    {:ok, client_country} = Framework.Geolocation.find_by_ip(ip, :country)
+    client_country
   end
 
   defp error_map(reason_message, pixel_url \\ "") do

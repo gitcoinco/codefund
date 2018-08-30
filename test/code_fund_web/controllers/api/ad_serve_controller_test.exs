@@ -152,6 +152,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == campaign.id
+      assert impression.country == "US"
       assert impression.revenue_amount == Decimal.new("0.002500000000")
       assert impression.distribution_amount == Decimal.new("0.001500000000")
       assert impression.browser_height == 800
@@ -242,6 +243,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
+      assert impression.country == "US"
       assert impression.campaign_id == campaign.id
       assert impression.revenue_amount == Decimal.new("0.002500000000")
       assert impression.distribution_amount == Decimal.new("0.001500000000")
@@ -305,6 +307,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+
+      assert impression.country == "US"
 
       assert impression.error_code ==
                AdService.ImpressionErrors.fetch_code(:impression_count_exceeded)
@@ -386,6 +390,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.revenue_amount == Decimal.new("0.002500000000")
       assert impression.distribution_amount == Decimal.new("0.001500000000")
       assert impression.browser_height == nil
+      assert impression.country == "US"
       assert impression.browser_width == nil
 
       payload = %{
@@ -543,6 +548,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.error_code == AdService.ImpressionErrors.fetch_code(:no_possible_ads)
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+      assert impression.country == "US"
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
@@ -589,6 +595,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.campaign_id == fallback_campaign.id
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
+      assert impression.country == "US"
       assert impression.house_ad == true
       assert impression.revenue_amount |> Decimal.to_integer() == 0
       assert impression.distribution_amount |> Decimal.to_integer() == 0
@@ -620,6 +627,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.property_id == property.id
       assert impression.error_code == AdService.ImpressionErrors.fetch_code(:property_inactive)
       assert impression.campaign_id == nil
+      assert impression.country == "US"
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
@@ -649,6 +657,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+      assert impression.country == "CN"
       assert impression.error_code == AdService.ImpressionErrors.fetch_code(:no_possible_ads)
 
       assert json_response(conn, 200) == %{
@@ -676,6 +685,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.ip == "12.109.12.14"
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
+      assert impression.country == "US"
       assert impression.error_code == AdService.ImpressionErrors.fetch_code(:property_inactive)
 
       assert json_response(conn, 200) == %{
