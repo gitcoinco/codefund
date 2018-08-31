@@ -1,4 +1,5 @@
 use Mix.Config
+require Logger
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -56,6 +57,10 @@ config :ex_aws,
 
 case System.get_env("AWS_ACCESS_KEY_ID") == nil do
   true ->
+    Logger.warn(
+      "You must start FakeS3 service or set AWS keys in order for file uploads to work properly."
+    )
+
     config :ex_aws, :s3,
       scheme: "http://",
       host: "localhost",
