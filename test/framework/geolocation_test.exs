@@ -19,7 +19,8 @@ defmodule Framework.GeolocationTest do
                   latitude: "",
                   longitude: "",
                   postal_code: "",
-                  region: ""
+                  region: "",
+                  time_zone: ""
                 }}
     end
 
@@ -32,7 +33,8 @@ defmodule Framework.GeolocationTest do
                   latitude: 45.5171,
                   longitude: -122.6802,
                   postal_code: "97205",
-                  region: "Oregon"
+                  region: "Oregon",
+                  time_zone: "America/Los_Angeles"
                 }}
     end
 
@@ -45,7 +47,8 @@ defmodule Framework.GeolocationTest do
                   latitude: "",
                   longitude: "",
                   postal_code: "",
-                  region: ""
+                  region: "",
+                  time_zone: ""
                 }}
     end
   end
@@ -70,7 +73,8 @@ defmodule Framework.GeolocationTest do
                   latitude: "",
                   longitude: "",
                   postal_code: "",
-                  region: ""
+                  region: "",
+                  time_zone: ""
                 }}
     end
 
@@ -86,7 +90,8 @@ defmodule Framework.GeolocationTest do
                   latitude: 35.685,
                   longitude: 139.7514,
                   postal_code: "102-0082",
-                  region: "Tokyo"
+                  region: "Tokyo",
+                  time_zone: "Asia/Tokyo"
                 }}
     end
 
@@ -102,7 +107,8 @@ defmodule Framework.GeolocationTest do
                   latitude: "",
                   longitude: "",
                   postal_code: "",
-                  region: ""
+                  region: "",
+                  time_zone: ""
                 }}
     end
   end

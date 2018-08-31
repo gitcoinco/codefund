@@ -40,7 +40,6 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
         postal: %Geolix.Record.Postal{
           code: postal_code
         },
-
         subdivisions: [
           %Geolix.Record.Subdivision{
             name: region_name
