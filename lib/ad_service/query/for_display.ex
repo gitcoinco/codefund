@@ -25,7 +25,7 @@ defmodule AdService.Query.ForDisplay do
     |> CodeFund.Repo.one()
   end
 
-  def build(%Audience{} = audience, client_country, excluded_advertisers \\ []) do
+  def build(%Audience{} = audience, client_country, excluded_advertisers \\ [], time_zone) do
     from(
       creative in Creative,
       join: campaign in Campaign,
@@ -34,6 +34,7 @@ defmodule AdService.Query.ForDisplay do
       distinct: campaign.id
     )
     |> where_country_in(client_country)
+    |> where_accepted_hours_in(time_zone)
     |> with_daily_budget()
     |> where([_creative, campaign, ...], campaign.audience_id == ^audience.id)
     |> where(
@@ -89,5 +90,16 @@ defmodule AdService.Query.ForDisplay do
       [_creative, campaign, ...],
       ^client_country in campaign.included_countries
     )
+  end
+
+  defp where_accepted_hours_in(query, nil), do: query
+
+  defp where_accepted_hours_in(query, time_zone) do
+    %DateTime{hour: hour} = Timex.now(time_zone)
+    if hour > 5 && hour < 21 do # Pull from ENV
+      query
+    else
+      query |> where("1 = 0")
+    end
   end
 end

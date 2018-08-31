@@ -45,7 +45,7 @@ defmodule CodeFundWeb.API.AdServeController do
   def details(conn, %{"property_id" => property_id} = params) do
     with {:error, :no_cache_found} <-
            AdService.ImpressionCache.lookup(conn.remote_ip, property_id),
-         {:ok, client_country} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :country),
+         {:ok, %{country: country, time_zone: time_zone}} <- Framework.Geolocation.find_by_ip(conn.remote_ip, :city),
          %Property{
            status: 1,
            user: property_owner,
@@ -56,7 +56,7 @@ defmodule CodeFundWeb.API.AdServeController do
            Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
          :ok <- Framework.Browser.certify_human(conn),
          {:ok, ad_tuple} <-
-           AdService.Query.ForDisplay.build(audience, client_country, excluded_advertisers)
+           AdService.Query.ForDisplay.build(audience, client_country, excluded_advertisers, time_zone)
            |> CodeFund.Repo.all()
            |> AdService.Display.choose_winner(),
          %Advertisement{campaign_id: campaign_id} = advertisement <-
