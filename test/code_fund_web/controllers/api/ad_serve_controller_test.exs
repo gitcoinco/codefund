@@ -320,6 +320,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "headline" => "",
                "description" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "CodeFund does not have an advertiser for you at this time - code: 1"
@@ -444,6 +446,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "link" => "",
                "pixel" => "",
                "poweredByLink" => "https://codefund.io?utm_content=",
@@ -549,10 +553,12 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
+               "large_image_url" => "",
                "link" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "CodeFund does not have an advertiser for you at this time - code: 2"
+               "reason" => "CodeFund does not have an advertiser for you at this time - code: 2",
+               "small_image_url" => ""
              }
     end
 
@@ -631,6 +637,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "headline" => "",
                "description" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "This property is not currently active - code: 0"
@@ -659,6 +667,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "headline" => "",
                "description" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "CodeFund does not have an advertiser for you at this time - code: 2"
@@ -686,6 +696,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
                "headline" => "",
                "description" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "This property is not currently active - code: 0"

@@ -216,6 +216,8 @@ defmodule CodeFundWeb.API.AdServeController do
       headline: "",
       description: "",
       pixel: pixel_url,
+      large_image_url: "",
+      small_image_url: "",
       poweredByLink: "https://codefund.io?utm_content=",
       reason: reason_message
     }
