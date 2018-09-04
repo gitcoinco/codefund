@@ -174,6 +174,20 @@ defmodule Framework.Geolocation.ProtocolTest do
              }
     end
 
+    test "it defaults to registered country if country is nil", %{city_struct: city_struct} do
+      city_struct = city_struct |> Map.put(:country, nil)
+
+      assert Framework.Geolocation.Protocol.parse(city_struct) == %{
+               city: "Portland",
+               country: "US",
+               latitude: 45.5171,
+               longitude: -122.6802,
+               postal_code: "97205",
+               region: "Oregon",
+               time_zone: "America/Los_Angeles"
+             }
+    end
+
     test "it returns country map if city is missing in city struct", %{city_struct: city_struct} do
       city_struct = city_struct |> Map.put(:city, nil)
 
