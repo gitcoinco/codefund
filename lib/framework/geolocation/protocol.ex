@@ -29,6 +29,39 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
         city: %Geolix.Record.City{
           name: city_name
         },
+        registered_country: %Geolix.Record.Country{
+          iso_code: country_iso_code
+        },
+        country: nil,
+        location: %Geolix.Record.Location{
+          latitude: latitude,
+          longitude: longitude,
+          time_zone: time_zone
+        },
+        postal: %Geolix.Record.Postal{
+          code: postal_code
+        },
+        subdivisions: [
+          %Geolix.Record.Subdivision{
+            name: region_name
+          }
+        ]
+      }) do
+    %{
+      city: city_name,
+      country: country_iso_code,
+      latitude: latitude,
+      longitude: longitude,
+      postal_code: postal_code,
+      region: region_name,
+      time_zone: time_zone
+    }
+  end
+
+  def parse(%Geolix.Result.City{
+        city: %Geolix.Record.City{
+          name: city_name
+        },
         country: %Geolix.Record.Country{
           iso_code: country_iso_code
         },
