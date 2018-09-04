@@ -7,22 +7,19 @@ defmodule AdService.Math.MultiplierTest do
         ecpm: Decimal.new(2.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-        headline: "ad headline",
-        image_url: "http://example.com"
+        headline: "ad headline"
       },
       %AdService.Advertisement{
         ecpm: Decimal.new(3.00),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
-        headline: "ad headline",
-        image_url: "http://example.com"
+        headline: "ad headline"
       },
       %AdService.Advertisement{
         ecpm: Decimal.new(3.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
-        headline: "ad headline",
-        image_url: "http://example.com"
+        headline: "ad headline"
       }
     ]
 

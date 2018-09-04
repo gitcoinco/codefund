@@ -134,7 +134,6 @@ defmodule CodeFundWeb.API.AdServeController do
 
   defp payload(
          %Advertisement{
-           image_url: image_url,
            body: body,
            campaign_id: campaign_id,
            headline: headline,
@@ -145,7 +144,6 @@ defmodule CodeFundWeb.API.AdServeController do
          impression_id
        ) do
     %{
-      image: image_url,
       small_image_url: Framework.FileStorage.url(small_image_object),
       large_image_url: Framework.FileStorage.url(large_image_object),
       link: "https://#{conn.host}/c/#{impression_id}",
@@ -214,7 +212,6 @@ defmodule CodeFundWeb.API.AdServeController do
 
   defp error_map(reason_message, pixel_url \\ "") do
     %{
-      image: "",
       link: "",
       headline: "",
       description: "",

@@ -10,16 +10,17 @@ defmodule AdService.Query.ForDisplay do
       join: campaign in Campaign,
       on: campaign.id == audience.fallback_campaign_id,
       join: creative in assoc(campaign, :creative),
+      join: large_image_asset in assoc(creative, :large_image_asset),
+      left_join: small_image_asset in assoc(creative, :small_image_asset),
       where: property.id == ^property_id,
       select: %Advertisement{
-        image_url: creative.image_url,
         body: creative.body,
         ecpm: campaign.ecpm,
         campaign_id: campaign.id,
         campaign_name: campaign.name,
         headline: creative.headline,
-        small_image_object: creative.small_image_object,
-        large_image_object: creative.large_image_object
+        small_image_object: small_image_asset.image_object,
+        large_image_object: large_image_asset.image_object
       }
     )
     |> CodeFund.Repo.one()
@@ -30,6 +31,8 @@ defmodule AdService.Query.ForDisplay do
       creative in Creative,
       join: campaign in Campaign,
       on: campaign.creative_id == creative.id,
+      join: large_image_asset in assoc(creative, :large_image_asset),
+      left_join: small_image_asset in assoc(creative, :small_image_asset),
       join: audience in assoc(campaign, :audience),
       distinct: campaign.id
     )
@@ -45,15 +48,14 @@ defmodule AdService.Query.ForDisplay do
     |> where([_creative, campaign, ...], campaign.start_date <= fragment("current_timestamp"))
     |> where([_creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
     |> AdService.Query.TimeManagement.optionally_exclude_us_hours_only_campaigns()
-    |> select([creative, campaign, ...], %Advertisement{
-      image_url: creative.image_url,
+    |> select([creative, campaign, large_image_asset, small_image_asset, ...], %Advertisement{
       body: creative.body,
       ecpm: campaign.ecpm,
       campaign_id: campaign.id,
       campaign_name: campaign.name,
       headline: creative.headline,
-      small_image_object: creative.small_image_object,
-      large_image_object: creative.large_image_object
+      small_image_object: small_image_asset.image_object,
+      large_image_object: large_image_asset.image_object
     })
   end
 
@@ -79,7 +81,7 @@ defmodule AdService.Query.ForDisplay do
       sub in subquery(daily_budget_query),
       sub.id == campaign.id
     )
-    |> where([_, campaign, _, sub], sub.daily_spend <= campaign.budget_daily_amount)
+    |> where([_, campaign, ..., sub], sub.daily_spend <= campaign.budget_daily_amount)
   end
 
   defp where_country_in(query, nil), do: query

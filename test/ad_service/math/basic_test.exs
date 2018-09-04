@@ -8,24 +8,21 @@ defmodule AdService.Math.BasicTest do
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
         campaign_name: "Campaign 1",
-        headline: "ad headline",
-        image_url: "http://example.com"
+        headline: "ad headline"
       },
       %AdService.Advertisement{
         ecpm: Decimal.new(3.00),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
         campaign_name: "Campaign 2",
-        headline: "ad headline",
-        image_url: "http://example.com"
+        headline: "ad headline"
       },
       %AdService.Advertisement{
         ecpm: Decimal.new(3.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
         campaign_name: "Campaign 3",
-        headline: "ad headline",
-        image_url: "http://example.com"
+        headline: "ad headline"
       }
     ]
 

@@ -56,10 +56,8 @@ defmodule CodeFund.Factory do
       name: "Test Creative",
       headline: "Creative Headline",
       body: "This is a Test Creative",
-      image_url: "http://example.com/some.png",
       user: build(:user),
-      large_image_bucket: "stub",
-      large_image_object: "image.jpg",
+      small_image_asset: insert(:asset),
       large_image_asset: insert(:asset)
     }
   end

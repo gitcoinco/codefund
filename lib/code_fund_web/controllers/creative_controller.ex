@@ -2,6 +2,7 @@ defmodule CodeFundWeb.CreativeController do
   use CodeFundWeb, :controller
   use Framework.Controller
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
+  alias CodeFund.Schema.Asset
   use Framework.Controller.Stub.Definitions, [:index, :delete]
   plug(CodeFundWeb.Plugs.RequireAnyRole, roles: ["admin", "sponsor"])
 
@@ -33,8 +34,8 @@ defmodule CodeFundWeb.CreativeController do
 
   defp fetch_image_urls(conn, params) do
     %CodeFund.Schema.Creative{
-      small_image_object: small_image_object,
-      large_image_object: large_image_object
+      small_image_asset: %Asset{image_object: small_image_object},
+      large_image_asset: %Asset{image_object: large_image_object}
     } = CodeFund.Creatives.get_creative!(params["id"])
 
     [
