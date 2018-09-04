@@ -1,5 +1,6 @@
 defmodule AdService.Query.TimeManagement do
   import Ecto.Query
+  use Timex
 
   @spec where_accepted_hours_for_ip_address(
           Ecto.Query.t(),
@@ -11,7 +12,7 @@ defmodule AdService.Query.TimeManagement do
   def where_accepted_hours_for_ip_address(query, ip_address) do
     with {:ok, %{time_zone: time_zone}} when time_zone != "" <-
            ip_address |> Framework.Geolocation.find_by_ip(:city) do
-      %DateTime{hour: hour} = Timex.now(time_zone)
+      %DateTime{hour: hour} = TimeMachinex.now() |> Timezone.convert(time_zone)
 
       query
       |> build_hours_query(hour)

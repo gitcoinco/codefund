@@ -14,6 +14,8 @@ defmodule AdService.Query.TimeManagementTest do
           on: campaign.creative_id == creative.id
         )
 
+      TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[2018-10-26 11:00:00], "Etc/UTC"))
+
       modified_query =
         AdService.Query.TimeManagement.where_accepted_hours_for_ip_address(
           query,
@@ -30,6 +32,8 @@ defmodule AdService.Query.TimeManagementTest do
           on: campaign.creative_id == creative.id
         )
 
+      TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[2018-10-26 11:00:00], "Etc/UTC"))
+
       modified_query =
         AdService.Query.TimeManagement.where_accepted_hours_for_ip_address(query, nil)
 
@@ -37,6 +41,8 @@ defmodule AdService.Query.TimeManagementTest do
     end
 
     test "it adds a false clause to the query if the hours are not during the work day for the given location" do
+      TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[1985-10-26 02:00:00], "Etc/UTC"))
+
       query =
         from(creative in CodeFund.Schema.Creative,
           join: campaign in Campaign,
@@ -46,7 +52,7 @@ defmodule AdService.Query.TimeManagementTest do
       modified_query =
         AdService.Query.TimeManagement.where_accepted_hours_for_ip_address(
           query,
-          {95, 31, 18, 119}
+          {72, 229, 28, 185}
         )
 
       assert modified_query.wheres |> List.first() |> Map.get(:expr) == %Ecto.Query.Tagged{
