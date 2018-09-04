@@ -95,7 +95,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
   describe "details" do
     test "serves an ad if property has a campaign tied to an audience and creates an impression and records distribution and revenue amounts",
          %{conn: conn} do
-      creative = insert(:creative)
+      creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience_1 = insert(:audience, name: "right one")
       audience_2 = insert(:audience, name: "wrong one")
@@ -159,11 +159,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.browser_width == 1200
 
       payload = %{
-        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_asset.image_object),
         "headline" => "Creative Headline",
         "description" => "This is a Test Creative",
-        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
-        "image" => "http://example.com/some.png",
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_asset.image_object),
         "link" => "https://www.example.com/c/#{impression.id}",
         "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
         "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
@@ -176,7 +175,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
     test "excludes us_only_hours campaigns if it is outside of us hours",
          %{conn: conn} do
       TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[1985-10-26 11:00:00], "Etc/UTC"))
-      creative = insert(:creative)
+      creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience_1 = insert(:audience, name: "right one")
       audience_2 = insert(:audience, name: "wrong one")
@@ -251,11 +250,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.browser_width == 1200
 
       payload = %{
-        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_asset.image_object),
         "headline" => "Creative Headline",
         "description" => "This is a Test Creative",
-        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
-        "image" => "http://example.com/some.png",
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_asset.image_object),
         "link" => "https://www.example.com/c/#{impression.id}",
         "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
         "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
@@ -266,7 +264,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
     test "serves an ad if property has a campaign tied to an audience but has exceeded impression_count so it records an impression with an error",
          %{conn: conn} do
-      creative = insert(:creative)
+      creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience = insert(:audience, name: "right one")
 
@@ -321,8 +319,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
-               "image" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "CodeFund does not have an advertiser for you at this time - code: 1"
@@ -331,7 +330,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
     test "serves an ad if property has a campaign tied to an audience and creates an impression without height and width",
          %{conn: conn} do
-      creative = insert(:creative)
+      creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience_1 = insert(:audience, name: "right one")
       audience_2 = insert(:audience, name: "wrong one")
@@ -394,11 +393,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.browser_width == nil
 
       payload = %{
-        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_asset.image_object),
         "headline" => "Creative Headline",
         "description" => "This is a Test Creative",
-        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
-        "image" => "http://example.com/some.png",
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_asset.image_object),
         "link" => "https://www.example.com/c/#{impression.id}",
         "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
         "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
@@ -410,7 +408,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
     test "returns an error and doesn't create an impression if the traffic is from a bot",
          %{conn: conn} do
-      creative = insert(:creative)
+      creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience_1 = insert(:audience, name: "right one")
 
@@ -448,7 +446,8 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
-               "image" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "link" => "",
                "pixel" => "",
                "poweredByLink" => "https://codefund.io?utm_content=",
@@ -458,7 +457,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
     test "serves an ad from cache if multiple requests are made to the same property and ip within a time frame and does not create a new impression",
          %{conn: conn} do
-      creative = insert(:creative)
+      creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience = insert(:audience)
 
@@ -497,11 +496,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       impression = CodeFund.Impressions.list_impressions() |> List.first()
 
       payload = %{
-        "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
+        "small_image_url" => Framework.FileStorage.url(creative.small_image_asset.image_object),
         "headline" => "Creative Headline",
         "description" => "This is a Test Creative",
-        "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
-        "image" => "http://example.com/some.png",
+        "large_image_url" => Framework.FileStorage.url(creative.large_image_asset.image_object),
         "link" => "https://www.example.com/c/#{impression.id}",
         "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
         "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
@@ -555,18 +553,21 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
-               "image" => "",
+               "large_image_url" => "",
                "link" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
-               "reason" => "CodeFund does not have an advertiser for you at this time - code: 2"
+               "reason" => "CodeFund does not have an advertiser for you at this time - code: 2",
+               "small_image_url" => ""
              }
     end
 
     test "returns an error if property does not have a campaign but the audience has a fallback ad so it still creates an impression",
          %{conn: conn} do
-      creative = insert(:creative)
-      fallback_campaign = insert(:campaign)
+      creative = insert(:creative, small_image_asset: insert(:asset))
+
+      fallback_campaign =
+        insert(:campaign, creative: insert(:creative, small_image_asset: insert(:asset)))
 
       property =
         insert(:property, audience: insert(:audience, fallback_campaign_id: fallback_campaign.id))
@@ -601,11 +602,12 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.distribution_amount |> Decimal.to_integer() == 0
 
       assert json_response(conn, 200) == %{
-               "small_image_url" => Framework.FileStorage.url(creative.small_image_object),
+               "small_image_url" =>
+                 Framework.FileStorage.url(creative.small_image_asset.image_object),
                "headline" => "Creative Headline",
                "description" => "This is a Test Creative",
-               "large_image_url" => Framework.FileStorage.url(creative.large_image_object),
-               "image" => "http://example.com/some.png",
+               "large_image_url" =>
+                 Framework.FileStorage.url(creative.large_image_asset.image_object),
                "link" => "https://www.example.com/c/#{impression.id}",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=#{fallback_campaign.id}"
@@ -634,8 +636,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
-               "image" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "This property is not currently active - code: 0"
@@ -663,8 +666,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
-               "image" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "CodeFund does not have an advertiser for you at this time - code: 2"
@@ -691,8 +695,9 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert json_response(conn, 200) == %{
                "headline" => "",
                "description" => "",
-               "image" => "",
                "link" => "",
+               "large_image_url" => "",
+               "small_image_url" => "",
                "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
                "poweredByLink" => "https://codefund.io?utm_content=",
                "reason" => "This property is not currently active - code: 0"

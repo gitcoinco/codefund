@@ -9,7 +9,9 @@ defmodule CodeFund.Schema.CreativeTest do
         build(:creative,
           user_id: insert(:user).id,
           large_image_asset: nil,
-          large_image_asset_id: insert(:asset).id
+          large_image_asset_id: insert(:asset).id,
+          small_image_asset: nil,
+          small_image_asset_id: insert(:asset).id
         )
         |> Map.from_struct()
 

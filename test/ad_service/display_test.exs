@@ -6,8 +6,7 @@ defmodule AdService.DisplayTest do
       ecpm: Decimal.new(10),
       body: "ad body",
       campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
-      headline: "ad headline",
-      image_url: "http://example.com"
+      headline: "ad headline"
     }
 
     possible_ads_set_of_two = [
@@ -15,8 +14,7 @@ defmodule AdService.DisplayTest do
         ecpm: Decimal.new(1),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
-        headline: "ad headline",
-        image_url: "http://example.com"
+        headline: "ad headline"
       },
       winning_ad
     ]

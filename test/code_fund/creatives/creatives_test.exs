@@ -51,7 +51,6 @@ defmodule CodeFund.CreativesTest do
       assert {:ok, %Creative{} = creative} =
                Creatives.create_creative(params_with_assocs(:creative))
 
-      assert creative.image_url == "http://example.com/some.png"
       assert creative.body == "This is a Test Creative"
       assert creative.headline == "Creative Headline"
     end

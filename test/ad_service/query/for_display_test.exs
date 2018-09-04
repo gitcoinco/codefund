@@ -5,7 +5,8 @@ defmodule AdService.Query.ForDisplayTest do
   setup do
     {:ok, _pid} = TimeMachinex.ManagedClock.start()
 
-    creative = insert(:creative, headline: "winning advertisement")
+    creative =
+      insert(:creative, headline: "winning advertisement", large_image_asset: insert(:asset))
 
     insert(:audience, %{
       programming_languages: ["Ruby", "C"],
@@ -97,10 +98,9 @@ defmodule AdService.Query.ForDisplayTest do
                  body: "This is a Test Creative",
                  campaign_id: fallback_campaign.id,
                  headline: "Creative Headline",
-                 image_url: "http://example.com/some.png",
                  ecpm: Decimal.new("2.00"),
                  campaign_name: "Test Campaign",
-                 small_image_object: nil,
+                 small_image_object: "image.jpg",
                  large_image_object: "image.jpg"
                }
     end
@@ -138,10 +138,9 @@ defmodule AdService.Query.ForDisplayTest do
                body: "This is a Test Creative",
                campaign_id: campaign.id,
                headline: "winning advertisement",
-               image_url: "http://example.com/some.png",
                ecpm: Decimal.new("1.00"),
                campaign_name: "Test Campaign",
-               small_image_object: nil,
+               small_image_object: "image.jpg",
                large_image_object: "image.jpg"
              }
     end
