@@ -299,7 +299,7 @@ defmodule CodeFund.Properties do
     do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :audience, :template])
 
   def get_all_display_rates(%Property{audience: audience}) when not is_nil(audience) do
-    AdService.Query.ForDisplay.build(audience, nil)
+    AdService.Query.ForDisplay.build(audience, nil, nil)
     |> CodeFund.Repo.all()
     |> AdService.Math.Basic.get_all_display_rates()
   end

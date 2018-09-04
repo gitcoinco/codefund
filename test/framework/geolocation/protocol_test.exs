@@ -155,7 +155,8 @@ defmodule Framework.Geolocation.ProtocolTest do
                latitude: 45.5171,
                longitude: -122.6802,
                postal_code: "97205",
-               region: "Oregon"
+               region: "Oregon",
+               time_zone: "America/Los_Angeles"
              }
     end
 
@@ -168,7 +169,8 @@ defmodule Framework.Geolocation.ProtocolTest do
                latitude: 45.5171,
                longitude: -122.6802,
                postal_code: "",
-               region: ""
+               region: "",
+               time_zone: ""
              }
     end
 
@@ -181,7 +183,8 @@ defmodule Framework.Geolocation.ProtocolTest do
                latitude: "",
                longitude: "",
                postal_code: "",
-               region: ""
+               region: "",
+               time_zone: ""
              }
     end
 
@@ -192,7 +195,8 @@ defmodule Framework.Geolocation.ProtocolTest do
                latitude: "",
                longitude: "",
                postal_code: "",
-               region: ""
+               region: "",
+               time_zone: ""
              }
     end
   end

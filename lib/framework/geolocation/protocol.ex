@@ -21,7 +21,8 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
       latitude: "",
       longitude: "",
       postal_code: "",
-      region: ""
+      region: "",
+      time_zone: ""
     }
 
   def parse(%Geolix.Result.City{
@@ -33,7 +34,8 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
         },
         location: %Geolix.Record.Location{
           latitude: latitude,
-          longitude: longitude
+          longitude: longitude,
+          time_zone: time_zone
         },
         postal: %Geolix.Record.Postal{
           code: postal_code
@@ -50,7 +52,8 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
       latitude: latitude,
       longitude: longitude,
       postal_code: postal_code,
-      region: region_name
+      region: region_name,
+      time_zone: time_zone
     }
   end
 
@@ -72,7 +75,8 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
       latitude: latitude,
       longitude: longitude,
       postal_code: "",
-      region: ""
+      region: "",
+      time_zone: ""
     }
   end
 
@@ -84,7 +88,8 @@ defimpl Framework.Geolocation.Protocol, for: Geolix.Result.City do
         latitude: "",
         longitude: "",
         postal_code: "",
-        region: ""
+        region: "",
+        time_zone: ""
       }
   end
 end

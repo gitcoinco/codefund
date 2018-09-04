@@ -108,7 +108,8 @@ defmodule AdService.Query.ForDisplayTest do
 
   describe "build/1" do
     test "get_by_property_filters excludes indicated countries", %{audience: audience} do
-      refute AdService.Query.ForDisplay.build(audience, "CN", ["Foobar"]) |> CodeFund.Repo.one()
+      refute AdService.Query.ForDisplay.build(audience, "CN", nil, ["Foobar"])
+             |> CodeFund.Repo.one()
     end
 
     test "it returns advertisements by audience, included country and excluded advertisers", %{
@@ -131,7 +132,7 @@ defmodule AdService.Query.ForDisplayTest do
       )
 
       advertisement =
-        AdService.Query.ForDisplay.build(audience, "US", ["Foobar"]) |> CodeFund.Repo.one()
+        AdService.Query.ForDisplay.build(audience, "US", nil, ["Foobar"]) |> CodeFund.Repo.one()
 
       assert advertisement == %AdService.Advertisement{
                body: "This is a Test Creative",
@@ -171,7 +172,7 @@ defmodule AdService.Query.ForDisplayTest do
       insert(:impression, campaign: campaign, revenue_amount: Decimal.new(9.5))
 
       advertisement =
-        AdService.Query.ForDisplay.build(audience, "US", ["Foobar"]) |> CodeFund.Repo.one()
+        AdService.Query.ForDisplay.build(audience, "US", nil, ["Foobar"]) |> CodeFund.Repo.one()
 
       refute advertisement
     end

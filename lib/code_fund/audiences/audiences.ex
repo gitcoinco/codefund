@@ -133,7 +133,7 @@ defmodule CodeFund.Audiences do
   end
 
   def get_all_display_rates(%Audience{} = audience) do
-    AdService.Query.ForDisplay.build(audience, nil)
+    AdService.Query.ForDisplay.build(audience, nil, nil)
     |> CodeFund.Repo.all()
     |> AdService.Math.Basic.get_all_display_rates()
   end
