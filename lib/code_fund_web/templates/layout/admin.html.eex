@@ -139,9 +139,13 @@
                 <i class="icon-rocket"></i>
                 Campaigns
               <% end %>
-          </li>
-          <% end %>
-          <%= if has_any_role? @conn, ["admin", "sponsor"] do %>
+            </li>
+            <li class="nav-item">
+              <%= active_link(@conn, to: asset_path(@conn, :index), class: "nav-link") do %>
+                <i class="icon-paper-clip"></i>
+                Assets
+              <% end %>
+            </li>
             <li class="nav-item">
               <%= active_link(@conn, to: creative_path(@conn, :index), class: "nav-link") do %>
                 <i class="icon-eye"></i>

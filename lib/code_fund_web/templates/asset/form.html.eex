@@ -1,0 +1,6 @@
+<%= [
+    name: [type: :text_input, label: "Name"],
+    image: [type: :file_input, label: "Image"],
+    image: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:image_url) || nil ]],
+  ] |> render_fields(@form)
+%>

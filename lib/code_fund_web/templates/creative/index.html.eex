@@ -39,9 +39,15 @@
                   <td><%= creative.name %></td>
                   <td><%= creative.headline %></td>
                   <td><%= creative.body %></td>
-                  <td><%= creative.large_image_object
-                  |> Framework.FileStorage.url()
-                  |> img_tag(width: "50px") %></td>
+                  <td>
+                    <%= if creative.large_image_asset != nil do %>
+                      <%= creative.large_image_asset.image_object
+                      |> Framework.FileStorage.url()
+                      |> img_tag(width: "50px") %>
+                    <% else %>
+                      None
+                    <% end %>
+                  </td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: creative_path(@conn, :show, creative), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: creative_path(@conn, :edit, creative), class: "btn btn-outline-primary btn-sm" %>
