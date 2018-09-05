@@ -216,7 +216,7 @@
   </footer>
 
   <%= codefund_sidebar_ad_tag(@conn, "cf-nav") %>
-  <%= chatlio_tag() %>
+  <%= support_widget_tag() %>
   <%= ga_tag() %>
 </body>
 </html>

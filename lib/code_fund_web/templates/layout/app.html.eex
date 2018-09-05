@@ -41,7 +41,7 @@
     <%= cookie_policy_link() %>
   </div>
 
-  <%= chatlio_tag() %>
+  <%= support_widget_tag() %>
   <%= ga_tag() %>
 </body>
 </html>

@@ -168,20 +168,20 @@ defmodule CodeFundWeb.ViewHelpers do
     {:safe, html}
   end
 
-  def chatlio_tag do
-    chatlio_widget_id = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:chatlio_widget_id]
+  def support_widget_tag do
+    support_widget_id = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:support_widget_id]
 
     html = """
-    <script type="text/javascript">
-    window._chatlio = window._chatlio||[];
-    !function(){ var t=document.getElementById("chatlio-widget-embed");if(t&&window.ChatlioReact&&_chatlio.init)return void _chatlio.init(t,ChatlioReact);for(var e=function(t){return function(){_chatlio.push([t].concat(arguments)) }},i=["configure","identify","track","show","hide","isShown","isOnline", "page", "open", "showOrHide"],a=0;a<i.length;a++)_chatlio[i[a]]||(_chatlio[i[a]]=e(i[a]));var n=document.createElement("script"),c=document.getElementsByTagName("script")[0];n.id="chatlio-widget-embed",n.src="https://w.chatlio.com/w.chatlio-widget.js",n.async=!0,n.setAttribute("data-embed-version","2.3");
-       n.setAttribute('data-widget-id','#{chatlio_widget_id}');
-       c.parentNode.insertBefore(n,c);
-    }();
+    <script id="grv-widget">
+    /*<![CDATA[*/
+    window.groove = window.groove || {}; groove.widget = function(){ groove._widgetQueue.push(Array.prototype.slice.call(arguments)); }; groove._widgetQueue = [];
+    groove.widget('setWidgetId', '#{support_widget_id}');
+    !function(g,r,v){var a,n,c=r.createElement("iframe");(c.frameElement||c).style.cssText="width: 0; height: 0; border: 0",c.title="",c.role="presentation",c.src="javascript:false",r.body.appendChild(c);try{a=c.contentWindow.document}catch(i){n=r.domain;var b=["javascript:document.write('<he","ad><scri","pt>document.domain=","\\"",n,"\\";</scri","pt></he","ad><bo","dy></bo","dy>')"];c.src=b.join(""),a=c.contentWindow.document}var d="https:"==r.location.protocol?"https://":"http://",s="http://groove-widget-production.s3.amazonaws.com".replace("http://",d);c.className="grv-widget-tag",a.open()._l=function(){n&&(this.domain=n);var t=this.createElement("script");t.type="text/javascript",t.charset="utf-8",t.async=!0,t.src=s+"/loader.js",this.body.appendChild(t)};var p=["<bo","dy onload=\\"document._l();\\">"];a.write(p.join("")),a.close()}(window,document)
+    /*]]>*/
     </script>
     """
 
-    case chatlio_widget_id do
+    case support_widget_id do
       nil -> {:safe, ""}
       _ -> {:safe, html}
     end
