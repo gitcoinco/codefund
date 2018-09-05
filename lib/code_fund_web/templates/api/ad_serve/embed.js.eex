@@ -32,8 +32,8 @@ var _codefund = {
 
   cleanAd: function() {
     var cfStyle = document.getElementById('cf-style');
-    if (cfStyle != null) {
-      cfStyle.remove();
+    if (cfStyle != null && cfStyle.parentNode) {
+      cfStyle.parentNode.removeChild(cfStyle);
     }
 
     var cfAd = document.getElementById(this.targetId);
