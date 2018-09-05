@@ -50,5 +50,5 @@ defmodule AdService.Query.TimeManagement do
   defp build_hours_query(query, hour) when hour > 5 and hour < 21, do: query
 
   # JBEAN TODO: refactor this
-  defp build_hours_query(query, _), do: query |> where("1 = 0")
+  defp build_hours_query(query, _), do: query |> where("false")
 end

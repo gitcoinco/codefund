@@ -58,7 +58,7 @@ defmodule AdService.Query.TimeManagementTest do
       assert modified_query.wheres |> List.first() |> Map.get(:expr) == %Ecto.Query.Tagged{
                tag: nil,
                type: :boolean,
-               value: "1 = 0"
+               value: "false"
              }
     end
   end
