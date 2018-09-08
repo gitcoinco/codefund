@@ -40,5 +40,15 @@ defmodule AdService.Tracking.GeoIDETSHandlerTest do
                  "TY"
                )
     end
+
+    test "it picks the first match if a match results in multiples" do
+      assert {:ok, "9024058"} ==
+               AdService.Tracking.GeoIDETSHandler.fetch_geo_id(
+                 :ga_geoids,
+                 "",
+                 "Kansas",
+                 "US"
+               )
+    end
   end
 end
