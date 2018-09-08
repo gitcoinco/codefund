@@ -18,10 +18,11 @@ defmodule AdService.Tracking.GeoIDETSHandler do
   def fetch_geo_id(_, nil, nil, nil), do: {:error, :no_matching_geo_id}
 
   def fetch_geo_id(table_name, city, region, country) do
-    with location <- [city, region, :_, country],
-         [[geo_id]] <- :ets.match(table_name, sanitize_ets_match(location)) do
-      {:ok, geo_id}
-    else
+    location = [city, region, :_, country]
+
+    case :ets.match(table_name, sanitize_ets_match(location)) do
+      [[geo_id] | []] -> {:ok, geo_id}
+      [[geo_id] | _] -> {:ok, geo_id}
       [] -> {:error, :no_matching_geo_id}
     end
   end
