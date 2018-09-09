@@ -9,8 +9,8 @@ if (!window.hasOwnProperty('_codefund_template')) {
 var buildJsonUrl = function(url){
     browserWidth = window.innerWidth;
     browserHeight = window.innerHeight;
-
-    return url + '?width=' + browserWidth + '&height=' + browserHeight;
+    url_with_height_width = url + '?width=' + browserWidth + '&height=' + browserHeight;
+    return url_with_height_width.replace(/\s|%20/g, "");
   };
 
 var _codefund = {
