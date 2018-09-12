@@ -207,6 +207,8 @@
       &copy; 2018 <a href="https://consensys.net">Consensys</a>. All Rights Reserved.
     </span>
     <span class="ml-auto d-none d-sm-block">
+      <a class="iubenda-nostyle no-brand iubenda-embed iub-legal-only" href="https://status.codefund.io/">Service Status</a>
+      &nbsp;|&nbsp;
       <%= privacy_policy_link() %>
       &nbsp;|&nbsp;
       <%= cookie_policy_link() %>
