@@ -104,6 +104,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "ConsoleTVs",
+      "name": "Erik Campobadal",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6124435?v=4",
+      "profile": "https://erik.cat",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
