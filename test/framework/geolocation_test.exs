@@ -85,13 +85,13 @@ defmodule Framework.GeolocationTest do
              ) ==
                {:ok,
                 %{
-                  city: "Tokyo",
                   country: "JP",
-                  latitude: 35.685,
-                  longitude: 139.7514,
-                  postal_code: "102-0082",
-                  region: "Tokyo",
-                  time_zone: "Asia/Tokyo"
+                  time_zone: "Asia/Tokyo",
+                  city: "Yokohama",
+                  latitude: 35.4478,
+                  longitude: 139.6425,
+                  postal_code: "231-0005",
+                  region: "Kanagawa"
                 }}
     end
 
