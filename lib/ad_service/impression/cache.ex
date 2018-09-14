@@ -1,10 +1,10 @@
-defmodule AdService.ImpressionCache do
-  @spec lookup(tuple, UUID.t()) :: {:ok, :cache_loaded, map} | {:error, :no_cache_found}
+defmodule AdService.Impression.Cache do
+  @spec lookup(tuple, UUID.t()) :: {:ok, :cache_loaded, map} | {:ok, :no_cache_found}
   def lookup(ip, property_id) do
     redis_key = get_redis_key(ip, property_id)
 
     case Redis.Pool.command(["GET", redis_key]) do
-      {:ok, nil} -> {:error, :no_cache_found}
+      {:ok, nil} -> {:ok, :no_cache_found}
       {:ok, payload} -> {:ok, :cache_loaded, payload |> Poison.decode!()}
     end
   end

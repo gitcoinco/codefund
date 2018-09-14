@@ -27,6 +27,10 @@ defmodule CodeFund.Users do
     from(u in User, where: ^role in u.roles, order_by: [asc: u.first_name]) |> Repo.all()
   end
 
+  def get_by_api_key(api_key) do
+    from(u in User, where: ^api_key == u.api_key) |> Repo.one()
+  end
+
   def roles, do: @roles
 
   def update_user(%User{} = user, attrs) do

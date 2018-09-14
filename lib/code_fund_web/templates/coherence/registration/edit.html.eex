@@ -13,4 +13,26 @@
         action: registration_path(@conn, :update) %>
     </div>
   </div>
+  <div class="card ">
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="control-label">API Key</label>
+        </div>
+        <div class="input-group">
+            <input class="form-control" disabled=disabled value= <%= @user.api_key%>>
+        </div>
+        <div class="col-sm-5 row">
+          <%= link("Refresh API Key", to: user_user_path(@conn, :refresh_api_key, @user), method: :patch) %>
+        </div>
+        <%= if has_any_role?( @conn, ["admin"]) do %>
+          <div class="col-sm-5">
+            <%= link("Revoke API Key", to: user_user_path(@conn, :revoke_api_key, @user), method: :patch) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
 </div>
