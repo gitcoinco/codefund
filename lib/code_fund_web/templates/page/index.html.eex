@@ -686,7 +686,7 @@
                     </g>
                 </svg>
                 2018 &copy; Consensys. All Rights Reserved
-                <span class="footer-divider"></span> <a class="iubenda-nostyle no-brand iubenda-embed iub-legal-only" href="https://status.codefund.io/">Service Status</a>
+                <span class="footer-divider"></span> <a class="iubenda-nostyle no-brand" href="https://status.codefund.io/" target="_blank">Service Status</a>
                 <span class="footer-divider"></span> <%= privacy_policy_link() %>
                 <span class="footer-divider"></span> <%= cookie_policy_link() %>
               </p>
