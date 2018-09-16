@@ -64,6 +64,7 @@ var _codefund = {
 
     const script = document.getElementById(this.targetId);
     if (ad.link === "") {
+      this.error = 'NO_ADVERTISER';
       console.log('CodeFund does not have a advertiser for you at this time.');
     } else {
       if (script && ad.link !== "") {
