@@ -1,5 +1,5 @@
 #!/bin/bash
 trap 'kill %1; kill %2' SIGINT
-fakes3 -r /tmp/fakes3_root -p 4567| sed -e 's/^/[FakeS3] /' & mix test | sed -e 's/^/[Mix Test] /'
+fakes3 -r /tmp/fakes3_root -p 4567 --license $FAKE_S3_TOKEN | sed -e 's/^/[FakeS3] /' & mix test | sed -e 's/^/[Mix Test] /'
 kill -9 %1
 trap - SIGINT
