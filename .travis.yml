@@ -15,7 +15,7 @@ services:
 
 before_script:
   - gem install fakes3
-  - fakes3 -r $HOME/.s3bucket -p 4567 --license $ &FAKE_S3_TOKEN
+  - fakes3 -r $HOME/.s3bucket -p 4567 --license &FAKE_S3_TOKEN $
 
 script:
   - MIX_ENV=test mix maxmind.setup
