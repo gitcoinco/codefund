@@ -7,7 +7,7 @@ otp_release:
   - 21.0
 
 addons:
-  postgresql: '9.6'
+  postgresql: "9.6"
 
 services:
   - postgresql
@@ -15,15 +15,15 @@ services:
 
 before_script:
   - gem install fakes3
-  - fakes3 -r $HOME/.s3bucket -p 4567 &
+  - fakes3 -r $HOME/.s3bucket -p 4567 --license $ &FAKE_S3_TOKEN
 
 script:
+  - MIX_ENV=test mix maxmind.setup
   - MIX_ENV=test mix format --check-formatted
   - MIX_ENV=test mix credo list --ignore readability,design,refactor
   - MIX_ENV=test mix do compile, coveralls.json
 
-after_script:
-  — kill $(pgrep -f fakes3)
+after_script: — kill $(pgrep -f fakes3)
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
