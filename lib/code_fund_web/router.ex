@@ -33,6 +33,14 @@ defmodule CodeFundWeb.Router do
   end
 
   pipeline :api do
+    plug(
+      Corsica,
+      max_age: 600,
+      origins: "*",
+      allow_methods: ["GET", "POST"],
+      log: [rejected: :info, accepted: false]
+    )
+
     plug(:accepts, ["json"])
   end
 
