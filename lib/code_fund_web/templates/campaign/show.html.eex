@@ -95,6 +95,12 @@
                 <td><%= pretty_money @campaign.budgeted_campaign.actual_ecpm %></td>
               </tr>
             <% end %>
+            <%= if has_any_role? @conn, ["admin"] do %>
+              <tr>
+                <td><strong>Admin Actions</strong></td>
+                <td><%= link("Duplicate", to: campaign_campaign_path(@conn, :duplicate, @campaign), method: :post, class: "btn btn-outline-primary btn") %></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>

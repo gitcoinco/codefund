@@ -49,4 +49,22 @@ defmodule CodeFund.CampaignsTest do
       assert result == list_of_ids
     end
   end
+
+  describe("duplicate_campaign/1") do
+    test "it duplicates a campaign with status pending and an amended name" do
+      campaign =
+        insert(:campaign,
+          status: CodeFund.Campaigns.statuses()[:Active],
+          name: "Test Campaign",
+          start_date: ~N[2018-09-18 21:26:24.479855],
+          end_date: ~N[2018-09-18 21:26:24.479855]
+        )
+
+      {:ok, duplicated_campaign} = CodeFund.Campaigns.duplicate_campaign(campaign)
+
+      refute campaign.id == duplicated_campaign.id
+      assert duplicated_campaign.name == "Copy Of Test Campaign"
+      assert duplicated_campaign.status == CodeFund.Campaigns.statuses()[:Pending]
+    end
+  end
 end
