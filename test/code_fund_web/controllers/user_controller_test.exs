@@ -52,12 +52,73 @@ defmodule CodeFundWeb.UserControllerTest do
     end
     |> behaves_like([:authenticated, :owned_unless_admin], "GET /user/:id/edit")
 
+    test "renders the edit template as an admin", %{conn: conn, users: users} do
+      conn = assign(conn, :current_user, users.admin)
+      conn = get(conn, user_path(conn, :edit, users.admin))
+
+      assert html_response(conn, 200) =~ "User"
+      assert html_response(conn, 200) =~ users.admin.first_name
+
+      assert conn.assigns.fields == [
+               first_name: [type: :text_input, label: "First Name"],
+               last_name: [type: :text_input, label: "Last Name"],
+               email: [type: :email_input, label: "Email"],
+               company: [type: :text_input, label: "Company"],
+               address_1: [type: :text_input, label: "Street Address"],
+               address_2: [type: :text_input, label: "Suite/Apt"],
+               city: [type: :text_input, label: "City"],
+               region: [type: :text_input, label: "Region"],
+               postal_code: [type: :text_input, label: "Postal Code"],
+               country: [type: :text_input, label: "Country"],
+               roles: [
+                 type: :multiple_select,
+                 label: "Roles",
+                 opts: [
+                   choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"],
+                   class: "form-contol selectize"
+                 ]
+               ],
+               revenue_rate: [
+                 type: :percentage_input,
+                 label: "Revenue Rate",
+                 opts: [step: "0.01", max: "1.0"]
+               ],
+               api_access: [type: :checkbox, label: "Enable API Access"]
+             ]
+    end
+
     test "renders the edit template", %{conn: conn, users: users} do
       conn = assign(conn, :current_user, users.developer)
       conn = get(conn, user_path(conn, :edit, users.developer))
 
       assert html_response(conn, 200) =~ "User"
       assert html_response(conn, 200) =~ users.developer.first_name
+
+      assert conn.assigns.fields == [
+               first_name: [type: :text_input, label: "First Name"],
+               last_name: [type: :text_input, label: "Last Name"],
+               email: [type: :email_input, label: "Email"],
+               company: [type: :text_input, label: "Company"],
+               address_1: [type: :text_input, label: "Street Address"],
+               address_2: [type: :text_input, label: "Suite/Apt"],
+               city: [type: :text_input, label: "City"],
+               region: [type: :text_input, label: "Region"],
+               postal_code: [type: :text_input, label: "Postal Code"],
+               country: [type: :text_input, label: "Country"],
+               roles: [
+                 type: :multiple_select,
+                 label: "Roles",
+                 opts: [
+                   choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"],
+                   class: "form-contol selectize"
+                 ]
+               ],
+               revenue_rate: [
+                 type: :percentage_input,
+                 label: "Revenue Rate",
+                 opts: [step: "0.01", max: "1.0"]
+               ]
+             ]
     end
   end
 
@@ -110,6 +171,32 @@ defmodule CodeFundWeb.UserControllerTest do
              ]
 
       assert conn.private.phoenix_template == "form_container.html"
+
+      assert conn.assigns.fields == [
+               first_name: [type: :text_input, label: "First Name"],
+               last_name: [type: :text_input, label: "Last Name"],
+               email: [type: :email_input, label: "Email"],
+               company: [type: :text_input, label: "Company"],
+               address_1: [type: :text_input, label: "Street Address"],
+               address_2: [type: :text_input, label: "Suite/Apt"],
+               city: [type: :text_input, label: "City"],
+               region: [type: :text_input, label: "Region"],
+               postal_code: [type: :text_input, label: "Postal Code"],
+               country: [type: :text_input, label: "Country"],
+               roles: [
+                 type: :multiple_select,
+                 label: "Roles",
+                 opts: [
+                   choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"],
+                   class: "form-contol selectize"
+                 ]
+               ],
+               revenue_rate: [
+                 type: :percentage_input,
+                 label: "Revenue Rate",
+                 opts: [step: "0.01", max: "1.0"]
+               ]
+             ]
     end
   end
 
@@ -148,6 +235,46 @@ defmodule CodeFundWeb.UserControllerTest do
       assert redirected_to(conn, 302) == "/dashboard"
       assert get_flash(conn, :notice) == "You have successfully ended masquerading."
       assert Plug.Conn.get_session(conn, "admin_user") == nil
+    end
+  end
+
+  describe "refresh_api_key" do
+    fn conn, context ->
+      patch(conn, user_user_path(conn, :refresh_api_key, context.users.sponsor))
+    end
+    |> behaves_like([:authenticated, :owned_unless_admin], "PATCH /user/:id/refresh_api_key")
+
+    test "refreshes the api key", %{conn: conn, users: users} do
+      {:ok, user} = CodeFund.Users.update_user(users.developer, %{api_access: true})
+      api_key = user.api_key
+      refute is_nil(api_key)
+      conn = assign(conn, :current_user, user)
+      conn = patch(conn, user_user_path(conn, :refresh_api_key, user))
+
+      reloaded_user = CodeFund.Users.get_user!(user.id)
+      refute api_key == reloaded_user.api_key
+      assert get_flash(conn, :notice) == "API Key has been successfully updated."
+      assert redirected_to(conn, 302) == dashboard_url(conn, :index)
+    end
+  end
+
+  describe "revoke_api_key" do
+    fn conn, context ->
+      patch(conn, user_user_path(conn, :revoke_api_key, context.users.sponsor))
+    end
+    |> behaves_like([:authenticated, :owned_unless_admin], "PATCH /user/:id/revoke_api_key")
+
+    test "revokes the api key", %{conn: conn, users: users} do
+      {:ok, user} = CodeFund.Users.update_user(users.developer, %{api_access: true})
+      api_key = user.api_key
+      refute is_nil(api_key)
+      conn = assign(conn, :current_user, user)
+      conn = patch(conn, user_user_path(conn, :revoke_api_key, user))
+
+      reloaded_user = CodeFund.Users.get_user!(user.id)
+      refute reloaded_user.api_key
+      assert get_flash(conn, :notice) == "API Key has been successfully revoked."
+      assert redirected_to(conn, 302) == dashboard_url(conn, :index)
     end
   end
 end

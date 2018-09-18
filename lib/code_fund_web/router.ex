@@ -36,6 +36,10 @@ defmodule CodeFundWeb.Router do
     plug(:accepts, ["json"])
   end
 
+  pipeline :api_protected do
+    plug(CodeFundWeb.Plugs.RequireAPIAccess)
+  end
+
   pipeline :exq do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -91,6 +95,8 @@ defmodule CodeFundWeb.Router do
     get("/users/end_masquerade", UserController, :end_masquerade)
 
     resources("/users", UserController, only: [:index, :show, :edit, :update]) do
+      patch("/refresh_api_key", UserController, :refresh_api_key)
+      patch("/revoke_api_key", UserController, :revoke_api_key)
       get("/distributions/search", User.DistributionController, :search)
 
       resources(
@@ -116,5 +122,13 @@ defmodule CodeFundWeb.Router do
 
     resources("/audience_metrics", AudienceMetricsController, only: [:index])
     get("/users/:user_id/creatives/index.json", User.CreativeController, :index)
+
+    scope "/api/v1", V1 do
+      pipe_through(:api_protected)
+
+      post("/impression/:property_id", Property.ImpressionController, :create,
+        as: :api_property_impression
+      )
+    end
   end
 end

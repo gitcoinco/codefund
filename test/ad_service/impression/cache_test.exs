@@ -1,4 +1,4 @@
-defmodule AdService.ImpressionCacheTest do
+defmodule AdService.Impression.CacheTest do
   use ExUnit.Case
 
   setup do
@@ -16,15 +16,15 @@ defmodule AdService.ImpressionCacheTest do
     } do
       Redis.Pool.command(["SET", redis_key, %{foo: :bar} |> Poison.encode!(), "EX", 30])
 
-      {:ok, :cache_loaded, payload} = AdService.ImpressionCache.lookup(ip, property_uuid)
+      {:ok, :cache_loaded, payload} = AdService.Impression.Cache.lookup(ip, property_uuid)
       assert payload == %{"foo" => "bar"}
     end
 
-    test "it returns {:error, :no_cache_found} if no cache exists in redis", %{
+    test "it returns {:ok, :no_cache_found} if no cache exists in redis", %{
       property_uuid: property_uuid,
       ip: ip
     } do
-      assert {:error, :no_cache_found} = AdService.ImpressionCache.lookup(ip, property_uuid)
+      assert {:ok, :no_cache_found} = AdService.Impression.Cache.lookup(ip, property_uuid)
     end
   end
 
@@ -32,7 +32,7 @@ defmodule AdService.ImpressionCacheTest do
     test "it successfully stores a cache and returns {:ok, :cache_stored} when storing a cache in the redis db",
          %{property_uuid: property_uuid, ip: ip, redis_key: redis_key} do
       assert {:ok, :cache_stored} ==
-               AdService.ImpressionCache.store(%{foo: :bar}, ip, property_uuid)
+               AdService.Impression.Cache.store(%{foo: :bar}, ip, property_uuid)
 
       assert {:ok, "{\"foo\":\"bar\"}"} == Redis.Pool.command(["GET", redis_key])
     end

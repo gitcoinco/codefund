@@ -25,6 +25,8 @@ defmodule CodeFund.Schema.User do
     field(:revenue_rate, :decimal)
     field(:paypal_email, :string)
     field(:company, :string)
+    field(:api_access, :boolean, default: false)
+    field(:api_key, :string)
 
     coherence_schema()
 
@@ -37,6 +39,8 @@ defmodule CodeFund.Schema.User do
     :last_name
   ]
 
+  def required, do: @required
+
   def changeset(model, params \\ %{}) do
     model
     |> cast(params, fields())
@@ -44,6 +48,7 @@ defmodule CodeFund.Schema.User do
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> validate_coherence(params)
+    |> generate_api_key()
   end
 
   def changeset(model, params, :password) do
@@ -52,7 +57,27 @@ defmodule CodeFund.Schema.User do
       params,
       ~w(password password_confirmation reset_password_token reset_password_sent_at)
     )
+    |> generate_api_key()
     |> validate_coherence_password_reset(params)
+  end
+
+  defp generate_api_key(changeset) do
+    api_access =
+      changeset
+      |> get_change(:api_access)
+
+    api_key = changeset |> get_field(:api_key)
+
+    case api_access && api_key == nil do
+      true ->
+        api_key = Framework.API.generate_api_key()
+
+        changeset
+        |> put_change(:api_key, api_key)
+
+      _ ->
+        changeset
+    end
   end
 
   defp fields(), do: (__MODULE__.__schema__(:fields) |> List.delete(:id)) ++ coherence_fields()

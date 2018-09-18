@@ -1,15 +1,19 @@
-<%= [
-    first_name: [type: :text_input, label: "First Name"],
-    last_name: [type: :text_input, label: "Last Name"],
-    email: [type: :email_input, label: "Email"],
-    company: [type: :text_input, label: "Company"],
-    address_1: [type: :text_input, label: "Street Address"],
-    address_2: [type: :text_input, label: "Suite/Apt"],
-    city: [type: :text_input, label: "City"],
-    region: [type: :text_input, label: "Region"],
-    postal_code: [type: :text_input, label: "Postal Code"],
-    country: [type: :text_input, label: "Country"],
-    roles: [type: :multiple_select, label: "Roles", opts: [choices: CodeFund.Users.roles(), class: "form-contol selectize"]],
-    revenue_rate: [type: :percentage_input, label: "Revenue Rate", opts: [step: "0.01", max: "1.0"]]
-  ] |> render_fields(@form)
-%>
+<%= if @user.api_access do %>
+  <div class="form-group row">
+    <label class="control-label col-sm-2">API Key</label>
+    <div class="col-sm-10">
+      <div class="input-group">
+        <input class="form-control" disabled=disabled value= <%= @user.api_key%>>
+      </div>
+        <div class="col-sm-3">
+          <%= link("Refresh API Key", to: user_user_path(@conn, :refresh_api_key, @user), method: :patch) %>
+        </div>
+        <%= if has_any_role?( @conn, ["admin"]) do %>
+            <div class="col-sm-3">
+            <%= link("Revoke API Key", to: user_user_path(@conn, :revoke_api_key, @user), method: :patch) %>
+          </div>
+        <% end %>
+    </div>
+  </div>
+<% end %>
+<%= @fields |> render_fields(@form) %>

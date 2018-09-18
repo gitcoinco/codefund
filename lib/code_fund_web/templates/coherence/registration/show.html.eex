@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Home</li>
   <li class="breadcrumb-item active">Profile</li>
-  
+
   <li class="breadcrumb-menu">
     <div class="btn-group" role="group">
       <%= link to: registration_path(@conn, :edit), class: "btn" do %>
@@ -62,6 +62,18 @@
           <strong>Country</strong>
           <span><%= current_user(@conn).country %></span>
         </li>
+        <%= if @user.api_access do %>
+          <li class="list-group-item">
+            <strong>API Key</strong>
+            <span><%= @user.api_key %></span>
+            <div><%= link("Refresh API Key", to: user_user_path(@conn, :refresh_api_key, @user), method: :patch) %></div>
+            <%= if has_any_role?( @conn, ["admin"]) do %>
+              <div>
+                <%= link("Revoke API Key", to: user_user_path(@conn, :revoke_api_key, @user), method: :patch) %>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </main>
   </div>

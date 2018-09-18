@@ -87,7 +87,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   """
   @spec show(conn, any) :: conn
   def show(conn, _) do
-    user = Coherence.current_user(conn)
+    user = Coherence.current_user(conn).id |> CodeFund.Users.get_user!()
     render(conn, "show.html", user: user, layout: {CodeFundWeb.LayoutView, "admin.html"})
   end
 
@@ -96,7 +96,7 @@ defmodule CodeFundWeb.Coherence.RegistrationController do
   """
   @spec edit(conn, any) :: conn
   def edit(conn, _) do
-    user = Coherence.current_user(conn)
+    user = Coherence.current_user(conn).id |> CodeFund.Users.get_user!()
     changeset = Helpers.changeset(:registration, user.__struct__, user)
 
     render(
