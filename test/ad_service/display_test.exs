@@ -37,12 +37,14 @@ defmodule AdService.DisplayTest do
     test "it returns a winning ad and the list of possible ads if passed a list", %{
       possible_ads_set_of_two: possible_ads_set_of_two
     } do
-      assert AdService.Display.choose_winner(possible_ads_set_of_two) ==
-               {:ok,
-                {
-                  possible_ads_set_of_two,
-                  {"9839afe6-5ac3-4443-be3c-dbb7a2af01e6", 0..95}
-                }}
+      {:ok,
+       {
+         ^possible_ads_set_of_two,
+         winning_ad
+       }} = AdService.Display.choose_winner(possible_ads_set_of_two)
+
+      assert winning_ad == {"9839afe6-5ac3-4443-be3c-dbb7a2af01e6", 0..95} or
+               {"9839afe6-5ac3-4443-be3c-dbb7a2af01e7", 95..99}
     end
 
     test "it correctly calculates the probability of each ad in a set showing", %{
@@ -50,11 +52,14 @@ defmodule AdService.DisplayTest do
     } do
       {:ok,
        {
-         _possible_ads_set_of_two,
-         {_uuid, starting_point..ending_point}
+         ^possible_ads_set_of_two,
+         {uuid, starting_point..ending_point}
        }} = AdService.Display.choose_winner(possible_ads_set_of_two)
 
-      assert ending_point - starting_point == 95
+      case uuid do
+        "9839afe6-5ac3-4443-be3c-dbb7a2af01e6" -> assert ending_point - starting_point == 95
+        "9839afe6-5ac3-4443-be3c-dbb7a2af01e7" -> assert ending_point - starting_point == 4
+      end
     end
 
     test "it returns an error if there are no ads that can be shown on a property" do
