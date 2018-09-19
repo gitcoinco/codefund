@@ -84,7 +84,11 @@ defmodule CodeFundWeb.Router do
     get("/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url)
     resources("/assets", AssetController)
     resources("/audiences", AudienceController)
-    resources("/campaigns", CampaignController)
+
+    resources("/campaigns", CampaignController) do
+      post("/duplicate", CampaignController, :duplicate)
+    end
+
     resources("/clicks", ClickController)
     resources("/creatives", CreativeController)
     resources("/properties", PropertyController)

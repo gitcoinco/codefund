@@ -60,6 +60,42 @@ defmodule CodeFundWeb.CampaignControllerTest do
     end
   end
 
+  describe "duplicate" do
+    fn conn, _context ->
+      campaign =
+        insert(:campaign,
+          status: CodeFund.Campaigns.statuses()[:Active],
+          name: "Test Campaign",
+          start_date: ~N[2018-09-18 21:26:24.479855],
+          end_date: ~N[2018-09-18 21:26:24.479855]
+        )
+
+      post(conn, campaign_campaign_path(conn, :duplicate, campaign))
+    end
+    |> behaves_like([:authenticated, :admin], "POST /campaigns/:campaign_id/duplicate")
+
+    test "duplicates a campaign and redirects to the edit page for that campaign", %{
+      conn: conn,
+      users: users
+    } do
+      campaign =
+        insert(:campaign,
+          status: CodeFund.Campaigns.statuses()[:Active],
+          name: "Test Campaign",
+          start_date: ~N[2018-09-18 21:26:24.479855],
+          end_date: ~N[2018-09-18 21:26:24.479855]
+        )
+
+      conn = assign(conn, :current_user, users.admin)
+      conn = post(conn, campaign_campaign_path(conn, :duplicate, campaign))
+
+      duplicated_campaign = CodeFund.Campaigns.get_campaign_by_name!("Copy Of Test Campaign")
+
+      assert redirected_to(conn, 302) == campaign_path(conn, :edit, duplicated_campaign)
+      assert conn |> Phoenix.Controller.get_flash(:info) == "Campaign duplicated successfully."
+    end
+  end
+
   describe "create" do
     fn conn, context ->
       post(

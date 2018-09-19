@@ -149,6 +149,22 @@ defmodule CodeFund.Campaigns do
     |> Repo.update()
   end
 
+  def duplicate_campaign(%Campaign{} = campaign) do
+    attrs =
+      campaign
+      |> Map.from_struct()
+      |> Map.delete(:id)
+      |> Map.merge(%{
+        name: "Copy Of " <> campaign.name,
+        status: CodeFund.Campaigns.statuses()[:Pending]
+      })
+      |> Map.new(fn {k, v} -> {Atom.to_string(k), v} end)
+
+    %Campaign{}
+    |> Campaign.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def by_user(%User{id: id}) do
     from(o in Campaign, where: o.user_id == ^id)
     |> CodeFund.Repo.all()

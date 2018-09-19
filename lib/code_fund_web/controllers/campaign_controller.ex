@@ -2,6 +2,7 @@ defmodule CodeFundWeb.CampaignController do
   use CodeFundWeb, :controller
   use Framework.Controller
   alias CodeFund.Campaigns
+  alias CodeFund.Schema.Campaign
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
   use Framework.Controller.Stub.Definitions, [:index, :show, :delete]
 
@@ -12,7 +13,7 @@ defmodule CodeFundWeb.CampaignController do
 
   plug(
     CodeFundWeb.Plugs.RequireAnyRole,
-    [roles: ["admin"]] when action in [:create, :new]
+    [roles: ["admin"]] when action in [:create, :new, :duplicate]
   )
 
   defconfig do
@@ -35,6 +36,17 @@ defmodule CodeFundWeb.CampaignController do
   defstub create do
     before_hook(&new_assigns/2)
     |> error(&new_assigns/2)
+  end
+
+  def duplicate(conn, %{"campaign_id" => campaign_id}) do
+    {:ok, %Campaign{id: duplicated_campaign_id}} =
+      campaign_id
+      |> Campaigns.get_campaign!()
+      |> Campaigns.duplicate_campaign()
+
+    conn
+    |> put_flash(:info, "Campaign duplicated successfully.")
+    |> redirect(external: campaign_path(conn, :edit, duplicated_campaign_id))
   end
 
   defp new_assigns(conn, params) do
