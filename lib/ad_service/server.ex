@@ -6,7 +6,9 @@ defmodule AdService.Server do
 
   @spec serve(Plug.Conn.t(), String.t(), nil | map) :: map()
   def serve(conn, property_id, opts) do
-    conn = set_ip_address(conn, opts["ip_address"])
+    conn = AdService.Conn.set_ip_address(conn, opts["ip_address"])
+
+    conn = AdService.Conn.set_user_agent_header(conn, opts["user_agent"] || "")
 
     with {:ok, :no_cache_found} <- AdService.Impression.Cache.lookup(conn.remote_ip, property_id),
          {:ok, %{country: client_country}} <-
@@ -66,19 +68,5 @@ defmodule AdService.Server do
         )
         |> AdService.Impression.Manager.create_error_impression()
     end
-  end
-
-  defp set_ip_address(conn, nil), do: conn
-
-  defp set_ip_address(conn, ip_address) do
-    ip_address =
-      ip_address
-      |> String.split(".")
-      |> Enum.map(&String.to_integer(&1))
-      |> List.to_tuple()
-
-    conn
-    |> Plug.Conn.put_private(:server_ip, conn.remote_ip)
-    |> Map.put(:remote_ip, ip_address)
   end
 end
