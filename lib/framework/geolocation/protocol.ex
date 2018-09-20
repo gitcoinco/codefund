@@ -2,14 +2,15 @@ defprotocol Framework.Geolocation.Protocol do
   @fallback_to_any true
 
   @spec parse(struct) :: map | String.t()
-  def parse(date)
+  def parse(struct)
 end
 
 defimpl Framework.Geolocation.Protocol, for: Geolix.Result.Country do
   def parse(result) do
-    result
-    |> Map.get(:country)
-    |> Map.get(:iso_code)
+    case result |> Map.get(:country) do
+      %Geolix.Record.Country{iso_code: country_iso_code} -> country_iso_code
+      _ -> nil
+    end
   end
 end
 
