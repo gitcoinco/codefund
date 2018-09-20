@@ -38,6 +38,7 @@ defmodule CodeFundWeb.Router do
       max_age: 600,
       origins: "*",
       allow_methods: ["GET", "POST", "OPTIONS"],
+      allow_headers: ~w(cache-control content-type x-codefund-api-key),
       log: [rejected: :info, accepted: false]
     )
 

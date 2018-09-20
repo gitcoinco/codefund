@@ -40,7 +40,8 @@ defmodule CodeFundWeb.Endpoint do
     Corsica,
     max_age: 600,
     origins: "*",
-    allow_methods: ["GET"],
+    allow_methods: ["GET", "POST", "OPTIONS"],
+    allow_headers: ~w(cache-control content-type x-codefund-api-key),
     log: [rejected: :info, accepted: false]
   )
 
