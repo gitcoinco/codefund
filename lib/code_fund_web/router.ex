@@ -37,7 +37,7 @@ defmodule CodeFundWeb.Router do
       Corsica,
       max_age: 600,
       origins: "*",
-      allow_methods: ["GET", "POST"],
+      allow_methods: ["GET", "POST", "OPTIONS"],
       log: [rejected: :info, accepted: false]
     )
 
