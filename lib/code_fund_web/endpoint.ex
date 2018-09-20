@@ -36,14 +36,6 @@ defmodule CodeFundWeb.Endpoint do
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 
-  plug(
-    Corsica,
-    max_age: 600,
-    origins: "*",
-    allow_methods: ["GET"],
-    log: [rejected: :info, accepted: false]
-  )
-
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
