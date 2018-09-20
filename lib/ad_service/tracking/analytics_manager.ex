@@ -1,6 +1,6 @@
 defmodule AdService.Tracking.AnalyticsManager do
   use GenServer
-  alias CodeFund.Schema.Impression
+  alias CodeFund.Schema.{Campaign, Impression}
   import Staccato.Hit
 
   @spec start_link() :: :ignore | {:error, any()} | {:ok, pid()}
@@ -79,10 +79,21 @@ defmodule AdService.Tracking.AnalyticsManager do
   defp return_unique_client_id(), do: "AnalyticsManager_#{UUID.uuid4()}"
 
   @spec params_for_tracking(%Impression{}) :: Keyword.t()
-  defp params_for_tracking(impression),
+  defp params_for_tracking(%Impression{campaign: %Campaign{} = campaign} = impression),
     do: [
       category: impression.property.name,
-      action: impression.campaign.name,
+      action: campaign.name,
+      label: "impression",
+      value: 1,
+      user_id: UUID.uuid4(),
+      user_ip: impression.ip,
+      user_agent: impression.user_agent
+    ]
+
+  defp params_for_tracking(%Impression{} = impression),
+    do: [
+      category: impression.property.name,
+      action: nil,
       label: "impression",
       value: 1,
       user_id: UUID.uuid4(),
