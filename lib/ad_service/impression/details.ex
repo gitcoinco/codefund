@@ -13,6 +13,7 @@ end
 defmodule AdService.Impression.Details do
   alias AdService.Impression.Errors, as: ImpressionErrors
   alias CodeFund.Impressions
+  import CodeFund.Reporter
 
   defstruct host: nil,
             conn: nil,
@@ -99,18 +100,29 @@ defmodule AdService.Impression.Details do
         campaign -> campaign.id
       end
 
-    impression_details
-    |> Map.from_struct()
-    |> Map.merge(%{
-      property_id: impression_details.property.id,
-      campaign_id: campaign_id,
-      revenue_amount: impression_details.financials.revenue_amount,
-      distribution_amount: impression_details.financials.distribution_amount,
-      error_code: impression_details.error.reason_atom |> ImpressionErrors.fetch_code(),
-      browser_height: impression_details.browser_details.height,
-      browser_width: impression_details.browser_details.width,
-      user_agent: impression_details.browser_details.user_agent
-    })
-    |> Impressions.create_impression()
+    map =
+      impression_details
+      |> Map.from_struct()
+      |> Map.merge(%{
+        property_id: impression_details.property.id,
+        campaign_id: campaign_id,
+        revenue_amount: impression_details.financials.revenue_amount,
+        distribution_amount: impression_details.financials.distribution_amount,
+        error_code: impression_details.error.reason_atom |> ImpressionErrors.fetch_code(),
+        browser_height: impression_details.browser_details.height,
+        browser_width: impression_details.browser_details.width,
+        user_agent: impression_details.browser_details.user_agent
+      })
+
+    result = map |> Impressions.create_impression()
+
+    case result do
+      {:ok, impression} ->
+        result
+
+      {:error, error_changeset} ->
+        report(:warning, "Country failed -- {map.country}")
+        result
+    end
   end
 end
