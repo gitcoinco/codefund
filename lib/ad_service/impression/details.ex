@@ -117,10 +117,10 @@ defmodule AdService.Impression.Details do
     result = map |> Impressions.create_impression()
 
     case result do
-      {:ok, impression} ->
+      {:ok, _} ->
         result
 
-      {:error, error_changeset} ->
+      {:error, _} ->
         report(:warning, "Country failed -- {map.country}")
         result
     end
