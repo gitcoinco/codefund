@@ -53,7 +53,7 @@ defmodule CodeFundWeb.LayoutView do
   end
 
   def flash_element(conn) do
-    flash_json = Poison.encode!(get_flash(conn))
+    flash_json = Jason.encode!(get_flash(conn))
     content_tag(:div, "", [{:data, [flash: flash_json, controller: "flash"]}])
   end
 end

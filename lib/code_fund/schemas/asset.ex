@@ -10,6 +10,8 @@ defmodule CodeFund.Schema.Asset do
     field(:image, :any, virtual: true)
     field(:image_object, :string)
     field(:image_bucket, :string)
+    field(:height, :integer)
+    field(:width, :integer)
 
     timestamps()
   end

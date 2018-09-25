@@ -61,6 +61,16 @@
                     <% end %>
                   </td>
                 </tr>
+                <tr>
+                  <td><strong>Wide Image</strong></td>
+                    <td>
+                    <%= if @creative.wide_image_asset != nil do %>
+                      <img src="<%= Framework.FileStorage.url(@creative.wide_image_asset.image_object) %>" style="max-width: 350px;" />
+                    <% else %>
+                      None
+                    <% end %>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

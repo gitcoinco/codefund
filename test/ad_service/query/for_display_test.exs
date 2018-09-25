@@ -83,25 +83,40 @@ defmodule AdService.Query.ForDisplayTest do
       included_countries: ["CN"]
     )
 
-    {:ok, %{audience: audience, creative: creative, campaign: campaign}}
+    [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
+
+    {:ok, %{audience: audience, creative: creative, campaign: campaign, cdn_host: cdn_host}}
   end
 
   describe "fallback_ad_by_property_id/1" do
-    test "it returns advertisements for the fallback ad in the audience the property is associated with" do
+    test "it returns advertisements for the fallback ad in the audience the property is associated with",
+         %{cdn_host: cdn_host} do
       fallback_campaign = insert(:campaign)
 
       property =
         insert(:property, audience: insert(:audience, fallback_campaign_id: fallback_campaign.id))
 
       assert AdService.Query.ForDisplay.fallback_ad_by_property_id(property.id) ==
-               %AdService.Advertisement{
+               %AdService.UnrenderedAdvertisement{
                  body: "This is a Test Creative",
                  campaign_id: fallback_campaign.id,
                  headline: "Creative Headline",
                  ecpm: Decimal.new("2.00"),
                  campaign_name: "Test Campaign",
-                 small_image_object: "image.jpg",
-                 large_image_object: "image.jpg"
+                 images: [
+                   %AdService.ImageAsset{
+                     height: 200,
+                     size_descriptor: "small",
+                     url: "https://#{cdn_host}/image.jpg",
+                     width: 200
+                   },
+                   %AdService.ImageAsset{
+                     height: 200,
+                     size_descriptor: "large",
+                     url: "https://#{cdn_host}/image.jpg",
+                     width: 280
+                   }
+                 ]
                }
     end
   end
@@ -132,16 +147,28 @@ defmodule AdService.Query.ForDisplayTest do
       )
 
       advertisement =
-        AdService.Query.ForDisplay.build(audience, "US", nil, ["Foobar"]) |> CodeFund.Repo.one()
+        AdService.Query.ForDisplay.build(audience, "US", nil, ["Foobar"])
+        |> CodeFund.Repo.one()
 
-      assert advertisement == %AdService.Advertisement{
+      small_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.small_image_asset.id)
+      large_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.large_image_asset.id)
+
+      assert advertisement == %AdService.UnrenderedAdvertisement{
                body: "This is a Test Creative",
                campaign_id: campaign.id,
                headline: "winning advertisement",
                ecpm: Decimal.new("1.00"),
                campaign_name: "Test Campaign",
-               small_image_object: "image.jpg",
-               large_image_object: "image.jpg"
+               images: [
+                 %AdService.UnprocessedImageAsset{
+                   asset: small_image_asset,
+                   size_descriptor: "small"
+                 },
+                 %AdService.UnprocessedImageAsset{
+                   asset: large_image_asset,
+                   size_descriptor: "large"
+                 }
+               ]
              }
     end
 

@@ -2,7 +2,7 @@ defmodule AdService.DisplayTest do
   use ExUnit.Case
 
   setup do
-    winning_ad = %AdService.Advertisement{
+    winning_ad = %AdService.UnrenderedAdvertisement{
       ecpm: Decimal.new(10),
       body: "ad body",
       campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
@@ -10,7 +10,7 @@ defmodule AdService.DisplayTest do
     }
 
     possible_ads_set_of_two = [
-      %AdService.Advertisement{
+      %AdService.UnrenderedAdvertisement{
         ecpm: Decimal.new(1),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",

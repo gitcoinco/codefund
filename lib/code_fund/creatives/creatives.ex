@@ -48,14 +48,14 @@ defmodule CodeFund.Creatives do
     case Enum.member?(user.roles, "admin") do
       true ->
         Creative
-        |> preload([:large_image_asset, :small_image_asset, :user])
+        |> preload([:large_image_asset, :small_image_asset, :wide_image_asset, :user])
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
       false ->
         Creative
         |> where([p], p.user_id == ^user.id)
-        |> preload([:large_image_asset, :small_image_asset])
+        |> preload([:large_image_asset, :small_image_asset, :wide_image_asset])
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
     end
@@ -81,7 +81,9 @@ defmodule CodeFund.Creatives do
 
   """
   def get_creative!(id),
-    do: Repo.get!(Creative, id) |> Repo.preload([:large_image_asset, :small_image_asset, :user])
+    do:
+      Repo.get!(Creative, id)
+      |> Repo.preload([:large_image_asset, :small_image_asset, :wide_image_asset, :user])
 
   @doc """
   Creates a creative.

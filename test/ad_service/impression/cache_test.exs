@@ -14,7 +14,7 @@ defmodule AdService.Impression.CacheTest do
       ip: ip,
       redis_key: redis_key
     } do
-      Redis.Pool.command(["SET", redis_key, %{foo: :bar} |> Poison.encode!(), "EX", 30])
+      Redis.Pool.command(["SET", redis_key, %{foo: :bar} |> Jason.encode!(), "EX", 30])
 
       {:ok, :cache_loaded, payload} = AdService.Impression.Cache.lookup(ip, property_uuid)
       assert payload == %{"foo" => "bar"}

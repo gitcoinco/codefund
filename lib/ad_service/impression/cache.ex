@@ -5,7 +5,7 @@ defmodule AdService.Impression.Cache do
 
     case Redis.Pool.command(["GET", redis_key]) do
       {:ok, nil} -> {:ok, :no_cache_found}
-      {:ok, payload} -> {:ok, :cache_loaded, payload |> Poison.decode!()}
+      {:ok, payload} -> {:ok, :cache_loaded, payload |> Jason.decode!()}
     end
   end
 
@@ -17,7 +17,7 @@ defmodule AdService.Impression.Cache do
       Redis.Pool.command([
         "SET",
         redis_key,
-        payload |> Poison.encode!(),
+        payload |> Jason.encode!(),
         "EX",
         Application.get_env(:code_fund, :ad_cache_timeout)
       ])

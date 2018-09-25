@@ -15,12 +15,17 @@ defmodule AdService.ServerTest do
         "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36"
       )
 
+    [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
+
     on_exit(fn -> CodeFundWeb.RedisHelper.clean_redis() end)
-    {:ok, %{property: property, theme: theme, conn: conn}}
+    {:ok, %{property: property, theme: theme, conn: conn, cdn_host: cdn_host}}
   end
 
   describe "serve/3" do
-    test "it creates an impression and serves an ad when no cache exists", %{conn: conn} do
+    test "it creates an impression and serves an ad when no cache exists", %{
+      conn: conn,
+      cdn_host: cdn_host
+    } do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience_1 = insert(:audience, name: "right one")
@@ -84,10 +89,24 @@ defmodule AdService.ServerTest do
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
-      payload = %{
+      payload = %AdService.AdvertisementImpression{
         small_image_url: Framework.FileStorage.url(creative.small_image_asset.image_object),
         headline: "Creative Headline",
         house_ad: false,
+        images: [
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "small",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 200
+          },
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "large",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 280
+          }
+        ],
         description: "This is a Test Creative",
         large_image_url: Framework.FileStorage.url(creative.large_image_asset.image_object),
         link: "https://www.example.com/c/#{impression.id}",
@@ -95,12 +114,12 @@ defmodule AdService.ServerTest do
         poweredByLink: "https://codefund.io?utm_content=#{campaign.id}"
       }
 
-      assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
+      assert {:ok, payload |> Jason.encode!()} == Redis.Pool.command(["GET", redis_key])
       assert advertisement == payload
     end
 
     test "excludes us_only_hours campaigns if it is outside of us hours",
-         %{conn: conn} do
+         %{conn: conn, cdn_host: cdn_host} do
       TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[1985-10-26 11:00:00], "Etc/UTC"))
       creative = insert(:creative, small_image_asset: insert(:asset))
 
@@ -176,10 +195,24 @@ defmodule AdService.ServerTest do
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
-      payload = %{
+      payload = %AdService.AdvertisementImpression{
         small_image_url: Framework.FileStorage.url(creative.small_image_asset.image_object),
         headline: "Creative Headline",
         house_ad: false,
+        images: [
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "small",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 200
+          },
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "large",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 280
+          }
+        ],
         description: "This is a Test Creative",
         large_image_url: Framework.FileStorage.url(creative.large_image_asset.image_object),
         link: "https://www.example.com/c/#{impression.id}",
@@ -244,11 +277,12 @@ defmodule AdService.ServerTest do
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
-      payload = %{
+      payload = %AdService.AdvertisementImpression{
         headline: "",
         description: "",
         link: "",
         house_ad: false,
+        images: [],
         large_image_url: "",
         small_image_url: "",
         pixel: "//www.example.com/p/#{impression.id}/pixel.png",
@@ -260,7 +294,7 @@ defmodule AdService.ServerTest do
     end
 
     test "serves an ad if property has a campaign tied to an audience and creates an impression without height and width",
-         %{conn: conn} do
+         %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience_1 = insert(:audience, name: "right one")
@@ -323,18 +357,32 @@ defmodule AdService.ServerTest do
       assert impression.country == "US"
       assert impression.browser_width == nil
 
-      payload = %{
+      payload = %AdService.AdvertisementImpression{
         small_image_url: Framework.FileStorage.url(creative.small_image_asset.image_object),
         headline: "Creative Headline",
         description: "This is a Test Creative",
         house_ad: false,
+        images: [
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "small",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 200
+          },
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "large",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 280
+          }
+        ],
         large_image_url: Framework.FileStorage.url(creative.large_image_asset.image_object),
         link: "https://www.example.com/c/#{impression.id}",
         pixel: "//www.example.com/p/#{impression.id}/pixel.png",
         poweredByLink: "https://codefund.io?utm_content=#{campaign.id}"
       }
 
-      assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
+      assert {:ok, payload |> Jason.encode!()} == Redis.Pool.command(["GET", redis_key])
       assert advertisement == payload
     end
 
@@ -375,10 +423,11 @@ defmodule AdService.ServerTest do
 
       assert CodeFund.Impressions.list_impressions() == []
 
-      assert advertisement == %{
+      assert advertisement == %AdService.AdvertisementImpression{
                headline: "",
                house_ad: false,
                description: "",
+               images: [],
                large_image_url: "",
                small_image_url: "",
                link: "",
@@ -389,7 +438,7 @@ defmodule AdService.ServerTest do
     end
 
     test "serves an ad from cache if multiple requests are made to the same property and ip within a time frame and does not create a new impression",
-         %{conn: conn} do
+         %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience = insert(:audience)
@@ -426,10 +475,24 @@ defmodule AdService.ServerTest do
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
 
-      payload = %{
+      payload = %AdService.AdvertisementImpression{
         small_image_url: Framework.FileStorage.url(creative.small_image_asset.image_object),
         headline: "Creative Headline",
         house_ad: false,
+        images: [
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "small",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 200
+          },
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "large",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 280
+          }
+        ],
         description: "This is a Test Creative",
         large_image_url: Framework.FileStorage.url(creative.large_image_asset.image_object),
         link: "https://www.example.com/c/#{impression.id}",
@@ -437,7 +500,7 @@ defmodule AdService.ServerTest do
         poweredByLink: "https://codefund.io?utm_content=#{campaign.id}"
       }
 
-      assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
+      assert {:ok, payload |> Jason.encode!()} == Redis.Pool.command(["GET", redis_key])
       assert original_advertisement == payload
       new_conn = build_conn() |> Map.put(:remote_ip, {12, 109, 12, 14})
 
@@ -447,7 +510,7 @@ defmodule AdService.ServerTest do
             into: %{},
             do: {String.to_atom(key), val}
 
-      assert cached_response == original_advertisement
+      assert cached_response |> Jason.encode!() == original_advertisement |> Jason.encode!()
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 1
     end
@@ -484,10 +547,11 @@ defmodule AdService.ServerTest do
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
-      assert advertisement == %{
+      assert advertisement == %AdService.AdvertisementImpression{
                headline: "",
                description: "",
                house_ad: false,
+               images: [],
                large_image_url: "",
                link: "",
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
@@ -498,7 +562,7 @@ defmodule AdService.ServerTest do
     end
 
     test "returns an error if property does not have a campaign but the audience has a fallback ad so it still creates an impression",
-         %{conn: conn} do
+         %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
       fallback_campaign =
@@ -536,14 +600,32 @@ defmodule AdService.ServerTest do
       assert impression.revenue_amount |> Decimal.to_integer() == 0
       assert impression.distribution_amount |> Decimal.to_integer() == 0
 
-      assert advertisement == %{
+      assert advertisement == %AdService.AdvertisementImpression{
                small_image_url:
-                 Framework.FileStorage.url(creative.small_image_asset.image_object),
+                 Framework.FileStorage.url(
+                   fallback_campaign.creative.small_image_asset.image_object
+                 ),
                headline: "Creative Headline",
                description: "This is a Test Creative",
                house_ad: true,
+               images: [
+                 %AdService.ImageAsset{
+                   height: 200,
+                   size_descriptor: "small",
+                   url: "https://#{cdn_host}/image.jpg",
+                   width: 200
+                 },
+                 %AdService.ImageAsset{
+                   height: 200,
+                   size_descriptor: "large",
+                   url: "https://#{cdn_host}/image.jpg",
+                   width: 280
+                 }
+               ],
                large_image_url:
-                 Framework.FileStorage.url(creative.large_image_asset.image_object),
+                 Framework.FileStorage.url(
+                   fallback_campaign.creative.large_image_asset.image_object
+                 ),
                link: "https://www.example.com/c/#{impression.id}",
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
                poweredByLink: "https://codefund.io?utm_content=#{fallback_campaign.id}"
@@ -569,11 +651,12 @@ defmodule AdService.ServerTest do
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
-      assert advertisement == %{
+      assert advertisement == %AdService.AdvertisementImpression{
                headline: "",
                description: "",
                link: "",
                house_ad: false,
+               images: [],
                large_image_url: "",
                small_image_url: "",
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
@@ -600,10 +683,11 @@ defmodule AdService.ServerTest do
       assert impression.country == "CN"
       assert impression.error_code == AdService.Impression.Errors.fetch_code(:no_possible_ads)
 
-      assert advertisement == %{
+      assert advertisement == %AdService.AdvertisementImpression{
                headline: "",
                description: "",
                house_ad: false,
+               images: [],
                link: "",
                large_image_url: "",
                small_image_url: "",
@@ -630,11 +714,12 @@ defmodule AdService.ServerTest do
       assert impression.country == "US"
       assert impression.error_code == AdService.Impression.Errors.fetch_code(:property_inactive)
 
-      assert advertisement == %{
+      assert advertisement == %AdService.AdvertisementImpression{
                headline: "",
                description: "",
                link: "",
                house_ad: false,
+               images: [],
                large_image_url: "",
                small_image_url: "",
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",

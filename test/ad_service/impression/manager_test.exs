@@ -18,14 +18,16 @@ defmodule AdService.Impression.ManagerTest do
 
     [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
 
-    advertisement = %AdService.Advertisement{
+    advertisement = %AdService.UnrenderedAdvertisement{
       body: "This is a Test Creative",
       campaign_id: impression_details.campaign.id,
       campaign_name: "Test Campaign",
       ecpm: Decimal.new("2.50"),
       headline: "Creative Headline",
-      large_image_object: "image.jpg",
-      small_image_object: "image.jpg"
+      images: [
+        AdService.ImageAsset.new("small", campaign.creative.small_image_asset),
+        AdService.ImageAsset.new("large", campaign.creative.large_image_asset)
+      ]
     }
 
     on_exit(fn -> CodeFundWeb.RedisHelper.clean_redis() end)
@@ -59,10 +61,24 @@ defmodule AdService.Impression.ManagerTest do
       assert impression.revenue_amount == Decimal.new("0.002000000000")
       assert impression.distribution_amount == Decimal.new("0.001200000000")
 
-      assert %{
+      assert %AdService.AdvertisementImpression{
                description: "This is a Test Creative",
                headline: "Creative Headline",
                house_ad: false,
+               images: [
+                 %AdService.ImageAsset{
+                   height: 200,
+                   size_descriptor: "small",
+                   url: "https://#{cdn_host}/image.jpg",
+                   width: 200
+                 },
+                 %AdService.ImageAsset{
+                   height: 200,
+                   size_descriptor: "large",
+                   url: "https://#{cdn_host}/image.jpg",
+                   width: 280
+                 }
+               ],
                large_image_url: "https://#{cdn_host}/image.jpg",
                link: "https://www.example.com/c/#{impression.id}",
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
@@ -71,7 +87,7 @@ defmodule AdService.Impression.ManagerTest do
              } == payload
 
       redis_key = impression_details.ip <> "/" <> impression_details.property.id
-      assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
+      assert {:ok, payload |> Jason.encode!()} == Redis.Pool.command(["GET", redis_key])
     end
   end
 
@@ -99,10 +115,24 @@ defmodule AdService.Impression.ManagerTest do
       assert impression.revenue_amount == Decimal.new("0.000000000000")
       assert impression.distribution_amount == Decimal.new("0.000000000000")
 
-      assert error_response == %{
+      assert error_response == %AdService.AdvertisementImpression{
                description: "This is a Test Creative",
                headline: "Creative Headline",
                house_ad: true,
+               images: [
+                 %AdService.ImageAsset{
+                   height: 200,
+                   size_descriptor: "small",
+                   url: "https://#{cdn_host}/image.jpg",
+                   width: 200
+                 },
+                 %AdService.ImageAsset{
+                   height: 200,
+                   size_descriptor: "large",
+                   url: "https://#{cdn_host}/image.jpg",
+                   width: 280
+                 }
+               ],
                large_image_url: "https://#{cdn_host}/image.jpg",
                link: "https://www.example.com/c/#{impression.id}",
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
@@ -130,12 +160,13 @@ defmodule AdService.Impression.ManagerTest do
       assert impression.revenue_amount == Decimal.new("0.000000000000")
       assert impression.distribution_amount == Decimal.new("0.000000000000")
 
-      assert error_response == %{
+      assert error_response == %AdService.AdvertisementImpression{
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
                poweredByLink: "https://codefund.io?utm_content=",
                description: "",
                headline: "",
                house_ad: false,
+               images: [],
                large_image_url: "",
                link: "",
                small_image_url: "",
@@ -162,11 +193,12 @@ defmodule AdService.Impression.ManagerTest do
       assert impression.revenue_amount == Decimal.new("0.000000000000")
       assert impression.distribution_amount == Decimal.new("0.000000000000")
 
-      assert error_response == %{
+      assert error_response == %AdService.AdvertisementImpression{
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
                poweredByLink: "https://codefund.io?utm_content=",
                description: "",
                headline: "",
+               images: [],
                large_image_url: "",
                link: "",
                house_ad: false,

@@ -9,6 +9,7 @@ defmodule CodeFund.Schema.Creative do
     belongs_to(:user, CodeFund.Schema.User)
     belongs_to(:large_image_asset, CodeFund.Schema.Asset)
     belongs_to(:small_image_asset, CodeFund.Schema.Asset)
+    belongs_to(:wide_image_asset, CodeFund.Schema.Asset)
     has_many(:campaigns, CodeFund.Schema.Campaign)
 
     field(:name, :string)

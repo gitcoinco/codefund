@@ -15,8 +15,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36"
       )
 
+    [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
+
     on_exit(fn -> CodeFundWeb.RedisHelper.clean_redis() end)
-    {:ok, %{property: property, theme: theme, conn: conn}}
+    {:ok, %{property: property, theme: theme, conn: conn, cdn_host: cdn_host}}
   end
 
   describe "embed" do
@@ -94,7 +96,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
 
   describe "details" do
     test "serves an ad if property has a campaign tied to an audience and creates an impression and records distribution and revenue amounts",
-         %{conn: conn} do
+         %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
       audience_1 = insert(:audience, name: "right one")
@@ -158,19 +160,33 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
 
-      payload = %{
-        "small_image_url" => Framework.FileStorage.url(creative.small_image_asset.image_object),
-        "headline" => "Creative Headline",
-        "house_ad" => false,
-        "description" => "This is a Test Creative",
-        "large_image_url" => Framework.FileStorage.url(creative.large_image_asset.image_object),
-        "link" => "https://www.example.com/c/#{impression.id}",
-        "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-        "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
+      payload = %AdService.AdvertisementImpression{
+        small_image_url: Framework.FileStorage.url(creative.small_image_asset.image_object),
+        headline: "Creative Headline",
+        house_ad: false,
+        images: [
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "small",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 200
+          },
+          %AdService.ImageAsset{
+            height: 200,
+            size_descriptor: "large",
+            url: "https://#{cdn_host}/image.jpg",
+            width: 280
+          }
+        ],
+        description: "This is a Test Creative",
+        large_image_url: Framework.FileStorage.url(creative.large_image_asset.image_object),
+        link: "https://www.example.com/c/#{impression.id}",
+        pixel: "//www.example.com/p/#{impression.id}/pixel.png",
+        poweredByLink: "https://codefund.io?utm_content=#{campaign.id}"
       }
 
-      assert {:ok, payload |> Poison.encode!()} == Redis.Pool.command(["GET", redis_key])
-      assert json_response(conn, 200) == payload
+      assert {:ok, payload |> Jason.encode!()} == Redis.Pool.command(["GET", redis_key])
+      assert json_response(conn, 200) |> Jason.encode!() == payload |> Jason.encode!()
     end
   end
 end

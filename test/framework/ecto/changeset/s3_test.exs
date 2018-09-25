@@ -36,6 +36,8 @@ defmodule Framework.Ecto.Changeset.S3Test do
 
       assert changeset.changes.image_bucket == "stub"
       assert changeset.changes.image_object =~ "mock.jpg"
+      assert changeset.changes.height == 215
+      assert changeset.changes.width == 215
 
       assert changeset.valid?
     end

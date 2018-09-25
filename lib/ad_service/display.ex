@@ -1,6 +1,6 @@
 defmodule AdService.Display do
-  @spec render({[%AdService.Advertisement{}], {UUID.t(), Keyword.t()}}) ::
-          %AdService.Advertisement{}
+  @spec render({[%AdService.UnrenderedAdvertisement{}], {UUID.t(), Keyword.t()}}) ::
+          %AdService.UnrenderedAdvertisement{}
   def render({possible_ads, {campaign_id, _range}}) do
     possible_ads
     |> Enum.find(fn possible_ad_to_display ->
@@ -8,8 +8,8 @@ defmodule AdService.Display do
     end)
   end
 
-  @spec choose_winner([%AdService.Advertisement{}]) ::
-          {:ok, {[%AdService.Advertisement{}], {UUID.t(), Keyword.t()}}}
+  @spec choose_winner([%AdService.UnrenderedAdvertisement{}]) ::
+          {:ok, {[%AdService.UnrenderedAdvertisement{}], {UUID.t(), Keyword.t()}}}
           | {:error, :no_possible_ads}
   def choose_winner([]), do: {:error, :no_possible_ads}
 

@@ -1,19 +1,19 @@
 defmodule AdService.Math.Basic do
-  @spec get_all_display_rates([%AdService.Advertisement{}]) :: [map]
+  @spec get_all_display_rates([%AdService.UnrenderedAdvertisement{}]) :: [map]
   def get_all_display_rates(ad_details) do
     ad_details
     |> Enum.map(&display_rate(&1, ad_details))
     |> Enum.sort(&(&1.display_rate > &2.display_rate))
   end
 
-  @spec sum([%AdService.Advertisement{}]) :: Float.t()
+  @spec sum([%AdService.UnrenderedAdvertisement{}]) :: Float.t()
   def sum(advertisements) do
     advertisements
     |> Enum.map(&(&1.ecpm |> Decimal.to_float()))
     |> Enum.sum()
   end
 
-  @spec get_weight(Decimal.t(), [%AdService.Advertisement{}]) :: integer
+  @spec get_weight(Decimal.t(), [%AdService.UnrenderedAdvertisement{}]) :: integer
   def get_weight(ecpm, ad_details) do
     index =
       ad_details
@@ -25,9 +25,10 @@ defmodule AdService.Math.Basic do
     index + 1
   end
 
-  @spec display_rate(%AdService.Advertisement{}, [%AdService.Advertisement{}]) :: map
+  @spec display_rate(%AdService.UnrenderedAdvertisement{}, [%AdService.UnrenderedAdvertisement{}]) ::
+          map
   defp display_rate(
-         %AdService.Advertisement{
+         %AdService.UnrenderedAdvertisement{
            campaign_id: campaign_id,
            ecpm: ecpm,
            campaign_name: campaign_name

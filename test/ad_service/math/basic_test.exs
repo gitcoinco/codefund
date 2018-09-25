@@ -3,21 +3,21 @@ defmodule AdService.Math.BasicTest do
 
   setup do
     ad_details = [
-      %AdService.Advertisement{
+      %AdService.UnrenderedAdvertisement{
         ecpm: Decimal.new(2.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
         campaign_name: "Campaign 1",
         headline: "ad headline"
       },
-      %AdService.Advertisement{
+      %AdService.UnrenderedAdvertisement{
         ecpm: Decimal.new(3.00),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
         campaign_name: "Campaign 2",
         headline: "ad headline"
       },
-      %AdService.Advertisement{
+      %AdService.UnrenderedAdvertisement{
         ecpm: Decimal.new(3.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
@@ -38,11 +38,11 @@ defmodule AdService.Math.BasicTest do
   describe "get_weight/2" do
     test "it returns the index + 1 of an ecpm in a list" do
       list_of_ecpms = [
-        %AdService.Advertisement{ecpm: Decimal.new(2.0)},
-        %AdService.Advertisement{ecpm: Decimal.new(3.0)},
-        %AdService.Advertisement{ecpm: Decimal.new(1.0)},
-        %AdService.Advertisement{ecpm: Decimal.new(2.0)},
-        %AdService.Advertisement{ecpm: Decimal.new(4.0)}
+        %AdService.UnrenderedAdvertisement{ecpm: Decimal.new(2.0)},
+        %AdService.UnrenderedAdvertisement{ecpm: Decimal.new(3.0)},
+        %AdService.UnrenderedAdvertisement{ecpm: Decimal.new(1.0)},
+        %AdService.UnrenderedAdvertisement{ecpm: Decimal.new(2.0)},
+        %AdService.UnrenderedAdvertisement{ecpm: Decimal.new(4.0)}
       ]
 
       assert AdService.Math.Basic.get_weight(Decimal.new(2.0), list_of_ecpms) == 2

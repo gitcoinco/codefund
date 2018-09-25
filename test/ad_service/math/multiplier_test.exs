@@ -3,19 +3,19 @@ defmodule AdService.Math.MultiplierTest do
 
   setup do
     ad_details = [
-      %AdService.Advertisement{
+      %AdService.UnrenderedAdvertisement{
         ecpm: Decimal.new(2.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e6",
         headline: "ad headline"
       },
-      %AdService.Advertisement{
+      %AdService.UnrenderedAdvertisement{
         ecpm: Decimal.new(3.00),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e7",
         headline: "ad headline"
       },
-      %AdService.Advertisement{
+      %AdService.UnrenderedAdvertisement{
         ecpm: Decimal.new(3.50),
         body: "ad body",
         campaign_id: "9839afe6-5ac3-4443-be3c-dbb7a2af01e8",
