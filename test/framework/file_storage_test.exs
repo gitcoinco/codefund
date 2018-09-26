@@ -3,7 +3,7 @@ defmodule Framework.FileStorageTest do
 
   describe "store/1" do
     test "it stores the asset in s3 and returns {:ok, filename, bucket} for saving" do
-      {:ok, filename, bucket} =
+      {:ok, filename, bucket, height, width} =
         %Plug.Upload{
           content_type: "image/jpeg",
           path: Path.expand("../../test/support/mock.jpg", __DIR__),
@@ -13,6 +13,8 @@ defmodule Framework.FileStorageTest do
 
       assert filename =~ "mock.jpg"
       assert bucket == "stub"
+      assert height == 215
+      assert width == 215
     end
 
     test "it returns {:error, :invalid_file_type} if the file isn't a jpg, png or gif" do

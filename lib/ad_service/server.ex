@@ -1,5 +1,5 @@
 defmodule AdService.Server do
-  alias AdService.Advertisement
+  alias AdService.UnrenderedAdvertisement
   alias AdService.Impression.Details, as: ImpressionDetails
   alias CodeFund.{Campaigns, Properties}
   alias CodeFund.Schema.{Campaign, Property}
@@ -24,9 +24,9 @@ defmodule AdService.Server do
              conn.remote_ip,
              property.excluded_advertisers
            )
-           |> CodeFund.Repo.all()
+           |> UnrenderedAdvertisement.all()
            |> AdService.Display.choose_winner(),
-         %Advertisement{campaign_id: campaign_id} = advertisement <-
+         %UnrenderedAdvertisement{campaign_id: campaign_id} = advertisement <-
            ad_tuple |> AdService.Display.render(),
          %Campaign{} = campaign <- Campaigns.get_campaign!(campaign_id),
          {:ok, _} <-
@@ -52,9 +52,7 @@ defmodule AdService.Server do
         |> AdService.Impression.Manager.create_error_impression()
 
       {:error, :is_bot} ->
-        AdService.ResponseMap.for_error(
-          "CodeFund does not have an advertiser for you at this time"
-        )
+        AdService.AdvertisementImpression.new({:error, :is_bot})
 
       {:error, reason_atom} ->
         property = CodeFund.Properties.get_property!(property_id)

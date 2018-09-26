@@ -81,6 +81,8 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionControllerTest do
       campaign: campaign,
       creative: creative
     } do
+      [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
+
       conn = conn |> put_req_header("x-codefund-api-key", users.api_user.api_key)
 
       conn =
@@ -105,18 +107,34 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionControllerTest do
       assert impression.browser_width == 300
       assert impression.user_agent == "Chrome"
 
-      assert json_response(conn, 200) == %{
-               "small_image_url" =>
-                 Framework.FileStorage.url(creative.small_image_asset.image_object),
-               "headline" => "Creative Headline",
-               "house_ad" => false,
-               "description" => "This is a Test Creative",
-               "large_image_url" =>
-                 Framework.FileStorage.url(creative.large_image_asset.image_object),
-               "link" => "https://www.example.com/c/#{impression.id}",
-               "pixel" => "//www.example.com/p/#{impression.id}/pixel.png",
-               "poweredByLink" => "https://codefund.io?utm_content=#{campaign.id}"
-             }
+      assert json_response(conn, 200) |> Jason.encode!() ==
+               %AdService.AdvertisementImpression{
+                 small_image_url:
+                   Framework.FileStorage.url(creative.small_image_asset.image_object),
+                 headline: "Creative Headline",
+                 house_ad: false,
+                 images: [
+                   %AdService.ImageAsset{
+                     height: 200,
+                     size_descriptor: "small",
+                     url: "https://#{cdn_host}/image.jpg",
+                     width: 200
+                   },
+                   %AdService.ImageAsset{
+                     height: 200,
+                     size_descriptor: "large",
+                     url: "https://#{cdn_host}/image.jpg",
+                     width: 280
+                   }
+                 ],
+                 description: "This is a Test Creative",
+                 large_image_url:
+                   Framework.FileStorage.url(creative.large_image_asset.image_object),
+                 link: "https://www.example.com/c/#{impression.id}",
+                 pixel: "//www.example.com/p/#{impression.id}/pixel.png",
+                 poweredByLink: "https://codefund.io?utm_content=#{campaign.id}"
+               }
+               |> Jason.encode!()
     end
   end
 end

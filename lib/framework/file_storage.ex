@@ -1,10 +1,13 @@
 defmodule Framework.FileStorage do
-  @spec store(%Plug.Upload{}) :: {:ok, String.t(), String.t()} | {:error, :invalid_file_type}
+  @spec store(%Plug.Upload{}) ::
+          {:ok, String.t(), String.t(), integer, integer} | {:error, :invalid_file_type}
   def store(%Plug.Upload{content_type: content_type, path: path, filename: filename})
       when content_type in ["image/jpeg", "image/png", "image/gif"] do
     body =
       path
       |> File.read!()
+
+    {_, width, height, _} = ExImageInfo.info(body)
 
     bucket =
       :ex_aws
@@ -17,7 +20,7 @@ defmodule Framework.FileStorage do
       |> ExAws.S3.put_object(name, body)
       |> ExAws.request()
 
-    {:ok, name, bucket}
+    {:ok, name, bucket, height, width}
   end
 
   def store(%Plug.Upload{}) do

@@ -16,6 +16,8 @@ defmodule AdService.Impression.Details do
   import CodeFund.Reporter
 
   defstruct host: nil,
+            id: nil,
+            saved: false,
             conn: nil,
             property: nil,
             campaign: nil,
@@ -117,12 +119,16 @@ defmodule AdService.Impression.Details do
     result = map |> Impressions.create_impression()
 
     case result do
-      {:ok, _} ->
-        result
+      {:ok, impression} ->
+        impression_details =
+          impression_details
+          |> struct(%{saved: true, id: impression.id})
 
-      {:error, _} ->
+        {:ok, impression_details}
+
+      {:error, changeset} ->
         report(:warning, "Country failed -- {map.country}")
-        result
+        {:error, impression_details, changeset}
     end
   end
 end

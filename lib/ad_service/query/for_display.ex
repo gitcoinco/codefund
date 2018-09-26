@@ -1,6 +1,6 @@
 defmodule AdService.Query.ForDisplay do
   import Ecto.Query
-  alias AdService.Advertisement
+  alias AdService.UnrenderedAdvertisement
   alias CodeFund.Campaigns
   alias CodeFund.Schema.{Audience, Campaign, Creative, Impression, Property}
 
@@ -13,17 +13,19 @@ defmodule AdService.Query.ForDisplay do
       join: large_image_asset in assoc(creative, :large_image_asset),
       left_join: small_image_asset in assoc(creative, :small_image_asset),
       where: property.id == ^property_id,
-      select: %Advertisement{
+      select: %UnrenderedAdvertisement{
         body: creative.body,
         ecpm: campaign.ecpm,
         campaign_id: campaign.id,
         campaign_name: campaign.name,
         headline: creative.headline,
-        small_image_object: small_image_asset.image_object,
-        large_image_object: large_image_asset.image_object
+        images: [
+          %AdService.UnprocessedImageAsset{size_descriptor: "small", asset: small_image_asset},
+          %AdService.UnprocessedImageAsset{size_descriptor: "large", asset: large_image_asset}
+        ]
       }
     )
-    |> CodeFund.Repo.one()
+    |> UnrenderedAdvertisement.one()
   end
 
   def build(%Audience{} = audience, client_country, ip_address, excluded_advertisers \\ []) do
@@ -48,15 +50,20 @@ defmodule AdService.Query.ForDisplay do
     |> where([_creative, campaign, ...], campaign.start_date <= fragment("current_timestamp"))
     |> where([_creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
     |> AdService.Query.TimeManagement.optionally_exclude_us_hours_only_campaigns()
-    |> select([creative, campaign, large_image_asset, small_image_asset, ...], %Advertisement{
-      body: creative.body,
-      ecpm: campaign.ecpm,
-      campaign_id: campaign.id,
-      campaign_name: campaign.name,
-      headline: creative.headline,
-      small_image_object: small_image_asset.image_object,
-      large_image_object: large_image_asset.image_object
-    })
+    |> select(
+      [creative, campaign, large_image_asset, small_image_asset, ...],
+      %UnrenderedAdvertisement{
+        body: creative.body,
+        ecpm: campaign.ecpm,
+        campaign_id: campaign.id,
+        campaign_name: campaign.name,
+        headline: creative.headline,
+        images: [
+          %AdService.UnprocessedImageAsset{size_descriptor: "small", asset: small_image_asset},
+          %AdService.UnprocessedImageAsset{size_descriptor: "large", asset: large_image_asset}
+        ]
+      }
+    )
   end
 
   defp with_daily_budget(query) do

@@ -130,14 +130,18 @@ defmodule AdService.Impression.DetailsTest do
         |> AdService.Impression.Details.save()
 
       refute is_nil(saved_impression.id)
-      assert saved_impression.__struct__ == CodeFund.Schema.Impression
-      assert saved_impression.property_id == property.id
-      assert saved_impression.campaign_id == campaign.id
-      assert saved_impression.revenue_amount == Decimal.new("0.002")
-      assert saved_impression.distribution_amount == Decimal.new("0.0012")
+      assert saved_impression.__struct__ == AdService.Impression.Details
+      assert saved_impression.property.id == property.id
+      assert saved_impression.campaign.id == campaign.id
+      assert saved_impression.saved
+      assert saved_impression.financials.revenue_amount == 0.002
+      assert saved_impression.financials.distribution_amount == 0.0012
       refute saved_impression.house_ad
-      assert saved_impression.browser_height == 100
-      assert saved_impression.browser_width == 200
+
+      assert saved_impression.browser_details == %AdService.BrowserDetails{
+               height: 100,
+               width: 200
+             }
     end
 
     test "it serializes and saves the impression details struct as an impression with errors", %{
@@ -153,13 +157,22 @@ defmodule AdService.Impression.DetailsTest do
         |> AdService.Impression.Details.save()
 
       refute is_nil(saved_impression.id)
-      assert saved_impression.__struct__ == CodeFund.Schema.Impression
+      assert saved_impression.__struct__ == AdService.Impression.Details
       assert saved_impression.house_ad == true
-      assert saved_impression.property_id == property.id
-      assert saved_impression.campaign_id == campaign.id
-      refute saved_impression.revenue_amount
-      refute saved_impression.distribution_amount
-      assert saved_impression.error_code == 0
+      assert saved_impression.property.id == property.id
+      assert saved_impression.campaign.id == campaign.id
+      assert saved_impression.saved
+
+      assert saved_impression.financials ==
+               %AdService.Impression.Financials{distribution_amount: nil, revenue_amount: nil}
+
+      assert saved_impression.error == %AdService.Impression.ErrorStruct{
+               human_readable_message:
+                 "This property is not currently active - code: #{
+                   AdService.Impression.Errors.fetch_code(:property_inactive)
+                 }",
+               reason_atom: :property_inactive
+             }
     end
 
     test "it serializes and saves the impression details struct as an impression with errors if no campaign is assigned",
@@ -172,12 +185,22 @@ defmodule AdService.Impression.DetailsTest do
         |> AdService.Impression.Details.save()
 
       refute is_nil(saved_impression.id)
-      assert saved_impression.__struct__ == CodeFund.Schema.Impression
-      assert saved_impression.property_id == property.id
-      refute saved_impression.campaign_id
-      refute saved_impression.revenue_amount
-      refute saved_impression.distribution_amount
-      assert saved_impression.error_code == 0
+      assert saved_impression.__struct__ == AdService.Impression.Details
+      assert saved_impression.property.id == property.id
+      refute saved_impression.campaign
+      assert saved_impression.saved
+      assert saved_impression.saved == true
+
+      assert saved_impression.financials ==
+               %AdService.Impression.Financials{distribution_amount: nil, revenue_amount: nil}
+
+      assert saved_impression.error == %AdService.Impression.ErrorStruct{
+               human_readable_message:
+                 "This property is not currently active - code: #{
+                   AdService.Impression.Errors.fetch_code(:property_inactive)
+                 }",
+               reason_atom: :property_inactive
+             }
     end
   end
 end

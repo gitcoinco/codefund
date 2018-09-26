@@ -13,7 +13,13 @@
       prompt: "Select an Asset",
       hint: "200x260px"
     ]],
-    large_image_asset_id: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:large_image_url) || nil ]]
+    large_image_asset_id: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:large_image_url) || nil ]],
+    wide_image_asset_id: [type: :select, label: "Wide Image", opts: [
+      choices: @assets,
+      prompt: "Select an Asset",
+      hint: "2:1 ratio, default is: 600x300px"
+    ]],
+    wide_image_asset_id: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:wide_image_url) || nil ]]
   ] |> render_fields(@form)
 %>
 

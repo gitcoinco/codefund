@@ -13,10 +13,12 @@ defmodule Framework.Ecto.Changeset.S3 do
 
   defp upload(%Plug.Upload{} = upload_plug_struct, %Ecto.Changeset{} = changeset, field) do
     case Framework.FileStorage.store(upload_plug_struct) do
-      {:ok, name, bucket} ->
+      {:ok, name, bucket, height, width} ->
         changeset
         |> put_change(:"#{field}_object", name)
         |> put_change(:"#{field}_bucket", bucket)
+        |> put_change(:height, height)
+        |> put_change(:width, width)
 
       {:error, :invalid_file_type} ->
         changeset
