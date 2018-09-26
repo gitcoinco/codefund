@@ -94,6 +94,13 @@ defmodule CodeFundWeb.PropertyController do
           class: "form-control selectize",
           choices: CodeFund.Users.distinct_companies()
         ]
+      ],
+      no_api_house_ads: [
+        type: :checkbox,
+        label: "Hide House Ads on API Requests",
+        opts: [
+          hint: "If this is checked, house ads will not display when serving ads via API."
+        ]
       ]
     ]
 

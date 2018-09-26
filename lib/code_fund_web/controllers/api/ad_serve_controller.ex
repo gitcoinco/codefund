@@ -32,6 +32,8 @@ defmodule CodeFundWeb.API.AdServeController do
 
   @spec details(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def details(conn, %{"property_id" => property_id} = params) do
+    params = Map.merge(params, %{"request_origin" => :is_browser})
+
     conn
     |> AdService.Server.serve(property_id, params)
     |> details_render(conn)

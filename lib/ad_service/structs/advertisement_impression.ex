@@ -14,7 +14,8 @@ defmodule AdService.AdvertisementImpression do
   @spec new(
           {:ok | :error,
            {%AdService.Impression.Details{}, %AdService.UnrenderedAdvertisement{}}
-           | {%AdService.Impression.Details{}}}
+           | {%AdService.Impression.Details{}}
+           | atom}
         ) :: %__MODULE__{}
   def new({:ok, {impression_details, unrendered_advertisement}}) do
     params = %{
@@ -42,7 +43,8 @@ defmodule AdService.AdvertisementImpression do
     struct(__MODULE__, params)
   end
 
-  def new({:error, :is_bot}) do
+  def new({:error, error_atom})
+      when is_atom(error_atom) and error_atom in [:is_bot, :api_requests_no_house_ads] do
     params = %{
       poweredByLink: "https://codefund.io?utm_content=",
       reason: "CodeFund does not have an advertiser for you at this time"

@@ -35,6 +35,7 @@ defmodule AdService.Server do
              campaign.impression_count
            ) do
       ImpressionDetails.new(conn, property, campaign)
+      |> ImpressionDetails.put_request_origin(opts["request_origin"])
       |> ImpressionDetails.put_browser_details(opts["height"], opts["width"], opts["user_agent"])
       |> AdService.Impression.Manager.create_successful_impression(advertisement)
     else
@@ -43,6 +44,7 @@ defmodule AdService.Server do
 
       %Property{} = property ->
         ImpressionDetails.new(conn, property, nil)
+        |> ImpressionDetails.put_request_origin(opts["request_origin"])
         |> ImpressionDetails.put_error(:property_inactive)
         |> ImpressionDetails.put_browser_details(
           opts["height"],
@@ -58,6 +60,7 @@ defmodule AdService.Server do
         property = CodeFund.Properties.get_property!(property_id)
 
         ImpressionDetails.new(conn, property, nil)
+        |> ImpressionDetails.put_request_origin(opts["request_origin"])
         |> ImpressionDetails.put_error(reason_atom)
         |> ImpressionDetails.put_browser_details(
           opts["height"],
