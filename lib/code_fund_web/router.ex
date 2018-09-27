@@ -77,6 +77,10 @@ defmodule CodeFundWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    get("/advertisers", PageController, :advertisers)
+    get("/publishers", PageController, :publishers)
+    get("/blog", PageController, :blog)
+    get("/faq", PageController, :faq)
     post("/register/:type", PageController, :deliver_form)
     get("/register/:type", PageController, :contact)
     get("/p/:impression_id/pixel.png", TrackController, :pixel)

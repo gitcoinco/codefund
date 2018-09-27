@@ -12,7 +12,7 @@ defmodule CodeFundWeb.Endpoint do
     at: "/",
     from: :code_fund,
     gzip: false,
-    only: ~w(css fonts home canvab images js theme favicon.ico robots.txt)
+    only: ~w(css fonts home canvab theme images js theme favicon.ico robots.txt)
   )
 
   # Code reloading can be explicitly enabled under the

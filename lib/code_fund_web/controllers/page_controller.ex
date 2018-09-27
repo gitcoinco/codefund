@@ -6,8 +6,32 @@ defmodule CodeFundWeb.PageController do
 
   def index(conn, _params) do
     conn
-    |> put_layout(false)
+    |> put_layout("home.html")
     |> render("index.html")
+  end
+
+  def advertisers(conn, _params) do
+    conn
+    |> put_layout("home.html")
+    |> render("advertisers.html")
+  end
+
+  def publishers(conn, _params) do
+    conn
+    |> put_layout("home.html")
+    |> render("publishers.html")
+  end
+
+  def blog(conn, _params) do
+    conn
+    |> put_layout("home.html")
+    |> render("blog.html")
+  end
+
+  def faq(conn, _params) do
+    conn
+    |> put_layout("home.html")
+    |> render("faq.html")
   end
 
   def contact(conn, %{"type" => type}) when type in ["advertiser", "publisher"] do

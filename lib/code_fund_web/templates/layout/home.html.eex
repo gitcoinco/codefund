@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Title -->
+  <title><%= title @conn %></title>
+
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
+
+  <!-- Google Fonts -->
+  <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+  <!-- CSS Global Compulsory -->
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/bootstrap/css/bootstrap.css") %>">
+
+  <!-- CSS Implementing Plugins -->
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/animate.css/animate.min.css") %>">
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/hs-megamenu/src/hs.megamenu.css") %>">
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css") %>">
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/fancybox/jquery.fancybox.css") %>">
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/slick-carousel/slick/slick.css") %>">
+
+  <!-- CSS Theme Template -->
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/css/front.min.css") %>">
+</head>
+
+<body>
+  <!-- Skippy -->
+  <a id="skippy" class="sr-only sr-only-focusable u-skippy" href="#content">
+    <div class="container">
+      <span class="u-skiplink-text">Skip to main content</span>
+    </div>
+  </a>
+  <!-- End Skippy -->
+
+  <!-- ========== HEADER ========== -->
+  <header id="header" class="u-header u-header--abs-top-md u-header--bg-transparent u-header--show-hide-md"
+          data-header-fix-moment="500"
+          data-header-fix-effect="slide">
+    <div class="u-header__section">
+      <!-- Topbar -->
+      <div class="container u-header__hide-content pt-2">
+        <div class="d-flex align-items-center mb-0">
+          <!-- Language -->
+          <div class="position-relative">
+            <a id="languageDropdownInvoker" class="d-flex align-items-center u-unfold-wrapper" href="javascript:;" role="button"
+               aria-controls="languageDropdown"
+               aria-haspopup="true"
+               aria-expanded="false"
+               data-unfold-event="hover"
+               data-unfold-target="#languageDropdown"
+               data-unfold-type="css-animation"
+               data-unfold-duration="300"
+               data-unfold-delay="300"
+               data-unfold-hide-on-scroll="true"
+               data-unfold-animation-in="slideInUp"
+               data-unfold-animation-out="fadeOut">
+              <span class="d-inline-block d-sm-none">CodeFund</span>
+              <span class="d-none d-sm-inline-block">Fund Open Source</span>
+              <span class="fa fa-angle-down u-unfold__icon-pointer"></span>
+            </a>
+
+            <div id="languageDropdown" class="u-unfold mt-2" aria-labelledby="languageDropdownInvoker">
+              <a class="active u-list__link" href="/">CodeFund</a>
+              <a class="u-list__link" href="https://gitcoin.co">Gitcoin</a>
+              <a class="u-list__link" href="#">Grants</a>
+              <a class="u-list__link" href="#">Kudos</a>
+            </div>
+          </div>
+          <!-- End Language -->
+
+          <!-- Social Links -->
+          <div class="ml-auto">
+            <ul class="list-inline ml-2 mb-0">
+              <!-- Twitter Button -->
+              <li class="list-inline-item">
+                <a class="btn btn-xs u-btn--icon u-btn-text-secondary u-sidebar__toggler"
+                  role="button"
+                  target="_blank"
+                  href="https://twitter.com/codefundio">
+                  <span class="fab fa-twitter-square u-btn--icon__inner font-size-14"></span>
+                </a>
+              </li>
+              <!-- End Twitter Button -->
+
+              <!-- Medium Button -->
+              <li class="list-inline-item">
+                <a class="btn btn-xs u-btn--icon u-btn-text-secondary u-sidebar__toggler"
+                  role="button"
+                  target="_blank"
+                  href="https://medium.com/codefund">
+                  <span class="fab fa-medium u-btn--icon__inner font-size-14"></span>
+                </a>
+              </li>
+              <!-- End Medium Button -->
+
+              <!-- LinkedIn Button -->
+              <li class="list-inline-item">
+                <a class="btn btn-xs u-btn--icon u-btn-text-secondary u-sidebar__toggler"
+                  role="button"
+                  target="_blank"
+                  href="https://www.linkedin.com/company/codefundio/">
+                  <span class="fab fa-linkedin u-btn--icon__inner font-size-14"></span>
+                </a>
+              </li>
+              <!-- End LinkedIn Button -->
+
+              <!-- GitHub Button -->
+              <li class="list-inline-item">
+                <a class="btn btn-xs u-btn--icon u-btn-text-secondary u-sidebar__toggler"
+                  role="button"
+                  target="_blank"
+                  href="https://github.com/gitcoinco/codefund">
+                  <span class="fab fa-github u-btn--icon__inner font-size-14"></span>
+                </a>
+              </li>
+              <!-- End GitHub Button -->
+            </ul>
+          </div>
+          <!-- End Social Links -->
+        </div>
+      </div>
+      <!-- End Topbar -->
+
+      <div id="logoAndNav" class="container">
+        <!-- Nav -->
+        <nav class="js-mega-menu navbar navbar-expand-md u-header__navbar">
+          <!-- Logo -->
+          <a class="navbar-brand u-header__navbar-brand u-header__navbar-brand-top-space" href="/" aria-label="CodeFund">
+            <img src="<%= static_path(@conn, "/images/codefund-w.svg") %>" alt="Logo">
+          </a>
+          <!-- End Logo -->
+
+          <!-- Responsive Toggle Button -->
+          <button type="button" class="navbar-toggler btn u-hamburger"
+                  aria-label="Toggle navigation"
+                  aria-expanded="false"
+                  aria-controls="navBar"
+                  data-toggle="collapse"
+                  data-target="#navBar">
+            <span id="hamburgerTrigger" class="u-hamburger__box">
+              <span class="u-hamburger__inner"></span>
+            </span>
+          </button>
+          <!-- End Responsive Toggle Button -->
+
+          <!-- Navigation -->
+          <div id="navBar" class="collapse navbar-collapse py-0">
+            <ul class="navbar-nav u-header__navbar-nav ml-lg-auto">
+              <li class="active nav-item">
+                <a class="nav-link u-header__nav-link" href="/">
+                  Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <%= link "Advertisers", to: page_path(@conn, :advertisers), class: "nav-link u-header__nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link "Publishers", to: page_path(@conn, :publishers), class: "nav-link u-header__nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link "Blog", to: page_path(@conn, :blog), class: "nav-link u-header__nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link "FAQ", to: page_path(@conn, :faq), class: "nav-link u-header__nav-link" %>
+              </li>
+
+              <!-- Button -->
+              <li class="nav-item d-none d-md-inline-block pl-3 pr-0">
+                <%= if Coherence.logged_in?(@conn) do %>
+                  <%= link "Dashboard", to: dashboard_path(@conn, :index), class: "btn btn-sm btn-primary u-btn-primary transition-3d-hover" %>
+                <% else %>
+                  <%= link "Login", to: session_path(@conn, :new), class: "btn btn-sm btn-primary u-btn-primary transition-3d-hover" %>
+                <% end %>
+              </li>
+              <!-- End Button -->
+            </ul>
+          </div>
+          <!-- End Navigation -->
+        </nav>
+        <!-- End Nav -->
+      </div>
+    </div>
+  </header>
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <%= render @view_module, @view_template, assigns %>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <!-- Lists -->
+    <div class="container u-space-2">
+      <div class="row justify-content-md-between">
+        <div class="col-sm-4 col-lg-2 mb-4 mb-lg-0">
+          <h3 class="h6">
+            <strong>About</strong>
+          </h3>
+
+          <!-- List -->
+          <ul class="list-unstyled mb-0">
+            <li><a class="u-list__link" href="#">Ethical Advertising</a></li>
+            <li><a class="u-list__link" href="#">Contributing</a></li>
+            <li><a class="u-list__link" href="#">Advertise with Us</a></li>
+            <li><a class="u-list__link" href="#">CodeFund Team</a></li>
+          </ul>
+          <!-- End List -->
+        </div>
+
+        <div class="col-sm-4 col-lg-2 mb-4 mb-lg-0">
+          <h3 class="h6">
+            <strong>Company</strong>
+          </h3>
+
+          <!-- List -->
+          <ul class="list-unstyled mb-0">
+            <li><a class="u-list__link" href="#">About</a></li>
+            <li><a class="u-list__link" href="#">Blog</a></li>
+            <li><a class="u-list__link" href="#">Newsletter</a></li>
+            <li><a class="u-list__link" href="#">Careers</a></li>
+          </ul>
+          <!-- End List -->
+        </div>
+
+        <div class="col-sm-4 col-lg-2 mb-4 mb-lg-0">
+          <h3 class="h6">
+            <strong>Resources</strong>
+          </h3>
+
+          <!-- List -->
+          <ul class="list-unstyled mb-0">
+            <li><a class="u-list__link" href="#">Media Kit</a></li>
+            <li><a class="u-list__link" href="#">Help</a></li>
+            <li><a class="u-list__link" href="#">Privacy Policy</a></li>
+            <li><a class="u-list__link" href="#">Cookie Policy</a></li>
+          </ul>
+          <!-- End List -->
+        </div>
+
+        <div class="col-md-7 col-lg-5 mb-4 mb-md-0">
+          <div class="mb-4">
+            <h3 class="h6">
+              <strong>Get our weekly newsletter!</strong>
+            </h3>
+            <p class="font-size-14">Get weekly updates on our progress. Never spam.</p>
+          </div>
+
+          <!-- Form -->
+          <form class="js-validate js-form-message">
+            <div class="js-focus-state input-group u-form">
+              <input type="email" class="form-control u-form__input" name="email" required
+                    placeholder="Enter your email address"
+                    aria-label="Enter your email address">
+              <span class="input-group-append u-form__append">
+                <button type="submit" class="btn btn-primary u-btn-primary">Subscribe</button>
+              </span>
+            </div>
+          </form>
+          <!-- End Form -->
+        </div>
+      </div>
+    </div>
+    <!-- End Lists -->
+
+    <hr>
+
+    <!-- Copyright -->
+    <div class="container text-center u-space-1">
+      <!-- Logo -->
+      <a class="d-inline-block mb-2" href="index.html" aria-label="CodeFund">
+        <img src="<%= static_path(@conn, "/images/codefund-logo.svg") %>" alt="Logo" style="width: 30px;">
+      </a>
+      <!-- End Logo -->
+
+      <p class="small text-muted">
+        &copy; 2018 &copy; ConsenSys. All rights reserved.<br/>
+        <small><a href="https://themes.getbootstrap.com/product/front-multipurpose-responsive-template/" target="_blank">Front Theme</a> 2018 &copy; Htmlstream. All rights reserved.</small>
+      </p>
+    </div>
+    <!-- End Copyright -->
+  </footer>
+  <!-- ========== END FOOTER ========== -->
+
+  <!-- Go to Top -->
+  <a class="js-go-to u-go-to" href="#"
+    data-position='{"bottom": 15, "right": 15 }'
+    data-type="fixed"
+    data-offset-top="400"
+    data-compensation="#header"
+    data-show-effect="slideInUp"
+    data-hide-effect="slideOutDown">
+    <span class="fa fa-arrow-up u-go-to__inner"></span>
+  </a>
+  <!-- End Go to Top -->
+
+  <!-- JS Global Compulsory -->
+  <script src="<%= static_path(@conn, "/theme/vendor/jquery/dist/jquery.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/jquery-migrate/dist/jquery-migrate.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/popper.js/dist/umd/popper.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/bootstrap/bootstrap.min.js") %>"></script>
+  <script src="https://static.jsbin.com/js/embed.min.js?4.1.4"></script>
+
+  <!-- JS Implementing Plugins -->
+  <script src="<%= static_path(@conn, "/theme/vendor/hs-megamenu/src/hs.megamenu.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/jquery-validation/dist/jquery.validate.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/fancybox/jquery.fancybox.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/typed.js/lib/typed.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/slick-carousel/slick/slick.js") %>"></script>
+
+  <!-- JS Theme -->
+  <script src="<%= static_path(@conn, "/theme/js/hs.core.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.header.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.unfold.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/helpers/hs.focus-state.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.malihu-scrollbar.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.validation.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.fancybox.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.slick-carousel.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.show-animation.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.go-to.js") %>"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    $(window).on('load', function () {
+      // initialization of HSMegaMenu component
+      $('.js-mega-menu').HSMegaMenu({
+        event: 'hover',
+        pageContainer: $('.container'),
+        breakpoint: 767,
+        hideTimeOut: 0
+      });
+    });
+
+    $(document).on('ready', function () {
+      // initialization of header
+      $.HSCore.components.HSHeader.init($('#header'));
+
+      // initialization of unfold component
+      $.HSCore.components.HSUnfold.init($('[data-unfold-target]'), {
+        afterOpen: function () {
+          $(this).find('input[type="search"]').focus();
+        }
+      });
+
+      // initialization of malihu scrollbar
+      $.HSCore.components.HSMalihuScrollBar.init($('.js-scrollbar'));
+
+      // initialization of forms
+      $.HSCore.helpers.HSFocusState.init();
+
+      // initialization of form validation
+      $.HSCore.components.HSValidation.init('.js-validate', {
+        rules: {
+          confirmPassword: {
+            equalTo: '#password'
+          }
+        }
+      });
+
+      // initialization of show animations
+      $.HSCore.components.HSShowAnimation.init('.js-animation-link');
+
+      // initialization of fancybox
+      $.HSCore.components.HSFancyBox.init('.js-fancybox');
+
+      // initialization of text animation (typing)
+      var typed = new Typed(".u-text-animation.u-text-animation--typing", {
+        strings: ["open source", "ethical", "developer driven"],
+        typeSpeed: 50,
+        loop: true,
+        backSpeed: 25,
+        backDelay: 1500
+      });
+
+      // initialization of slick carousel
+      $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+
+      // initialization of go to
+      $.HSCore.components.HSGoTo.init('.js-go-to');
+    });
+  </script>
+</body>
+</html>
