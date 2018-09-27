@@ -32,6 +32,7 @@ defmodule CodeFund.Schema.Property do
     field(:slug, :string)
     field(:property_type, :integer, default: 1)
     field(:url, :string)
+    field(:no_api_house_ads, :boolean, default: false)
     field(:estimated_monthly_page_views, :integer)
     field(:estimated_monthly_visitors, :integer)
     field(:alexa_site_rank, :integer)

@@ -13,7 +13,6 @@ end
 defmodule AdService.Impression.Details do
   alias AdService.Impression.Errors, as: ImpressionErrors
   alias CodeFund.Impressions
-  import CodeFund.Reporter
 
   defstruct host: nil,
             id: nil,
@@ -21,6 +20,7 @@ defmodule AdService.Impression.Details do
             conn: nil,
             property: nil,
             campaign: nil,
+            request_origin: :is_browser,
             error: %AdService.Impression.ErrorStruct{},
             ip: nil,
             house_ad: false,
@@ -52,6 +52,10 @@ defmodule AdService.Impression.Details do
   @spec flag_house_ad(%__MODULE__{}, %CodeFund.Schema.Campaign{}) :: %__MODULE__{}
   def flag_house_ad(%__MODULE__{} = struct, campaign),
     do: struct |> struct(%{house_ad: true, campaign: campaign})
+
+  @spec put_request_origin(%__MODULE__{}, :is_api | :is_browser) :: %__MODULE__{}
+  def put_request_origin(%__MODULE__{} = struct, origin \\ :is_browser),
+    do: struct |> struct(%{request_origin: origin})
 
   @spec put_error(%__MODULE__{}, atom | nil) :: %__MODULE__{}
   def put_error(%__MODULE__{} = struct, nil), do: struct
@@ -94,7 +98,7 @@ defmodule AdService.Impression.Details do
     })
   end
 
-  @spec save(%__MODULE__{}) :: {:ok, %CodeFund.Schema.Impression{}}
+  @spec save(%__MODULE__{}) :: {:ok, %__MODULE__{}} | {:error, %__MODULE__{}, Ecto.Changeset.t()}
   def save(%__MODULE__{} = impression_details) do
     campaign_id =
       case impression_details.campaign do
@@ -127,7 +131,6 @@ defmodule AdService.Impression.Details do
         {:ok, impression_details}
 
       {:error, changeset} ->
-        report(:warning, "Country failed -- {map.country}")
         {:error, impression_details, changeset}
     end
   end

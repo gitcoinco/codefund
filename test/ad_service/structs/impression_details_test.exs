@@ -60,6 +60,25 @@ defmodule AdService.Impression.DetailsTest do
     end
   end
 
+  describe "put_request_origin/2" do
+    test "it sets :is_browser by default", %{
+      impression_details: impression_details
+    } do
+      impression_details = impression_details |> struct(%{request_origin: nil})
+      updated_struct = AdService.Impression.Details.put_request_origin(impression_details)
+      assert updated_struct.request_origin == :is_browser
+    end
+
+    test "it can update to :is_api", %{
+      impression_details: impression_details
+    } do
+      updated_struct =
+        AdService.Impression.Details.put_request_origin(impression_details, :is_api)
+
+      assert updated_struct.request_origin == :is_api
+    end
+  end
+
   describe "put_error/2" do
     test "it doesn't update the errors struct in the impression details if no error occurred", %{
       impression_details: impression_details
