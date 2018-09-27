@@ -6,7 +6,7 @@ defmodule AdService.Query.ForDisplayTest do
     {:ok, _pid} = TimeMachinex.ManagedClock.start()
 
     creative =
-      insert(:creative, headline: "winning advertisement", large_image_asset: insert(:asset))
+      insert(:creative, headline: "winning advertisement", wide_image_asset: insert(:asset))
 
     insert(:audience, %{
       programming_languages: ["Ruby", "C"],
@@ -152,6 +152,7 @@ defmodule AdService.Query.ForDisplayTest do
 
       small_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.small_image_asset.id)
       large_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.large_image_asset.id)
+      wide_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.wide_image_asset.id)
 
       assert advertisement == %AdService.UnrenderedAdvertisement{
                body: "This is a Test Creative",
@@ -167,6 +168,10 @@ defmodule AdService.Query.ForDisplayTest do
                  %AdService.UnprocessedImageAsset{
                    asset: large_image_asset,
                    size_descriptor: "large"
+                 },
+                 %AdService.UnprocessedImageAsset{
+                   asset: wide_image_asset,
+                   size_descriptor: "wide"
                  }
                ]
              }

@@ -12,6 +12,7 @@ defmodule AdService.Query.ForDisplay do
       join: creative in assoc(campaign, :creative),
       join: large_image_asset in assoc(creative, :large_image_asset),
       left_join: small_image_asset in assoc(creative, :small_image_asset),
+      left_join: wide_image_asset in assoc(creative, :wide_image_asset),
       where: property.id == ^property_id,
       select: %UnrenderedAdvertisement{
         body: creative.body,
@@ -21,7 +22,8 @@ defmodule AdService.Query.ForDisplay do
         headline: creative.headline,
         images: [
           %AdService.UnprocessedImageAsset{size_descriptor: "small", asset: small_image_asset},
-          %AdService.UnprocessedImageAsset{size_descriptor: "large", asset: large_image_asset}
+          %AdService.UnprocessedImageAsset{size_descriptor: "large", asset: large_image_asset},
+          %AdService.UnprocessedImageAsset{size_descriptor: "wide", asset: wide_image_asset}
         ]
       }
     )
@@ -35,6 +37,7 @@ defmodule AdService.Query.ForDisplay do
       on: campaign.creative_id == creative.id,
       join: large_image_asset in assoc(creative, :large_image_asset),
       left_join: small_image_asset in assoc(creative, :small_image_asset),
+      left_join: wide_image_asset in assoc(creative, :wide_image_asset),
       join: audience in assoc(campaign, :audience),
       distinct: campaign.id
     )
@@ -51,7 +54,7 @@ defmodule AdService.Query.ForDisplay do
     |> where([_creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
     |> AdService.Query.TimeManagement.optionally_exclude_us_hours_only_campaigns()
     |> select(
-      [creative, campaign, large_image_asset, small_image_asset, ...],
+      [creative, campaign, large_image_asset, small_image_asset, wide_image_asset, ...],
       %UnrenderedAdvertisement{
         body: creative.body,
         ecpm: campaign.ecpm,
@@ -60,7 +63,8 @@ defmodule AdService.Query.ForDisplay do
         headline: creative.headline,
         images: [
           %AdService.UnprocessedImageAsset{size_descriptor: "small", asset: small_image_asset},
-          %AdService.UnprocessedImageAsset{size_descriptor: "large", asset: large_image_asset}
+          %AdService.UnprocessedImageAsset{size_descriptor: "large", asset: large_image_asset},
+          %AdService.UnprocessedImageAsset{size_descriptor: "wide", asset: wide_image_asset}
         ]
       }
     )

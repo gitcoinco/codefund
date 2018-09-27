@@ -4,7 +4,7 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionControllerTest do
 
   setup do
     {:ok, _pid} = TimeMachinex.ManagedClock.start()
-    creative = insert(:creative, small_image_asset: insert(:asset))
+    creative = insert(:creative, wide_image_asset: insert(:asset))
 
     audience = insert(:audience, name: "right one")
 
@@ -125,6 +125,12 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionControllerTest do
                      size_descriptor: "large",
                      url: "https://#{cdn_host}/image.jpg",
                      width: 280
+                   },
+                   %AdService.ImageAsset{
+                     height: 600,
+                     size_descriptor: "wide",
+                     url: "https://#{cdn_host}/image.jpg",
+                     width: 300
                    }
                  ],
                  description: "This is a Test Creative",
