@@ -166,6 +166,14 @@ defmodule CodeFundWeb.CampaignController do
             hint: "If checked, this campaign will only run between 5AM - 5PM PST (San Francisco)"
           ]
         ],
+        weekdays_only: [
+          type: :checkbox,
+          label: "Weekdays Only",
+          opts: [
+            hint:
+              "If checked, this campaign will only run on weekdays in the user's local timezone"
+          ]
+        ],
         start_date: [
           type: :hidden_input,
           label: "",

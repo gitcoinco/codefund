@@ -33,6 +33,7 @@ defmodule CodeFund.Schema.Campaign do
     field(:start_date, :naive_datetime)
     field(:end_date, :naive_datetime)
     field(:us_hours_only, :boolean)
+    field(:weekdays_only, :boolean)
 
     timestamps()
   end
