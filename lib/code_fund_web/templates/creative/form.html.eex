@@ -17,7 +17,7 @@
     wide_image_asset_id: [type: :select, label: "Wide Image", opts: [
       choices: @assets,
       prompt: "Select an Asset",
-      hint: "2:1 ratio, default is: 600x300px"
+      hint: "512x320"
     ]],
     wide_image_asset_id: [type: :image_preview, label: "", opts: [src: @conn.assigns |> Map.get(:wide_image_url) || nil ]]
   ] |> render_fields(@form)

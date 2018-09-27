@@ -127,10 +127,10 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionControllerTest do
                      width: 280
                    },
                    %AdService.ImageAsset{
-                     height: 600,
+                     height: 512,
                      size_descriptor: "wide",
                      url: "https://#{cdn_host}/image.jpg",
-                     width: 300
+                     width: 320
                    }
                  ],
                  description: "This is a Test Creative",
