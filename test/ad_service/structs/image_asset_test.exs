@@ -29,8 +29,8 @@ defmodule AdService.ImageAssetTest do
       assert ImageAsset.new("wide", asset) ==
                %ImageAsset{
                  size_descriptor: "wide",
-                 height: 600,
-                 width: 300,
+                 height: 512,
+                 width: 320,
                  url: "https://#{cdn_host}/image.jpg"
                }
     end

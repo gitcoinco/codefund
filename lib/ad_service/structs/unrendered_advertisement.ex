@@ -17,7 +17,7 @@ defmodule AdService.UnrenderedAdvertisement do
     for result <- results do
       images =
         Enum.map(
-          result.images,
+          Enum.reject(result.images, fn v -> is_nil(v.asset) end),
           &AdService.ImageAsset.new(&1.size_descriptor, &1.asset)
         )
 

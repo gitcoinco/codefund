@@ -10,7 +10,7 @@ defmodule AdService.ImageAsset do
   @types %{
     "small" => %{height: 200, width: 200},
     "large" => %{height: 200, width: 280},
-    "wide" => %{height: 600, width: 300}
+    "wide" => %{height: 512, width: 320}
   }
 
   @spec new(String.t(), %CodeFund.Schema.Asset{}) :: %__MODULE__{}
