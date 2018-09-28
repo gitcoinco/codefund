@@ -168,7 +168,7 @@
                 <%= link "Blog", to: page_path(@conn, :blog), class: "nav-link u-header__nav-link" %>
               </li>
               <li class="nav-item">
-                <%= link "FAQ", to: page_path(@conn, :faq), class: "nav-link u-header__nav-link" %>
+                <%= link "FAQ", to: page_path(@conn, :help), class: "nav-link u-header__nav-link" %>
               </li>
 
               <!-- Button -->
@@ -207,7 +207,6 @@
           <!-- List -->
           <ul class="list-unstyled mb-0">
             <li><%= link "Ethical Advertising", to: page_path(@conn, :ethical_advertising), class: "u-list__link" %></li>
-            <li><a class="u-list__link" href="https://github.com/gitcoinco/codefund/projects/1" target="_blank">Contributing</a></li>
             <li><%= link "Advertise with Us", to: page_path(@conn, :advertisers), class: "u-list__link" %></li>
             <li><%= link "Team", to: page_path(@conn, :team), class: "u-list__link" %></li>
           </ul>
@@ -221,10 +220,9 @@
 
           <!-- List -->
           <ul class="list-unstyled mb-0">
-            <li><a class="u-list__link" href="#">About</a></li>
-            <li><a class="u-list__link" href="#">Blog</a></li>
-            <li><a class="u-list__link" href="#">Newsletter</a></li>
-            <li><a class="u-list__link" href="#">Careers</a></li>
+            <li><%= link "About", to: page_path(@conn, :about), class: "u-list__link" %></li>
+            <li><%= link "Blog", to: page_path(@conn, :blog), class: "u-list__link" %></li>
+            <li><%= link "Media Kit", to: page_path(@conn, :media_kit), class: "u-list__link" %></li>
           </ul>
           <!-- End List -->
         </div>
@@ -236,8 +234,7 @@
 
           <!-- List -->
           <ul class="list-unstyled mb-0">
-            <li><a class="u-list__link" href="#">Media Kit</a></li>
-            <li><a class="u-list__link" href="#">Help</a></li>
+            <li><%= link "Help", to: page_path(@conn, :help), class: "u-list__link" %></li>
             <li><a class="u-list__link" href="#">Privacy Policy</a></li>
             <li><a class="u-list__link" href="#">Cookie Policy</a></li>
           </ul>
@@ -326,6 +323,8 @@
   <script src="<%= static_path(@conn, "/theme/js/components/hs.slick-carousel.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.show-animation.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.go-to.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.sticky-block.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.scroll-nav.js") %>"></script>
 
   <%= render_existing @view_module, "scripts." <> @view_template, assigns %>
 </body>

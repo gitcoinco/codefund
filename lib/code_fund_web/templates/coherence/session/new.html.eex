@@ -1,54 +1,64 @@
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-5">
-      <div class="card-group">
-        <div class="card p-4">
-          <div class="card-body">
-            <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
-              <% login_field = Coherence.Config.login_field %>
-              <h1>Login</h1>
-              <p class="text-muted">Sign In to your account</p>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-user"></i></span>
-                </div>
-                <%= text_input f, login_field, class: "form-control", placeholder: "Email", required: "" %>
-                <%= error_tag f, login_field %>
-              </div>
-              <div class="input-group mb-4">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-lock"></i></span>
-                </div>
-                <%= password_input f, :password, class: "form-control", placeholder: "Password", required: "" %>
-                <%= error_tag f, :password %>
-              </div>
-              <%= if @remember do %>
-                <div class="form-group">
-                  <div class="col-form-label">
-                    <div class="form-check checkbox">
-                      <input class="form-check-input" name="remember" type="checkbox" id="remember">
-                      <label class="form-check-label" for="remember">
-                        <%= dgettext "coherence", "Remember Me?" %>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-              <div class="row">
-                <div class="col-6">
-                  <%= submit dgettext("coherence", "Sign In"), class: "btn btn-primary px-4" %>
-                </div>
-                <div class="col-6 text-right">
-                  <%= link dgettext("coherence", "Cancel"), to: Coherence.Config.logged_out_url("/"), class: "btn btn-link px-0" %>
-                </div>
-              </div>
-            <% end %>
-            <div class="mt-4">
-              <%= coherence_links(@conn, :new_session) %>
-            </div>
+  <div class="row no-gutters">
+    <div class="col-md-8 col-lg-7 col-xl-6 offset-md-2 offset-lg-2 offset-xl-3 u-space-3 u-space-0--lg">
+      <!-- Form -->
+      <%= form_for @conn, session_path(@conn, :create), [as: :session, class: "js-validate mt-5"], fn f -> %>
+        <% login_field = Coherence.Config.login_field %>
+        <!-- Title -->
+        <div class="mb-7">
+          <h2 class="h3 text-codefund-purple font-weight-normal mb-0">Welcome <span class="font-weight-bold text-codefund-green">back</span></h2>
+          <p>Login to manage your account.</p>
+        </div>
+        <!-- End Title -->
+
+        <!-- Input -->
+        <div class="js-form-message mb-4">
+          <label class="h6 small d-block text-uppercase">Email address</label>
+
+          <div class="js-focus-state input-group u-form">
+            <%= email_input f, login_field, class: "form-control u-form__input", placeholder: "Email", required: "",
+              data: [
+                msg: "Please enter a valid email address.",
+                errorClass: "u-has-error",
+                successCass: "u-has-success"
+              ] %>
           </div>
         </div>
-      </div>
+        <!-- End Input -->
+
+        <!-- Input -->
+        <div class="js-form-message mb-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <label class="h6 small d-block text-uppercase">Password</label>
+
+            <div class="mb-2">
+              <%= link "Forgot Password?", to: password_path(@conn, :new), class: "small u-link-muted" %>
+            </div>
+          </div>
+
+          <div class="js-focus-state input-group u-form">
+            <%= password_input f, :password, class: "form-control u-form__input", placeholder: "Password", required: "",
+              data: [
+                msg: "Your password is invalid. Please try again.",
+                errorClass: "u-has-error",
+                successCass: "u-has-success"
+              ] %>
+          </div>
+        </div>
+        <!-- End Input -->
+
+        <!-- Button -->
+        <div class="row align-items-center mb-5">
+          <div class="ml-3 text-right">
+            <%= submit dgettext("coherence", "Login"), class: "btn btn-primary u-btn-primary transition-3d-hover" %>
+          </div>
+        </div>
+        <!-- End Button -->
+
+      <% end %>
+      <!-- End Form -->
     </div>
   </div>
 </div>
+
+
