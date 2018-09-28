@@ -18,7 +18,8 @@
   <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/bootstrap/css/bootstrap.css") %>">
 
   <!-- CSS Implementing Plugins -->
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
   <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/animate.css/animate.min.css") %>">
   <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/hs-megamenu/src/hs.megamenu.css") %>">
   <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css") %>">
@@ -205,10 +206,10 @@
 
           <!-- List -->
           <ul class="list-unstyled mb-0">
-            <li><a class="u-list__link" href="#">Ethical Advertising</a></li>
-            <li><a class="u-list__link" href="#">Contributing</a></li>
-            <li><a class="u-list__link" href="#">Advertise with Us</a></li>
-            <li><a class="u-list__link" href="#">CodeFund Team</a></li>
+            <li><%= link "Ethical Advertising", to: page_path(@conn, :ethical_advertising), class: "u-list__link" %></li>
+            <li><a class="u-list__link" href="https://github.com/gitcoinco/codefund/projects/1" target="_blank">Contributing</a></li>
+            <li><%= link "Advertise with Us", to: page_path(@conn, :advertisers), class: "u-list__link" %></li>
+            <li><%= link "Team", to: page_path(@conn, :team), class: "u-list__link" %></li>
           </ul>
           <!-- End List -->
         </div>
@@ -326,65 +327,6 @@
   <script src="<%= static_path(@conn, "/theme/js/components/hs.show-animation.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.go-to.js") %>"></script>
 
-  <!-- JS Plugins Init. -->
-  <script>
-    $(window).on('load', function () {
-      // initialization of HSMegaMenu component
-      $('.js-mega-menu').HSMegaMenu({
-        event: 'hover',
-        pageContainer: $('.container'),
-        breakpoint: 767,
-        hideTimeOut: 0
-      });
-    });
-
-    $(document).on('ready', function () {
-      // initialization of header
-      $.HSCore.components.HSHeader.init($('#header'));
-
-      // initialization of unfold component
-      $.HSCore.components.HSUnfold.init($('[data-unfold-target]'), {
-        afterOpen: function () {
-          $(this).find('input[type="search"]').focus();
-        }
-      });
-
-      // initialization of malihu scrollbar
-      $.HSCore.components.HSMalihuScrollBar.init($('.js-scrollbar'));
-
-      // initialization of forms
-      $.HSCore.helpers.HSFocusState.init();
-
-      // initialization of form validation
-      $.HSCore.components.HSValidation.init('.js-validate', {
-        rules: {
-          confirmPassword: {
-            equalTo: '#password'
-          }
-        }
-      });
-
-      // initialization of show animations
-      $.HSCore.components.HSShowAnimation.init('.js-animation-link');
-
-      // initialization of fancybox
-      $.HSCore.components.HSFancyBox.init('.js-fancybox');
-
-      // initialization of text animation (typing)
-      var typed = new Typed(".u-text-animation.u-text-animation--typing", {
-        strings: ["open source", "ethical", "developer driven"],
-        typeSpeed: 50,
-        loop: true,
-        backSpeed: 25,
-        backDelay: 1500
-      });
-
-      // initialization of slick carousel
-      $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
-
-      // initialization of go to
-      $.HSCore.components.HSGoTo.init('.js-go-to');
-    });
-  </script>
+  <%= render_existing @view_module, "scripts." <> @view_template, assigns %>
 </body>
 </html>

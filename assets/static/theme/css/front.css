@@ -8490,3 +8490,11 @@ button:focus {
 .bootstrap-select .dropdown-toggle:focus {
   outline: 0 !important;
 }
+
+.text-codefund-purple {
+  color: #15003e;
+}
+
+.text-codefund-green {
+  color: #10ce7c;
+}

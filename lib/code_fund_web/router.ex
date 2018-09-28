@@ -81,6 +81,8 @@ defmodule CodeFundWeb.Router do
     get("/publishers", PageController, :publishers)
     get("/blog", PageController, :blog)
     get("/faq", PageController, :faq)
+    get("/team", PageController, :team)
+    get("/ethical-advertising", PageController, :ethical_advertising)
     post("/register/:type", PageController, :deliver_form)
     get("/register/:type", PageController, :contact)
     get("/p/:impression_id/pixel.png", TrackController, :pixel)

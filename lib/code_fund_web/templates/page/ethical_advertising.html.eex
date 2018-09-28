@@ -1,0 +1,10 @@
+<main id="content" role="main">
+	<div class="d-flex align-items-center position-relative u-bg-gradient-v1 u-space-4-top u-space-5-top--md u-space-0--lg min-height-100vh--lg">
+    <div class="container">
+      <div class="w-md-80 w-lg-50 text-center mx-auto pb-4">
+        <h2 class="h1 text-codefund-purple">Ethical <span class="font-weight-bold text-codefund-green">Advertising</span></h2>
+        <p>We are just a bunch of nerds trying to help others nerds.</p>
+      </div>
+    </div>
+  </div>
+</div>

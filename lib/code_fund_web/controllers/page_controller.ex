@@ -34,6 +34,18 @@ defmodule CodeFundWeb.PageController do
     |> render("faq.html")
   end
 
+  def team(conn, _params) do
+    conn
+    |> put_layout("home.html")
+    |> render("team.html")
+  end
+
+  def ethical_advertising(conn, _params) do
+    conn
+    |> put_layout("home.html")
+    |> render("ethical_advertising.html")
+  end
+
   def contact(conn, %{"type" => type}) when type in ["advertiser", "publisher"] do
     render(conn, "#{type}.html")
   end

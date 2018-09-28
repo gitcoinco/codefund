@@ -152,6 +152,7 @@
     </div>
     <!-- End Title -->
 
+    <!-- TODO: Replace with dynamic content -->
     <div class="row justify-content-center">
       <div class="col-sm-4 col-lg-3 mb-7 mb-sm-0">
         <!-- Facts & Figures -->
@@ -161,7 +162,7 @@
               <h4 class="display-4 text-primary mb-0">4.6M</h4>
             </div>
           </div>
-          <p class="mb-0">ad impression<br>for October</p>
+          <p class="mb-0">total ad<br>impression</p>
         </div>
         <!-- End Facts & Figures -->
       </div>

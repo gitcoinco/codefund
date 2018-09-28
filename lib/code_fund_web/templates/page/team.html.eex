@@ -1,0 +1,151 @@
+<main id="content" role="main">
+	<div class="d-flex align-items-center position-relative u-bg-gradient-v1 u-space-4-top u-space-5-top--md u-space-0--lg min-height-100vh--lg">
+    <div class="container">
+      <div class="w-md-80 w-lg-50 text-center mx-auto pb-4">
+        <h2 class="h1 text-codefund-purple">Meet our <span class="font-weight-bold text-codefund-green">Team</span></h2>
+        <p>We are just a bunch of nerds trying to help others nerds.</p>
+      </div>
+
+      <div class="card-deck d-block d-md-flex">
+        <!-- Eric -->
+        <div class="card mb-3">
+          <div class="card-body text-center p-0">
+            <div class="py-4 px-6">
+              <!-- Team -->
+              <div class="mb-4">
+                <div class="position-relative u-lg-avatar mx-auto mb-3">
+                  <img class="u-lg-avatar rounded-circle" src="https://avatars3.githubusercontent.com/u/12481?s=460&v=4" alt="Eric Berry">
+                </div>
+
+                <h2 class="h6 mb-0">
+                  <a href="#">Eric Berry</a>
+                </h2>
+                <span class="small">OSS Fanatic</span>
+              </div>
+              <!-- End Team -->
+
+              <!-- Social Networks -->
+              <ul class="list-inline mb-0">
+                <li class="list-inline-item">
+                  <a class="u-icon u-icon--sm u-icon-secondary--air rounded-circle" href="https://twitter.com/coderberry/">
+                    <span class="fab fa-twitter u-icon__inner"></span>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="u-icon u-icon--sm u-icon-secondary--air rounded-circle" href="https://www.instagram.com/coderberry">
+                    <span class="fab fa-instagram u-icon__inner"></span>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="u-icon u-icon--sm u-icon-secondary--air rounded-circle" href="https://github.com/coderberry">
+                    <span class="fab fa-github u-icon__inner"></span>
+                  </a>
+                </li>
+              </ul>
+              <!-- End Social Networks -->
+            </div>
+
+            <hr class="my-0">
+
+            <div class="py-4">
+              <a class="btn btn-sm u-btn-primary--air transition-3d-hover" href="mailto:eric@codefund.io">
+                <span class="far fa-envelope mr-2"></span>
+                Send a Message
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- End Eric -->
+
+        <!-- Justin -->
+        <div class="card mb-3">
+          <div class="card-body text-center p-0">
+            <div class="py-4 px-6">
+              <!-- Team -->
+              <div class="mb-4">
+                <div class="position-relative u-lg-avatar mx-auto mb-3">
+                  <img class="u-lg-avatar rounded-circle" src="https://avatars2.githubusercontent.com/u/1427179?s=460&v=4" alt="Justin Bean">
+                </div>
+
+                <h2 class="h6 mb-0">
+                  <a href="#">Justin Bean</a>
+                </h2>
+                <span class="small">Elixir Guru</span>
+              </div>
+              <!-- End Team -->
+
+              <!-- Social Networks -->
+              <ul class="list-inline mb-0">
+                <li class="list-inline-item">
+                  <a class="u-icon u-icon--sm u-icon-secondary--air rounded-circle" href="https://github.com/StareIntoTheBeard">
+                    <span class="fab fa-github u-icon__inner"></span>
+                  </a>
+                </li>
+              </ul>
+              <!-- End Social Networks -->
+            </div>
+
+            <hr class="my-0">
+
+            <div class="py-4">
+              <a class="btn btn-sm u-btn-primary--air transition-3d-hover" href="mailto:justin@codefund.io">
+                <span class="far fa-envelope mr-2"></span>
+                Send a Message
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- End Justin -->
+
+        <!-- Nathan -->
+        <div class="card mb-3">
+          <div class="card-body text-center p-0">
+            <div class="py-4 px-6">
+              <!-- Team -->
+              <div class="mb-4">
+                <div class="position-relative u-lg-avatar mx-auto mb-3">
+                  <img class="u-lg-avatar rounded-circle" src="https://avatars1.githubusercontent.com/u/32920?s=460&v=4" alt="Nathan Hopkins">
+                </div>
+
+                <h2 class="h6 mb-0">
+                  <a href="#">Nathan Hopkins</a>
+                </h2>
+                <span class="small">Unicorn</span>
+              </div>
+              <!-- End Team -->
+
+              <!-- Social Networks -->
+              <ul class="list-inline mb-0">
+                <li class="list-inline-item">
+                  <a class="u-icon u-icon--sm u-icon-secondary--air rounded-circle" href="https://www.instagram.com/hopsoft/">
+                    <span class="fab fa-twitter u-icon__inner"></span>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="u-icon u-icon--sm u-icon-secondary--air rounded-circle" href="https://github.com/hopsoft">
+                    <span class="fab fa-github u-icon__inner"></span>
+                  </a>
+                </li>
+              </ul>
+              <!-- End Social Networks -->
+            </div>
+
+            <hr class="my-0">
+
+            <div class="py-4">
+              <a class="btn btn-sm u-btn-primary--air transition-3d-hover" href="mailto:nate@codefund.io">
+                <span class="far fa-envelope mr-2"></span>
+                Send a Message
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- End Nathan -->
+
+      </div>
+		</div>
+	</div>
+</main>
+
+
+
