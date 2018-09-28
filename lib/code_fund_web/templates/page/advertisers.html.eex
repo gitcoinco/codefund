@@ -1,741 +1,662 @@
-  <!-- ========== MAIN ========== -->
-  <main id="content" role="main">
-    <!-- Hero Section -->
-    <div class="position-relative u-gradient-half-primary-v3">
-      <div class="container u-space-4-top u-space-5-top--md u-space-4-top--lg u-space-2-bottom">
-        <div class="row align-items-lg-center">
-          <div class="col-lg-5 mb-7 mb-lg-0">
-            <!-- Info -->
-            <h1 class="mb-4 text-codefund-purple">Your ads will reach the <span class="text-codefund-green font-weight-bold">right</span> audience.</h1>
-            <p>CodeFund provides a turn-key advertising solution to place your ad in front of software developers of many programming languages.</p>
-            <!-- End Info -->
-          </div>
+<!-- ========== MAIN ========== -->
+<main id="content" role="main">
+	<!-- Hero Section -->
+	<div class="position-relative u-gradient-half-primary-v3">
+		<div class="container u-space-4-top u-space-5-top--md u-space-4-top--lg u-space-2-bottom">
+			<div class="row align-items-lg-center">
+				<div class="col-lg-5 mb-7 mb-lg-0">
+					<!-- Info -->
+					<h1 class="mb-4 text-codefund-purple">Your ads will reach the <span class="text-codefund-green font-weight-bold">right</span> audience.</h1>
+					<p>CodeFund provides a turn-key advertising solution to place your ad in front of software developers of many programming languages.</p>
+					<!-- End Info -->
+				</div>
 
-          <div class="col-lg-7">
-            <!-- SVG Icon -->
-            <img src="<%= static_path(@conn, "/theme/svg/flat-icons/we-have-an-idea-flat-concept-illustration.svg") %>">
-            <!-- End SVG Icon -->
-          </div>
-        </div>
-      </div>
+				<div class="col-lg-7">
+					<!-- SVG Icon -->
+					<img src="<%= static_path(@conn, "/theme/svg/flat-icons/we-have-an-idea-flat-concept-illustration.svg") %>">
+					<!-- End SVG Icon -->
+				</div>
+			</div>
+		</div>
 
-      <!-- SVG Background -->
-      <figure class="position-absolute-bottom-0">
-        <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-             width="100%" height="140px" viewBox="20 -20 300 100" style="margin-bottom: -8px;" xml:space="preserve">
-          <path class="u-fill-white" opacity="0.4" d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
-      c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" />
-          <path class="u-fill-white" opacity="0.4" d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
-      c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z" />
-          <path class="u-fill-white" opacity="0" d="M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716
-      H42.401L43.415,98.342z" />
-          <path class="u-fill-white" d="M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428
-      c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z" />
-        </svg>
-      </figure>
-      <!-- End SVG Background Section -->
-    </div>
-    <!-- End Hero Section -->
+		<!-- SVG Background -->
+		<figure class="position-absolute-bottom-0">
+			<svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+						width="100%" height="140px" viewBox="20 -20 300 100" style="margin-bottom: -8px;" xml:space="preserve">
+				<path class="u-fill-white" opacity="0.4" d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
+		c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" />
+				<path class="u-fill-white" opacity="0.4" d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
+		c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z" />
+				<path class="u-fill-white" opacity="0" d="M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716
+		H42.401L43.415,98.342z" />
+				<path class="u-fill-white" d="M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428
+		c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z" />
+			</svg>
+		</figure>
+		<!-- End SVG Background Section -->
+	</div>
+	<!-- End Hero Section -->
 
-    <!-- Front for -->
-    <div class="container u-space-2-top u-space-3-bottom">
-      <!-- Title -->
-      <div class="w-md-80 w-lg-50 text-center mx-auto mb-9">
-        <span class="u-label u-label--sm u-label--success mb-2">CodeFund</span>
-        <h2 class="text-codefund-purple font-weight-normal">Who is <span class="font-weight-bold text-codefund-green">CodeFund</span> for?</h2>
-        <p>SaaS companies. Training services. Developer announcements. More!</p>
-      </div>
-      <!-- End Title -->
+	<!-- Front for -->
+	<div class="container u-space-2-top u-space-3-bottom">
+		<!-- Title -->
+		<div class="w-md-80 w-lg-50 text-center mx-auto mb-9">
+			<span class="u-label u-label--sm u-label--success mb-2">CodeFund</span>
+			<h2 class="text-codefund-purple font-weight-normal">Who is <span class="font-weight-bold text-codefund-green">CodeFund</span> for?</h2>
+			<p>SaaS companies. Training services. Developer announcements. More!</p>
+		</div>
+		<!-- End Title -->
 
-      <div class="row align-items-lg-center">
-        <div class="col-lg-5 order-lg-2 mb-7 mb-lg-0">
-          <!-- Info -->
-          <div class="pl-lg-7">
-            <div class="mb-4">
-              <h3 class="h5">SaaS Companies</h3>
-              <p>If your product is typically sold to software developers, you are in the right place. We can get your products or services seen all over the world.</p>
-            </div>
+		<div class="row align-items-lg-center">
+			<div class="col-lg-5 order-lg-2 mb-7 mb-lg-0">
+				<!-- Info -->
+				<div class="pl-lg-7">
+					<div class="mb-4">
+						<h3 class="h5">SaaS Companies</h3>
+						<p>If your product is typically sold to software developers, you are in the right place. We can get your products or services seen all over the world.</p>
+					</div>
 
-            <!-- Link -->
-            <a class="media align-items-center shadow-sm p-4" href="#">
-              <span class="d-flex mr-3">
-                <img class="img-fluid u-avatar rounded-circle" src="<%= static_path(@conn, "/theme/img/icons/img2.png") %>" alt="Image Description">
-              </span>
-              <span class="media-body">
-                <span class="d-flex justify-content-between align-items-center font-weight-bold">
-                  Advertise with CodeFund <span class="fa fa-angle-right"></span>
-                </span>
-              </span>
-            </a>
-            <!-- End Link -->
-          </div>
-          <!-- End Info -->
-        </div>
+					<!-- Link -->
+					<%= link to: page_path(@conn, :contact, :advertiser), class: "media align-items-center shadow-sm p-4" do %>
+						<span class="d-flex mr-3">
+							<img class="img-fluid u-avatar rounded-circle" src="<%= static_path(@conn, "/theme/img/icons/img2.png") %>" alt="Image Description">
+						</span>
+						<span class="media-body">
+							<span class="d-flex justify-content-between align-items-center font-weight-bold">
+								Advertise with CodeFund <span class="fa fa-angle-right"></span>
+							</span>
+						</span>
+					<% end %>
+					<!-- End Link -->
+				</div>
+				<!-- End Info -->
+			</div>
 
-        <div class="col-lg-7 order-lg-1 mb-7 mb-lg-0">
-          <!-- SVG Icon -->
-          <img src="<%= static_path(@conn, "/theme/svg/flat-icons/sitting-woman-flat-concept-illustration.svg") %>" alt="SVG Illustration">
-          <!-- End SVG Icon -->
-        </div>
-      </div>
-    </div>
-    <!-- End Front for -->
+			<div class="col-lg-7 order-lg-1 mb-7 mb-lg-0">
+				<!-- SVG Icon -->
+				<img src="<%= static_path(@conn, "/theme/svg/flat-icons/sitting-woman-flat-concept-illustration.svg") %>" alt="SVG Illustration">
+				<!-- End SVG Icon -->
+			</div>
+		</div>
+	</div>
+	<!-- End Front for -->
 
-    <!-- Features Section -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 mb-7 mb-lg-0">
-          <div class="media d-block d-sm-flex pr-md-4">
-            <!-- SVG Icon -->
-            <figure class="w-40 mr-4 mb-4 mb-sm-0">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                   viewBox="0 0 199.4 95.2" style="enable-background:new 0 0 199.4 95.2;" xml:space="preserve">
-                <g id="XMLID_336_1">
-                  <g id="XMLID_776_1">
-                    <path id="XMLID_769_1" class="u-fill-white" d="M165.2,39.8l-0.4-2.2c-0.2-1.6-1.6-2.7-3.2-2.5l-33.2,4.3c-1.6,0.2-2.7,1.6-2.5,3.2l6.1,46.8
-                      l37.6-11.5L165.2,39.8z"/>
-                    <path id="XMLID_298_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M165.2,39.8l-0.4-2.2c-0.2-1.6-1.6-2.7-3.2-2.5l-22.8,3"/>
-                    <path id="XMLID_297_1" class="u-fill-primary-lighter" opacity=".3" d="M136.6,94.5h35.6c1,0,1.8-0.8,1.8-1.8V43.4c0-1-0.8-1.8-1.8-1.8h-35.6c-1,0-1.8,0.8-1.8,1.8
-                      v49.3C134.8,93.7,135.6,94.5,136.6,94.5z"/>
-                    <path id="XMLID_296_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M170.8,94.5c1.7,0,3.2-1.4,3.2-3.2V44.8c0-1.7-1.4-3.2-3.2-3.2h-24.5"/>
-                    <line id="XMLID_760_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="47.2" x2="170.4" y2="47.2"/>
-                    <line id="XMLID_759_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="52.3" x2="170.4" y2="52.3"/>
-                    <line id="XMLID_292_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="57.4" x2="170.4" y2="57.4"/>
-                    <line id="XMLID_288_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="62.5" x2="170.4" y2="62.5"/>
-                    <line id="XMLID_763_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="67.7" x2="170.4" y2="67.7"/>
-                    <line id="XMLID_287_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="72.8" x2="170.4" y2="72.8"/>
-                    <line id="XMLID_285_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="78.3" x2="170.6" y2="78.3"/>
-                    <line id="XMLID_282_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="83.3" x2="170.6" y2="83.3"/>
-                    <line id="XMLID_279_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="88.3" x2="170.6" y2="88.3"/>
-                    <circle id="XMLID_768_1" class="u-fill-white" cx="154.4" cy="62.5" r="8.6"/>
-                    <circle id="XMLID_771_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" cx="154.4" cy="62.5" r="8.6"/>
-                  </g>
-                  <g id="XMLID_567_1">
-                    <path id="XMLID_577_1" class="u-fill-primary-lighter" opacity=".3" d="M52.6,22.5v71.2c0,0.4-0.3,0.8-0.8,0.8h-9.9c-0.4,0-0.8-0.3-0.8-0.8V22.5
-                      c0-0.4,0.3-0.8,0.8-0.8h9.9C52.3,21.8,52.6,22.1,52.6,22.5z"/>
-                    <path id="XMLID_262_1" class="u-fill-primary-lighter" opacity=".2" d="M41.8,94.5h4V21.8h-4c-0.4,0-0.7,0.3-0.7,0.7v71.3C41.2,94.2,41.5,94.5,41.8,94.5z"/>
-                    <path id="XMLID_261_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M41.2,93.7V22.6c0-0.4,0.4-0.8,0.8-0.8h9.8c0.4,0,0.8,0.4,0.8,0.8v6"/>
-                    <line id="XMLID_575_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="88.6" x2="46.4" y2="88.6"/>
-                    <line id="XMLID_574_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="80.9" x2="46.4" y2="80.9"/>
-                    <line id="XMLID_573_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="73.3" x2="46.4" y2="73.3"/>
-                    <line id="XMLID_572_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="65.6" x2="46.4" y2="65.6"/>
-                    <line id="XMLID_571_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="58" x2="46.4" y2="58"/>
-                    <line id="XMLID_570_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="50.3" x2="46.4" y2="50.3"/>
-                    <line id="XMLID_569_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="42.7" x2="46.4" y2="42.7"/>
-                    <line id="XMLID_568_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="35" x2="46.4" y2="35"/>
-                    <line id="XMLID_258_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="27.5" x2="46.4" y2="27.5"/>
-                  </g>
-                  <g id="XMLID_392_1">
-                    <line id="XMLID_397_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="181" y1="37.6" x2="185" y2="37.6"/>
-                    <line id="XMLID_396_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="183" y1="39.7" x2="183" y2="35.6"/>
-                  </g>
-                  <g id="XMLID_263_1">
-                    <line id="XMLID_265_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="80.2" y1="18.8" x2="84.2" y2="18.8"/>
-                    <line id="XMLID_264_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="82.2" y1="20.8" x2="82.2" y2="16.8"/>
-                  </g>
-                  <g id="XMLID_360_1">
-                    <line id="XMLID_365_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="141.1" y1="8.6" x2="144" y2="5.7"/>
-                    <line id="XMLID_364_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="144" y1="8.6" x2="141.1" y2="5.7"/>
-                  </g>
-                  <g id="XMLID_266_1">
-                    <line id="XMLID_272_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="11.7" y1="33.3" x2="14.5" y2="30.4"/>
-                    <line id="XMLID_269_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="14.5" y1="33.3" x2="11.7" y2="30.4"/>
-                  </g>
-                  <line id="XMLID_322_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="67.8" y1="0.7" x2="95.8" y2="0.7"/>
-                  <line id="XMLID_171_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="117.3" y1="21.8" x2="145.3" y2="21.8"/>
-                  <line id="XMLID_320_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="82.9" y1="7.1" x2="134.7" y2="7.1"/>
-                  <line id="XMLID_259_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="0" y1="43.3" x2="26.2" y2="43.3"/>
-                  <line id="XMLID_333_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="181" y1="44" x2="199.4" y2="44"/>
-                  <line id="XMLID_318_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="100.7" y1="0.7" x2="97.3" y2="0.7"/>
-                  <path id="XMLID_271_1" class="u-fill-primary" d="M111.6,30.5c0,0.7-0.6,1.3-1.3,1.3c-0.7,0-1.3-0.6-1.3-1.3c0-0.7,0.6-1.3,1.3-1.3
-                    C111,29.2,111.6,29.8,111.6,30.5z"/>
-                  <path id="XMLID_278_1" class="u-fill-primary" d="M26.9,64.5c0,0.9-0.8,1.7-1.7,1.7c-0.9,0-1.7-0.8-1.7-1.7c0-0.9,0.8-1.7,1.7-1.7
-                    C26.1,62.9,26.9,63.6,26.9,64.5z"/>
-                  <path id="XMLID_321_1" class="u-fill-primary" d="M48.6,14.8c0,0.9-0.8,1.7-1.7,1.7c-0.9,0-1.7-0.8-1.7-1.7c0-0.9,0.8-1.7,1.7-1.7
-                    C47.9,13.1,48.6,13.8,48.6,14.8z"/>
-                  <path id="XMLID_325_1" class="u-fill-primary" d="M186.7,79c0,0.9-0.8,1.7-1.7,1.7c-0.9,0-1.7-0.8-1.7-1.7c0-0.9,0.8-1.7,1.7-1.7
-                    C186,77.3,186.7,78.1,186.7,79z"/>
-                  <g id="XMLID_43_1">
-                    <path id="XMLID_172_1" class="u-fill-white" d="M136.5,94.4L136.2,44c0-3.8-3.5-6.9-7.8-6.9H56.1l0.3,57.5L136.5,94.4z"/>
-                    <path id="XMLID_173_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M136.5,94.4L136.2,44c0-3.8-3.5-6.9-7.8-6.9H56.1"/>
-                    <path id="XMLID_170_1" class="u-fill-primary-lighter" d="M128.9,94.5h8.1V34.9c0-3.1-2.8-5.6-6.2-5.6h-1.9V94.5z"/>
-                    <path id="XMLID_169_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M137,43v-7.5c0-3.4-2.8-6.2-6.2-6.2h-1.9v65.2"/>
-                    <path id="XMLID_202_1" class="u-fill-primary-lighter" d="M59,94.5h-8.1V34.9c0-3.1,2.8-5.6,6.2-5.6H59V94.5z"/>
-                    <path id="XMLID_200_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M50.9,94.5v-59c0-3.4,2.8-6.2,6.2-6.2H59v65.2"/>
-                    <circle id="XMLID_167_1" class="u-fill-primary-lighter" opacity=".2" cx="98.4" cy="63.4" r="14.3"/>
-                    <g id="XMLID_159_1">
-                      <g id="XMLID_267_1">
-                        <circle id="XMLID_268_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" stroke-dasharray="1.8746,1.8746" cx="91.6" cy="70.3" r="14.3"/>
-                      </g>
-                    </g>
-                  </g>
-                  <g id="XMLID_145_1">
-                    <line id="XMLID_154_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="22.8" y1="94.5" x2="179.1" y2="94.5"/>
-                    <line id="XMLID_147_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="18.5" y1="94.5" x2="21.1" y2="94.5"/>
-                    <line id="XMLID_146_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="180.6" y1="94.5" x2="186.3" y2="94.5"/>
-                  </g>
-                  <path id="XMLID_342_1" class="u-fill-primary" opacity=".3" d="M128.9,94.5L128.9,94.5l8.1,0v-0.1l0.2,0L137,52.1V43h0.7v-1.4L86.5,92.8
-                    c-0.4,0.4-0.5,1-0.3,1.5c0,0,0.1,0.1,0.1,0.1l42,0v0.1H128.9z M105.6,86.3L133.9,58v28.3H105.6z"/>
-                  <g id="XMLID_229_1">
-                    <g id="XMLID_203_1">
-                      <path id="XMLID_206_1" class="u-fill-primary-lighter" opacity=".2" d="M144.5,94.5H89.8c-0.6,0-0.9-0.7-0.5-1.2l54-54c0.4-0.4,1.2-0.1,1.2,0.5V94.5z M106.3,87
-                        H137V56.3L106.3,87z"/>
-                    </g>
-                    <g id="XMLID_204_1">
-                      <path id="XMLID_209_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M144.5,94.5H89.8c-0.6,0-0.9-0.7-0.5-1.2l54-54c0.4-0.4,1.2-0.1,1.2,0.5V94.5z M106.3,87
-                        H137V56.3L106.3,87z"/>
-                    </g>
-                    <line id="XMLID_218_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="97.2" y1="90.9" x2="97.2" y2="94.5"/>
-                    <line id="XMLID_217_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="103.1" y1="90.9" x2="103.1" y2="94.5"/>
-                    <line id="XMLID_220_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="109.1" y1="90.9" x2="109.1" y2="94.5"/>
-                    <line id="XMLID_221_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="115" y1="90.9" x2="115" y2="94.5"/>
-                    <line id="XMLID_223_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="121" y1="90.9" x2="121" y2="94.5"/>
-                    <line id="XMLID_224_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="126.9" y1="90.9" x2="126.9" y2="94.5"/>
-                    <line id="XMLID_226_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="132.9" y1="90.9" x2="132.9" y2="94.5"/>
-                    <line id="XMLID_227_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="138.8" y1="90.9" x2="138.8" y2="94.5"/>
-                    <line id="XMLID_249_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="87.7" x2="144.4" y2="87.7"/>
-                    <line id="XMLID_242_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="81.7" x2="144.4" y2="81.7"/>
-                    <line id="XMLID_241_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="75.8" x2="144.4" y2="75.8"/>
-                    <line id="XMLID_234_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="69.8" x2="144.4" y2="69.8"/>
-                    <line id="XMLID_233_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="63.9" x2="144.4" y2="63.9"/>
-                    <line id="XMLID_232_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="57.9" x2="144.4" y2="57.9"/>
-                    <line id="XMLID_231_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="52" x2="144.4" y2="52"/>
-                    <line id="XMLID_230_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="46" x2="144.4" y2="46"/>
-                  </g>
-                  <g id="XMLID_211_1">
-                    <path id="XMLID_257_1" class="u-fill-white" d="M32.1,94.5h4c0.3,0,0.6-0.2,0.6-0.6V35.8c0-0.1,0-0.2-0.1-0.2l-2-4.4c-0.2-0.4-0.8-0.4-1,0
-                      l-2,4.4c0,0.1-0.1,0.2-0.1,0.2V94C31.5,94.3,31.8,94.5,32.1,94.5z"/>
-                    <rect id="XMLID_270_1" x="31.5" y="37.6" class="u-fill-primary-lighter" width="5.1" height="51.3"/>
-                    <path id="XMLID_256_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M31.5,94.5h5.1V35.6l-2.3-4.9c-0.1-0.3-0.5-0.3-0.6,0l-2.3,4.9V94.5z"/>
-                    <line id="XMLID_255_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="36.8" y1="37.6" x2="31.5" y2="37.6"/>
-                    <line id="XMLID_214_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="37" y1="88.9" x2="31.1" y2="88.9"/>
-                  </g>
-                </g>
-              </svg>
-            </figure>
-            <!-- End SVG Icon -->
+	<!-- Features Section -->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 mb-7 mb-lg-0">
+				<div class="media d-block d-sm-flex pr-md-4">
+					<!-- SVG Icon -->
+					<figure class="w-40 mr-4 mb-4 mb-sm-0">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+									viewBox="0 0 199.4 95.2" style="enable-background:new 0 0 199.4 95.2;" xml:space="preserve">
+							<g id="XMLID_336_1">
+								<g id="XMLID_776_1">
+									<path id="XMLID_769_1" class="u-fill-white" d="M165.2,39.8l-0.4-2.2c-0.2-1.6-1.6-2.7-3.2-2.5l-33.2,4.3c-1.6,0.2-2.7,1.6-2.5,3.2l6.1,46.8
+										l37.6-11.5L165.2,39.8z"/>
+									<path id="XMLID_298_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M165.2,39.8l-0.4-2.2c-0.2-1.6-1.6-2.7-3.2-2.5l-22.8,3"/>
+									<path id="XMLID_297_1" class="u-fill-primary-lighter" opacity=".3" d="M136.6,94.5h35.6c1,0,1.8-0.8,1.8-1.8V43.4c0-1-0.8-1.8-1.8-1.8h-35.6c-1,0-1.8,0.8-1.8,1.8
+										v49.3C134.8,93.7,135.6,94.5,136.6,94.5z"/>
+									<path id="XMLID_296_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M170.8,94.5c1.7,0,3.2-1.4,3.2-3.2V44.8c0-1.7-1.4-3.2-3.2-3.2h-24.5"/>
+									<line id="XMLID_760_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="47.2" x2="170.4" y2="47.2"/>
+									<line id="XMLID_759_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="52.3" x2="170.4" y2="52.3"/>
+									<line id="XMLID_292_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="57.4" x2="170.4" y2="57.4"/>
+									<line id="XMLID_288_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="62.5" x2="170.4" y2="62.5"/>
+									<line id="XMLID_763_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="67.7" x2="170.4" y2="67.7"/>
+									<line id="XMLID_287_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="72.8" x2="170.4" y2="72.8"/>
+									<line id="XMLID_285_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="78.3" x2="170.6" y2="78.3"/>
+									<line id="XMLID_282_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="83.3" x2="170.6" y2="83.3"/>
+									<line id="XMLID_279_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="177.6" y1="88.3" x2="170.6" y2="88.3"/>
+									<circle id="XMLID_768_1" class="u-fill-white" cx="154.4" cy="62.5" r="8.6"/>
+									<circle id="XMLID_771_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" cx="154.4" cy="62.5" r="8.6"/>
+								</g>
+								<g id="XMLID_567_1">
+									<path id="XMLID_577_1" class="u-fill-primary-lighter" opacity=".3" d="M52.6,22.5v71.2c0,0.4-0.3,0.8-0.8,0.8h-9.9c-0.4,0-0.8-0.3-0.8-0.8V22.5
+										c0-0.4,0.3-0.8,0.8-0.8h9.9C52.3,21.8,52.6,22.1,52.6,22.5z"/>
+									<path id="XMLID_262_1" class="u-fill-primary-lighter" opacity=".2" d="M41.8,94.5h4V21.8h-4c-0.4,0-0.7,0.3-0.7,0.7v71.3C41.2,94.2,41.5,94.5,41.8,94.5z"/>
+									<path id="XMLID_261_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M41.2,93.7V22.6c0-0.4,0.4-0.8,0.8-0.8h9.8c0.4,0,0.8,0.4,0.8,0.8v6"/>
+									<line id="XMLID_575_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="88.6" x2="46.4" y2="88.6"/>
+									<line id="XMLID_574_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="80.9" x2="46.4" y2="80.9"/>
+									<line id="XMLID_573_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="73.3" x2="46.4" y2="73.3"/>
+									<line id="XMLID_572_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="65.6" x2="46.4" y2="65.6"/>
+									<line id="XMLID_571_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="58" x2="46.4" y2="58"/>
+									<line id="XMLID_570_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="50.3" x2="46.4" y2="50.3"/>
+									<line id="XMLID_569_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="42.7" x2="46.4" y2="42.7"/>
+									<line id="XMLID_568_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="35" x2="46.4" y2="35"/>
+									<line id="XMLID_258_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="41.2" y1="27.5" x2="46.4" y2="27.5"/>
+								</g>
+								<g id="XMLID_392_1">
+									<line id="XMLID_397_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="181" y1="37.6" x2="185" y2="37.6"/>
+									<line id="XMLID_396_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="183" y1="39.7" x2="183" y2="35.6"/>
+								</g>
+								<g id="XMLID_263_1">
+									<line id="XMLID_265_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="80.2" y1="18.8" x2="84.2" y2="18.8"/>
+									<line id="XMLID_264_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="82.2" y1="20.8" x2="82.2" y2="16.8"/>
+								</g>
+								<g id="XMLID_360_1">
+									<line id="XMLID_365_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="141.1" y1="8.6" x2="144" y2="5.7"/>
+									<line id="XMLID_364_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="144" y1="8.6" x2="141.1" y2="5.7"/>
+								</g>
+								<g id="XMLID_266_1">
+									<line id="XMLID_272_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="11.7" y1="33.3" x2="14.5" y2="30.4"/>
+									<line id="XMLID_269_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-linecap="round" stroke-miterlimit="10" x1="14.5" y1="33.3" x2="11.7" y2="30.4"/>
+								</g>
+								<line id="XMLID_322_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="67.8" y1="0.7" x2="95.8" y2="0.7"/>
+								<line id="XMLID_171_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="117.3" y1="21.8" x2="145.3" y2="21.8"/>
+								<line id="XMLID_320_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="82.9" y1="7.1" x2="134.7" y2="7.1"/>
+								<line id="XMLID_259_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="0" y1="43.3" x2="26.2" y2="43.3"/>
+								<line id="XMLID_333_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="181" y1="44" x2="199.4" y2="44"/>
+								<line id="XMLID_318_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="100.7" y1="0.7" x2="97.3" y2="0.7"/>
+								<path id="XMLID_271_1" class="u-fill-primary" d="M111.6,30.5c0,0.7-0.6,1.3-1.3,1.3c-0.7,0-1.3-0.6-1.3-1.3c0-0.7,0.6-1.3,1.3-1.3
+									C111,29.2,111.6,29.8,111.6,30.5z"/>
+								<path id="XMLID_278_1" class="u-fill-primary" d="M26.9,64.5c0,0.9-0.8,1.7-1.7,1.7c-0.9,0-1.7-0.8-1.7-1.7c0-0.9,0.8-1.7,1.7-1.7
+									C26.1,62.9,26.9,63.6,26.9,64.5z"/>
+								<path id="XMLID_321_1" class="u-fill-primary" d="M48.6,14.8c0,0.9-0.8,1.7-1.7,1.7c-0.9,0-1.7-0.8-1.7-1.7c0-0.9,0.8-1.7,1.7-1.7
+									C47.9,13.1,48.6,13.8,48.6,14.8z"/>
+								<path id="XMLID_325_1" class="u-fill-primary" d="M186.7,79c0,0.9-0.8,1.7-1.7,1.7c-0.9,0-1.7-0.8-1.7-1.7c0-0.9,0.8-1.7,1.7-1.7
+									C186,77.3,186.7,78.1,186.7,79z"/>
+								<g id="XMLID_43_1">
+									<path id="XMLID_172_1" class="u-fill-white" d="M136.5,94.4L136.2,44c0-3.8-3.5-6.9-7.8-6.9H56.1l0.3,57.5L136.5,94.4z"/>
+									<path id="XMLID_173_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M136.5,94.4L136.2,44c0-3.8-3.5-6.9-7.8-6.9H56.1"/>
+									<path id="XMLID_170_1" class="u-fill-primary-lighter" d="M128.9,94.5h8.1V34.9c0-3.1-2.8-5.6-6.2-5.6h-1.9V94.5z"/>
+									<path id="XMLID_169_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M137,43v-7.5c0-3.4-2.8-6.2-6.2-6.2h-1.9v65.2"/>
+									<path id="XMLID_202_1" class="u-fill-primary-lighter" d="M59,94.5h-8.1V34.9c0-3.1,2.8-5.6,6.2-5.6H59V94.5z"/>
+									<path id="XMLID_200_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M50.9,94.5v-59c0-3.4,2.8-6.2,6.2-6.2H59v65.2"/>
+									<circle id="XMLID_167_1" class="u-fill-primary-lighter" opacity=".2" cx="98.4" cy="63.4" r="14.3"/>
+									<g id="XMLID_159_1">
+										<g id="XMLID_267_1">
+											<circle id="XMLID_268_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" stroke-dasharray="1.8746,1.8746" cx="91.6" cy="70.3" r="14.3"/>
+										</g>
+									</g>
+								</g>
+								<g id="XMLID_145_1">
+									<line id="XMLID_154_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="22.8" y1="94.5" x2="179.1" y2="94.5"/>
+									<line id="XMLID_147_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="18.5" y1="94.5" x2="21.1" y2="94.5"/>
+									<line id="XMLID_146_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="180.6" y1="94.5" x2="186.3" y2="94.5"/>
+								</g>
+								<path id="XMLID_342_1" class="u-fill-primary" opacity=".3" d="M128.9,94.5L128.9,94.5l8.1,0v-0.1l0.2,0L137,52.1V43h0.7v-1.4L86.5,92.8
+									c-0.4,0.4-0.5,1-0.3,1.5c0,0,0.1,0.1,0.1,0.1l42,0v0.1H128.9z M105.6,86.3L133.9,58v28.3H105.6z"/>
+								<g id="XMLID_229_1">
+									<g id="XMLID_203_1">
+										<path id="XMLID_206_1" class="u-fill-primary-lighter" opacity=".2" d="M144.5,94.5H89.8c-0.6,0-0.9-0.7-0.5-1.2l54-54c0.4-0.4,1.2-0.1,1.2,0.5V94.5z M106.3,87
+											H137V56.3L106.3,87z"/>
+									</g>
+									<g id="XMLID_204_1">
+										<path id="XMLID_209_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M144.5,94.5H89.8c-0.6,0-0.9-0.7-0.5-1.2l54-54c0.4-0.4,1.2-0.1,1.2,0.5V94.5z M106.3,87
+											H137V56.3L106.3,87z"/>
+									</g>
+									<line id="XMLID_218_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="97.2" y1="90.9" x2="97.2" y2="94.5"/>
+									<line id="XMLID_217_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="103.1" y1="90.9" x2="103.1" y2="94.5"/>
+									<line id="XMLID_220_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="109.1" y1="90.9" x2="109.1" y2="94.5"/>
+									<line id="XMLID_221_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="115" y1="90.9" x2="115" y2="94.5"/>
+									<line id="XMLID_223_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="121" y1="90.9" x2="121" y2="94.5"/>
+									<line id="XMLID_224_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="126.9" y1="90.9" x2="126.9" y2="94.5"/>
+									<line id="XMLID_226_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="132.9" y1="90.9" x2="132.9" y2="94.5"/>
+									<line id="XMLID_227_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="138.8" y1="90.9" x2="138.8" y2="94.5"/>
+									<line id="XMLID_249_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="87.7" x2="144.4" y2="87.7"/>
+									<line id="XMLID_242_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="81.7" x2="144.4" y2="81.7"/>
+									<line id="XMLID_241_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="75.8" x2="144.4" y2="75.8"/>
+									<line id="XMLID_234_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="69.8" x2="144.4" y2="69.8"/>
+									<line id="XMLID_233_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="63.9" x2="144.4" y2="63.9"/>
+									<line id="XMLID_232_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="57.9" x2="144.4" y2="57.9"/>
+									<line id="XMLID_231_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="52" x2="144.4" y2="52"/>
+									<line id="XMLID_230_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="140.7" y1="46" x2="144.4" y2="46"/>
+								</g>
+								<g id="XMLID_211_1">
+									<path id="XMLID_257_1" class="u-fill-white" d="M32.1,94.5h4c0.3,0,0.6-0.2,0.6-0.6V35.8c0-0.1,0-0.2-0.1-0.2l-2-4.4c-0.2-0.4-0.8-0.4-1,0
+										l-2,4.4c0,0.1-0.1,0.2-0.1,0.2V94C31.5,94.3,31.8,94.5,32.1,94.5z"/>
+									<rect id="XMLID_270_1" x="31.5" y="37.6" class="u-fill-primary-lighter" width="5.1" height="51.3"/>
+									<path id="XMLID_256_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" d="M31.5,94.5h5.1V35.6l-2.3-4.9c-0.1-0.3-0.5-0.3-0.6,0l-2.3,4.9V94.5z"/>
+									<line id="XMLID_255_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="36.8" y1="37.6" x2="31.5" y2="37.6"/>
+									<line id="XMLID_214_1" class="u-fill-none u-stroke-primary" stroke-width="1.4306" stroke-miterlimit="10" x1="37" y1="88.9" x2="31.1" y2="88.9"/>
+								</g>
+							</g>
+						</svg>
+					</figure>
+					<!-- End SVG Icon -->
 
-            <div class="media-body">
-              <h3 class="h5">Programming Languages</h3>
+					<div class="media-body">
+						<h3 class="h5">Programming Languages</h3>
 
-              <div class="d-flex">
-                <!-- List -->
-                <ul class="list-unstyled text-secondary font-size-14 mr-md-4">
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    JavaScript
-                  </li>
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    Ruby
-                  </li>
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    Golang
-                  </li>
-                </ul>
-                <!-- End List -->
+						<div class="d-flex">
+							<!-- List -->
+							<ul class="list-unstyled text-secondary font-size-14 mr-md-4">
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									JavaScript
+								</li>
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									Ruby
+								</li>
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									Golang
+								</li>
+							</ul>
+							<!-- End List -->
 
-                <!-- List -->
-                <ul class="list-unstyled text-secondary font-size-14">
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    Python
-                  </li>
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    PHP
-                  </li>
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    More!
-                  </li>
-                </ul>
-                <!-- End List -->
-              </div>
-            </div>
-          </div>
-        </div>
+							<!-- List -->
+							<ul class="list-unstyled text-secondary font-size-14">
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									Python
+								</li>
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									PHP
+								</li>
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									More!
+								</li>
+							</ul>
+							<!-- End List -->
+						</div>
+					</div>
+				</div>
+			</div>
 
-        <div class="col-lg-6">
-          <div class="media d-block d-sm-flex pr-md-4">
-            <!-- SVG Icon -->
-            <figure class="w-40 mr-4 mb-4 mb-sm-0">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                   viewBox="0 0 199.4 94.5" style="enable-background:new 0 0 199.4 94.5;" xml:space="preserve">
-                <g id="XMLID_406_">
-                  <g id="XMLID_85_">
-                    <line id="XMLID_87_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="15.4" y1="31.8" x2="19.6" y2="31.8"/>
-                    <line id="XMLID_86_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="17.5" y1="34" x2="17.5" y2="29.7"/>
-                  </g>
-                  <g id="XMLID_111_">
-                    <line id="XMLID_149_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="145.2" y1="2.9" x2="149.5" y2="2.9"/>
-                    <line id="XMLID_134_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="147.4" y1="5" x2="147.4" y2="0.8"/>
-                  </g>
-                  <g id="XMLID_79_">
-                    <line id="XMLID_81_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="96.6" y1="14.1" x2="99.6" y2="11.1"/>
-                    <line id="XMLID_80_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="99.6" y1="14.1" x2="96.6" y2="11.1"/>
-                  </g>
-                  <g id="XMLID_105_">
-                    <line id="XMLID_107_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="195.7" y1="39.8" x2="198.7" y2="36.8"/>
-                    <line id="XMLID_106_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="198.7" y1="39.8" x2="195.7" y2="36.8"/>
-                  </g>
-                  <line id="XMLID_74_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="111.5" y1="12.6" x2="133.3" y2="12.6"/>
-                  <line id="XMLID_155_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="37.6" y1="12.6" x2="59.4" y2="12.6"/>
-                  <line id="XMLID_100_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="66.7" y1="6.3" x2="107.5" y2="6.3"/>
-                  <line id="XMLID_109_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="0" y1="49.1" x2="25.6" y2="49.1"/>
-                  <line id="XMLID_103_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="171.7" y1="65.6" x2="190.8" y2="65.6"/>
-                  <line id="XMLID_104_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="195.7" y1="65.6" x2="193.1" y2="65.6"/>
-                  <line id="XMLID_99_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="109.5" y1="12.6" x2="105.5" y2="12.6"/>
-                  <path id="XMLID_65_" class="u-fill-primary" d="M184.2,32.9c0,0.6-0.5,1.1-1.1,1.1c-0.6,0-1.1-0.5-1.1-1.1c0-0.6,0.5-1.1,1.1-1.1
-                    C183.7,31.8,184.2,32.3,184.2,32.9z"/>
-                  <path id="XMLID_150_" class="u-fill-primary" d="M59.9,20.1c0,0.9-0.7,1.6-1.6,1.6c-0.9,0-1.6-0.7-1.6-1.6c0-0.9,0.7-1.6,1.6-1.6
-                    C59.2,18.5,59.9,19.2,59.9,20.1z"/>
-                  <path id="XMLID_108_" class="u-fill-primary" d="M20.4,57.7c0,0.6-0.5,1.1-1.1,1.1c-0.6,0-1.1-0.5-1.1-1.1c0-0.6,0.5-1.1,1.1-1.1
-                    C19.9,56.7,20.4,57.1,20.4,57.7z"/>
-                  <g id="XMLID_98_">
-                    <g id="XMLID_264_">
-                      <path id="XMLID_472_" class="u-fill-primary-lighter" opacity=".6" d="M156.5,70.6H71.2V21.9c0-1.1,0.9-2,2-2h81.3c1.1,0,2,0.9,2,2V70.6z"/>
-                      <line id="XMLID_82_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="87.1" y1="20" x2="139.8" y2="20"/>
-                      <line id="XMLID_469_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="82.2" y1="20" x2="85.7" y2="20"/>
-                      <path id="XMLID_468_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M156.5,70.6H71.2V24.3c0-2.4,2-4.4,4.4-4.4h4.3"/>
-                      <rect id="XMLID_467_" x="75.9" y="24.9" class="u-fill-white" width="76.1" height="40"/>
-                      <rect id="XMLID_466_" x="101" y="78.3" class="u-fill-white" width="25.7" height="15.2"/>
-                      <rect id="XMLID_465_" x="101" y="78.3" class="u-fill-primary-lighter" opacity=".2" width="25.7" height="7.6"/>
-                      <polyline id="XMLID_461_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" points="101,92.9 101,78.3 126.7,78.3 126.7,92.9       "/>
-                      <path id="XMLID_463_" class="u-fill-white" d="M156.5,68.8H71.2v5.9c0,3.1,2.5,5.6,5.6,5.6h74c3.1,0,5.6-2.5,5.6-5.6V68.8z"/>
-                      <path id="XMLID_462_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M151.7,68.8H71.2v7.1c0,2.4,2,4.4,4.4,4.4h76"/>
-                      <rect id="XMLID_449_" x="81.2" y="27.7" class="u-fill-primary-lighter" opacity=".5" width="65.6" height="14.2"/>
-                      <rect id="XMLID_474_" x="105.3" y="44.1" class="u-fill-primary-lighter" opacity=".2" width="17.4" height="18.4"/>
-                      <rect id="XMLID_475_" x="129.3" y="44.1" class="u-fill-primary-lighter" opacity=".2" width="17.4" height="18.4"/>
-                      <line id="XMLID_101_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="156.3" y1="36.3" x2="156.3" y2="45.3"/>
-                    </g>
-                    <path id="XMLID_148_" class="u-fill-primary" opacity=".3" d="M104.5,43.6c0-1.3-1.1-2.4-2.4-2.4H70.5V68v3.4v4.5c0,2.9,2.3,5.2,5.2,5.2h24.6v11.9h0.8v0.6
-                      h4c1-0.7,1.7-1.7,1.9-3l0.6-3.4h-3V43.6z"/>
-                    <g id="XMLID_63_">
-                      <path id="XMLID_70_" class="u-fill-primary-lighter" opacity=".6" d="M100.8,90.8h-66c-0.6,0-1-0.5-1-1V42.9c0-0.5,0.4-1,1-1h66c0.6,0,1,0.5,1,1v46.9
-                        C101.8,90.4,101.3,90.8,100.8,90.8z"/>
-                      <path id="XMLID_147_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M35.5,90.8c-0.9,0-1.7-0.8-1.7-1.7V60.4"/>
-                      <path id="XMLID_145_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M64.3,41.9h35.8c0.9,0,1.7,0.8,1.7,1.7v44.4"/>
-                      <rect id="XMLID_69_" x="37.1" y="45.8" class="u-fill-primary" width="61" height="39.7"/>
-                      <path id="XMLID_332_" class="u-fill-white" d="M100.6,93.5H34.2c-1.6,0-3-1.2-3.2-2.7l-0.5-2.9h30.8l1.2,1.7H71l1.3-1.7h32.4l-0.4,2.5
-                        C104,92.2,102.4,93.5,100.6,93.5z"/>
-                      <path id="XMLID_78_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M100.6,93.5H34.2c-1.6,0-3-1.2-3.2-2.7l-0.5-2.9h30.8l1.2,1.7H71l1.3-1.7h32.4l-0.4,2.5
-                        C104,92.2,102.4,93.5,100.6,93.5z"/>
-                      <g id="XMLID_64_">
-                        <rect id="XMLID_597_" x="45.1" y="49.7" class="u-fill-white" width="6.8" height="0.9"/>
-                        <rect id="XMLID_596_" x="48.5" y="52.8" class="u-fill-white" width="4.7" height="0.9"/>
-                        <rect id="XMLID_595_" x="63.7" y="52.8" class="u-fill-white" width="32.9" height="0.9"/>
+			<div class="col-lg-6">
+				<div class="media d-block d-sm-flex pr-md-4">
+					<!-- SVG Icon -->
+					<figure class="w-40 mr-4 mb-4 mb-sm-0">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+									viewBox="0 0 199.4 94.5" style="enable-background:new 0 0 199.4 94.5;" xml:space="preserve">
+							<g id="XMLID_406_">
+								<g id="XMLID_85_">
+									<line id="XMLID_87_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="15.4" y1="31.8" x2="19.6" y2="31.8"/>
+									<line id="XMLID_86_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="17.5" y1="34" x2="17.5" y2="29.7"/>
+								</g>
+								<g id="XMLID_111_">
+									<line id="XMLID_149_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="145.2" y1="2.9" x2="149.5" y2="2.9"/>
+									<line id="XMLID_134_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="147.4" y1="5" x2="147.4" y2="0.8"/>
+								</g>
+								<g id="XMLID_79_">
+									<line id="XMLID_81_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="96.6" y1="14.1" x2="99.6" y2="11.1"/>
+									<line id="XMLID_80_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="99.6" y1="14.1" x2="96.6" y2="11.1"/>
+								</g>
+								<g id="XMLID_105_">
+									<line id="XMLID_107_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="195.7" y1="39.8" x2="198.7" y2="36.8"/>
+									<line id="XMLID_106_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" x1="198.7" y1="39.8" x2="195.7" y2="36.8"/>
+								</g>
+								<line id="XMLID_74_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="111.5" y1="12.6" x2="133.3" y2="12.6"/>
+								<line id="XMLID_155_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="37.6" y1="12.6" x2="59.4" y2="12.6"/>
+								<line id="XMLID_100_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="66.7" y1="6.3" x2="107.5" y2="6.3"/>
+								<line id="XMLID_109_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="0" y1="49.1" x2="25.6" y2="49.1"/>
+								<line id="XMLID_103_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="171.7" y1="65.6" x2="190.8" y2="65.6"/>
+								<line id="XMLID_104_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="195.7" y1="65.6" x2="193.1" y2="65.6"/>
+								<line id="XMLID_99_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="109.5" y1="12.6" x2="105.5" y2="12.6"/>
+								<path id="XMLID_65_" class="u-fill-primary" d="M184.2,32.9c0,0.6-0.5,1.1-1.1,1.1c-0.6,0-1.1-0.5-1.1-1.1c0-0.6,0.5-1.1,1.1-1.1
+									C183.7,31.8,184.2,32.3,184.2,32.9z"/>
+								<path id="XMLID_150_" class="u-fill-primary" d="M59.9,20.1c0,0.9-0.7,1.6-1.6,1.6c-0.9,0-1.6-0.7-1.6-1.6c0-0.9,0.7-1.6,1.6-1.6
+									C59.2,18.5,59.9,19.2,59.9,20.1z"/>
+								<path id="XMLID_108_" class="u-fill-primary" d="M20.4,57.7c0,0.6-0.5,1.1-1.1,1.1c-0.6,0-1.1-0.5-1.1-1.1c0-0.6,0.5-1.1,1.1-1.1
+									C19.9,56.7,20.4,57.1,20.4,57.7z"/>
+								<g id="XMLID_98_">
+									<g id="XMLID_264_">
+										<path id="XMLID_472_" class="u-fill-primary-lighter" opacity=".6" d="M156.5,70.6H71.2V21.9c0-1.1,0.9-2,2-2h81.3c1.1,0,2,0.9,2,2V70.6z"/>
+										<line id="XMLID_82_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="87.1" y1="20" x2="139.8" y2="20"/>
+										<line id="XMLID_469_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="82.2" y1="20" x2="85.7" y2="20"/>
+										<path id="XMLID_468_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M156.5,70.6H71.2V24.3c0-2.4,2-4.4,4.4-4.4h4.3"/>
+										<rect id="XMLID_467_" x="75.9" y="24.9" class="u-fill-white" width="76.1" height="40"/>
+										<rect id="XMLID_466_" x="101" y="78.3" class="u-fill-white" width="25.7" height="15.2"/>
+										<rect id="XMLID_465_" x="101" y="78.3" class="u-fill-primary-lighter" opacity=".2" width="25.7" height="7.6"/>
+										<polyline id="XMLID_461_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" points="101,92.9 101,78.3 126.7,78.3 126.7,92.9       "/>
+										<path id="XMLID_463_" class="u-fill-white" d="M156.5,68.8H71.2v5.9c0,3.1,2.5,5.6,5.6,5.6h74c3.1,0,5.6-2.5,5.6-5.6V68.8z"/>
+										<path id="XMLID_462_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M151.7,68.8H71.2v7.1c0,2.4,2,4.4,4.4,4.4h76"/>
+										<rect id="XMLID_449_" x="81.2" y="27.7" class="u-fill-primary-lighter" opacity=".5" width="65.6" height="14.2"/>
+										<rect id="XMLID_474_" x="105.3" y="44.1" class="u-fill-primary-lighter" opacity=".2" width="17.4" height="18.4"/>
+										<rect id="XMLID_475_" x="129.3" y="44.1" class="u-fill-primary-lighter" opacity=".2" width="17.4" height="18.4"/>
+										<line id="XMLID_101_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="156.3" y1="36.3" x2="156.3" y2="45.3"/>
+									</g>
+									<path id="XMLID_148_" class="u-fill-primary" opacity=".3" d="M104.5,43.6c0-1.3-1.1-2.4-2.4-2.4H70.5V68v3.4v4.5c0,2.9,2.3,5.2,5.2,5.2h24.6v11.9h0.8v0.6
+										h4c1-0.7,1.7-1.7,1.9-3l0.6-3.4h-3V43.6z"/>
+									<g id="XMLID_63_">
+										<path id="XMLID_70_" class="u-fill-primary-lighter" opacity=".6" d="M100.8,90.8h-66c-0.6,0-1-0.5-1-1V42.9c0-0.5,0.4-1,1-1h66c0.6,0,1,0.5,1,1v46.9
+											C101.8,90.4,101.3,90.8,100.8,90.8z"/>
+										<path id="XMLID_147_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M35.5,90.8c-0.9,0-1.7-0.8-1.7-1.7V60.4"/>
+										<path id="XMLID_145_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M64.3,41.9h35.8c0.9,0,1.7,0.8,1.7,1.7v44.4"/>
+										<rect id="XMLID_69_" x="37.1" y="45.8" class="u-fill-primary" width="61" height="39.7"/>
+										<path id="XMLID_332_" class="u-fill-white" d="M100.6,93.5H34.2c-1.6,0-3-1.2-3.2-2.7l-0.5-2.9h30.8l1.2,1.7H71l1.3-1.7h32.4l-0.4,2.5
+											C104,92.2,102.4,93.5,100.6,93.5z"/>
+										<path id="XMLID_78_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M100.6,93.5H34.2c-1.6,0-3-1.2-3.2-2.7l-0.5-2.9h30.8l1.2,1.7H71l1.3-1.7h32.4l-0.4,2.5
+											C104,92.2,102.4,93.5,100.6,93.5z"/>
+										<g id="XMLID_64_">
+											<rect id="XMLID_597_" x="45.1" y="49.7" class="u-fill-white" width="6.8" height="0.9"/>
+											<rect id="XMLID_596_" x="48.5" y="52.8" class="u-fill-white" width="4.7" height="0.9"/>
+											<rect id="XMLID_595_" x="63.7" y="52.8" class="u-fill-white" width="32.9" height="0.9"/>
 
-                          <rect id="XMLID_594_" x="56.5" y="52.8" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 118.2475 106.4526)" class="u-fill-white" width="5.3" height="0.9"/>
-                        <rect id="XMLID_593_" x="50.1" y="55.3" class="u-fill-white" width="9.4" height="0.9"/>
-                        <rect id="XMLID_592_" x="53.9" y="58.9" class="u-fill-white" width="11.9" height="0.9"/>
-                        <rect id="XMLID_591_" x="45.1" y="62.3" class="u-fill-white" width="13" height="0.9"/>
+												<rect id="XMLID_594_" x="56.5" y="52.8" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 118.2475 106.4526)" class="u-fill-white" width="5.3" height="0.9"/>
+											<rect id="XMLID_593_" x="50.1" y="55.3" class="u-fill-white" width="9.4" height="0.9"/>
+											<rect id="XMLID_592_" x="53.9" y="58.9" class="u-fill-white" width="11.9" height="0.9"/>
+											<rect id="XMLID_591_" x="45.1" y="62.3" class="u-fill-white" width="13" height="0.9"/>
 
-                          <rect id="XMLID_590_" x="59.5" y="62.3" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 128.4281 125.5552)" class="u-fill-white" width="9.4" height="0.9"/>
-                        <rect id="XMLID_589_" x="48.5" y="65.7" class="u-fill-white" width="17.5" height="0.9"/>
+												<rect id="XMLID_590_" x="59.5" y="62.3" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 128.4281 125.5552)" class="u-fill-white" width="9.4" height="0.9"/>
+											<rect id="XMLID_589_" x="48.5" y="65.7" class="u-fill-white" width="17.5" height="0.9"/>
 
-                          <rect id="XMLID_588_" x="73.1" y="65.7" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 157.8183 132.3406)" class="u-fill-white" width="11.6" height="0.9"/>
-                        <rect id="XMLID_587_" x="66.7" y="65.7" class="u-fill-white" width="5.5" height="0.9"/>
-                        <rect id="XMLID_586_" x="54.3" y="69.1" class="u-fill-white" width="15.3" height="0.9"/>
+												<rect id="XMLID_588_" x="73.1" y="65.7" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 157.8183 132.3406)" class="u-fill-white" width="11.6" height="0.9"/>
+											<rect id="XMLID_587_" x="66.7" y="65.7" class="u-fill-white" width="5.5" height="0.9"/>
+											<rect id="XMLID_586_" x="54.3" y="69.1" class="u-fill-white" width="15.3" height="0.9"/>
 
-                          <rect id="XMLID_585_" x="50.1" y="69.1" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 103.4445 139.1258)" class="u-fill-white" width="3.2" height="0.9"/>
-                        <rect id="XMLID_68_" x="45.1" y="71.6" class="u-fill-white" width="10.4" height="0.9"/>
-                        <rect id="XMLID_582_" x="56.3" y="71.6" class="u-fill-white" width="3.6" height="0.9"/>
-                        <rect id="XMLID_581_" x="60.9" y="71.6" class="u-fill-white" width="17.1" height="0.9"/>
+												<rect id="XMLID_585_" x="50.1" y="69.1" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 103.4445 139.1258)" class="u-fill-white" width="3.2" height="0.9"/>
+											<rect id="XMLID_68_" x="45.1" y="71.6" class="u-fill-white" width="10.4" height="0.9"/>
+											<rect id="XMLID_582_" x="56.3" y="71.6" class="u-fill-white" width="3.6" height="0.9"/>
+											<rect id="XMLID_581_" x="60.9" y="71.6" class="u-fill-white" width="17.1" height="0.9"/>
 
-                          <rect id="XMLID_580_" x="79.3" y="71.6" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 174.0936 144.1094)" class="u-fill-white" width="15.4" height="0.9"/>
-                        <rect id="XMLID_579_" x="48.5" y="75" class="u-fill-white" width="5.4" height="0.9"/>
+												<rect id="XMLID_580_" x="79.3" y="71.6" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 174.0936 144.1094)" class="u-fill-white" width="15.4" height="0.9"/>
+											<rect id="XMLID_579_" x="48.5" y="75" class="u-fill-white" width="5.4" height="0.9"/>
 
-                          <rect id="XMLID_578_" x="55.5" y="75" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 123.8735 150.8947)" class="u-fill-white" width="12.8" height="0.9"/>
-                        <rect id="XMLID_577_" x="51.4" y="78.4" class="u-fill-white" width="10.4" height="0.9"/>
-                        <rect id="XMLID_576_" x="64" y="78.4" class="u-fill-white" width="10.4" height="0.9"/>
-                        <rect id="XMLID_575_" x="76.1" y="78.4" class="u-fill-white" width="9.8" height="0.9"/>
+												<rect id="XMLID_578_" x="55.5" y="75" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 123.8735 150.8947)" class="u-fill-white" width="12.8" height="0.9"/>
+											<rect id="XMLID_577_" x="51.4" y="78.4" class="u-fill-white" width="10.4" height="0.9"/>
+											<rect id="XMLID_576_" x="64" y="78.4" class="u-fill-white" width="10.4" height="0.9"/>
+											<rect id="XMLID_575_" x="76.1" y="78.4" class="u-fill-white" width="9.8" height="0.9"/>
 
-                          <rect id="XMLID_351_" x="92.6" y="58.9" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 188.1425 118.7699)" class="u-fill-white" width="2.9" height="0.9"/>
-                        <rect id="XMLID_67_" x="66.9" y="58.9" class="u-fill-white" width="24.4" height="0.9"/>
-                        <rect id="XMLID_328_" x="53.9" y="49.7" class="u-fill-white" width="27.7" height="0.9"/>
-                        <rect id="XMLID_326_" x="40.5" y="48.4" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_294_" x="40.5" y="52.2" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_291_" x="40.5" y="56" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_182_" x="40.5" y="59.8" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_181_" x="40.5" y="63.6" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_178_" x="40.5" y="67.4" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_177_" x="40.5" y="71.2" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_66_" x="40.5" y="75" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_71_" x="40.5" y="78.7" class="u-fill-white" width="1.4" height="1.4"/>
-                        <rect id="XMLID_72_" x="40.5" y="82.5" class="u-fill-white" width="1.4" height="1.4"/>
-                      </g>
-                      <path id="XMLID_73_" class="u-fill-primary" opacity=".3" d="M34.4,41.9c-0.3,0-0.6,0.3-0.6,0.6V59h27.3c1.6,0,2.9-1.3,2.9-2.9V41.9H34.4z"/>
-                      <path id="XMLID_1454_" class="u-fill-white" d="M58.1,57.7h-25c-2.6,0-4.6-2.1-4.6-4.6V37.5c0-2.6,2.1-4.6,4.6-4.6h25
-                        c2.6,0,4.6,2.1,4.6,4.6v15.6C62.7,55.7,60.7,57.7,58.1,57.7z"/>
-                      <path id="XMLID_1453_" class="u-fill-primary-lighter" opacity=".2" d="M28.4,38.2v-3.6c0-0.9,0.8-1.7,1.7-1.7H61c0.9,0,1.7,0.8,1.7,1.7v3.6H28.4z"/>
-                      <path id="XMLID_1452_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M40.7,32.9H61c0.9,0,1.7,0.8,1.7,1.7V56c0,0.9-0.8,1.7-1.7,1.7H30.1
-                        c-0.9,0-1.7-0.8-1.7-1.7V34.6c0-0.9,0.8-1.7,1.7-1.7h3.6h1"/>
-                      <line id="XMLID_882_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="36" y1="32.9" x2="38.7" y2="32.9"/>
-                      <line id="XMLID_879_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="28.4" y1="38.3" x2="62.7" y2="38.3"/>
-                      <line id="XMLID_876_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="31.2" y1="35.8" x2="31.8" y2="35.8"/>
-                      <line id="XMLID_873_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="33.4" y1="35.8" x2="34" y2="35.8"/>
-                      <line id="XMLID_872_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="35.6" y1="35.8" x2="36.2" y2="35.8"/>
-                      <g id="XMLID_76_">
-                        <g>
-                          <path class="u-fill-primary" d="M40.3,47.3l3.5-1.8V46l-3,1.5v0l3,1.5v0.5l-3.5-1.8V47.3z"/>
-                          <path class="u-fill-primary" d="M44.3,49.8l2.1-5.5h0.5l-2.1,5.5H44.3z"/>
-                          <path class="u-fill-primary" d="M50.9,47.7l-3.5,1.8V49l3-1.5v0l-3-1.5v-0.5l3.5,1.8V47.7z"/>
-                        </g>
-                      </g>
-                    </g>
-                    <g id="XMLID_84_">
-                      <path id="XMLID_95_" class="u-fill-white" d="M154.8,93.4h2.9c0.2,0,0.4-0.2,0.4-0.4V51.8c0-0.1,0-0.1,0-0.2l-1.4-3.1
-                        c-0.1-0.3-0.6-0.3-0.7,0l-1.4,3.1c0,0.1,0,0.1,0,0.2V93C154.4,93.3,154.6,93.4,154.8,93.4z"/>
-                      <rect id="XMLID_270_" x="154.4" y="53.1" class="u-fill-primary-lighter" opacity=".6" width="3.6" height="36.4"/>
-                      <rect id="XMLID_97_" x="154.4" y="53.1" class="u-fill-primary-lighter" opacity=".5" width="1.8" height="36.4"/>
-                      <path id="XMLID_93_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M154.4,93.4h3.6V51.7l-1.6-3.5c-0.1-0.2-0.3-0.2-0.4,0l-1.6,3.5V93.4z"/>
-                      <line id="XMLID_92_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="158.2" y1="53.1" x2="154.4" y2="53.1"/>
-                      <line id="XMLID_91_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="158.3" y1="89.5" x2="154.1" y2="89.5"/>
-                    </g>
-                    <g id="XMLID_112_">
-                      <path id="XMLID_83_" class="u-fill-primary-lighter" opacity=".6" d="M161.3,50.6c0-1.8,2-3.2,2.7-4.3c1.2-2.2,1.2-5.9,1.2-5.9c3.3,0.6,3.9,7.4,3.9,10.2
-                        c0,2.7-1.7,5-3.9,5C163.1,55.6,161.3,53.4,161.3,50.6z"/>
-                      <path id="XMLID_77_" class="u-fill-white" d="M165.2,62.7L165.2,62.7c1.7,0,3.1,1.7,2.9,3.6l-1.4,22.3c-0.1,1.8-0.6,3.5-1.4,5l-0.1,0.2
-                        l0,0c-0.9-1.6-1.5-3.5-1.6-5.4l-1.3-22C162.1,64.4,163.5,62.7,165.2,62.7z"/>
-                      <path id="XMLID_116_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M161.3,50.6c0-1.8,2-3.2,2.7-4.3c1.2-2.2,1.2-5.9,1.2-5.9c3.3,0.6,3.9,7.4,3.9,10.2
-                        c0,2.7-1.7,5-3.9,5C163.1,55.6,161.3,53.4,161.3,50.6z"/>
-                      <path id="XMLID_114_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M165.2,62.7L165.2,62.7c1.7,0,3.1,1.7,2.9,3.6l-1.4,22.3c-0.1,1.5-1.1,4.1-1.4,4.9
-                        c0,0.1-0.2,0.1-0.2,0c-0.9-1.6-1.4-3.3-1.5-5.2l-1.3-22C162.1,64.4,163.5,62.7,165.2,62.7z"/>
+												<rect id="XMLID_351_" x="92.6" y="58.9" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 188.1425 118.7699)" class="u-fill-white" width="2.9" height="0.9"/>
+											<rect id="XMLID_67_" x="66.9" y="58.9" class="u-fill-white" width="24.4" height="0.9"/>
+											<rect id="XMLID_328_" x="53.9" y="49.7" class="u-fill-white" width="27.7" height="0.9"/>
+											<rect id="XMLID_326_" x="40.5" y="48.4" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_294_" x="40.5" y="52.2" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_291_" x="40.5" y="56" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_182_" x="40.5" y="59.8" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_181_" x="40.5" y="63.6" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_178_" x="40.5" y="67.4" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_177_" x="40.5" y="71.2" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_66_" x="40.5" y="75" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_71_" x="40.5" y="78.7" class="u-fill-white" width="1.4" height="1.4"/>
+											<rect id="XMLID_72_" x="40.5" y="82.5" class="u-fill-white" width="1.4" height="1.4"/>
+										</g>
+										<path id="XMLID_73_" class="u-fill-primary" opacity=".3" d="M34.4,41.9c-0.3,0-0.6,0.3-0.6,0.6V59h27.3c1.6,0,2.9-1.3,2.9-2.9V41.9H34.4z"/>
+										<path id="XMLID_1454_" class="u-fill-white" d="M58.1,57.7h-25c-2.6,0-4.6-2.1-4.6-4.6V37.5c0-2.6,2.1-4.6,4.6-4.6h25
+											c2.6,0,4.6,2.1,4.6,4.6v15.6C62.7,55.7,60.7,57.7,58.1,57.7z"/>
+										<path id="XMLID_1453_" class="u-fill-primary-lighter" opacity=".2" d="M28.4,38.2v-3.6c0-0.9,0.8-1.7,1.7-1.7H61c0.9,0,1.7,0.8,1.7,1.7v3.6H28.4z"/>
+										<path id="XMLID_1452_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M40.7,32.9H61c0.9,0,1.7,0.8,1.7,1.7V56c0,0.9-0.8,1.7-1.7,1.7H30.1
+											c-0.9,0-1.7-0.8-1.7-1.7V34.6c0-0.9,0.8-1.7,1.7-1.7h3.6h1"/>
+										<line id="XMLID_882_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="36" y1="32.9" x2="38.7" y2="32.9"/>
+										<line id="XMLID_879_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="28.4" y1="38.3" x2="62.7" y2="38.3"/>
+										<line id="XMLID_876_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="31.2" y1="35.8" x2="31.8" y2="35.8"/>
+										<line id="XMLID_873_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="33.4" y1="35.8" x2="34" y2="35.8"/>
+										<line id="XMLID_872_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="35.6" y1="35.8" x2="36.2" y2="35.8"/>
+										<g id="XMLID_76_">
+											<g>
+												<path class="u-fill-primary" d="M40.3,47.3l3.5-1.8V46l-3,1.5v0l3,1.5v0.5l-3.5-1.8V47.3z"/>
+												<path class="u-fill-primary" d="M44.3,49.8l2.1-5.5h0.5l-2.1,5.5H44.3z"/>
+												<path class="u-fill-primary" d="M50.9,47.7l-3.5,1.8V49l3-1.5v0l-3-1.5v-0.5l3.5,1.8V47.7z"/>
+											</g>
+										</g>
+									</g>
+									<g id="XMLID_84_">
+										<path id="XMLID_95_" class="u-fill-white" d="M154.8,93.4h2.9c0.2,0,0.4-0.2,0.4-0.4V51.8c0-0.1,0-0.1,0-0.2l-1.4-3.1
+											c-0.1-0.3-0.6-0.3-0.7,0l-1.4,3.1c0,0.1,0,0.1,0,0.2V93C154.4,93.3,154.6,93.4,154.8,93.4z"/>
+										<rect id="XMLID_270_" x="154.4" y="53.1" class="u-fill-primary-lighter" opacity=".6" width="3.6" height="36.4"/>
+										<rect id="XMLID_97_" x="154.4" y="53.1" class="u-fill-primary-lighter" opacity=".5" width="1.8" height="36.4"/>
+										<path id="XMLID_93_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M154.4,93.4h3.6V51.7l-1.6-3.5c-0.1-0.2-0.3-0.2-0.4,0l-1.6,3.5V93.4z"/>
+										<line id="XMLID_92_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="158.2" y1="53.1" x2="154.4" y2="53.1"/>
+										<line id="XMLID_91_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="158.3" y1="89.5" x2="154.1" y2="89.5"/>
+									</g>
+									<g id="XMLID_112_">
+										<path id="XMLID_83_" class="u-fill-primary-lighter" opacity=".6" d="M161.3,50.6c0-1.8,2-3.2,2.7-4.3c1.2-2.2,1.2-5.9,1.2-5.9c3.3,0.6,3.9,7.4,3.9,10.2
+											c0,2.7-1.7,5-3.9,5C163.1,55.6,161.3,53.4,161.3,50.6z"/>
+										<path id="XMLID_77_" class="u-fill-white" d="M165.2,62.7L165.2,62.7c1.7,0,3.1,1.7,2.9,3.6l-1.4,22.3c-0.1,1.8-0.6,3.5-1.4,5l-0.1,0.2
+											l0,0c-0.9-1.6-1.5-3.5-1.6-5.4l-1.3-22C162.1,64.4,163.5,62.7,165.2,62.7z"/>
+										<path id="XMLID_116_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M161.3,50.6c0-1.8,2-3.2,2.7-4.3c1.2-2.2,1.2-5.9,1.2-5.9c3.3,0.6,3.9,7.4,3.9,10.2
+											c0,2.7-1.7,5-3.9,5C163.1,55.6,161.3,53.4,161.3,50.6z"/>
+										<path id="XMLID_114_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M165.2,62.7L165.2,62.7c1.7,0,3.1,1.7,2.9,3.6l-1.4,22.3c-0.1,1.5-1.1,4.1-1.4,4.9
+											c0,0.1-0.2,0.1-0.2,0c-0.9-1.6-1.4-3.3-1.5-5.2l-1.3-22C162.1,64.4,163.5,62.7,165.2,62.7z"/>
 
-                        <rect id="XMLID_626_" x="162.2" y="54.3" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 330.3995 120.4802)" class="u-fill-primary-lighter" opacity=".5" width="5.9" height="12"/>
+											<rect id="XMLID_626_" x="162.2" y="54.3" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 330.3995 120.4802)" class="u-fill-primary-lighter" opacity=".5" width="5.9" height="12"/>
 
-                        <rect id="XMLID_113_" x="162.2" y="54.3" transform="matrix(-1 -3.361910e-05 3.361910e-05 -1 327.423 120.4858)" class="u-fill-primary-lighter" opacity=".2" width="3" height="12"/>
+											<rect id="XMLID_113_" x="162.2" y="54.3" transform="matrix(-1 -3.361910e-05 3.361910e-05 -1 327.423 120.4858)" class="u-fill-primary-lighter" opacity=".2" width="3" height="12"/>
 
-                        <rect id="XMLID_89_" x="162.2" y="54.3" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 330.3995 120.4802)" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" width="5.9" height="12"/>
-                    </g>
-                    <path id="XMLID_133_" class="u-fill-primary" opacity=".3" d="M156.5,20.9c0-1.1-0.9-2-2-2h-10c-3.5,2.6-6.1,5.5-6.3,5.7l-0.5,0.5l0.5,0.5
-                      c0.4,0.4,9.1,10,16.5,10c0.8,0,1.5-0.1,2.3-0.3v-1h-0.5V20.9z"/>
-                    <g id="XMLID_609_">
-                      <path id="XMLID_625_" class="u-fill-white" d="M171.7,24.1c0,0-8.8,9.8-15.9,9.8c-7.1,0-15.9-9.8-15.9-9.8s8.8-9.8,15.9-9.8
-                        C162.8,14.3,171.7,24.1,171.7,24.1z"/>
-                      <path id="XMLID_96_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M171.7,24.1c0,0-8.8,9.8-15.9,9.8c-7.1,0-15.9-9.8-15.9-9.8s8.8-9.8,15.9-9.8
-                        C162.8,14.3,171.7,24.1,171.7,24.1z"/>
-                      <g id="XMLID_620_">
-                        <path id="XMLID_624_" class="u-fill-primary-lighter" opacity=".5" d="M162.8,24.1c0-3.9-3.1-7-7-7.1l0,14.1C159.6,31.2,162.8,28,162.8,24.1z"/>
-                        <path id="XMLID_622_" class="u-fill-primary-lighter" opacity=".2" d="M155.7,17.1c-3.9,0-7.1,3.2-7.1,7.1c0,3.9,3.2,7.1,7.1,7.1c0,0,0,0,0,0L155.7,17.1
-                          C155.7,17.1,155.7,17.1,155.7,17.1z"/>
-                      </g>
-                      <path id="XMLID_615_" class="u-fill-white" d="M159.2,24.1c0,1.9-1.6,3.5-3.5,3.5c-1.9,0-3.5-1.6-3.5-3.5c0-1.9,1.6-3.5,3.5-3.5
-                        C157.6,20.7,159.2,22.2,159.2,24.1z"/>
-                      <path id="XMLID_614_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M163.1,24.1c0,4.1-3.3,7.4-7.4,7.4c-4.1,0-7.4-3.3-7.4-7.4c0-4.1,3.3-7.4,7.4-7.4
-                        C159.8,16.7,163.1,20.1,163.1,24.1z"/>
-                      <path id="XMLID_613_" class="u-fill-primary-lighter" opacity=".6" d="M157.9,24.1c0,1.2-1,2.2-2.2,2.2c-1.2,0-2.2-1-2.2-2.2c0-1.2,1-2.2,2.2-2.2
-                        C156.9,22,157.9,22.9,157.9,24.1z"/>
-                      <polyline id="XMLID_611_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" points="142.2,15.4 142.2,12.6 144.8,12.6      "/>
-                      <polyline id="XMLID_627_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" points="169.3,34.4 169.3,37.2 166.7,37.2      "/>
-                    </g>
-                    <g id="XMLID_135_">
-                      <path id="XMLID_154_" class="u-fill-primary-lighter" opacity=".2" d="M181,92.1v-8.4c0-0.8-0.6-1.4-1.4-1.4h-48c-0.8,0-1.4,0.6-1.4,1.4v8.4
-                        c0,0.8,0.6,1.4,1.4,1.4h48C180.4,93.5,181,92.9,181,92.1z"/>
-                      <path id="XMLID_151_" class="u-fill-white" d="M130.2,83.8v3.6H181v-3.6c0-0.8-0.6-1.4-1.4-1.4h-48C130.9,82.4,130.2,83,130.2,83.8z"/>
-                      <path id="XMLID_146_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M181,92.1v-8.4c0-0.8-0.6-1.4-1.4-1.4h-48c-0.8,0-1.4,0.6-1.4,1.4v8.4
-                        c0,0.8,0.6,1.4,1.4,1.4h48C180.4,93.5,181,92.9,181,92.1z"/>
-                      <line id="XMLID_144_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="136" y1="82.4" x2="136" y2="89.2"/>
-                      <line id="XMLID_143_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="140.8" y1="82.4" x2="140.8" y2="85.8"/>
-                      <line id="XMLID_142_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="145.6" y1="82.4" x2="145.6" y2="85.8"/>
-                      <line id="XMLID_141_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="150.4" y1="82.4" x2="150.4" y2="85.8"/>
-                      <line id="XMLID_140_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="155.2" y1="82.4" x2="155.2" y2="89.2"/>
-                      <line id="XMLID_139_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="160" y1="82.4" x2="160" y2="85.8"/>
-                      <line id="XMLID_138_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="164.8" y1="82.4" x2="164.8" y2="85.8"/>
-                      <line id="XMLID_137_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="169.6" y1="82.4" x2="169.6" y2="85.8"/>
-                      <line id="XMLID_136_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="174.4" y1="82.4" x2="174.4" y2="89.2"/>
-                    </g>
-                  </g>
-                  <g id="XMLID_43_">
-                    <line id="XMLID_75_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="14.8" y1="93.7" x2="17.5" y2="93.7"/>
-                    <line id="XMLID_90_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="184.7" y1="93.7" x2="190.8" y2="93.7"/>
-                    <line id="XMLID_293_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="19.3" y1="93.7" x2="183.1" y2="93.7"/>
-                  </g>
-                </g>
-              </svg>
-            </figure>
-            <!-- End SVG Icon -->
+											<rect id="XMLID_89_" x="162.2" y="54.3" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 330.3995 120.4802)" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" width="5.9" height="12"/>
+									</g>
+									<path id="XMLID_133_" class="u-fill-primary" opacity=".3" d="M156.5,20.9c0-1.1-0.9-2-2-2h-10c-3.5,2.6-6.1,5.5-6.3,5.7l-0.5,0.5l0.5,0.5
+										c0.4,0.4,9.1,10,16.5,10c0.8,0,1.5-0.1,2.3-0.3v-1h-0.5V20.9z"/>
+									<g id="XMLID_609_">
+										<path id="XMLID_625_" class="u-fill-white" d="M171.7,24.1c0,0-8.8,9.8-15.9,9.8c-7.1,0-15.9-9.8-15.9-9.8s8.8-9.8,15.9-9.8
+											C162.8,14.3,171.7,24.1,171.7,24.1z"/>
+										<path id="XMLID_96_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M171.7,24.1c0,0-8.8,9.8-15.9,9.8c-7.1,0-15.9-9.8-15.9-9.8s8.8-9.8,15.9-9.8
+											C162.8,14.3,171.7,24.1,171.7,24.1z"/>
+										<g id="XMLID_620_">
+											<path id="XMLID_624_" class="u-fill-primary-lighter" opacity=".5" d="M162.8,24.1c0-3.9-3.1-7-7-7.1l0,14.1C159.6,31.2,162.8,28,162.8,24.1z"/>
+											<path id="XMLID_622_" class="u-fill-primary-lighter" opacity=".2" d="M155.7,17.1c-3.9,0-7.1,3.2-7.1,7.1c0,3.9,3.2,7.1,7.1,7.1c0,0,0,0,0,0L155.7,17.1
+												C155.7,17.1,155.7,17.1,155.7,17.1z"/>
+										</g>
+										<path id="XMLID_615_" class="u-fill-white" d="M159.2,24.1c0,1.9-1.6,3.5-3.5,3.5c-1.9,0-3.5-1.6-3.5-3.5c0-1.9,1.6-3.5,3.5-3.5
+											C157.6,20.7,159.2,22.2,159.2,24.1z"/>
+										<path id="XMLID_614_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M163.1,24.1c0,4.1-3.3,7.4-7.4,7.4c-4.1,0-7.4-3.3-7.4-7.4c0-4.1,3.3-7.4,7.4-7.4
+											C159.8,16.7,163.1,20.1,163.1,24.1z"/>
+										<path id="XMLID_613_" class="u-fill-primary-lighter" opacity=".6" d="M157.9,24.1c0,1.2-1,2.2-2.2,2.2c-1.2,0-2.2-1-2.2-2.2c0-1.2,1-2.2,2.2-2.2
+											C156.9,22,157.9,22.9,157.9,24.1z"/>
+										<polyline id="XMLID_611_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" points="142.2,15.4 142.2,12.6 144.8,12.6      "/>
+										<polyline id="XMLID_627_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" points="169.3,34.4 169.3,37.2 166.7,37.2      "/>
+									</g>
+									<g id="XMLID_135_">
+										<path id="XMLID_154_" class="u-fill-primary-lighter" opacity=".2" d="M181,92.1v-8.4c0-0.8-0.6-1.4-1.4-1.4h-48c-0.8,0-1.4,0.6-1.4,1.4v8.4
+											c0,0.8,0.6,1.4,1.4,1.4h48C180.4,93.5,181,92.9,181,92.1z"/>
+										<path id="XMLID_151_" class="u-fill-white" d="M130.2,83.8v3.6H181v-3.6c0-0.8-0.6-1.4-1.4-1.4h-48C130.9,82.4,130.2,83,130.2,83.8z"/>
+										<path id="XMLID_146_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" d="M181,92.1v-8.4c0-0.8-0.6-1.4-1.4-1.4h-48c-0.8,0-1.4,0.6-1.4,1.4v8.4
+											c0,0.8,0.6,1.4,1.4,1.4h48C180.4,93.5,181,92.9,181,92.1z"/>
+										<line id="XMLID_144_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="136" y1="82.4" x2="136" y2="89.2"/>
+										<line id="XMLID_143_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="140.8" y1="82.4" x2="140.8" y2="85.8"/>
+										<line id="XMLID_142_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="145.6" y1="82.4" x2="145.6" y2="85.8"/>
+										<line id="XMLID_141_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="150.4" y1="82.4" x2="150.4" y2="85.8"/>
+										<line id="XMLID_140_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="155.2" y1="82.4" x2="155.2" y2="89.2"/>
+										<line id="XMLID_139_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="160" y1="82.4" x2="160" y2="85.8"/>
+										<line id="XMLID_138_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="164.8" y1="82.4" x2="164.8" y2="85.8"/>
+										<line id="XMLID_137_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="169.6" y1="82.4" x2="169.6" y2="85.8"/>
+										<line id="XMLID_136_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="174.4" y1="82.4" x2="174.4" y2="89.2"/>
+									</g>
+								</g>
+								<g id="XMLID_43_">
+									<line id="XMLID_75_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="14.8" y1="93.7" x2="17.5" y2="93.7"/>
+									<line id="XMLID_90_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="184.7" y1="93.7" x2="190.8" y2="93.7"/>
+									<line id="XMLID_293_" class="u-fill-none u-stroke-primary" stroke-width="1.5" stroke-miterlimit="10" x1="19.3" y1="93.7" x2="183.1" y2="93.7"/>
+								</g>
+							</g>
+						</svg>
+					</figure>
+					<!-- End SVG Icon -->
 
-            <div class="media-body">
-              <h3 class="h5">GeoLocations</h3>
+					<div class="media-body">
+						<h3 class="h5">GeoLocations</h3>
 
-              <div class="d-flex">
-                <!-- List -->
-                <ul class="list-unstyled text-secondary font-size-14 mr-md-4">
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    United States
-                  </li>
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    Worldwide
-                  </li>
-                </ul>
-                <!-- End List -->
+						<div class="d-flex">
+							<!-- List -->
+							<ul class="list-unstyled text-secondary font-size-14 mr-md-4">
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									United States
+								</li>
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									Worldwide
+								</li>
+							</ul>
+							<!-- End List -->
 
-                <!-- List -->
-                <ul class="list-unstyled text-secondary font-size-14">
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    Europe
-                  </li>
-                  <li class="py-1">
-                    <span class="h6 text-primary mr-1">&#8226;</span>
-                    Geo Targeting
-                  </li>
-                </ul>
-                <!-- End List -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Features Section -->
+							<!-- List -->
+							<ul class="list-unstyled text-secondary font-size-14">
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									Europe
+								</li>
+								<li class="py-1">
+									<span class="h6 text-primary mr-1">&#8226;</span>
+									Geo Targeting
+								</li>
+							</ul>
+							<!-- End List -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Features Section -->
 
-    <!-- About Section -->
-    <div class="container u-space-3">
-      <div class="row align-items-lg-center">
-        <div class="col-lg-5 mb-7 mb-lg-0">
-          <!-- Info -->
-          <div class="pr-lg-7">
-            <div class="mb-4">
-              <h3 class="h5">CodeFund process</h3>
-              <p>Once you are invited to Front Agency, you company will be set within days. We help to take of all the paperwork.</p>
-            </div>
+	<!-- About Section -->
+	<div class="container u-space-3">
+		<div class="row align-items-lg-center">
+			<div class="col-lg-5 mb-7 mb-lg-0">
+				<!-- Info -->
+				<div class="pr-lg-7">
+					<div class="mb-4">
+						<h3 class="h5">CodeFund process</h3>
+						<p>
+							Once you have an account, we will walk you through the campaign setup process. We will
+							also help you create the best messages and banner images for your target audience.
+						</p>
+						<p>
+							Your ad could be up and running the same day if that's your goal.
+						</p>
+					</div>
 
-            <!-- Link -->
-            <a class="media align-items-center shadow-sm p-4" href="#">
-              <span class="d-flex mr-3">
-                <img class="img-fluid u-avatar rounded-circle" src="<%= static_path(@conn, "/theme/img/icons/img1.png") %>" alt="Image Description">
-              </span>
-              <span class="media-body">
-                <span class="d-flex justify-content-between align-items-center font-weight-bold">
-                  Advertise with CodeFund <span class="fa fa-angle-right"></span>
-                </span>
-              </span>
-            </a>
-            <!-- End Link -->
-          </div>
-          <!-- End Info -->
-        </div>
+					<!-- Link -->
+					<%= link to: page_path(@conn, :contact, :advertiser), class: "media align-items-center shadow-sm p-4" do %>
+						<span class="d-flex mr-3">
+							<img class="img-fluid u-avatar rounded-circle" src="<%= static_path(@conn, "/theme/img/icons/img1.png") %>" alt="Image Description">
+						</span>
+						<span class="media-body">
+							<span class="d-flex justify-content-between align-items-center font-weight-bold">
+								Advertise with CodeFund <span class="fa fa-angle-right"></span>
+							</span>
+						</span>
+					<% end %>
+					<!-- End Link -->
+				</div>
+				<!-- End Info -->
+			</div>
 
-        <div class="col-lg-7 mb-7 mb-lg-0">
-          <!-- SVG Icon -->
-          <img src="<%= static_path(@conn, "/theme/svg/flat-icons/walking-man-flat-concept-illustration.svg") %>" alt="SVG Illustration">
-          <!-- End SVG Icon -->
-        </div>
-      </div>
-    </div>
-    <!-- End About Section -->
+			<div class="col-lg-7 mb-7 mb-lg-0">
+				<!-- SVG Icon -->
+				<img src="<%= static_path(@conn, "/theme/svg/flat-icons/walking-man-flat-concept-illustration.svg") %>" alt="SVG Illustration">
+				<!-- End SVG Icon -->
+			</div>
+		</div>
+	</div>
+	<!-- End About Section -->
 
-    <!-- Portfolio Section -->
-    <div class="container u-space-2-bottom">
-      <!-- Title -->
-      <div class="w-md-80 w-lg-50 text-center mx-auto mb-9">
-        <span class="u-label u-label--sm u-label--success mb-2">Works</span>
-        <h2 class="text-primary font-weight-normal">Our <span class="font-weight-bold">branding</span> works</h2>
-      </div>
-      <!-- End Title -->
+	<!-- Testimonials -->
+	<div class="u-bg-light-blue-50">
+		<div class="container u-space-3">
+			<!-- Title -->
+			<div class="w-md-80 w-lg-50 text-center mx-auto mb-9">
+				<span class="u-icon u-icon-primary--air u-icon--xl rounded-circle mb-4">
+					<span class="far fa-thumbs-up u-icon__inner"></span>
+				</span>
+				<h2 class="font-weight-medium">Reviews from our advertisers</h2>
+			</div>
+			<!-- End Title -->
 
-      <div class="u-cubeportfolio">
-        <!-- Filter -->
-        <ul id="filterControls" class="list-inline cbp-l-filters-alignRight text-center">
-          <li class="list-inline-item cbp-filter-item cbp-filter-item-active u-cubeportfolio__item" data-filter="*">All</li>
-          <li class="list-inline-item cbp-filter-item u-cubeportfolio__item" data-filter=".branding">Branding</li>
-          <li class="list-inline-item cbp-filter-item u-cubeportfolio__item" data-filter=".abstract">Abstract</li>
-          <li class="list-inline-item cbp-filter-item u-cubeportfolio__item" data-filter=".graphic">Graphic</li>
-          <li class="list-inline-item cbp-filter-item u-cubeportfolio__item" data-filter=".illustration">Illustration</li>
-        </ul>
-        <!-- End Filter -->
+			<!-- Slick Carousel -->
+			<div class="js-slick-carousel u-slick u-slick--equal-height u-slick--gutters-3"
+						data-slides-show="3"
+						data-autoplay="true"
+						data-speed="5000"
+						data-infinite="true"
+						data-center-mode="true"
+						data-pagi-classes="d-lg-none text-center u-slick__pagination mt-7 mb-0"
+						data-responsive='[{
+							"breakpoint": 992,
+							"settings": {
+								"slidesToShow": 2
+							}
+						}, {
+							"breakpoint": 768,
+							"settings": {
+								"slidesToShow": 1
+							}
+						}]'>
+				<div class="js-slide mb-1">
+					<!-- Testimonial -->
+					<div class="d-flex align-items-start flex-column bg-white border rounded p-5">
+						<div class="mb-auto">
+							<p>If you're looking to find developers, there's no better ad channel than CodeFund. You can easily find developers at significantly lower cost.</p>
+						</div>
 
-        <!-- Content -->
-        <div class="cbp"
-              data-controls="#filterControls"
-              data-animation="quicksand"
-              data-x-gap="15"
-              data-y-gap="15"
-              data-media-queries='[
-                {"width": 1500, "cols": 4},
-                {"width": 1100, "cols": 4},
-                {"width": 800, "cols": 3},
-                {"width": 480, "cols": 2},
-                {"width": 300, "cols": 1}
-              ]'>
-          <!-- Item -->
-          <div class="cbp-item rounded graphic">
-            <a class="cbp-caption" href="../portfolio/single-page-simple.html">
-              <div class="cbp-caption-defaultWrap">
-                <img src="<%= static_path(@conn, "/theme/img/380x360/img1.jpg") %>" alt="Image Description">
-              </div>
-              <div class="cbp-caption-activeWrap bg-primary">
-                <div class="cbp-l-caption-alignCenter">
-                  <div class="cbp-l-caption-body">
-                    <h4 class="h6 text-white mb-0">Remind Me More</h4>
-                    <p class="small u-text-light mb-0">
-                      by Tiberiu Neamu
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- End Item -->
+						<!-- Author & Review -->
+						<div class="media">
+							<div class="d-flex mr-3">
+								<img class="img-fluid u-avatar rounded-circle" src="<%= static_path(@conn, "/images/avatars/dean-ramadan.jpg") %>" alt="Dean Ramadan">
+							</div>
+							<div class="media-body">
+								<h4 class="h6 mb-1">
+									Dean Ramadan
+									<br>
+									<small class="text-codefund-green">Growth Marketing, ConsenSys</small>
+								</h4>
+							</div>
+						</div>
+						<!-- End Author & Review -->
+					</div>
+					<!-- End Testimonial -->
+				</div>
 
-          <!-- Item -->
-          <div class="cbp-item rounded branding">
-            <a class="cbp-caption" href="../portfolio/single-page-simple.html">
-              <div class="cbp-caption-defaultWrap">
-                <img src="<%= static_path(@conn, "/theme/img/380x360/img2.jpg") %>" alt="Image Description">
-              </div>
-              <div class="cbp-caption-activeWrap bg-primary">
-                <div class="cbp-l-caption-alignCenter">
-                  <div class="cbp-l-caption-body">
-                    <h4 class="h6 text-white mb-0">Workout Buddy</h4>
-                    <p class="small u-text-light mb-0">
-                      by Tiberiu Neamu
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- End Item -->
+				<div class="js-slide mb-1">
+					<!-- Testimonial -->
+					<div class="d-flex align-items-start flex-column bg-white border rounded p-5">
+						<div class="mb-auto">
+							<p>CodeFund is an amazing resource for the Open Source community. Supporting OS sustainability while generating awareness for Rollbar was a total no-brainer decision!</p>
+						</div>
 
-          <!-- Item -->
-          <div class="cbp-item rounded abstract">
-            <a class="cbp-caption" href="../portfolio/single-page-simple.html">
-              <div class="cbp-caption-defaultWrap">
-                <img src="<%= static_path(@conn, "/theme/img/380x740/img1.jpg") %>" alt="Image Description">
-              </div>
-              <div class="cbp-caption-activeWrap bg-primary">
-                <div class="cbp-l-caption-alignCenter">
-                  <div class="cbp-l-caption-body">
-                    <h4 class="h6 text-white mb-0">Easy Note</h4>
-                    <p class="small u-text-light mb-0">
-                      by Cosmin Capitanu
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- End Item -->
+						<!-- Author & Review -->
+						<div class="media">
+							<div class="d-flex mr-3">
+								<img class="img-fluid u-avatar rounded-circle" src="<%= static_path(@conn, "/images/avatars/mike-smith.jpg") %>" alt="Michael Smith">
+							</div>
+							<div class="media-body">
+								<h4 class="h6 mb-1">
+									Michael Smith
+									<br>
+									<small class="text-codefund-green">Head of Growth, Rollbar</small>
+								</h4>
+							</div>
+						</div>
+						<!-- End Author & Review -->
+					</div>
+					<!-- End Testimonial -->
+				</div>
 
-          <!-- Item -->
-          <div class="cbp-item rounded graphic illustration">
-            <a class="cbp-caption" href="../portfolio/single-page-simple.html">
-              <div class="cbp-caption-defaultWrap">
-                <img src="<%= static_path(@conn, "/theme/img/380x360/img3.jpg") %>" alt="Image Description">
-              </div>
-              <div class="cbp-caption-activeWrap bg-primary">
-                <div class="cbp-l-caption-alignCenter">
-                  <div class="cbp-l-caption-body">
-                    <h4 class="h6 text-white mb-0">Tiger</h4>
-                    <p class="small u-text-light mb-0">
-                      by Cosmin Capitanu
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- End Item -->
+				<div class="js-slide mb-1">
+					<!-- Testimonial -->
+					<div class="d-flex align-items-start flex-column bg-white border rounded p-5">
+						<div class="mb-auto">
+							<p>CodeFund helps me get in front of the right audience of engaged developers and helps support valuable Open Source creators, maintainers and sustainers.</p>
+						</div>
 
-          <!-- Item -->
-          <div class="cbp-item rounded graphic illustration">
-            <a class="cbp-caption" href="../portfolio/single-page-simple.html">
-              <div class="cbp-caption-defaultWrap">
-                <img src="<%= static_path(@conn, "/theme/img/380x360/img5.jpg") %>" alt="Image Description">
-              </div>
-              <div class="cbp-caption-activeWrap bg-primary">
-                <div class="cbp-l-caption-alignCenter">
-                  <div class="cbp-l-caption-body">
-                    <h4 class="h6 text-white mb-0">Tiger</h4>
-                    <p class="small u-text-light mb-0">
-                      by Cosmin Capitanu
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- End Item -->
+						<!-- Author & Review -->
+						<div class="media">
+							<div class="d-flex mr-3">
+								<img class="img-fluid u-avatar rounded-circle" src="<%= static_path(@conn, "/images/avatars/ian-kelly.jpg") %>" alt="Ian Kelly">
+							</div>
+							<div class="media-body">
+								<h4 class="h6 mb-1">
+									Ian Kelly
+									<br>
+									<small class="text-codefund-green">Founder, CodePilot.ai</small>
+								</h4>
+							</div>
+						</div>
+						<!-- End Author & Review -->
+					</div>
+					<!-- End Testimonial -->
+				</div>
+			</div>
+			<!-- End Slick Carousel -->
+		</div>
+	</div>
+	<!-- End Testimonials -->
 
-          <!-- Item -->
-          <div class="cbp-item rounded graphic illustration">
-            <a class="cbp-caption" href="../portfolio/single-page-simple.html">
-              <div class="cbp-caption-defaultWrap">
-                <img src="<%= static_path(@conn, "/theme/img/380x360/img4.jpg") %>" alt="Image Description">
-              </div>
-              <div class="cbp-caption-activeWrap bg-primary">
-                <div class="cbp-l-caption-alignCenter">
-                  <div class="cbp-l-caption-body">
-                    <h4 class="h6 text-white mb-0">Tiger</h4>
-                    <p class="small u-text-light mb-0">
-                      by Cosmin Capitanu
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- End Item -->
-
-          <!-- Item -->
-          <div class="cbp-item rounded graphic illustration">
-            <a class="cbp-caption" href="../portfolio/single-page-simple.html">
-              <div class="cbp-caption-defaultWrap">
-                <img src="<%= static_path(@conn, "/theme/img/380x360/img6.jpg") %>" alt="Image Description">
-              </div>
-              <div class="cbp-caption-activeWrap bg-primary">
-                <div class="cbp-l-caption-alignCenter">
-                  <div class="cbp-l-caption-body">
-                    <h4 class="h6 text-white mb-0">Tiger</h4>
-                    <p class="small u-text-light mb-0">
-                      by Cosmin Capitanu
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- End Item -->
-        </div>
-        <!-- End Content -->
-      </div>
-      <!-- End Cubeportfolio -->
-    </div>
-    <!-- End Portfolio Section -->
-
-    <!-- Clients Section -->
-    <div class="container text-center u-space-3-bottom">
-      <h4 class="h6 text-secondary mb-3">CodeFund advertisers</h4>
-      <div class="d-flex justify-content-center">
-        <div class="mx-4">
-          <img class="u-clients" src="<%= static_path(@conn, "/theme/svg/clients-logo/slack.svg") %>" alt="Image Description">
-        </div>
-        <div class="mx-4">
-          <img class="u-clients" src="<%= static_path(@conn, "/theme/svg/clients-logo/google.svg") %>" alt="Image Description">
-        </div>
-        <div class="mx-4">
-          <img class="u-clients" src="<%= static_path(@conn, "/theme/svg/clients-logo/spotify.svg") %>" alt="Image Description">
-        </div>
-      </div>
-    </div>
-    <!-- End Clients Section -->
-
-    <!-- CTA Section -->
-    <div class="bg-primary text-white text-center">
-      <div class="container u-space-1">
-        <span class="h6 d-block d-lg-inline-block font-weight-light mb-lg-0">
-          <span class="font-weight-bold">Front Template</span> – the simplest and fastest way to build sites.
-        </span>
-        <a class="btn btn-sm u-btn-white transition-3d-hover font-weight-normal ml-2" href="#">Advertise with Us</a>
-      </div>
-    </div>
-    <!-- End CTA Section -->
-  </main>
-  <!-- ========== END MAIN ========== -->
+	<!-- CTA Section -->
+	<div class="bg-primary text-white text-center">
+		<div class="container u-space-1">
+			<span class="h6 d-block d-lg-inline-block font-weight-light mb-lg-0">
+				<span class="font-weight-bold">CodeFund</span> – developer approved ethical advertising
+			</span>
+			<%= link "Advertise with Us", to: page_path(@conn, :contact, :advertiser), class: "btn btn-sm u-btn-white transition-3d-hover font-weight-normal ml-2" %>
+		</div>
+	</div>
+	<!-- End CTA Section -->
+</main>
+<!-- ========== END MAIN ========== -->

@@ -28,6 +28,11 @@
 
   <!-- CSS Theme Template -->
   <link rel="stylesheet" href="<%= static_path(@conn, "/theme/css/front.min.css") %>">
+
+  <!-- Cookie / Privacy Policy -->
+  <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+
+  <%= render_existing @view_module, "head." <> @view_template, assigns %>
 </head>
 
 <body>
@@ -153,23 +158,11 @@
           <!-- Navigation -->
           <div id="navBar" class="collapse navbar-collapse py-0">
             <ul class="navbar-nav u-header__navbar-nav ml-lg-auto">
-              <li class="active nav-item">
-                <a class="nav-link u-header__nav-link" href="/">
-                  Home
-                </a>
-              </li>
-              <li class="nav-item">
-                <%= link "Advertisers", to: page_path(@conn, :advertisers), class: "nav-link u-header__nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link "Publishers", to: page_path(@conn, :publishers), class: "nav-link u-header__nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link "Blog", to: page_path(@conn, :blog), class: "nav-link u-header__nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link "FAQ", to: page_path(@conn, :help), class: "nav-link u-header__nav-link" %>
-              </li>
+              <%= active_link(@conn, "Home", to: page_path(@conn, :index), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
+              <%= active_link(@conn, "Advertisers", to: page_path(@conn, :advertisers), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
+              <%= active_link(@conn, "Publishers", to: page_path(@conn, :publishers), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
+              <%= active_link(@conn, "Blog", to: page_path(@conn, :blog), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
+              <%= active_link(@conn, "FAQ", to: page_path(@conn, :help), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
 
               <!-- Button -->
               <li class="nav-item d-none d-md-inline-block pl-3 pr-0">
@@ -208,7 +201,7 @@
           <ul class="list-unstyled mb-0">
             <li><%= link "Ethical Advertising", to: page_path(@conn, :ethical_advertising), class: "u-list__link" %></li>
             <li><%= link "Advertise with Us", to: page_path(@conn, :advertisers), class: "u-list__link" %></li>
-            <li><%= link "Team", to: page_path(@conn, :team), class: "u-list__link" %></li>
+            <li><%= link "Become a Publisher", to: page_path(@conn, :publishers), class: "u-list__link" %></li>
           </ul>
           <!-- End List -->
         </div>
@@ -220,9 +213,10 @@
 
           <!-- List -->
           <ul class="list-unstyled mb-0">
-            <li><%= link "About", to: page_path(@conn, :about), class: "u-list__link" %></li>
-            <li><%= link "Blog", to: page_path(@conn, :blog), class: "u-list__link" %></li>
-            <li><%= link "Media Kit", to: page_path(@conn, :media_kit), class: "u-list__link" %></li>
+            <li><%= link "Team", to: page_path(@conn, :team), class: "u-list__link" %></li>
+            <li><%#= link "About", to: page_path(@conn, :about), class: "u-list__link" %></li>
+            <li><%#= link "Blog", to: page_path(@conn, :blog), class: "u-list__link" %></li>
+            <li><%#= link "Media Kit", to: page_path(@conn, :media_kit), class: "u-list__link" %></li>
           </ul>
           <!-- End List -->
         </div>
@@ -235,8 +229,8 @@
           <!-- List -->
           <ul class="list-unstyled mb-0">
             <li><%= link "Help", to: page_path(@conn, :help), class: "u-list__link" %></li>
-            <li><a class="u-list__link" href="#">Privacy Policy</a></li>
-            <li><a class="u-list__link" href="#">Cookie Policy</a></li>
+            <li><a href="https://www.iubenda.com/privacy-policy/47597768" class="u-list__link iubenda-nostyle no-brand iubenda-embed iub-legal-only" title="Privacy Policy">Privacy Policy</a></li>
+            <li><a href="https://www.iubenda.com/privacy-policy/47597768/cookie-policy" class="u-list__link iubenda-nostyle no-brand iubenda-embed" title="Cookie Policy">Cookie Policy</a></li>
           </ul>
           <!-- End List -->
         </div>
@@ -311,12 +305,13 @@
   <script src="<%= static_path(@conn, "/theme/vendor/fancybox/jquery.fancybox.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/vendor/typed.js/lib/typed.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/vendor/slick-carousel/slick/slick.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/chartist/dist/chartist.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/chartist-js-tooltip/chartist-plugin-tooltip.js") %>"></script>
 
   <!-- JS Theme -->
   <script src="<%= static_path(@conn, "/theme/js/hs.core.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.header.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.unfold.js") %>"></script>
-  <script src="<%= static_path(@conn, "/theme/js/helpers/hs.focus-state.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.malihu-scrollbar.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.validation.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.fancybox.js") %>"></script>
@@ -325,7 +320,10 @@
   <script src="<%= static_path(@conn, "/theme/js/components/hs.go-to.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.sticky-block.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/js/components/hs.scroll-nav.js") %>"></script>
-
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.chartist-area-chart.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/helpers/hs.focus-state.js") %>"></script>
+ 
+  <!-- JS Plugins Init -->
   <%= render_existing @view_module, "scripts." <> @view_template, assigns %>
 </body>
 </html>

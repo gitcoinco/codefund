@@ -246,7 +246,7 @@
         <!-- Blog News -->
         <div class="js-slide position-relative bg-white shadow-sm transition-3d-hover rounded my-4">
           <article class="align-self-end w-100 text-center p-6">
-            <h3 class="h6 font-weight-normal">" Hey developer startup folks, CodeFund helps me get in front of with the right audience of engaged developers and helps support valuable Open Source creators, maintainers and sustainers. Check them out! "</h3>
+            <h3 class="h6 font-weight-normal">" Hey developer startup folks, CodeFund helps me get in front of the right audience of engaged developers and helps support valuable Open Source creators, maintainers and sustainers. Check them out! "</h3>
             <div class="my-4">
               <strong class="d-block mb-2">Ian Kelly</strong>
               <img class="img-fluid u-sm-avatar rounded-circle mx-auto" src="https://pbs.twimg.com/profile_images/2163405584/h4nMVB4Q_400x400" alt="Image Description">
