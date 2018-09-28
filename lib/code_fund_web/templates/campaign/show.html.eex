@@ -77,6 +77,10 @@
               <td><strong>US Hours Only</strong></td>
               <td><%= @campaign.us_hours_only %></td>
             </tr>
+            <tr>
+              <td><strong>Weekdays Only</strong></td>
+              <td><%= @campaign.weekdays_only %></td>
+            </tr>
             <%= if @campaign.budgeted_campaign do %>
               <tr>
                 <td><strong>Total Ad Spend</strong></td>

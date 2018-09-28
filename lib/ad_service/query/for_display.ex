@@ -43,6 +43,7 @@ defmodule AdService.Query.ForDisplay do
     )
     |> where_country_in(client_country)
     |> AdService.Query.TimeManagement.where_accepted_hours_for_ip_address(ip_address)
+    |> AdService.Query.TimeManagement.where_not_allowed_on_weekends(ip_address)
     |> with_daily_budget()
     |> where([_creative, campaign, ...], campaign.audience_id == ^audience.id)
     |> where(
