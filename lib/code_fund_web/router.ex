@@ -49,19 +49,6 @@ defmodule CodeFundWeb.Router do
     plug(CodeFundWeb.Plugs.RequireAPIAccess)
   end
 
-  pipeline :exq do
-    plug(:accepts, ["html"])
-    plug(:fetch_session)
-    plug(:fetch_flash)
-    plug(:put_secure_browser_headers)
-    plug(ExqUi.RouterPlug, namespace: "exq")
-  end
-
-  scope "/exq", ExqUi do
-    pipe_through(:exq)
-    forward("/", RouterPlug.Router, :index)
-  end
-
   scope "/", CodeFundWeb do
     pipe_through(:browser)
     coherence_routes()
