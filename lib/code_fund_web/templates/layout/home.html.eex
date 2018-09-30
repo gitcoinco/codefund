@@ -11,6 +11,33 @@
   <!-- Favicon -->
   <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
 
+  <!-- Search Engine -->
+  <meta name="description" content="CodeFund is an open source ad platform that connects software developers with highly relevant products, services, and brands through ethical advertising.">
+  <meta name="image" content="<%= static_path(@conn, "/images/codefund-logo-square-512.png") %>">
+  
+  <!-- Schema.org for Google -->
+  <meta itemprop="name" content="CodeFund">
+  <meta itemprop="description" content="CodeFund is an open source ad platform that connects software developers with highly relevant products, services, and brands through ethical advertising.">
+  <meta itemprop="image" content="<%= static_path(@conn, "/images/codefund-logo-square-512.png") %>">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="<%= title @conn %>">
+  <meta name="twitter:description" content="CodeFund is an open source ad platform that connects software developers with highly relevant products, services, and brands through ethical advertising.">
+  <meta name="twitter:site" content="@codefundio">
+  <meta name="twitter:creator" content="@coderberry">
+  <meta name="twitter:image:src" content="<%= static_path(@conn, "/images/twitter-preview-image.png") %>">
+  
+  <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+  <meta name="og:title" content="<%= title @conn %>">
+  <meta name="og:description" content="CodeFund is an open source ad platform that connects software developers with highly relevant products, services, and brands through ethical advertising.">
+  <meta name="og:image" content="<%= static_path(@conn, "/images/preview-image.png") %>">
+  <meta name="og:url" content="https://codefund.io">
+  <meta name="og:site_name" content="CodeFund">
+  <meta name="og:locale" content="en_US">
+  <meta name="fb:admins" content="801507563">
+  <meta name="og:type" content="website">
+
   <!-- Google Fonts -->
   <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
 
@@ -54,7 +81,7 @@
         <div class="d-flex align-items-center mb-0">
           <!-- Language -->
           <div class="position-relative">
-            <a id="languageDropdownInvoker" class="d-flex align-items-center u-unfold-wrapper" href="javascript:;" role="button"
+            <a id="languageDropdownInvoker" style="width: 250px;" class="d-flex align-items-center u-unfold-wrapper" href="javascript:;" role="button"
                aria-controls="languageDropdown"
                aria-haspopup="true"
                aria-expanded="false"
@@ -66,16 +93,15 @@
                data-unfold-hide-on-scroll="true"
                data-unfold-animation-in="slideInUp"
                data-unfold-animation-out="fadeOut">
-              <span class="d-inline-block d-sm-none">CodeFund</span>
-              <span class="d-none d-sm-inline-block">Fund Open Source</span>
+              <span class="d-inline-block d-sm-none">Partners</span>
+              <span class="d-none d-sm-inline-block">Partners</span>
               <span class="fa fa-angle-down u-unfold__icon-pointer"></span>
             </a>
 
             <div id="languageDropdown" class="u-unfold mt-2" aria-labelledby="languageDropdownInvoker">
-              <a class="active u-list__link" href="/">CodeFund</a>
               <a class="u-list__link" href="https://gitcoin.co">Gitcoin</a>
-              <a class="u-list__link" href="#">Grants</a>
-              <a class="u-list__link" href="#">Kudos</a>
+              <a class="u-list__link" href="https://opencollective.com">Open Collective</a>
+              <a class="u-list__link" href="mailto:team@codefund.io?subject=I want to partner with CodeFund">Become a Partner</a>
             </div>
           </div>
           <!-- End Language -->
@@ -161,7 +187,7 @@
               <%= active_link(@conn, "Home", to: page_path(@conn, :index), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
               <%= active_link(@conn, "Advertisers", to: page_path(@conn, :advertisers), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
               <%= active_link(@conn, "Publishers", to: page_path(@conn, :publishers), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
-              <%= active_link(@conn, "Blog", to: page_path(@conn, :blog), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
+              <li class="nav-item"><a href="https://medium.com/codefund" target="_blank" class="nav-link u-header__nav-link">Blog</a></li>
               <%= active_link(@conn, "FAQ", to: page_path(@conn, :help), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
 
               <!-- Button -->
@@ -199,7 +225,6 @@
 
           <!-- List -->
           <ul class="list-unstyled mb-0">
-            <li><%= link "Ethical Advertising", to: page_path(@conn, :ethical_advertising), class: "u-list__link" %></li>
             <li><%= link "Advertise with Us", to: page_path(@conn, :advertisers), class: "u-list__link" %></li>
             <li><%= link "Become a Publisher", to: page_path(@conn, :publishers), class: "u-list__link" %></li>
           </ul>
@@ -214,9 +239,7 @@
           <!-- List -->
           <ul class="list-unstyled mb-0">
             <li><%= link "Team", to: page_path(@conn, :team), class: "u-list__link" %></li>
-            <li><%#= link "About", to: page_path(@conn, :about), class: "u-list__link" %></li>
-            <li><%#= link "Blog", to: page_path(@conn, :blog), class: "u-list__link" %></li>
-            <li><%#= link "Media Kit", to: page_path(@conn, :media_kit), class: "u-list__link" %></li>
+            <li><a href="https://medium.com" target="_blank" class="u-list__link">Blog</a></li>
           </ul>
           <!-- End List -->
         </div>
@@ -271,8 +294,10 @@
       <!-- End Logo -->
 
       <p class="small text-muted">
-        &copy; 2018 &copy; ConsenSys. All rights reserved.<br/>
+        &copy; 2018 &copy; CodeFund. All rights reserved.<br/>
         <small><a href="https://themes.getbootstrap.com/product/front-multipurpose-responsive-template/" target="_blank">Front Theme</a> 2018 &copy; Htmlstream. All rights reserved.</small>
+        <br>
+        <small><a href="https://undraw.co/" target="_blank">Illustrations</a> created by <a href="https://twitter.com/ninalimpi">Katerina Limpitsoun</a>.</small>
       </p>
     </div>
     <!-- End Copyright -->
@@ -281,7 +306,7 @@
 
   <!-- Go to Top -->
   <a class="js-go-to u-go-to" href="#"
-    data-position='{"bottom": 15, "right": 15 }'
+    data-position='{"bottom": 15, "left": 15 }'
     data-type="fixed"
     data-offset-top="400"
     data-compensation="#header"
@@ -296,7 +321,6 @@
   <script src="<%= static_path(@conn, "/theme/vendor/jquery-migrate/dist/jquery-migrate.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/vendor/popper.js/dist/umd/popper.min.js") %>"></script>
   <script src="<%= static_path(@conn, "/theme/vendor/bootstrap/bootstrap.min.js") %>"></script>
-  <script src="https://static.jsbin.com/js/embed.min.js?4.1.4"></script>
 
   <!-- JS Implementing Plugins -->
   <script src="<%= static_path(@conn, "/theme/vendor/hs-megamenu/src/hs.megamenu.js") %>"></script>
@@ -324,6 +348,18 @@
   <script src="<%= static_path(@conn, "/theme/js/helpers/hs.focus-state.js") %>"></script>
  
   <!-- JS Plugins Init -->
+  <script>
+    $(document).on('ready', function () {
+      $.HSCore.components.HSHeader.init($('#header'));
+      $.HSCore.components.HSUnfold.init($('[data-unfold-target]'));
+      $.HSCore.components.HSGoTo.init('.js-go-to');
+      $.HSCore.components.HSMalihuScrollBar.init($('.js-scrollbar'));
+      $.HSCore.helpers.HSFocusState.init();
+    });
+  </script>
   <%= render_existing @view_module, "scripts." <> @view_template, assigns %>
+  
+  <%= support_widget_tag() %>
+  <%= ga_tag() %>
 </body>
 </html>

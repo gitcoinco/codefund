@@ -73,7 +73,9 @@ defmodule CodeFundWeb.PageController do
   end
 
   def contact(conn, %{"type" => type}) when type in ["advertiser", "publisher"] do
-    render(conn, "#{type}.html")
+    conn
+    |> put_layout("home.html")
+    |> render("#{type}s.html")
   end
 
   def contact(conn, _) do
@@ -84,9 +86,15 @@ defmodule CodeFundWeb.PageController do
       when type in ["advertiser", "publisher"] do
     Contact.email(form, type) |> Mailer.deliver_now()
 
+    redirect_url =
+        case type do
+          "advertiser" ->  page_path(conn, :advertisers)
+          "publisher" -> page_path(conn, :publishers)
+        end
+
     conn
     |> put_flash(:info, "Your request was submitted successfully")
-    |> redirect(to: page_path(conn, :index))
+    |> redirect(to: redirect_url)
   end
 
   def deliver_form(conn, _) do

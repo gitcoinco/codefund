@@ -92,51 +92,68 @@
     </div>
     <!-- End Title -->
 
-    <!-- Mockup Browser -->
-    <div class="u-browser-v1 mx-auto mb-4">
-      <!-- SVG Background Shape -->
-      <figure>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-             viewBox="0 0 1109.8 797.1" style="enable-background:new 0 0 1109.8 797.1;" xml:space="preserve">
-          <path class="u-fill-primary" opacity=".1" d="M105.1,267.1C35.5,331.5-3.5,423,0.3,517.7c5.8,145.3,110.7,314.2,588,273.1c753-64.7,481.3-358.3,440.4-398.3
-            c-4-3.9-7.9-7.9-11.7-12L761.9,104.8C639.4-27.6,432.5-35.6,299.9,87L105.1,267.1z"/>
-        </svg>
-      </figure>
-      <!-- End SVG Background Shape -->
-
-      <!-- Mockup Browser -->
-      <figure class="u-browser-v1__svg">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-             viewBox="0 0 857 670" style="enable-background:new 0 0 857 670;" xml:space="preserve">
-          <g>
-            <defs>
-              <path id="browserV1_1" d="M833,665H25c-10.5,0-19-8.5-19-19V24.9c0-10.5,8.5-19,19-19h808c10.5,0,19,8.5,19,19V646C852,656.5,843.5,665,833,665z"/>
-            </defs>
-            <clipPath id="browserV1_2">
-              <use xlink:href="#browserV1_1" style="overflow:visible;"/>
-            </clipPath>
-            <!-- Apply your (855px width to 655px height) image here -->
-            <image style="overflow:visible;clip-path:url(#browserV1_2);" width="855" height="655" xlink:href="<%= static_path(@conn, "/images/screen-jsbin.png") %>" transform="matrix(1 0 0 1.0075 0 0)"></image>
-            <use xlink:href="#browserV1_1" class="u-fill-none u-stroke-white" stroke-width="10" stroke-miterlimit="10" style="overflow:visible;"/>
-          </g>
-          <g>
-            <path class="u-fill-white" d="M856.8,40.2H0.8V19c0-10.5,8.5-19,19-19h818c10.5,0,19,8.5,19,19V40.2z"/>
-          </g>
-          <g>
-            <ellipse class="u-fill-danger" cx="28.5" cy="20.1" rx="6" ry="6"/>
-            <ellipse class="u-fill-warning" cx="48.4" cy="20.1" rx="6" ry="6"/>
-            <ellipse class="u-fill-success" cx="68.4" cy="20.1" rx="6" ry="6"/>
-          </g>
-        </svg>
-      </figure>
-      <!-- End Mockup Browser -->
+    <!-- Example Sites-->
+    <div class="container pb-3">
+      <div class="mx-auto js-slick-carousel u-slick"
+          data-infinite="true"
+          data-autoplay="true"
+          data-slides-show="1"
+          data-slides-scroll="1"
+          data-center-mode="true"
+          data-center-padding="200px"
+          data-pagi-classes="text-center u-slick__pagination mt-5 mb-0"
+          data-responsive='[{
+            "breakpoint": 992,
+            "settings": {
+              "centerPadding": "120px"
+            }
+          }, {
+            "breakpoint": 768,
+            "settings": {
+              "centerPadding": "80px"
+            }
+          }, {
+            "breakpoint": 554,
+            "settings": {
+              "centerPadding": "50px"
+            }
+          }]'>
+        <div class="js-slide u-bg-img-hero-center" style="background-size: contain; background-image: url(<%= static_path(@conn, "/images/browser-jsbin.png") %>);">
+          <div class="u-space-5">
+          </div>
+        </div>
+        <div class="js-slide u-bg-img-hero-center" style="background-size: contain; background-image: url(<%= static_path(@conn, "/images/browser-material-ui.png") %>);">
+          <div class="u-space-5">
+          </div>
+        </div>
+        <div class="js-slide u-bg-img-hero-center" style="background-size: contain; background-image: url(<%= static_path(@conn, "/images/browser-codesandbox.png") %>);">
+          <div class="u-space-5">
+          </div>
+        </div>
+        <div class="js-slide u-bg-img-hero-center" style="background-size: contain; background-image: url(<%= static_path(@conn, "/images/browser-codier.png") %>);">
+          <div class="u-space-5">
+          </div>
+        </div>
+        <div class="js-slide u-bg-img-hero-center" style="background-size: contain; background-image: url(<%= static_path(@conn, "/images/browser-daily.png") %>);">
+          <div class="u-space-5">
+          </div>
+        </div>
+        <div class="js-slide u-bg-img-hero-center" style="background-size: contain; background-image: url(<%= static_path(@conn, "/images/browser-vuetify.png") %>);">
+          <div class="u-space-5">
+          </div>
+        </div>
+        <div class="js-slide u-bg-img-hero-center" style="background-size: contain; background-image: url(<%= static_path(@conn, "/images/browser-redux-form.png") %>);">
+          <div class="u-space-5">
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- End Mockup Browser -->
+    <!-- End Example Sites -->
 
     <div class="w-50 w-md-40 w-lg-30 text-center mx-auto">
       <p class="small">Our publishers include amazing projects such as <a href="https://codesandbox.io" target="_blank">codesandbox.io</a>,
       <a href="http://rubular.com">rubular.com</a>, <a href="https://material-ui.com" target="_blank">material-ui.com</a>, and
-      <a href="https://jsbin.com" target="_blank">jsbin.com</a> (as seen above)</p>
+      <a href="https://jsbin.com" target="_blank">jsbin.com</a>, and many more.</p>
     </div>
   </div>
   <!-- End What We Do Section -->
@@ -148,7 +165,7 @@
     <div class="w-md-80 w-lg-50 text-center mx-auto mb-9">
       <span class="u-label u-label--sm u-label--success mb-2">Live Stats</span>
       <h2>How are we doing?</h2>
-      <p>Below you will find real stats for the past 30 days (updated hourly)</p>
+      <p>Below you will find real stats for the month of September</p>
     </div>
     <!-- End Title -->
 
@@ -159,7 +176,7 @@
         <div class="text-center">
           <div class="position-relative">
             <div class="u-indicator-dots">
-              <h4 class="display-4 text-primary mb-0">4.6M</h4>
+              <h4 class="display-4 text-primary mb-0">5.2M</h4>
             </div>
           </div>
           <p class="mb-0">total ad<br>impression</p>
@@ -172,7 +189,7 @@
         <div class="text-center">
           <div class="position-relative">
             <div class="u-indicator-dots">
-              <h4 class="display-4 text-primary mb-0">$6.2K</h4>
+              <h4 class="display-4 text-primary mb-0">$6.8K</h4>
             </div>
           </div>
           <p class="mb-0">publisher<br>distributions</p>
@@ -184,7 +201,7 @@
         <!-- Facts & Figures -->
         <div class="text-center">
           <div class="position-relative">
-              <h4 class="display-4 text-primary mb-0">0.27%</h4>
+              <h4 class="display-4 text-primary mb-0">0.26%</h4>
           </div>
           <p class="mb-0">average click<br>through rate</p>
         </div>
