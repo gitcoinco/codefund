@@ -1,7 +1,6 @@
 defmodule CodeFundWeb.PageView do
   use CodeFundWeb, :view
 
-  @spec title(any()) :: <<_::64, _::_*8>>
   def title(:index), do: "CodeFund"
   def title(:advertiser), do: "Advertise with Us | CodeFund"
   def title(:publisher), do: "Become a Publisher | CodeFund"
@@ -16,7 +15,6 @@ defmodule CodeFundWeb.PageView do
   def title(_), do: "CodeFund"
   def body_class(_), do: "app mt-5"
 
-  @spec headline_link() :: {:safe, <<_::64, _::_*8>>}
   def headline_link do
     headline_title = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:home_headline_title]
     headline_link = Application.get_env(:code_fund, CodeFundWeb.Endpoint)[:home_headline_link]
