@@ -33,6 +33,7 @@ defmodule CodeFundWeb.Coherence.PasswordController do
   def new(conn, _params) do
     user_schema = Config.user_schema()
     changeset = Controller.changeset(:password, user_schema, user_schema.__struct__)
+
     conn
     |> put_layout("authentication.html")
     |> render(:new, email: "", changeset: changeset)

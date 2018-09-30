@@ -87,10 +87,10 @@ defmodule CodeFundWeb.PageController do
     Contact.email(form, type) |> Mailer.deliver_now()
 
     redirect_url =
-        case type do
-          "advertiser" ->  page_path(conn, :advertisers)
-          "publisher" -> page_path(conn, :publishers)
-        end
+      case type do
+        "advertiser" -> page_path(conn, :advertisers)
+        "publisher" -> page_path(conn, :publishers)
+      end
 
     conn
     |> put_flash(:info, "Your request was submitted successfully")
@@ -103,6 +103,7 @@ defmodule CodeFundWeb.PageController do
 
   def signup_for_newsletter(conn, %{"email" => email}) do
     mailchimp_list_id = Application.get_env(:mailchimp, :newsletter_list_id)
+
     list = %Mailchimp.List{
       links: %{
         "members" => %Mailchimp.Link{
@@ -110,12 +111,14 @@ defmodule CodeFundWeb.PageController do
           method: "GET",
           rel: "members",
           schema: "https://us16.api.mailchimp.com/schema/3.0/CollectionLinks/Lists/Members.json",
-          target_schema: "https://us16.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/CollectionResponse.json"
+          target_schema:
+            "https://us16.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/CollectionResponse.json"
         }
       }
     }
+
     Mailchimp.List.create_member(list, email, :subscribed, %{}, %{})
-    
+
     conn
     |> put_flash(:info, "You will now receive our weekly newsletter!")
     |> redirect(to: page_path(conn, :index))
