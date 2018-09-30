@@ -71,6 +71,26 @@
   </a>
   <!-- End Skippy -->
 
+  <%= if notice = get_flash(@conn, :info) do %>
+    <div class="flash-container" style="
+      background-color: #faffd1;
+      z-index: 9;
+      text-align: center;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      height: 18px;
+      padding: 10px 0 36px 0;">
+      <p><%= notice %></p>
+    </div>
+    <script>
+    setTimeout(function() {
+      $(".flash-container").hide("slow");
+    }, 5000);
+    </script>
+  <% end %>
+
   <!-- ========== HEADER ========== -->
   <header id="header" class="u-header u-header--abs-top-md u-header--bg-transparent u-header--show-hide-md"
           data-header-fix-moment="500"
@@ -267,7 +287,7 @@
           </div>
 
           <!-- Form -->
-          <form class="js-validate js-form-message">
+          <%= form_tag page_path(@conn, :signup_for_newsletter), [method: :post, class: "js-validate js-form-message"] do %>
             <div class="js-focus-state input-group u-form">
               <input type="email" class="form-control u-form__input" name="email" required
                     placeholder="Enter your email address"
@@ -276,7 +296,7 @@
                 <button type="submit" class="btn btn-primary u-btn-primary">Subscribe</button>
               </span>
             </div>
-          </form>
+          <% end %>
           <!-- End Form -->
         </div>
       </div>

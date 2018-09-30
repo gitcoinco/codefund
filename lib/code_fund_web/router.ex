@@ -87,6 +87,7 @@ defmodule CodeFundWeb.Router do
     get("/media-kit", PageController, :media_kit)
     post("/register/:type", PageController, :deliver_form)
     get("/register/:type", PageController, :contact)
+    post("/newsletter", PageController, :signup_for_newsletter)
     get("/p/:impression_id/pixel.png", TrackController, :pixel)
     get("/c/:impression_id", TrackController, :click)
     get("/t/l/:property_id/logo.png", TrackController, :logo)

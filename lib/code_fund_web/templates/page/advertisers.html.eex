@@ -503,7 +503,7 @@
 							<button type="submit" class="btn text-primary u-btn-white transition-3d-hover">Submit</button>
 						</div>
 					</div>
-				<%= end %>
+				<% end %>
 			</div>
 		</div>
 
