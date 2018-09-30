@@ -75,10 +75,6 @@ fakes3 -r /tmp/fakes3_root -p 4567
 mix phx.server
 ```
 
-#### Front Theme
-
-...
-
 #### Running Tests
 We use `fakes3` for mocking S3 uploads so you will need to have this service running prior to running tests.
 You can run this and tests automatically with `./bin/run_tests`
