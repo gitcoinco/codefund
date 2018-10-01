@@ -1,0 +1,6 @@
+<script>
+  $(document).on('ready', function () {
+    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+    $.HSCore.components.HSValidation.init('.js-validate');
+  });
+</script>

@@ -1,0 +1,17 @@
+<script>
+  $(document).on('ready', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#header'));
+
+    // initialization of malihu scrollbar
+    $.HSCore.components.HSMalihuScrollBar.init($('.js-scrollbar'));
+
+    // initialization of sticky blocks
+    setTimeout(function () {
+      $.HSCore.components.HSStickyBlock.init('.js-sticky-block');
+    }, 300);
+
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+  });
+</script>
