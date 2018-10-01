@@ -165,7 +165,7 @@
     <div class="w-md-80 w-lg-50 text-center mx-auto mb-9">
       <span class="u-label u-label--sm u-label--success mb-2">Live Stats</span>
       <h2>How are we doing?</h2>
-      <p>Below you will find real stats for the month of September</p>
+      <p>Below you will find real stats for the <strong class="text-codefund-purple">month of September 2018</strong></p>
     </div>
     <!-- End Title -->
 
@@ -176,7 +176,7 @@
         <div class="text-center">
           <div class="position-relative">
             <div class="u-indicator-dots">
-              <h4 class="display-4 text-primary mb-0">5.2M</h4>
+              <h4 class="display-4 text-primary mb-0">5.3M</h4>
             </div>
           </div>
           <p class="mb-0">total ad<br>impression</p>

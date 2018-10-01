@@ -19,7 +19,7 @@
                 <strong class="u-text-animation u-text-animation--typing"></strong>
               </span>
             </h2>
-            <p>We generate side revenue for your community projects</p>
+            <p>Generate passive income without sacrificing<br/>your coding time or community trust</p>
           </div>
 
           <a class="js-go-to mt-3 btn btn-primary u-btn-primary u-btn-wide u-btn-pill transition-3d-hover mr-1 mb-2" href="javascript:;"
@@ -502,6 +502,23 @@
 
   <!-- Publisher Form Section -->
 	<div id="applyForPublisher" class="position-relative u-gradient-half-primary-v1">
+		<figure class="position-absolute-top-0 z-index-2">
+			<svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					viewBox="0 0 1920.5 318.5" style="margin-top: -8px; margin-bottom: 0; enable-background:new 0 0 1920.5 318.5;" xml:space="preserve">
+				<linearGradient id="pricingTopLeftShapeID1" gradientUnits="userSpaceOnUse" x1="319.6719" y1="208.4502" x2="231.1918" y2="-34.6469">
+					<stop class="u-stop-color-white" stop-opacity="0" offset="2.250243e-07"/>
+					<stop class="u-stop-color-primary" stop-opacity=".4" offset="1"/>
+				</linearGradient>
+				<path fill="url(#pricingTopLeftShapeID1)" d="M0.5,304.1c0,0,225.5-202.6,629.5-201.6L0,56.5L0.5,304.1z"/>
+				<linearGradient id="pricingTopLeftShapeID2" gradientUnits="userSpaceOnUse" x1="1497.9215" y1="44.6831" x2="1635.3568" y2="422.2836">
+					<stop class="u-stop-color-white" stop-opacity="0" offset="2.250243e-07"/>
+					<stop class="u-stop-color-primary" stop-opacity=".4" offset="1"/>
+				</linearGradient>
+				<path fill="url(#pricingTopLeftShapeID2)" d="M1144,173.5c0,0,94,48,410,67s366.5,78,366.5,78v-214L1144,173.5z"/>
+				<path class="u-fill-white" d="M0.5,138c0,0,395-113,984,7s936,21,936,21V0H0.5V138z"/>
+			</svg>
+		</figure>
+
 		<div class="container u-space-4-top u-space-2-bottom">
 			<div class="w-lg-80 mx-auto">
 				<%= form_tag page_path(@conn, :deliver_form, :publisher), [method: :post, class: "js-validate"] do %>
@@ -605,23 +622,6 @@
 				<% end %>
 			</div>
 		</div>
-
-		<figure class="position-absolute-top-0 z-index-2">
-			<svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-					viewBox="0 0 1920.5 318.5" style="margin-top: -8px; margin-bottom: 0; enable-background:new 0 0 1920.5 318.5;" xml:space="preserve">
-				<linearGradient id="pricingTopLeftShapeID1" gradientUnits="userSpaceOnUse" x1="319.6719" y1="208.4502" x2="231.1918" y2="-34.6469">
-					<stop class="u-stop-color-white" stop-opacity="0" offset="2.250243e-07"/>
-					<stop class="u-stop-color-primary" stop-opacity=".4" offset="1"/>
-				</linearGradient>
-				<path fill="url(#pricingTopLeftShapeID1)" d="M0.5,304.1c0,0,225.5-202.6,629.5-201.6L0,56.5L0.5,304.1z"/>
-				<linearGradient id="pricingTopLeftShapeID2" gradientUnits="userSpaceOnUse" x1="1497.9215" y1="44.6831" x2="1635.3568" y2="422.2836">
-					<stop class="u-stop-color-white" stop-opacity="0" offset="2.250243e-07"/>
-					<stop class="u-stop-color-primary" stop-opacity=".4" offset="1"/>
-				</linearGradient>
-				<path fill="url(#pricingTopLeftShapeID2)" d="M1144,173.5c0,0,94,48,410,67s366.5,78,366.5,78v-214L1144,173.5z"/>
-				<path class="u-fill-white" d="M0.5,138c0,0,395-113,984,7s936,21,936,21V0H0.5V138z"/>
-			</svg>
-		</figure>
 	</div>
 	<!-- END Publisher Form Section -->
 
