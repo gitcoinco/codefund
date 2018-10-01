@@ -303,7 +303,7 @@
           <div class="media-body">
             <h3 class="h5">Technical questions</h3>
             <p class="mb-1">Have some technical questions? Hit us on Slack channels <a href="https://gitcoin.co/slack">#codefund</a> or just say hello.</p>
-            <a class="font-size-14" href="https://gitcoin.co/slack">Slack us <span class="fa fa-angle-right align-middle ml-2"></span></a>
+            <p class="mb-1">You can also submit an issue or pull request on our project at <a href="https://github.com/gitcoinco/codefund/issues" target="_blank">GitHub</a>.</p>
           </div>
         </div>
         <!-- End Contacts Info -->
