@@ -413,9 +413,9 @@
                 <p>
                   We are very selective when it comes to websites that can participate with CodeFund. The website:
                   <ul class="list-unstyled" style="color: #77838f;">
-                    <li><i class="fal fa-check text-codefund-green"></i> must be serving the developer community, whether as API docs, blogs, applications or other.</li>
-                    <li><i class="fal fa-check text-codefund-green"></i> must not be a pay-to-use application.</li>
-                    <li><i class="fal fa-check text-codefund-green"></i> must receive at least 5,000 unique visitors per month.</li>
+                    <li><i class="fal fa-check text-codefund-green"></i> Must be serving the developer community, whether as API docs, blogs, applications or other.</li>
+                    <li><i class="fal fa-check text-codefund-green"></i> Must not be a pay-to-use application.</li>
+                    <li><i class="fal fa-check text-codefund-green"></i> Must receive at least 5,000 unique visitors per month.</li>
                   </ul>
                 </p>
               </div>
