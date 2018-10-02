@@ -187,7 +187,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
       assert html_response(conn, 200) =~ "Campaign"
       assert html_response(conn, 200) =~ campaign.name
 
-      assert conn.assigns.fields |> Keyword.keys() |> Enum.sort == [
+      assert conn.assigns.fields |> Keyword.keys() |> Enum.sort() == [
                :active_dates,
                :audience_id,
                :budget_daily_amount,
@@ -202,7 +202,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :total_spend,
                :us_hours_only,
                :user_id,
-               :weekdays_only,
+               :weekdays_only
              ]
     end
 
@@ -214,7 +214,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
       assert html_response(conn, 200) =~ "Campaign"
       assert html_response(conn, 200) =~ campaign.name
 
-      assert conn.assigns.fields |> Keyword.keys() |> Enum.sort == [
+      assert conn.assigns.fields |> Keyword.keys() |> Enum.sort() == [
                :active_dates,
                :budget_daily_amount,
                :creative_id,
@@ -222,7 +222,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :name,
                :redirect_url,
                :start_date,
-               :status,
+               :status
              ]
     end
   end

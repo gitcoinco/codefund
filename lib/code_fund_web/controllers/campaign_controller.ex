@@ -188,7 +188,7 @@ defmodule CodeFundWeb.CampaignController do
         opts: [
           data: [target: "date-range.endDate"]
         ]
-      ],
+      ]
     ]
 
     admin_only_fields = [
@@ -198,14 +198,14 @@ defmodule CodeFundWeb.CampaignController do
       :total_spend,
       :us_hours_only,
       :user_id,
-      :weekdays_only,
+      :weekdays_only
     ]
 
     fields =
       if is_admin do
         fields
       else
-        fields = Enum.reject(fields, fn({key, _}) -> Enum.member?(admin_only_fields, key) end)
+        fields = Enum.reject(fields, fn {key, _} -> Enum.member?(admin_only_fields, key) end)
       end
 
     [fields: fields]
