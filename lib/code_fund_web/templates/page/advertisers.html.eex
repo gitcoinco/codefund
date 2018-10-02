@@ -2,29 +2,6 @@
 <main id="content" role="main">
 	<!-- Hero Section -->
 	<div class="position-relative u-gradient-half-primary-v3">
-		<div class="container u-space-4-top u-space-5-top--md u-space-4-top--lg u-space-2-bottom">
-			<div class="row align-items-lg-center">
-				<div class="col-lg-5 mb-7 mb-lg-0">
-					<!-- Info -->
-					<h1 class="mb-4 text-codefund-purple">Your ads will reach the <span class="text-codefund-green font-weight-bold">right</span> audience.</h1>
-					<p>CodeFund provides a turn-key advertising solution to place your ad in front of software developers of many programming languages.</p>
-					<!-- End Info -->
-
-					<a class="js-go-to mt-3 btn btn-primary u-btn-primary u-btn-wide u-btn-pill transition-3d-hover mr-1 mb-2" href="javascript:;"
-						data-target="#applyForAdvertiser"
-						data-type="static">
-						Advertise with CodeFund
-					</a>
-				</div>
-
-				<div class="col-lg-7">
-					<!-- SVG Icon -->
-					<img src="<%= static_path(@conn, "/images/svg/undraw_product_tour_foyt.svg") %>" style="width: 100%;">
-					<!-- End SVG Icon -->
-				</div>
-			</div>
-		</div>
-
 		<!-- SVG Background -->
 		<figure class="position-absolute-bottom-0">
 			<svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -40,6 +17,31 @@
 			</svg>
 		</figure>
 		<!-- End SVG Background Section -->
+
+		<div class="container u-space-4-top u-space-5-top--md u-space-4-top--lg u-space-2-bottom">
+			<div class="row align-items-lg-center">
+				<div class="col-lg-5 mb-7 mb-lg-0">
+					<!-- Info -->
+					<h1 class="mb-4 text-codefund-purple">Your ads will reach the <span class="text-codefund-green font-weight-bold">right</span> audience.</h1>
+					<p>CodeFund provides a turn-key advertising solution to place your ad in front of software developers of many programming languages.</p>
+					<!-- End Info -->
+
+					<a class="js-go-to mt-3 btn btn-primary u-btn-primary--air u-btn-wide u-btn-pill transition-3d-hover" href="javascript:;"
+						data-target="#applyForAdvertiser"
+						data-type="static">Advertise with CodeFund</a>
+					<br>
+					<a class="mt-1 btn btn-link"
+						href="<%= static_path(@conn, "/docs/codefund-prospectus-q4-2018.pdf") %>"
+						target="_blank"><i class="fas fa-download"></i> 2018 Q4 Prospectus</a>
+				</div>
+
+				<div class="col-lg-7">
+					<!-- SVG Icon -->
+					<img src="<%= static_path(@conn, "/images/svg/undraw_product_tour_foyt.svg") %>" style="width: 100%;">
+					<!-- End SVG Icon -->
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- End Hero Section -->
 
