@@ -187,23 +187,22 @@ defmodule CodeFundWeb.CampaignControllerTest do
       assert html_response(conn, 200) =~ "Campaign"
       assert html_response(conn, 200) =~ campaign.name
 
-      assert conn.assigns.fields |> Keyword.keys() == [
+      assert conn.assigns.fields |> Keyword.keys() |> Enum.sort == [
+               :active_dates,
+               :audience_id,
+               :budget_daily_amount,
+               :creative_id,
+               :ecpm,
+               :end_date,
+               :included_countries,
                :name,
                :redirect_url,
-               :status,
-               :active_dates,
-               :creative_id,
-               :audience_id,
-               :user_id,
-               :ecpm,
-               :included_countries,
-               :budget_daily_amount,
-               :total_spend,
-               :impression_count,
-               :us_hours_only,
-               :weekdays_only,
                :start_date,
-               :end_date
+               :status,
+               :total_spend,
+               :us_hours_only,
+               :user_id,
+               :weekdays_only,
              ]
     end
 
@@ -215,21 +214,15 @@ defmodule CodeFundWeb.CampaignControllerTest do
       assert html_response(conn, 200) =~ "Campaign"
       assert html_response(conn, 200) =~ campaign.name
 
-      assert conn.assigns.fields |> Keyword.keys() == [
+      assert conn.assigns.fields |> Keyword.keys() |> Enum.sort == [
+               :active_dates,
+               :budget_daily_amount,
+               :creative_id,
+               :end_date,
                :name,
                :redirect_url,
-               :status,
-               :active_dates,
-               :creative_id,
-               :user_id,
-               :ecpm,
-               :included_countries,
-               :budget_daily_amount,
-               :impression_count,
-               :us_hours_only,
-               :weekdays_only,
                :start_date,
-               :end_date
+               :status,
              ]
     end
   end
