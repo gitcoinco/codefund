@@ -30,11 +30,12 @@ defmodule CodeFundWeb.CampaignController do
   end
 
   defstub update do
-    before_hook(&edit_assigns/2)
+    inject_params(&calculate_impression_count/2)
+    |> error(&edit_assigns/2)
   end
 
   defstub create do
-    before_hook(&new_assigns/2)
+    inject_params(&calculate_impression_count/2)
     |> error(&new_assigns/2)
   end
 
@@ -47,6 +48,14 @@ defmodule CodeFundWeb.CampaignController do
     conn
     |> put_flash(:info, "Campaign duplicated successfully.")
     |> redirect(external: campaign_path(conn, :edit, duplicated_campaign_id))
+  end
+
+  defp calculate_impression_count(_, params) do
+    ecpm = get_in(params, ["params", "campaign", "ecpm"]) |> String.to_float
+    total_spend = get_in(params, ["params", "campaign", "total_spend"]) |> String.to_float
+    impression_count = (total_spend / ecpm ) * 1000 |> round()
+
+    {"impression_count", impression_count}
   end
 
   defp new_assigns(conn, params) do
