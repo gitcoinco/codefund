@@ -73,7 +73,7 @@ defmodule CodeFundWeb.CampaignController do
     fields = [
       user_id: [
         type: :select,
-        label: "Owner",
+        label: "Advertiser",
         opts: [
           disabled: !is_admin,
           prompt: "Select a User",
@@ -161,14 +161,6 @@ defmodule CodeFundWeb.CampaignController do
           """
         ]
       ],
-      impression_count: [
-        type: :number_input,
-        label: "Estimated Impressions",
-        opts: [
-          disabled: true,
-          data: [target: "campaign-form.estimatedImpressions"]
-        ]
-      ],
       us_hours_only: [
         type: :checkbox,
         label: "US Hours Only",
@@ -202,7 +194,6 @@ defmodule CodeFundWeb.CampaignController do
     admin_only_fields = [
       :audience_id,
       :ecpm,
-      :impression_count,
       :included_countries,
       :total_spend,
       :us_hours_only,
