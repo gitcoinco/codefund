@@ -54,7 +54,13 @@ defmodule CodeFundWeb.CampaignController do
   defp assign_impression_count(_, params) do
     cpm = get_in(params, ["params", "campaign", "ecpm"])
     budget = get_in(params, ["params", "campaign", "total_spend"])
-    {"impression_count", total_impressions_for_budget(cpm, budget)}
+    if not is_nil(cpm) and not is_nil(budget) do
+      # only admins post ecpm and budget
+      {"impression_count", total_impressions_for_budget(cpm, budget)}
+    else
+      # must assign something otherwise we get an error from inject_params
+      {"skip_assign_impression_count", true}
+    end
   end
 
   defp new_assigns(conn, params) do

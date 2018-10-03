@@ -39,7 +39,7 @@ defmodule AdService.Math.Impressions do
     (budget / cpm * 1000) |> round()
   end
 
-  def total_impressions_for_budget(0.0, _), do: 0
+  #def total_impressions_for_budget(0.0, _), do: 0
 
   def total_impressions_for_budget(cpm, budget) when not is_nil(cpm) and not is_nil(budget) do
     total_impressions_for_budget(value_to_float(cpm), value_to_float(budget))
