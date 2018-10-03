@@ -188,16 +188,12 @@ defmodule CodeFundWeb.CampaignController do
         opts: [
           data: [target: "date-range.endDate"]
         ]
-      ],
-      impression_count: [
-        type: :hidden_input
       ]
     ]
 
     admin_only_fields = [
       :audience_id,
       :ecpm,
-      :impression_count,
       :included_countries,
       :total_spend,
       :us_hours_only,
