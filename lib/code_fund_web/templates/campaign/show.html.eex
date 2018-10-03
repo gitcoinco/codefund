@@ -27,14 +27,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><strong>ID</strong></td>
-              <td><%= @campaign.id %></td>
-            </tr>
-            <tr>
-              <td><strong>Advertiser</strong></td>
-              <td><%= @campaign.user_id %></td>
-            </tr>
+            <%= if has_any_role? @conn, ["admin"] do %>
+              <tr>
+                <td><strong>Advertiser</strong></td>
+                <td>
+                  <%= link full_name(@campaign.user), to: user_path(@conn, :show, @campaign.user), class: "btn btn-outline-info btn-sm" %>
+                  <%= link "Masquerade", to: user_path(@conn, :masquerade, @campaign.user), class: "btn btn-outline-warning btn-sm" %>
+                </td>
+              </tr>
+            <% end %>
             <tr>
               <td><strong>Audience</strong></td>
               <td><%= if(not is_nil(@campaign.audience), do: @campaign.audience.name, else: "None") %></td>
@@ -74,12 +75,12 @@
               <td><%= @campaign.weekdays_only %></td>
             </tr>
             <tr>
-              <td><strong>Budgeted Impressions</strong></td>
-              <td><%= @campaign.impression_count %></td>
+              <td><strong>Impressions</strong> Budgeted</td>
+              <td><%= pretty_integer @campaign.impression_count %></td>
             </tr>
             <%= if @campaign.budgeted_campaign do %>
               <tr>
-                <td><strong>Total Impressions</strong></td>
+                <td><strong>Impressions</strong> Actual</td>
                 <td><%= pretty_integer @campaign.budgeted_campaign.total_impressions %></td>
               </tr>
             <% end %>
@@ -89,7 +90,7 @@
             </tr>
             <%= if @campaign.budgeted_campaign do %>
               <tr>
-                <td><strong>eCPM</strong> Actual</td>
+                <td><strong>eCPM</strong> Average</td>
                 <td><%= pretty_money @campaign.budgeted_campaign.actual_ecpm %></td>
               </tr>
               <tr>
@@ -97,7 +98,7 @@
                 <td><%= pretty_money @campaign.budgeted_campaign.revenue_amount %></td>
               </tr>
               <tr>
-                <td><strong>Balance</strong></td>
+                <td><strong>Remaining Balance</strong></td>
                 <td><%= pretty_money @campaign.budgeted_campaign.balance %></td>
               </tr>
             <% end %>
