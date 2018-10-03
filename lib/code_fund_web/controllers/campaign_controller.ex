@@ -4,7 +4,7 @@ defmodule CodeFundWeb.CampaignController do
   alias CodeFund.Campaigns
   alias CodeFund.Schema.Campaign
   alias Framework.Phoenix.Form.Helpers, as: FormHelpers
-  import AdService.Math.Impressions, only: [total_impressions_for_budget: 2]
+  alias AdService.Math.Impression, as: ImpressionMath
   use Framework.Controller.Stub.Definitions, [:index, :show, :delete]
 
   plug(
@@ -51,15 +51,22 @@ defmodule CodeFundWeb.CampaignController do
     |> redirect(external: campaign_path(conn, :edit, duplicated_campaign_id))
   end
 
-  defp assign_impression_count(_, params) do
-    cpm = get_in(params, ["params", "campaign", "ecpm"])
-    budget = get_in(params, ["params", "campaign", "total_spend"])
-    if not is_nil(cpm) and not is_nil(budget) do
-      # only admins post ecpm and budget
-      {"impression_count", total_impressions_for_budget(cpm, budget)}
-    else
-      # must assign something otherwise we get an error from inject_params
-      {"skip_assign_impression_count", true}
+  defp assign_impression_count(_, %{
+         "params" => %{"campaign" => %{"ecpm" => ecpm, "total_spend" => total_spend}}
+       }) do
+    impression_count =
+      value_to_float(ecpm)
+      |> ImpressionMath.total_impressions_for_total_spend(value_to_float(total_spend))
+
+    {"impression_count", impression_count}
+  end
+
+  defp assign_impression_count(_, _), do: {"skip_assign_impression_count", true}
+
+  defp value_to_float(value) do
+    case Float.parse(value) do
+      {f, _} -> f
+      _ -> 0.0
     end
   end
 

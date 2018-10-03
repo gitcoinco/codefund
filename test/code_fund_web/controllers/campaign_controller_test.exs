@@ -105,7 +105,10 @@ defmodule CodeFundWeb.CampaignControllerTest do
     end
     |> behaves_like([:authenticated, :admin], "POST /campaigns/create")
 
-    test "creates a campaign", %{conn: conn, users: users} do
+    test "creates a campaign as an admin and calculates the impression_count", %{
+      conn: conn,
+      users: users
+    } do
       conn = assign(conn, :current_user, users.admin)
 
       params = %{
@@ -115,7 +118,6 @@ defmodule CodeFundWeb.CampaignControllerTest do
         "name" => "Test Campaign",
         "start_date" => "2018-10-14",
         "end_date" => "2018-10-14",
-        "impression_count" => 800_000,
         "redirect_url" => "https://example.com/0",
         "creative_id" => insert(:creative).id,
         "user_id" => users.admin.id,
@@ -124,8 +126,47 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
       conn = post(conn, campaign_path(conn, :create, %{"params" => %{"campaign" => params}}))
 
-      assert redirected_to(conn, 302) ==
-               campaign_path(conn, :show, CodeFund.Schema.Campaign |> CodeFund.Repo.one())
+      campaign = CodeFund.Schema.Campaign |> CodeFund.Repo.one()
+
+      assert redirected_to(conn, 302) == campaign_path(conn, :show, campaign)
+
+      assert campaign.name == "Test Campaign"
+      assert campaign.ecpm == Decimal.new("2.00")
+      assert campaign.total_spend == Decimal.new("25.00")
+      assert campaign.impression_count == 12500
+
+      assert conn |> Phoenix.Controller.get_flash(:info) == "Campaign created successfully."
+    end
+
+    test "gracefully handles empty strings for the ecpm and total spend", %{
+      conn: conn,
+      users: users
+    } do
+      conn = assign(conn, :current_user, users.admin)
+
+      params = %{
+        "ecpm" => "",
+        "budget_daily_amount" => "25.0",
+        "total_spend" => "",
+        "name" => "Test Campaign",
+        "start_date" => "2018-10-14",
+        "end_date" => "2018-10-14",
+        "redirect_url" => "https://example.com/0",
+        "creative_id" => insert(:creative).id,
+        "user_id" => users.admin.id,
+        "status" => 2
+      }
+
+      conn = post(conn, campaign_path(conn, :create, %{"params" => %{"campaign" => params}}))
+
+      campaign = CodeFund.Schema.Campaign |> CodeFund.Repo.one()
+
+      assert redirected_to(conn, 302) == campaign_path(conn, :show, campaign)
+
+      assert campaign.name == "Test Campaign"
+      assert campaign.ecpm == Decimal.new("0.00")
+      assert campaign.total_spend == Decimal.new("0.00")
+      assert campaign.impression_count == 0
 
       assert conn |> Phoenix.Controller.get_flash(:info) == "Campaign created successfully."
     end
@@ -233,20 +274,88 @@ defmodule CodeFundWeb.CampaignControllerTest do
     end
     |> behaves_like([:authenticated, :sponsor], "PATCH /campaigns/update")
 
-    test "updates a campaign", %{conn: conn, users: users, valid_params: valid_params} do
-      campaign = insert(:campaign)
+    test "updates a campaign as an admin and calculates impression_count", %{
+      conn: conn,
+      users: users,
+      valid_params: valid_params
+    } do
+      campaign = insert(:campaign, impression_count: 0)
       conn = assign(conn, :current_user, users.admin)
+
+      update_params = %{"name" => "New Name", "ecpm" => "3.50", "total_spend" => "2400.00"}
 
       conn =
         patch(
           conn,
           campaign_path(conn, :update, campaign, %{
-            "params" => %{"campaign" => valid_params |> Map.put("name", "New Name")}
+            "params" => %{"campaign" => valid_params |> Map.merge(update_params)}
           })
         )
 
       assert redirected_to(conn, 302) == campaign_path(conn, :show, campaign)
-      assert CodeFund.Campaigns.get_campaign!(campaign.id).name == "New Name"
+      reloaded_campaign = CodeFund.Campaigns.get_campaign!(campaign.id)
+      assert reloaded_campaign.name == "New Name"
+      assert reloaded_campaign.ecpm == Decimal.new("3.50")
+      assert reloaded_campaign.total_spend == Decimal.new("2400.00")
+      assert reloaded_campaign.impression_count == 685_714
+    end
+
+    test "handles empty strings for ecpm and total spend gracefully", %{
+      conn: conn,
+      users: users,
+      valid_params: valid_params
+    } do
+      campaign = insert(:campaign, impression_count: 0)
+      conn = assign(conn, :current_user, users.admin)
+
+      update_params = %{"name" => "New Name", "ecpm" => "", "total_spend" => ""}
+
+      conn =
+        patch(
+          conn,
+          campaign_path(conn, :update, campaign, %{
+            "params" => %{"campaign" => valid_params |> Map.merge(update_params)}
+          })
+        )
+
+      assert redirected_to(conn, 302) == campaign_path(conn, :show, campaign)
+      reloaded_campaign = CodeFund.Campaigns.get_campaign!(campaign.id)
+      assert reloaded_campaign.name == "New Name"
+      assert reloaded_campaign.ecpm == Decimal.new("0.00")
+      assert reloaded_campaign.total_spend == Decimal.new("0.00")
+      assert reloaded_campaign.impression_count == 0
+    end
+
+    test "updates a campaign as an advertiser and does not override impression_count", %{
+      conn: conn,
+      users: users
+    } do
+      campaign = insert(:campaign, name: "Old Name", impression_count: 5000)
+      conn = assign(conn, :current_user, users.sponsor)
+
+      valid_params = %{
+        "budget_daily_amount" => "25.0",
+        "name" => "New Name",
+        "start_date" => "2018-10-14",
+        "end_date" => "2018-10-14",
+        "redirect_url" => "https://example.com/0",
+        "creative_id" => insert(:creative).id,
+        "user_id" => users.admin.id,
+        "status" => 2
+      }
+
+      conn =
+        patch(
+          conn,
+          campaign_path(conn, :update, campaign, %{
+            "params" => %{"campaign" => valid_params}
+          })
+        )
+
+      assert redirected_to(conn, 302) == campaign_path(conn, :show, campaign)
+      reloaded_campaign = CodeFund.Campaigns.get_campaign!(campaign.id)
+      assert reloaded_campaign.name == "New Name"
+      assert reloaded_campaign.impression_count == 5000
     end
 
     test "returns an error on invalid params for a campaign", %{
