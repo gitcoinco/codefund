@@ -59,6 +59,9 @@
   <!-- Cookie / Privacy Policy -->
   <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
 
+  <!-- Turbolinks / Stimulus -->
+  <script src="<%= static_path(@conn, "/js/home.js") %>"></script>
+
   <%= render_existing @view_module, "head." <> @view_template, assigns %>
 </head>
 
@@ -113,15 +116,15 @@
                data-unfold-hide-on-scroll="true"
                data-unfold-animation-in="slideInUp"
                data-unfold-animation-out="fadeOut">
-              <span class="d-inline-block d-sm-none">Partners</span>
-              <span class="d-none d-sm-inline-block">Partners</span>
+              <span class="d-inline-block d-sm-none">Funding Network</span>
+              <span class="d-none d-sm-inline-block">Funding Network</span>
               <span class="fa fa-angle-down u-unfold__icon-pointer"></span>
             </a>
 
             <div id="languageDropdown" class="u-unfold mt-2" aria-labelledby="languageDropdownInvoker">
               <a class="u-list__link" href="https://gitcoin.co">Gitcoin</a>
               <a class="u-list__link" href="https://opencollective.com">Open Collective</a>
-              <a class="u-list__link" href="mailto:team@codefund.io?subject=I want to partner with CodeFund">Become a Partner</a>
+              <a class="u-list__link" href="mailto:team@codefund.io?subject=I want to join the funding network">Join the Network</a>
             </div>
           </div>
           <!-- End Language -->
@@ -272,6 +275,7 @@
           <!-- List -->
           <ul class="list-unstyled mb-0">
             <li><%= link "Help", to: page_path(@conn, :help), class: "u-list__link" %></li>
+            <li><a href="https://status.codefund.io" class="u-list__link">Status</a></li>
             <li><a href="https://www.iubenda.com/privacy-policy/47597768" class="u-list__link iubenda-nostyle no-brand iubenda-embed iub-legal-only" title="Privacy Policy">Privacy Policy</a></li>
             <li><a href="https://www.iubenda.com/privacy-policy/47597768/cookie-policy" class="u-list__link iubenda-nostyle no-brand iubenda-embed" title="Cookie Policy">Cookie Policy</a></li>
           </ul>
@@ -287,7 +291,14 @@
           </div>
 
           <!-- Form -->
-          <%= form_tag page_path(@conn, :signup_for_newsletter), [method: :post, class: "js-validate js-form-message"] do %>
+          <%= form_tag page_path(@conn, :signup_for_newsletter), [method: :post, class: "js-validate js-form-message", data: [
+            controller: "event_track",
+            action: "submit->event_track#logEvent",
+            ga_event_category: "website",
+            ga_event_action: "subscribe",
+            ga_event_label: "newsletter",
+            ga_event_value: ""
+          ]] do %>
             <div class="js-focus-state input-group u-form">
               <input type="email" class="form-control u-form__input" name="email" required
                     placeholder="Enter your email address"
