@@ -31,6 +31,12 @@
 						data-type="static">Advertise with CodeFund</a>
 					<br>
 					<a class="mt-1 btn btn-link"
+						data-controller="event_track"
+						data-action="click->event_track#logEvent"
+						data-ga-event-category="website"
+						data-ga-event-action="download"
+						data-ga-event-label="prospectus"
+						data-ga-event-value: ""
 						href="<%= static_path(@conn, "/docs/codefund-prospectus-q4-2018.pdf") %>"
 						target="_blank"><i class="fas fa-download"></i> 2018 Q4 Prospectus</a>
 				</div>
@@ -408,7 +414,14 @@
 
 		<div class="container u-space-4-top u-space-2-bottom">
 			<div class="w-lg-80 mx-auto">
-				<%= form_tag page_path(@conn, :deliver_form, :advertiser), [method: :post, class: "js-validate"] do %>
+				<%= form_tag page_path(@conn, :deliver_form, :advertiser), [method: :post, class: "js-validate", data: [
+						controller: "event_track",
+						action: "submit->event_track#logEvent",
+						ga_event_category: "website",
+						ga_event_action: "apply",
+						ga_event_label: "advertiser",
+						ga_event_value: ""
+					]] do %>
 					<div class="row">
 						<div class="col-sm-6 mb-5">
 							<label class="h6 small d-block text-uppercase text-light">

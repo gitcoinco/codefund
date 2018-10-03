@@ -521,7 +521,14 @@
 
 		<div class="container u-space-4-top u-space-2-bottom">
 			<div class="w-lg-80 mx-auto">
-				<%= form_tag page_path(@conn, :deliver_form, :publisher), [method: :post, class: "js-validate"] do %>
+				<%= form_tag page_path(@conn, :deliver_form, :publisher), [method: :post, class: "js-validate", data: [
+            controller: "event_track",
+            action: "submit->event_track#logEvent",
+            ga_event_category: "website",
+            ga_event_action: "apply",
+            ga_event_label: "publisher",
+            ga_event_value: ""
+            ]] do %>
 					<div class="row">
 						<div class="col-sm-6 mb-5">
 							<label class="h6 small d-block text-uppercase text-light">

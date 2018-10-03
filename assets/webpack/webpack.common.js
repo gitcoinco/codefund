@@ -22,7 +22,8 @@ module.exports = {
 
   entry: {
     polyfills: "./src/polyfills.js",
-    app: ["./src/index.js"]
+    app: ["./src/index.js"],
+    home: ["./src/home.js"]
   },
 
   output: {
