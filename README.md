@@ -107,6 +107,38 @@ Please keep in mind that the focus is to create a great platform, so we might no
 
 This product includes GeoLite data created by MaxMind, available from [http://www.maxmind.com](http://www.maxmind.com).
 
+## Financial Contributions
+
+We also welcome financial contributions in full transparency on our [open collective](https://opencollective.com/codefund).
+Anyone can file an expense. If the expense makes sense for the development of the community, it will be "merged" in the ledger of our open collective by the core contributors and the person who filed the expense will be reimbursed.
+
+## Credits
+
+### Financial Contributors
+
+Thank you to all the people who have already contributed to CodeFund!
+<a href="graphs/contributors"><img src="https://opencollective.com/codefund/contributors.svg?width=890" /></a>
+
+### Backers
+ 
+Thank you to all our backers! [[Become a backer](https://opencollective.com/codefund#backer)]
+ <a href="https://opencollective.com/codefund#backers" target="_blank"><img src="https://opencollective.com/codefund/backers.svg?width=890"></a>
+ 
+### Sponsors
+ 
+Thank you to all our sponsors! (please ask your company to also support this open source project by [becoming a sponsor](https://opencollective.com/codefund#sponsor))
+ 
+ <a href="https://opencollective.com/codefund/sponsor/0/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/1/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/2/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/3/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/4/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/5/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/6/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/7/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/8/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/codefund/sponsor/9/website" target="_blank"><img src="https://opencollective.com/codefund/sponsor/9/avatar.svg"></a>
+
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
