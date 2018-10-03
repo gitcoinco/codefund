@@ -4,7 +4,7 @@ import axios from '../utils/axios';
 
 export default class extends Controller {
   static get targets() {
-    return ['ecpm', 'totalBudget', 'includedCountries', 'creatives', 'userId'];
+    return ['includedCountries', 'creatives', 'userId'];
   }
 
   creativesForUser(context) {

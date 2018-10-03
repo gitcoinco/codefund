@@ -73,6 +73,10 @@
               <td><strong>Weekdays Only</strong></td>
               <td><%= @campaign.weekdays_only %></td>
             </tr>
+            <tr>
+              <td><strong>Budgeted Impressions</strong></td>
+              <td><%= @campaign.impression_count %></td>
+            </tr>
             <%= if @campaign.budgeted_campaign do %>
               <tr>
                 <td><strong>Total Impressions</strong></td>

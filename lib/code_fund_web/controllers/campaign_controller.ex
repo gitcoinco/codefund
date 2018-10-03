@@ -52,8 +52,8 @@ defmodule CodeFundWeb.CampaignController do
   end
 
   defp assign_impression_count(_, params) do
-    cpm = get_in(params, ["params", "campaign", "ecpm"]) |> String.to_float()
-    budget = get_in(params, ["params", "campaign", "total_spend"]) |> String.to_float()
+    cpm = get_in(params, ["params", "campaign", "ecpm"])
+    budget = get_in(params, ["params", "campaign", "total_spend"])
     {"impression_count", total_impressions_for_budget(cpm, budget)}
   end
 
@@ -128,11 +128,7 @@ defmodule CodeFundWeb.CampaignController do
         type: :currency_input,
         label: "Total Spend",
         opts: [
-          step: "0.01",
-          data: [
-            target: "campaign-form.totalBudget",
-            action: "change->campaign-form#calculateImpressions"
-          ]
+          step: "0.01"
         ]
       ],
       ecpm: [
@@ -141,11 +137,7 @@ defmodule CodeFundWeb.CampaignController do
         opts: [
           step: "0.01",
           min: "0",
-          step: "0.01",
-          data: [
-            target: "campaign-form.ecpm",
-            action: "change->campaign-form#calculateImpressions"
-          ]
+          step: "0.01"
         ]
       ],
       included_countries: [
@@ -196,12 +188,16 @@ defmodule CodeFundWeb.CampaignController do
         opts: [
           data: [target: "date-range.endDate"]
         ]
+      ],
+      impression_count: [
+        type: :hidden_input
       ]
     ]
 
     admin_only_fields = [
       :audience_id,
       :ecpm,
+      :impression_count,
       :included_countries,
       :total_spend,
       :us_hours_only,
