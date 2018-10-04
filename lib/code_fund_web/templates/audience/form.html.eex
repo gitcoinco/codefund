@@ -23,7 +23,7 @@
               key: "programming_languages"
             ],
             class: "form-control audience-form-selectize",
-            choices: CodeFund.Properties.programming_languages()
+            choices: Framework.GenericEnums.programming_languages()
           ]
         ],
       topic_categories: [
@@ -36,7 +36,7 @@
               key: "topic_categories"
             ],
             class: "form-control audience-form-selectize",
-            choices: CodeFund.Properties.topic_categories()
+            choices: Framework.GenericEnums.topic_categories()
           ]
         ]
         ] |> render_fields(@form)
