@@ -148,6 +148,19 @@ defmodule Framework.Geolocation.ProtocolTest do
       assert Framework.Geolocation.Protocol.parse(country_struct) == "US"
     end
 
+    test "it falls back for a country struct to registered country if country is nil", %{
+      country_struct: country_struct
+    } do
+      country_struct = country_struct |> Map.put(:country, nil)
+      assert Framework.Geolocation.Protocol.parse(country_struct) == "US"
+    end
+
+    test "it returns empty string for country struct if country and registered country are nil",
+         %{country_struct: country_struct} do
+      country_struct = country_struct |> Map.merge(%{country: nil, registered_country: nil})
+      assert Framework.Geolocation.Protocol.parse(country_struct) == ""
+    end
+
     test "it returns city map for a city struct", %{city_struct: city_struct} do
       assert Framework.Geolocation.Protocol.parse(city_struct) == %{
                city: "Portland",
@@ -160,22 +173,38 @@ defmodule Framework.Geolocation.ProtocolTest do
              }
     end
 
-    test "it returns city map for an incomplete city struct", %{city_struct: city_struct} do
-      city_struct = city_struct |> Map.delete(:subdivisions)
+    test "it returns city map when subdivisions are nil", %{city_struct: city_struct} do
+      city_struct = city_struct |> Map.put(:subdivisions, nil)
 
       assert Framework.Geolocation.Protocol.parse(city_struct) == %{
                city: "Portland",
                country: "US",
                latitude: 45.5171,
                longitude: -122.6802,
-               postal_code: "",
                region: "",
-               time_zone: ""
+               postal_code: "97205",
+               time_zone: "America/Los_Angeles"
              }
     end
 
-    test "it defaults to registered country if country is nil", %{city_struct: city_struct} do
-      city_struct = city_struct |> Map.put(:country, nil)
+    test "it returns city map when subdivisions are empty list", %{city_struct: city_struct} do
+      city_struct = city_struct |> Map.put(:subdivisions, [])
+
+      assert Framework.Geolocation.Protocol.parse(city_struct) == %{
+               city: "Portland",
+               country: "US",
+               latitude: 45.5171,
+               longitude: -122.6802,
+               region: "",
+               postal_code: "97205",
+               time_zone: "America/Los_Angeles"
+             }
+    end
+
+    test "it defaults to registered country if country is nil for a city struct", %{
+      city_struct: city_struct
+    } do
+      city_struct = city_struct |> Map.merge(%{country: nil})
 
       assert Framework.Geolocation.Protocol.parse(city_struct) == %{
                city: "Portland",
@@ -188,16 +217,34 @@ defmodule Framework.Geolocation.ProtocolTest do
              }
     end
 
-    test "it returns country map if city is missing in city struct", %{city_struct: city_struct} do
+    test "it returns city map without city if city is missing in city struct", %{
+      city_struct: city_struct
+    } do
       city_struct = city_struct |> Map.put(:city, nil)
 
       assert Framework.Geolocation.Protocol.parse(city_struct) == %{
                city: "",
                country: "US",
+               latitude: 45.5171,
+               longitude: -122.6802,
+               postal_code: "97205",
+               region: "Oregon",
+               time_zone: "America/Los_Angeles"
+             }
+    end
+
+    test "it returns incomplete city map if location is nil", %{
+      city_struct: city_struct
+    } do
+      city_struct = city_struct |> Map.put(:location, nil)
+
+      assert Framework.Geolocation.Protocol.parse(city_struct) == %{
+               country: "US",
+               postal_code: "97205",
+               region: "Oregon",
+               city: "Portland",
                latitude: "",
                longitude: "",
-               postal_code: "",
-               region: "",
                time_zone: ""
              }
     end
