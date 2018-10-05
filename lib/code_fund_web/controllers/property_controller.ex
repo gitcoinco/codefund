@@ -65,7 +65,7 @@ defmodule CodeFundWeb.PropertyController do
         label: "Primary Language",
         opts: [
           class: "form-control",
-          choices: CodeFund.Properties.languages(),
+          choices: Framework.GenericEnums.languages(),
           prompt: "Choose the primary language of the website?"
         ]
       ],
@@ -74,7 +74,7 @@ defmodule CodeFundWeb.PropertyController do
         label: "Programming Languages",
         opts: [
           class: "form-control selectize",
-          choices: CodeFund.Properties.programming_languages(),
+          choices: Framework.GenericEnums.programming_languages(),
           hint: "Which programming languages are used or discussed on the website?"
         ]
       ],
@@ -83,7 +83,7 @@ defmodule CodeFundWeb.PropertyController do
         label: "Topic Categories",
         opts: [
           class: "form-control selectize",
-          choices: CodeFund.Properties.topic_categories(),
+          choices: Framework.GenericEnums.topic_categories(),
           hint: "Which general topics apply to this website?"
         ]
       ],

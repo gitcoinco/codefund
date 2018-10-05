@@ -153,6 +153,38 @@ defmodule CodeFundWeb.CampaignController do
           step: "0.01"
         ]
       ],
+      included_topic_categories: [
+        type: :multiple_select,
+        label: "Included Topic Categories",
+        opts: [
+          class: "form-control campaign-form selectize",
+          choices: Framework.GenericEnums.topic_categories()
+        ]
+      ],
+      included_programming_languages: [
+        type: :multiple_select,
+        label: "Included Programming Languages",
+        opts: [
+          class: "form-control campaign-form selectize",
+          choices: Framework.GenericEnums.programming_languages()
+        ]
+      ],
+      excluded_topic_categories: [
+        type: :multiple_select,
+        label: "Excluded Topic Categories",
+        opts: [
+          class: "form-control campaign-form selectize",
+          choices: Framework.GenericEnums.topic_categories()
+        ]
+      ],
+      excluded_programming_languages: [
+        type: :multiple_select,
+        label: "Excluded Programming Languages",
+        opts: [
+          class: "form-control campaign-form selectize",
+          choices: Framework.GenericEnums.programming_languages()
+        ]
+      ],
       included_countries: [
         type: :multiple_select,
         label: "Included Countries",
@@ -207,7 +239,11 @@ defmodule CodeFundWeb.CampaignController do
     admin_only_fields = [
       :audience_id,
       :ecpm,
+      :excluded_programming_languages,
+      :excluded_topic_categories,
       :included_countries,
+      :included_programming_languages,
+      :included_topic_categories,
       :total_spend,
       :us_hours_only,
       :user_id,

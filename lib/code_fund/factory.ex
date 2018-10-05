@@ -37,6 +37,8 @@ defmodule CodeFund.Factory do
       creative: build(:creative),
       ecpm: Decimal.new(2),
       impression_count: 800_000,
+      start_date: ~N[2018-10-04 22:55:09.859761],
+      end_date: ~N[2018-10-04 22:55:09.859761],
       budget_daily_amount: Decimal.new(25),
       total_spend: Decimal.new(2500),
       user: build(:user)
