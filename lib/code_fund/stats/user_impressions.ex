@@ -44,10 +44,13 @@ defmodule CodeFund.Stats.UserImpressions do
   defp fetch_stats do
     impression_count = impression_count_for_last_thirty_days()
     click_count = click_count_for_last_thirty_days()
-    click_rate = case click_count do
-      0 -> 0.0
-      _ -> click_count / impression_count
-    end
+
+    click_rate =
+      case click_count do
+        0 -> 0.0
+        _ -> click_count / impression_count
+      end
+
     %State{
       impression_count: impression_count,
       click_count: click_count,
