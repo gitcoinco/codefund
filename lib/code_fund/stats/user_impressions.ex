@@ -3,7 +3,10 @@ defmodule CodeFund.Stats.UserImpressions do
   use CodeFundWeb, :query
   alias CodeFund.Schema.UserImpression
 
-  @refresh_interval :timer.minutes(60)
+  @refresh_interval (System.get_env("USER_IMPRESSION_STATS_REFRESH_INTERVAL_IN_MINUTES") || 60)
+                    |> to_string
+                    |> String.to_integer()
+                    |> :timer.minutes()
 
   defmodule State do
     defstruct impression_count: 0, click_count: 0, click_rate: 0.0, distribution_amount: 0.0
