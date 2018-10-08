@@ -45,7 +45,6 @@ defmodule CodeFund.Mixfile do
         :corsica,
         :bamboo,
         :phoenix_html_simplified_helpers,
-        :appsignal,
         :mailchimp
       ]
     ]
@@ -104,7 +103,6 @@ defmodule CodeFund.Mixfile do
       {:bamboo, "~> 0.8"},
       {:ex_image_info, "~> 0.2.3"},
       {:phoenix_html_simplified_helpers, "~> 2.0.1"},
-      {:appsignal, "~> 1.0"},
       {:time_machinex, "~> 0.1.0"},
       {:mailchimp, "~> 0.0.7"},
       {:mock, "~> 0.3.0", only: :test},
