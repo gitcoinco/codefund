@@ -26,8 +26,7 @@ config :code_fund, CodeFundWeb.Endpoint,
   url: [host: System.get_env("HOST") || "localhost"],
   secret_key_base: "JdaDMqC6DEzZP5Mjm9S06nVaLaqExfN3Tyszbywe9c99Sg6RA2h7nRCVB2LFBN1n",
   render_errors: [view: CodeFundWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: CodeFund.PubSub, adapter: Phoenix.PubSub.PG2],
-  instrumenters: []
+  pubsub: [name: CodeFund.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :code_fund, Framework.FileStorage,
   cdn_host: System.get_env("CDN_HOST") || "d2nhukomolqgak.cloudfront.net"
