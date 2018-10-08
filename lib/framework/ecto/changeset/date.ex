@@ -4,19 +4,20 @@ defmodule Framework.Ecto.Changeset.Date do
 
   @spec cast_dates(Ecto.Changeset.t(), map, list) :: Ecto.Changeset.t()
   def cast_dates(changeset, params, [current_datefield_to_check | remaining_dates]) do
-    with :error <- Map.get(params, to_string(current_datefield_to_check)) |> cast_date() do
+    with current_date_field_value when not is_nil(current_date_field_value) <-
+           params |> Map.get(to_string(current_datefield_to_check)),
+         %NaiveDateTime{} = cast_time <- current_date_field_value |> cast_date() do
       changeset
-      |> add_error(current_datefield_to_check, "can't be blank", validation: :required)
+      |> put_change(current_datefield_to_check, cast_time)
       |> cast_dates(params, remaining_dates)
     else
-      %NaiveDateTime{} ->
-        cast_time =
-          params
-          |> Map.get(to_string(current_datefield_to_check))
-          |> cast_date()
-
+      nil ->
         changeset
-        |> put_change(current_datefield_to_check, cast_time)
+        |> cast_dates(params, remaining_dates)
+
+      :error ->
+        changeset
+        |> add_error(current_datefield_to_check, "can't be blank", validation: :required)
         |> cast_dates(params, remaining_dates)
     end
   end

@@ -2,8 +2,16 @@ defmodule CodeFundWeb.PageView do
   use CodeFundWeb, :view
 
   def title(:index), do: "CodeFund"
-  def title(:advertiser), do: "CodeFund | Advertise with CodeFund"
-  def title(:publisher), do: "CodeFund | Become a Publisher"
+  def title(:advertiser), do: "Advertise with Us | CodeFund"
+  def title(:publisher), do: "Become a Publisher | CodeFund"
+  def title(:advertisers), do: "Advertise with Us | CodeFund"
+  def title(:publishers), do: "Become a Publisher | CodeFund"
+  def title(:blog), do: "Blog | CodeFund"
+  def title(:help), do: "Help | CodeFund"
+  def title(:ethical_advertising), do: "Ethical Advertising | CodeFund"
+  def title(:team), do: "Team | CodeFund"
+  def title(:about), do: "About | CodeFund"
+  def title(:media_kit), do: "Media Kit | CodeFund"
   def title(_), do: "CodeFund"
   def body_class(_), do: "app mt-5"
 

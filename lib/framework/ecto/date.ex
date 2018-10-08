@@ -1,6 +1,6 @@
 defprotocol Framework.Ecto.Date do
   @fallback_to_any true
-  @spec parse(String.t()) :: NaiveDateTime.t()
+  @spec parse(String.t()) :: NaiveDateTime.t() | :error
   def parse(date)
 end
 

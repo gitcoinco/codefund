@@ -6,7 +6,7 @@ defmodule AdService.Query.ForDisplayTest do
     {:ok, _pid} = TimeMachinex.ManagedClock.start()
 
     creative =
-      insert(:creative, headline: "winning advertisement", large_image_asset: insert(:asset))
+      insert(:creative, headline: "winning advertisement", wide_image_asset: insert(:asset))
 
     insert(:audience, %{
       programming_languages: ["Ruby", "C"],
@@ -152,6 +152,7 @@ defmodule AdService.Query.ForDisplayTest do
 
       small_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.small_image_asset.id)
       large_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.large_image_asset.id)
+      wide_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.wide_image_asset.id)
 
       assert advertisement == %AdService.UnrenderedAdvertisement{
                body: "This is a Test Creative",
@@ -167,9 +168,45 @@ defmodule AdService.Query.ForDisplayTest do
                  %AdService.UnprocessedImageAsset{
                    asset: large_image_asset,
                    size_descriptor: "large"
+                 },
+                 %AdService.UnprocessedImageAsset{
+                   asset: wide_image_asset,
+                   size_descriptor: "wide"
                  }
                ]
              }
+    end
+
+    test "it excludes campaigns which are not allowed on the weekends when its a weekend", %{
+      audience: audience,
+      creative: creative
+    } do
+      CodeFund.Schema.Campaign
+      |> CodeFund.Repo.all()
+      |> Enum.map(&CodeFund.Campaigns.delete_campaign(&1))
+
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new("1.00"),
+        budget_daily_amount: Decimal.new(1),
+        total_spend: Decimal.new("100.00"),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+        creative: creative,
+        weekdays_only: true,
+        audience: audience,
+        included_countries: ["US"],
+        user: insert(:user, company: "Acme")
+      )
+
+      TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[2018-09-22 11:00:00], "Etc/UTC"))
+
+      advertisement =
+        AdService.Query.ForDisplay.build(audience, "US", {72, 229, 28, 185}, ["Foobar"])
+        |> CodeFund.Repo.one()
+
+      refute advertisement
     end
 
     test "it will exclude campaigns that are over their daily budget", %{

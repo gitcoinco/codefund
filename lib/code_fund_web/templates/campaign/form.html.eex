@@ -2,4 +2,13 @@
   <%=
     @fields |> render_fields(@form)
   %>
+
+  <%= unless has_any_role? @conn, ["admin"] do %>
+    <small class="form-text text-muted mt-4">
+      <i class="fa fa-info-circle text-info"></i>
+      Request additional campaign changes via the
+      <span class="text-info">help</span>
+      button at the bottom right of the screen.
+    </small>
+  <% end %>
 </span>

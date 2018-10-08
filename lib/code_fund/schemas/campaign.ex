@@ -28,11 +28,16 @@ defmodule CodeFund.Schema.Campaign do
     field(:ecpm, :decimal, default: Decimal.new(0.0))
     field(:included_countries, {:array, :string}, default: [])
     field(:impression_count, :integer)
+    field(:included_programming_languages, {:array, :string})
+    field(:included_topic_categories, {:array, :string})
+    field(:excluded_programming_languages, {:array, :string})
+    field(:excluded_topic_categories, {:array, :string})
     field(:budget_daily_amount, :decimal, default: Decimal.new(0.0))
     field(:total_spend, :decimal, default: Decimal.new(0.0))
     field(:start_date, :naive_datetime)
     field(:end_date, :naive_datetime)
     field(:us_hours_only, :boolean)
+    field(:weekdays_only, :boolean)
 
     timestamps()
   end

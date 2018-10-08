@@ -1,0 +1,13 @@
+<script>
+  $(document).on('ready', function () {
+    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+
+    var typed = new Typed(".u-text-animation.u-text-animation--typing", {
+      strings: ["an open source", "an ethical", "a developer-driven"],
+      typeSpeed: 50,
+      loop: true,
+      backSpeed: 25,
+      backDelay: 1500
+    });
+  });
+</script>

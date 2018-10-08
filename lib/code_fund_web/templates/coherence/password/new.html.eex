@@ -1,27 +1,47 @@
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card mx-4">
-        <div class="card-body p-4">
-          <h1><%= dgettext "coherence", "Send reset password link" %></h1>
-          <p class="text-muted">Fill out the form below to reset your password</p>
+  <div class="row no-gutters">
+    <div class="col-md-8 col-lg-7 col-xl-6 offset-md-2 offset-lg-2 offset-xl-3 u-space-3 u-space-0--lg">
+      <!-- Form -->
+      <%= form_for @changeset, password_path(@conn, :create), [as: :password, class: "js-validate mt-5"], fn f  -> %>
 
-          <%= form_for @changeset, password_path(@conn, :create), [as: :password], fn f  -> %>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="icon-envelope"></i></span>
-              </div>
-              <%= text_input f, :email, class: "form-control", placeholder: "Email", required: "" %>
-              <%= error_tag f, :email %>
-            </div>
-
-            <div class="form-group">
-              <%= submit dgettext("coherence", "Reset Password"), class: "btn btn-primary" %>
-              <%= link dgettext("coherence", "Cancel"), to: Coherence.Config.logged_out_url("/"), class: "btn" %>
-            </div>
-          <% end %>
+        <!-- Title -->
+        <div class="mb-7">
+          <h1 class="h3 text-codefund-purple font-weight-normal mb-0">Forgot your <span class="font-weight-bold text-codefund-green">password?</span></h1>
+          <p>Enter your email address below and we'll get you back on track.</p>
         </div>
-      </div>
+        <!-- End Title -->
+
+        <!-- Input -->
+        <div class="js-form-message mb-4">
+          <label class="h6 small d-block text-uppercase">Email address</label>
+
+          <div class="js-focus-state input-group u-form">
+            <%= email_input f, :email, class: "form-control u-form__input", placeholder: "Email", required: "",
+              data: [
+                msg: "Please enter a valid email address.",
+                errorClass: "u-has-error",
+                successCass: "u-has-success"
+              ] %>
+          </div>
+        </div>
+        <!-- End Input -->
+
+        <!-- Button -->
+        <div class="row align-items-center mb-5">
+          <div class="col-4 col-sm-6">
+            <%= link dgettext("coherence", "Cancel"), to: Coherence.Config.logged_out_url("/"), class: "small u-link-muted" %>
+          </div>
+
+          <div class="col-8 col-sm-6 text-right">
+            <%= submit "Request Reset Link", class: "btn btn-primary u-btn-primary transition-3d-hover" %>
+          </div>
+        </div>
+        <!-- End Button -->
+
+      <% end %>
+      <!-- End Form -->
     </div>
   </div>
 </div>
+
+

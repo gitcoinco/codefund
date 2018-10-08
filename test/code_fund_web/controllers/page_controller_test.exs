@@ -5,8 +5,8 @@ defmodule CodeFundWeb.PageControllerTest do
     test "renders the home page", %{conn: conn} do
       conn = get(conn, page_path(conn, :index))
 
-      assert html_response(conn, 200) =~ "Connect with software developers"
-      assert conn.private.phoenix_layout == false
+      assert html_response(conn, 200) =~ "ad platform that funds contributors"
+      assert conn.private.phoenix_layout == {CodeFundWeb.LayoutView, "home.html"}
     end
   end
 
@@ -39,7 +39,7 @@ defmodule CodeFundWeb.PageControllerTest do
           })
         )
 
-      assert redirected_to(conn, 302) == page_path(conn, :index)
+      assert redirected_to(conn, 302) == page_path(conn, :advertisers)
 
       assert conn |> Phoenix.Controller.get_flash(:info) ==
                "Your request was submitted successfully"
@@ -54,7 +54,7 @@ defmodule CodeFundWeb.PageControllerTest do
           })
         )
 
-      assert redirected_to(conn, 302) == page_path(conn, :index)
+      assert redirected_to(conn, 302) == page_path(conn, :publishers)
 
       assert conn |> Phoenix.Controller.get_flash(:info) ==
                "Your request was submitted successfully"

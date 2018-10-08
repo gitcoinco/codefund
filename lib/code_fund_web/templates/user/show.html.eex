@@ -34,6 +34,9 @@
         <li class="list-group-item">
           <strong>Name</strong>
           <span><%= full_name @user %></span>
+          <%= if has_any_role?(@conn, ["admin"]) do %>
+            <%= link "Masquerade", to: user_path(@conn, :masquerade, @user), class: "btn btn-outline-warning btn-sm" %>
+          <% end %>
         </li>
         <li class="list-group-item">
           <strong>Company</strong>

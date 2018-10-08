@@ -27,13 +27,18 @@
             </tr>
           </thead>
           <tbody>
+            <%= if has_any_role? @conn, ["admin"] do %>
+              <tr>
+                <td><strong>Advertiser</strong></td>
+                <td>
+                  <%= link full_name(@campaign.user), to: user_path(@conn, :show, @campaign.user), class: "btn btn-outline-info btn-sm" %>
+                  <%= link "Masquerade", to: user_path(@conn, :masquerade, @campaign.user), class: "btn btn-outline-warning btn-sm" %>
+                </td>
+              </tr>
+            <% end %>
             <tr>
-              <td><strong>ID</strong></td>
-              <td><%= @campaign.id %></td>
-            </tr>
-            <tr>
-              <td><strong>Advertiser</strong></td>
-              <td><%= @campaign.user_id %></td>
+              <td><strong>Audience</strong></td>
+              <td><%= if(not is_nil(@campaign.audience), do: @campaign.audience.name, else: "None") %></td>
             </tr>
             <tr>
               <td><strong>Name</strong></td>
@@ -42,6 +47,14 @@
             <tr>
               <td><strong>Status</strong></td>
               <td><%= campaign_status @campaign.status %></td>
+            </tr>
+            <tr>
+              <td><strong>Creative</strong></td>
+              <td><%= if(not is_nil(@campaign.creative), do: @campaign.creative.name, else: "None") %></td>
+            </tr>
+            <tr>
+              <td><strong>Redirect URL</strong></td>
+              <td><%= @campaign.redirect_url %></td>
             </tr>
             <tr>
               <td><strong>Targeted Countries</strong></td>
@@ -54,45 +67,39 @@
                           |> Enum.join(", ")  %></td>
             </tr>
             <tr>
-              <td><strong>Audience</strong></td>
-              <td><%= if(not is_nil(@campaign.audience), do: @campaign.audience.name, else: "None") %></td>
-            </tr>
-            <tr>
-              <td><strong>Creative</strong></td>
-              <td><%= if(not is_nil(@campaign.creative), do: @campaign.creative.name, else: "None") %></td>
-            </tr>
-            <tr>
-              <td><strong>Redirect URL</strong></td>
-              <td><%= @campaign.redirect_url %></td>
-            </tr>
-            <tr>
-              <td><strong>eCPM</strong></td>
-              <td><%= pretty_money @campaign.ecpm %></td>
-            </tr>
-            <tr>
-              <td><strong>Estimated Impressions</strong></td>
-              <td><%= @campaign.impression_count %></td>
-            </tr>
-            <tr>
               <td><strong>US Hours Only</strong></td>
               <td><%= @campaign.us_hours_only %></td>
             </tr>
+            <tr>
+              <td><strong>Weekdays Only</strong></td>
+              <td><%= @campaign.weekdays_only %></td>
+            </tr>
+            <tr>
+              <td><strong>Impressions</strong> Budgeted</td>
+              <td><%= pretty_integer @campaign.impression_count %></td>
+            </tr>
             <%= if @campaign.budgeted_campaign do %>
+              <tr>
+                <td><strong>Impressions</strong> Actual</td>
+                <td><%= pretty_integer @campaign.budgeted_campaign.total_impressions %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td><strong>eCPM</strong> Estimated</td>
+              <td><%= pretty_money @campaign.ecpm %></td>
+            </tr>
+            <%= if @campaign.budgeted_campaign do %>
+              <tr>
+                <td><strong>eCPM</strong> Average</td>
+                <td><%= pretty_money @campaign.budgeted_campaign.actual_ecpm %></td>
+              </tr>
               <tr>
                 <td><strong>Total Ad Spend</strong></td>
                 <td><%= pretty_money @campaign.budgeted_campaign.revenue_amount %></td>
               </tr>
               <tr>
-                <td><strong>Total Impressions</strong></td>
-                <td><%= pretty_integer @campaign.budgeted_campaign.total_impressions %></td>
-              </tr>
-              <tr>
-                <td><strong>Balance</strong></td>
+                <td><strong>Remaining Balance</strong></td>
                 <td><%= pretty_money @campaign.budgeted_campaign.balance %></td>
-              </tr>
-              <tr>
-                <td><strong>Actual eCPM</strong></td>
-                <td><%= pretty_money @campaign.budgeted_campaign.actual_ecpm %></td>
               </tr>
             <% end %>
             <%= if has_any_role? @conn, ["admin"] do %>

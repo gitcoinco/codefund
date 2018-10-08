@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Title -->
+  <title><%= title @conn %></title>
+
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
+
+  <!-- Google Fonts -->
+  <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+  <!-- CSS Global Compulsory -->
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/bootstrap/css/bootstrap.css") %>">
+
+  <!-- CSS Implementing Plugins -->
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/animate.css/animate.min.css") %>">
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/vendor/slick-carousel/slick/slick.css") %>">
+
+  <!-- CSS Front Template -->
+  <link rel="stylesheet" href="<%= static_path(@conn, "/theme/css/front.min.css") %>">
+</head>
+
+<body>
+  <!-- Skippy -->
+  <a id="skippy" class="sr-only sr-only-focusable u-skippy" href="#content">
+    <div class="container">
+      <span class="u-skiplink-text">Skip to main content</span>
+    </div>
+  </a>
+  <!-- End Skippy -->
+
+  <!-- ========== MAIN ========== -->
+  <main id="content" role="main">
+    <!-- Form -->
+    <div class="d-flex align-items-center position-relative min-height-100vh--lg">
+      <!-- Navbar -->
+      <header class="position-absolute-top-0 z-index-2">
+        <nav class="d-flex justify-content-between align-items-center">
+          <!-- Logo -->
+          <div class="col-lg-5 col-xl-4 text-lg-center px-0">
+            <a class="d-inline-block p-3 p-sm-5" href="/" aria-label="CodeFund">
+              <img class="d-none d-lg-inline-block" src="<%= static_path(@conn, "/images/codefund-wg-512.svg") %>" alt="Logo" style="width: 100px;">
+              <img class="d-inline-block d-lg-none" src="<%= static_path(@conn, "/images/codefund-w.svg") %>" alt="Logo" style="width: 140px;">
+            </a>
+          </div>
+          <!-- End Logo -->
+
+          <!-- Button -->
+          <div class="p-3 p-sm-5">
+            <a class="btn btn-sm btn-primary u-btn-primary transition-3d-hover" href="/">Home</a>
+          </div>
+          <!-- End Button -->
+        </nav>
+      </header>
+      <!-- End Navbar -->
+
+      <div class="col-lg-5 col-xl-4 d-none d-lg-flex align-items-center u-gradient-half-primary-v1 min-height-100vh--lg px-0">
+        <div class="w-100 p-5">
+          <!-- SVG Quote -->
+          <figure class="mb-5 mx-auto" style="width: 45px;">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 8 8" style="enable-background:new 0 0 8 8;" xml:space="preserve">f
+              <path class="u-fill-white" d="M3,1.3C2,1.7,1.2,2.7,1.2,3.6c0,0.2,0,0.4,0.1,0.5c0.2-0.2,0.5-0.3,0.9-0.3c0.8,0,1.5,0.6,1.5,1.5c0,0.9-0.7,1.5-1.5,1.5
+                C1.4,6.9,1,6.6,0.7,6.1C0.4,5.6,0.3,4.9,0.3,4.5c0-1.6,0.8-2.9,2.5-3.7L3,1.3z M7.1,1.3c-1,0.4-1.8,1.4-1.8,2.3
+                c0,0.2,0,0.4,0.1,0.5c0.2-0.2,0.5-0.3,0.9-0.3c0.8,0,1.5,0.6,1.5,1.5c0,0.9-0.7,1.5-1.5,1.5c-0.7,0-1.1-0.3-1.4-0.8
+                C4.4,5.6,4.4,4.9,4.4,4.5c0-1.6,0.8-2.9,2.5-3.7L7.1,1.3z"/>
+            </svg>
+          </figure>
+          <!-- End SVG Quote -->
+
+          <!-- Testimonials Carousel Main -->
+          <div id="testimonialsNavMain" class="js-slick-carousel u-slick mb-4"
+               data-infinite="true"
+               data-autoplay="true"
+               data-speed="5000"
+               data-fade="true"
+               data-nav-for="#testimonialsNavPagination">
+            <div class="js-slide">
+              <!-- Testimonials -->
+              <div class="w-md-80 w-lg-60 text-center mx-auto">
+                <blockquote class="h5 text-white font-weight-normal mb-4">CodeFund helps me get in front of with the right audience and helps support valuable Open Source creators, maintainers and sustainers!</blockquote>
+                <h1 class="h6 u-text-light">Ian Kelly, CodePilot.ai</h1>
+              </div>
+              <!-- End Testimonials -->
+            </div>
+
+            <div class="js-slide">
+              <!-- Testimonials -->
+              <div class="w-md-80 w-lg-60 text-center mx-auto">
+                <blockquote class="h5 text-white font-weight-normal mb-4">Supporting OS sustainability while generating awareness for Rollbar, was a total no-brainer decision...</blockquote>
+                <h2 class="h6 u-text-light">Mike Smith, GitPrime</h2>
+              </div>
+              <!-- End Testimonials -->
+            </div>
+
+            <div class="js-slide">
+              <!-- Testimonials -->
+              <div class="w-md-80 w-lg-60 text-center mx-auto">
+                <blockquote class="h5 text-white font-weight-normal mb-4">CodeFund is a very straightforward and ethical way to fund OSS!</blockquote>
+                <h3 class="h6 u-text-light">@discourse</h3>
+              </div>
+              <!-- End Testimonials -->
+            </div>
+          </div>
+          <!-- End Testimonials Carousel Main -->
+
+          <!-- Testimonials Carousel Pagination -->
+          <div id="testimonialsNavPagination" class="js-slick-carousel u-slick u-slick--transform-off u-slick--pagination-modern mx-auto"
+               data-infinite="true"
+               data-autoplay="true"
+               data-speed="5000"
+               data-center-mode="true"
+               data-slides-show="3"
+               data-is-thumbs="true"
+               data-focus-on-select="true"
+               data-nav-for="#testimonialsNavMain">
+            <div class="js-slide">
+              <img class="u-avatar rounded-circle mx-auto" src="https://pbs.twimg.com/profile_images/2163405584/h4nMVB4Q_400x400" alt="Ian Kelly">
+            </div>
+
+            <div class="js-slide">
+              <img class="u-avatar rounded-circle mx-auto" src="https://pbs.twimg.com/profile_images/870708848402735105/C6nPDVSP_400x400.jpg" alt="Mike Smith">
+            </div>
+
+            <div class="js-slide">
+              <img class="u-avatar rounded-circle mx-auto" src="https://pbs.twimg.com/profile_images/1006736538686967820/oIC5fRth_400x400.jpg" alt="Discourse">
+            </div>
+          </div>
+          <!-- End Testimonials Carousel Pagination -->
+        </div>
+      </div>
+
+      <!-- ========== MAIN CONTENT ========== -->
+      <%= render @view_module, @view_template, assigns %>
+      <!-- ========== END MAIN CONTENT ========== -->
+    </div>
+    <!-- End Form -->
+  </main>
+  <!-- ========== END MAIN ========== -->
+
+  <!-- JS Global Compulsory -->
+  <script src="<%= static_path(@conn, "/theme/vendor/jquery/dist/jquery.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/jquery-migrate/dist/jquery-migrate.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/popper.js/dist/umd/popper.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/bootstrap/bootstrap.min.js") %>"></script>
+
+  <!-- JS Implementing Plugins -->
+  <script src="<%= static_path(@conn, "/theme/vendor/jquery-validation/dist/jquery.validate.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/vendor/slick-carousel/slick/slick.js") %>"></script>
+
+  <!-- JS Front -->
+  <script src="<%= static_path(@conn, "/theme/js/hs.core.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.validation.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/helpers/hs.focus-state.js") %>"></script>
+  <script src="<%= static_path(@conn, "/theme/js/components/hs.slick-carousel.js") %>"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    $(document).on('ready', function () {
+      // initialization of slick carousel
+      $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+
+      // initialization of forms
+      $.HSCore.helpers.HSFocusState.init();
+    });
+  </script>
+</body>
+</html>

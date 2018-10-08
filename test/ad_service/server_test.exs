@@ -727,5 +727,56 @@ defmodule AdService.ServerTest do
                reason: "This property is not currently active - code: 0"
              }
     end
+
+    test "returns an error and does not create impression if property does not have a campaign,
+      the audience has a fallback ad, but the property requests no house ads and the request is over api",
+         %{conn: conn} do
+      creative = insert(:creative, small_image_asset: insert(:asset))
+
+      fallback_campaign =
+        insert(:campaign, creative: insert(:creative, small_image_asset: insert(:asset)))
+
+      property =
+        insert(:property,
+          no_api_house_ads: true,
+          audience: insert(:audience, fallback_campaign_id: fallback_campaign.id)
+        )
+
+      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
+
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new(1),
+        budget_daily_amount: Decimal.new(1),
+        total_spend: Decimal.new(1),
+        creative: creative,
+        audience: property.audience
+      )
+
+      conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
+
+      advertisement =
+        AdService.Server.serve(conn, property.id, %{
+          "height" => 800,
+          "width" => 1200,
+          "request_origin" => :is_api
+        })
+
+      assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
+
+      assert advertisement == %AdService.AdvertisementImpression{
+               headline: "",
+               description: "",
+               link: "",
+               house_ad: false,
+               images: [],
+               large_image_url: "",
+               small_image_url: "",
+               pixel: "",
+               poweredByLink: "https://codefund.io?utm_content=",
+               reason: "CodeFund does not have an advertiser for you at this time"
+             }
+    end
   end
 end

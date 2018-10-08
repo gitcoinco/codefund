@@ -118,6 +118,10 @@
                     <td><%= @property.excluded_advertisers |> Enum.join(", ") %></td>
                   </tr>
                   <tr>
+                    <td><strong>Hide House Ads on API Requests</strong></td>
+                    <td><%= @property.no_api_house_ads %></td>
+                  </tr>
+                  <tr>
                     <td><strong>Preview</strong></td>
                     <td><%= if @property.screenshot_url, do: img_tag(@property.screenshot_url, height: "200px") %></td>
                   </tr>

@@ -10,15 +10,36 @@ defmodule AdService.Query.TimeManagement do
   def where_accepted_hours_for_ip_address(query, nil), do: query
 
   def where_accepted_hours_for_ip_address(query, ip_address) do
-    with {:ok, %{time_zone: time_zone}} when time_zone != "" <-
-           ip_address |> Framework.Geolocation.find_by_ip(:city) do
+    accepted_hours_function = fn query, time_zone ->
       %DateTime{hour: hour} = TimeMachinex.now() |> Timezone.convert(time_zone)
 
       query
       |> build_hours_query(hour)
-    else
-      _ -> query
     end
+
+    accepted_hours_function
+    |> local_time_zone_check(query, ip_address)
+  end
+
+  @spec where_not_allowed_on_weekends(
+          Ecto.Query.t(),
+          {integer(), integer(), integer(), integer()} | nil
+        ) :: Ecto.Query.t()
+  def where_not_allowed_on_weekends(query, nil), do: query
+
+  def where_not_allowed_on_weekends(query, ip_address) do
+    no_weekends_function = fn query, time_zone ->
+      day_of_week_int =
+        TimeMachinex.now()
+        |> Timezone.convert(time_zone)
+        |> Date.day_of_week()
+
+      query
+      |> build_allowed_on_weekends_query(day_of_week_int)
+    end
+
+    no_weekends_function
+    |> local_time_zone_check(query, ip_address)
   end
 
   @spec optionally_exclude_us_hours_only_campaigns(Ecto.Query.t()) :: Ecto.Query.t()
@@ -30,6 +51,22 @@ defmodule AdService.Query.TimeManagement do
       false ->
         query
         |> where([_creative, campaign, ...], campaign.us_hours_only == false)
+    end
+  end
+
+  defp build_allowed_on_weekends_query(query, day_of_week_int) when day_of_week_int < 6, do: query
+
+  defp build_allowed_on_weekends_query(query, _) do
+    query
+    |> where([_creative, campaign, ...], campaign.weekdays_only == false)
+  end
+
+  defp local_time_zone_check(function, query, ip_address) do
+    with {:ok, %{time_zone: time_zone}} when time_zone != "" <-
+           ip_address |> Framework.Geolocation.find_by_ip(:city) do
+      function.(query, time_zone)
+    else
+      _ -> query
     end
   end
 

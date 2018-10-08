@@ -35,7 +35,6 @@ config :ex_aws, :s3,
   host: "localhost",
   port: 4567
 
-config :appsignal, :config, active: false
 config :time_machinex, TimeMachinex, adapter: TimeMachinex.ManagedClock
 
 config :code_fund, AdService.Tracking.AnalyticsManager,

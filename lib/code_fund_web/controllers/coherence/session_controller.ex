@@ -51,6 +51,7 @@ defmodule CodeFundWeb.Coherence.SessionController do
 
     conn
     |> put_view(Module.concat(Config.web_module(), Coherence.SessionView))
+    |> put_layout("authentication.html")
     |> render(:new, [{login_field, ""}, remember: rememberable_enabled?()])
   end
 

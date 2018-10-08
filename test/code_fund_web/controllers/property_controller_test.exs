@@ -61,7 +61,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :language,
                :programming_languages,
                :topic_categories,
-               :excluded_advertisers
+               :excluded_advertisers,
+               :no_api_house_ads
              ]
 
       assert html_response(conn, 200) =~ "Property"
@@ -86,7 +87,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :language,
                :programming_languages,
                :topic_categories,
-               :excluded_advertisers
+               :excluded_advertisers,
+               :no_api_house_ads
              ]
 
       assert html_response(conn, 200) =~ "Property"
@@ -147,7 +149,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :language,
                :programming_languages,
                :topic_categories,
-               :excluded_advertisers
+               :excluded_advertisers,
+               :no_api_house_ads
              ]
 
       assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]
@@ -200,7 +203,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :language,
                :programming_languages,
                :topic_categories,
-               :excluded_advertisers
+               :excluded_advertisers,
+               :no_api_house_ads
              ]
     end
   end
@@ -273,7 +277,8 @@ defmodule CodeFundWeb.PropertyControllerTest do
                :language,
                :programming_languages,
                :topic_categories,
-               :excluded_advertisers
+               :excluded_advertisers,
+               :no_api_house_ads
              ]
 
       assert conn.assigns.changeset.errors == [name: {"can't be blank", [validation: :required]}]

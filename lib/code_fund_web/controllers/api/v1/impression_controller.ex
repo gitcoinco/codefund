@@ -4,6 +4,8 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionController do
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def create(conn, %{"property_id" => property_id, "ip_address" => ip} = params)
       when not is_nil(ip) do
+    params = Map.merge(params, %{"request_origin" => :is_api})
+
     payload =
       conn
       |> AdService.Server.serve(property_id, params)
