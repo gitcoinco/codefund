@@ -60,7 +60,7 @@ defmodule CodeFund.Assets do
   end
 
   def by_user_id(user_id) do
-    from(o in Asset, where: o.user_id == ^user_id)
+    from(o in Asset, where: o.user_id == ^user_id, order_by: o.name)
     |> CodeFund.Repo.all()
   end
 

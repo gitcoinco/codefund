@@ -25,7 +25,8 @@ defmodule CodeFund.Audiences do
 
   """
   def list_audiences do
-    Repo.all(Audience)
+    from(a in Audience, order_by: a.name)
+    |> Repo.all()
     |> Repo.preload(:campaigns)
   end
 

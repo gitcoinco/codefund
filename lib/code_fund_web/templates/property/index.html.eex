@@ -20,13 +20,13 @@
           <%= form_for @conn, property_path(@conn, :index), [as: :property, method: :get], fn f -> %>
             <div class="row">
               <div class="col-sm-4">
-                <%= select(f, :status, CodeFund.Properties.statuses, prompt: "-- Status --", class: "form-control") %>
+                <%= select(f, :status, CodeFund.Properties.statuses, prompt: "-- Status --", class: "form-control", data: [controller: "dropdown"]) %>
               </div>
               <%= if has_any_role?(@conn, ["admin"]) do %>
                 <div class="col-sm-4">
                   <%= select(f, :audience_id,
                     CodeFund.Audiences.list_audiences
-                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control")
+                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control", data: [controller: "dropdown"])
                   %>
                 </div>
               <% end %>
