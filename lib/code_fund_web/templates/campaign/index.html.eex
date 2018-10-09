@@ -23,41 +23,41 @@
           <%= form_for @conn, campaign_path(@conn, :index), [as: :campaign, method: :get], fn f -> %>
             <div class="row">
               <div class="col-sm-2">
-                <%= select(f, :status, CodeFund.Campaigns.statuses, prompt: "-- Status --", class: "form-control", data: [controller: "dropdown"]) %>
+                <%= select(f, :status, CodeFund.Campaigns.statuses, prompt: "-- Status --", class: "form-control selectize") %>
               </div>
               <%= if has_any_role?(@conn, ["admin"]) do %>
                 <div class="col-sm-2">
                   <%= select(f, :user_id,
                     CodeFund.Users.get_by_role("sponsor")
-                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options([:first_name, :last_name], " "), prompt: "-- User --", class: "form-control", data: [controller: "dropdown"])
+                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options([:first_name, :last_name], " "), prompt: "-- User --", class: "form-control selectize")
                   %>
                 </div>
               <% end %>
               <div class="col-sm-2">
                 <%= select(f, :audience_id,
                   CodeFund.Audiences.list_audiences
-                  |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control", data: [controller: "dropdown"])
+                  |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control selectize")
                 %>
               </div>
               <div class="col-sm-2">
                 <%= if has_any_role?(@conn, ["admin"]) do %>
                   <%= select(f, :creative_id,
                     CodeFund.Creatives.list_creatives
-                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Creative --", class: "form-control", data: [controller: "dropdown"])
+                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Creative --", class: "form-control selectize")
                   %>
                 <% else %>
                   <%= select(f, :creative_id,
                     @conn.assigns.current_user.id
                     |> CodeFund.Creatives.by_user_id
-                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Creative --", class: "form-control", data: [controller: "dropdown"])
+                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Creative --", class: "form-control selectize")
                   %>
                 <% end %>
               </div>
             </div>
             <div class="row">
-              <div class="col mt-3">
+              <div class="col mt-2">
                 <%= submit "Submit", class: "btn btn-outline-primary btn", tabindex: 0 %>
-                <%= link("Clear", to: campaign_path(@conn, :index), tabindex: 0, class: "btn btn-outline-danger btn")%>
+                <%= link("Clear", to: campaign_path(@conn, :index), tabindex: 0, class: "btn btn-outline-danger btn ml-1")%>
               </div>
             </div>
           <% end %>

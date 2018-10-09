@@ -96,6 +96,7 @@ defmodule CodeFundWeb.CampaignController do
         type: :select,
         label: "Advertiser",
         opts: [
+          class: "selectize",
           disabled: !is_admin,
           prompt: "Select a User",
           choices:
@@ -119,13 +120,24 @@ defmodule CodeFundWeb.CampaignController do
       status: [
         type: :select,
         label: "Status",
-        opts: [choices: CodeFund.Campaigns.statuses()]
+        opts: [
+          class: "selectize",
+          choices: CodeFund.Campaigns.statuses()
+        ]
       ],
-      audience_id: [type: :select, label: "Audience", opts: [choices: audiences]],
+      audience_id: [
+        type: :select,
+        label: "Audience",
+        opts: [
+          class: "selectize",
+          choices: audiences
+        ]
+      ],
       creative_id: [
         type: :select,
         label: "Creative",
         opts: [
+          class: "selectize",
           prompt: "Select a Creative",
           choices: creatives,
           data: [target: "campaign-form.creatives"]

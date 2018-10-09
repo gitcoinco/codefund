@@ -19,20 +19,22 @@
         <div class="mb-3">
           <%= form_for @conn, property_path(@conn, :index), [as: :property, method: :get], fn f -> %>
             <div class="row">
-              <div class="col-sm-4">
-                <%= select(f, :status, CodeFund.Properties.statuses, prompt: "-- Status --", class: "form-control", data: [controller: "dropdown"]) %>
+              <div class="col-sm-2">
+                <%= select(f, :status, CodeFund.Properties.statuses, prompt: "-- Status --", class: "form-control selectize") %>
               </div>
               <%= if has_any_role?(@conn, ["admin"]) do %>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                   <%= select(f, :audience_id,
                     CodeFund.Audiences.list_audiences
-                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control", data: [controller: "dropdown"])
+                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control selectize")
                   %>
                 </div>
               <% end %>
-              <div class="col-sm-4 text-right">
+            </div>
+            <div class="row">
+              <div class="col mt-2">
                 <%= submit "Submit", class: "btn btn-outline-primary btn" %>
-                <%= link("Clear", to:  property_path(@conn, :index), class: "btn btn-outline-danger btn")%>
+                <%= link("Clear", to:  property_path(@conn, :index), class: "btn btn-outline-danger btn ml-1")%>
               </div>
             <% end %>
           </div>

@@ -40,6 +40,7 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Template (optional)",
         opts: [
+          class: "form-control selectize",
           prompt: "",
           choices: CodeFund.Templates.list_templates() |> FormHelpers.repo_objects_to_options(),
           hint:
@@ -64,7 +65,7 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Primary Language",
         opts: [
-          class: "form-control",
+          class: "form-control selectize",
           choices: Framework.GenericEnums.languages(),
           prompt: "Choose the primary language of the website?"
         ]
@@ -132,7 +133,14 @@ defmodule CodeFundWeb.PropertyController do
           hint: "Which audience does this property belong to?"
         ]
       ],
-      status: [type: :select, label: "Status", opts: [choices: CodeFund.Properties.statuses()]],
+      status: [
+        type: :select,
+        label: "Status",
+        opts: [
+          class: "form-control selectize",
+          choices: CodeFund.Properties.statuses()
+        ]
+      ],
       slug: [type: :text_input, label: "Slug"],
       alexa_site_rank: [type: :number_input, label: "Alexa Ranking"],
       screenshot_url: [
