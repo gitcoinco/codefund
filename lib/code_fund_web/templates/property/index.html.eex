@@ -52,6 +52,9 @@
                   <%= if has_any_role? @conn, ["admin", "developer"] do %>
                     <th>Excluded Advertisers</th>
                   <% end %>
+                  <%= if has_any_role? @conn, ["admin"] do %>
+                    <th>Advertisers</th>
+                  <% end %>
                   <th></th>
                 </tr>
               </thead>
@@ -70,6 +73,15 @@
                     <% end %>
                     <%= if has_any_role? @conn, ["admin", "developer"] do %>
                       <td><%= property.excluded_advertisers |> Enum.join(", ") %></td>
+                    <% end %>
+                    <%= if has_any_role? @conn, ["admin"] do %>
+                      <td>
+                        <ul class="list-unstyled">
+                        <%= for advertiser <- CodeFund.Properties.get_all_display_rates(property) do %>
+                          <li><strong><%= Number.Percentage.number_to_percentage(advertiser.display_rate, precision: 1) %></strong> <%= advertiser.campaign_name %></li>
+                        <% end %>
+                        </ul>
+                      </td>
                     <% end %>
                     <td class="text-right p-2">
                       <%= link 'Show', to: property_path(@conn, :show, property), class: "btn btn-outline-info btn-sm" %>

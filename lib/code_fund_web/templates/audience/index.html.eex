@@ -24,7 +24,6 @@
                 <th>Fallback Campaign</th>
                 <th><%= table_link(@conn, "Programming Languages", :programming_languages) %></th>
                 <th><%= table_link(@conn, "Topic Categories", :topic_categories) %></th>
-                <th>Advertisers</th>
                 <th></th>
               </tr>
             </thead>
@@ -35,13 +34,6 @@
                   <td><%= if audience.campaigns, do: audience.campaigns.name, else: "None"  %></td>
                   <td><%= truncate(audience.programming_languages |> Enum.join(", ")) %></td>
                   <td><%= truncate(audience.topic_categories |> Enum.join(", ")) %></td>
-                  <td>
-                    <ul class="list-unstyled">
-                    <%= for advertiser <- CodeFund.Audiences.get_all_display_rates(audience) do %>
-                      <li><strong><%= Number.Percentage.number_to_percentage(advertiser.display_rate, precision: 1) %></strong> <%= advertiser.campaign_name %></li>
-                    <% end %>
-                    </ul>
-                  </td>
                   <td class="text-right p-2">
                     <%= link 'Show', to: audience_path(@conn, :show, audience), class: "btn btn-outline-info btn-sm" %>
                     <%= link 'Edit', to: audience_path(@conn, :edit, audience), class: "btn btn-outline-primary btn-sm" %>

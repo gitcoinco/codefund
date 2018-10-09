@@ -3,6 +3,7 @@ defmodule CodeFundWeb.PropertyControllerTest do
 
   setup do
     users = stub_users()
+    {:ok, _pid} = TimeMachinex.ManagedClock.start()
 
     insert_pair(:user, company: "Foobar, Inc")
     insert(:user, company: "BarFoo")

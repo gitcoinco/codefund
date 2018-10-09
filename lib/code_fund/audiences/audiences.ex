@@ -132,12 +132,6 @@ defmodule CodeFund.Audiences do
     Audience.changeset(audience, %{})
   end
 
-  def get_all_display_rates(%Audience{} = audience) do
-    AdService.Query.ForDisplay.build(audience, nil, nil)
-    |> CodeFund.Repo.all()
-    |> AdService.Math.Basic.get_all_display_rates()
-  end
-
   defp filter_config(:audiences) do
     defconfig do
       text(:name)

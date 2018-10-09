@@ -2,7 +2,7 @@ defmodule AdService.Query.ForDisplay do
   import Ecto.Query
   alias AdService.UnrenderedAdvertisement
   alias CodeFund.Campaigns
-  alias CodeFund.Schema.{Audience, Campaign, Creative, Impression, Property}
+  alias CodeFund.Schema.{Campaign, Creative, Impression, Property}
 
   def fallback_ad_by_property_id(property_id) do
     from(property in Property,
@@ -30,7 +30,7 @@ defmodule AdService.Query.ForDisplay do
     |> UnrenderedAdvertisement.one()
   end
 
-  def build(%Audience{} = audience, client_country, ip_address, excluded_advertisers \\ []) do
+  def build(%Property{} = property, client_country, ip_address, excluded_advertisers \\ []) do
     from(
       creative in Creative,
       join: campaign in Campaign,
@@ -38,14 +38,44 @@ defmodule AdService.Query.ForDisplay do
       join: large_image_asset in assoc(creative, :large_image_asset),
       left_join: small_image_asset in assoc(creative, :small_image_asset),
       left_join: wide_image_asset in assoc(creative, :wide_image_asset),
-      join: audience in assoc(campaign, :audience),
       distinct: campaign.id
     )
     |> where_country_in(client_country)
     |> AdService.Query.TimeManagement.where_accepted_hours_for_ip_address(ip_address)
     |> AdService.Query.TimeManagement.where_not_allowed_on_weekends(ip_address)
     |> with_daily_budget()
-    |> where([_creative, campaign, ...], campaign.audience_id == ^audience.id)
+    |> where(
+      [_creative, campaign, ...],
+      fragment(
+        "? && ?::varchar[]",
+        campaign.included_programming_languages,
+        ^property.programming_languages
+      )
+    )
+    |> where(
+      [_creative, campaign, ...],
+      fragment(
+        "? && ?::varchar[]",
+        campaign.included_topic_categories,
+        ^property.topic_categories
+      )
+    )
+    |> where(
+      [_creative, campaign, ...],
+      fragment(
+        "not ? && ?::varchar[]",
+        campaign.excluded_programming_languages,
+        ^property.programming_languages
+      )
+    )
+    |> where(
+      [_creative, campaign, ...],
+      fragment(
+        "not ? && ?::varchar[]",
+        campaign.excluded_topic_categories,
+        ^property.topic_categories
+      )
+    )
     |> where(
       [_creative, campaign, ...],
       campaign.id not in ^Campaigns.list_of_ids_for_companies(excluded_advertisers)

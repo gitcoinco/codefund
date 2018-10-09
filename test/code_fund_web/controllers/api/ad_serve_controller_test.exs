@@ -99,19 +99,14 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
          %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
-      audience_1 = insert(:audience, name: "right one")
-      audience_2 = insert(:audience, name: "wrong one")
-
       property =
         insert(
           :property,
-          audience: audience_1
+          %{
+            programming_languages: ["Ruby", "C"],
+            topic_categories: ["Programming"]
+          }
         )
-
-      insert(
-        :property,
-        audience: audience_2
-      )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -130,7 +125,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience_1,
+          included_programming_languages: ["Ruby"],
+          included_topic_categories: ["Programming"],
+          excluded_programming_languages: ["Rust"],
+          excluded_topic_categories: ["Development"],
           included_countries: ["US"]
         )
 
@@ -143,7 +141,10 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience_2,
+        included_programming_languages: ["Rust"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Ruby", "C"],
+        excluded_topic_categories: ["Development"],
         included_countries: ["US"]
       )
 
