@@ -98,19 +98,16 @@ defmodule Framework.Phoenix.Form.Helpers do
 
   @spec render_field({atom, Keyword.t()}, Phoenix.HTML.Form.t()) :: Phoenix.HTML.safe()
   defp render_field({field_name, [type: type, label: label, opts: opts]}, form) do
-    opts =
-      case type do
-        :checkbox -> Keyword.put(opts, :class, "#{opts[:class]} form-check-input")
-        _ -> Keyword.put(opts, :class, "#{opts[:class]} form-control")
-      end
-
     field_html =
       case type do
+        :checkbox ->
+          checkbox(form, field_name, Keyword.put(opts, :class, "#{opts[:class]} form-check-input"))
+
         :select ->
           select_fields(
             form,
             field_name,
-            opts |> Keyword.put(:class, "#{opts[:class]} selectize"),
+            opts |> Keyword.put(:class, "#{opts[:class]} form-control selectize"),
             type
           )
 
@@ -118,21 +115,21 @@ defmodule Framework.Phoenix.Form.Helpers do
           select_fields(
             form,
             field_name,
-            opts |> Keyword.put(:class, "#{opts[:class]} selectize"),
+            opts |> Keyword.put(:class, "#{opts[:class]} form-control selectize"),
             type
           )
 
         :currency_input ->
-          addon_input(form, field_name, "$", opts)
+          addon_input(form, field_name, "$", Keyword.put(opts, :class, "#{opts[:class]} form-control"))
 
         :percentage_input ->
-          addon_input(form, field_name, "%", opts)
+          addon_input(form, field_name, "%", Keyword.put(opts, :class, "#{opts[:class]} form-control"))
 
         :image_preview ->
           image_preview(opts[:src])
 
         _other ->
-          apply(Phoenix.HTML.Form, type, [form, field_name, opts])
+          apply(Phoenix.HTML.Form, type, [form, field_name, Keyword.put(opts, :class, "#{opts[:class]} form-control")])
       end
 
     case type do
