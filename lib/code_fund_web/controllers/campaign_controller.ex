@@ -96,7 +96,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :select,
         label: "Advertiser",
         opts: [
-          class: "selectize",
           disabled: !is_admin,
           prompt: "Select a User",
           choices:
@@ -121,7 +120,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :select,
         label: "Status",
         opts: [
-          class: "selectize",
           choices: CodeFund.Campaigns.statuses()
         ]
       ],
@@ -129,7 +127,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :select,
         label: "Audience",
         opts: [
-          class: "selectize",
           choices: audiences
         ]
       ],
@@ -137,7 +134,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :select,
         label: "Creative",
         opts: [
-          class: "selectize",
           prompt: "Select a Creative",
           choices: creatives,
           data: [target: "campaign-form.creatives"]
@@ -169,7 +165,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Included Topic Categories",
         opts: [
-          class: "selectize",
           choices: Framework.GenericEnums.topic_categories()
         ]
       ],
@@ -177,7 +172,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Included Programming Languages",
         opts: [
-          class: "selectize",
           choices: Framework.GenericEnums.programming_languages()
         ]
       ],
@@ -185,7 +179,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Excluded Topic Categories",
         opts: [
-          class: "selectize",
           choices: Framework.GenericEnums.topic_categories()
         ]
       ],
@@ -193,7 +186,6 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Excluded Programming Languages",
         opts: [
-          class: "selectize",
           choices: Framework.GenericEnums.programming_languages()
         ]
       ],
@@ -206,7 +198,6 @@ defmodule CodeFundWeb.CampaignController do
             action: "change->campaign-form#generateEstimates",
             key: "included_countries"
           ],
-          class: "selectize",
           choices: Framework.Geolocation.Countries.list(),
           hint: ~s"""
           <div>

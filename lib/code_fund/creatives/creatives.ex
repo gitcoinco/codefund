@@ -62,7 +62,7 @@ defmodule CodeFund.Creatives do
   end
 
   def by_user_id(user_id) do
-    from(o in Creative, where: o.user_id == ^user_id, order_by: o.name)
+    from(o in Creative, where: o.user_id == ^user_id, order_by: fragment("lower(?)", o.name))
     |> CodeFund.Repo.all()
   end
 
@@ -160,7 +160,7 @@ defmodule CodeFund.Creatives do
 
   """
   def list_creatives do
-    from(c in Creative, order_by: c.name) |> Repo.all()
+    from(c in Creative, order_by: fragment("lower(?)", c.name)) |> Repo.all()
   end
 
   defp filter_config(:creatives) do

@@ -40,7 +40,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Template (optional)",
         opts: [
-          class: "selectize",
           prompt: "",
           choices: CodeFund.Templates.list_templates() |> FormHelpers.repo_objects_to_options(),
           hint:
@@ -65,7 +64,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Primary Language",
         opts: [
-          class: "selectize",
           choices: Framework.GenericEnums.languages(),
           prompt: "Choose the primary language of the website?"
         ]
@@ -74,7 +72,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :multiple_select,
         label: "Programming Languages",
         opts: [
-          class: "selectize",
           choices: Framework.GenericEnums.programming_languages(),
           hint: "Which programming languages are used or discussed on the website?"
         ]
@@ -83,7 +80,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :multiple_select,
         label: "Topic Categories",
         opts: [
-          class: "selectize",
           choices: Framework.GenericEnums.topic_categories(),
           hint: "Which general topics apply to this website?"
         ]
@@ -92,7 +88,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :multiple_select,
         label: "Advertisers To Exclude",
         opts: [
-          class: "selectize",
           choices: CodeFund.Users.distinct_companies()
         ]
       ],
@@ -128,7 +123,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Audience",
         opts: [
-          class: "selectize",
           choices: CodeFund.Audiences.list_audiences() |> FormHelpers.repo_objects_to_options(),
           hint: "Which audience does this property belong to?"
         ]
@@ -137,7 +131,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Status",
         opts: [
-          class: "selectize",
           choices: CodeFund.Properties.statuses()
         ]
       ],

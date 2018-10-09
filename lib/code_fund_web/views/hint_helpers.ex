@@ -15,4 +15,12 @@ defmodule CodeFundWeb.HintHelpers do
   def hint_tag(hint) do
     [content_tag(:small, raw(hint), class: "form-text text-muted")]
   end
+
+  def hint_tag_html(nil) do
+    ""
+  end
+
+  def hint_tag_html(hint) do
+    content_tag(:small, raw(hint), class: "form-text text-muted")
+  end
 end
