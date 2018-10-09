@@ -1,10 +1,3 @@
-/**
-  -webkit-border-radius: 0rem;
-  -moz-border-radius: 0rem;
-  border-radius: 0rem;
- * Selectize bootstrap 4
- */
-
 .selectize-control {
   position: relative;
 }
@@ -48,9 +41,15 @@
   }
 }
 
-.selectize-control.single {
+.selectize-control {
   &.single .item {
     max-width: 85% !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  &.multi .item {
+    width: 180px !important;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

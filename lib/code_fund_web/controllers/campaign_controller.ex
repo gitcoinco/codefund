@@ -169,7 +169,7 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Included Topic Categories",
         opts: [
-          class: "form-control campaign-form selectize",
+          class: "selectize",
           choices: Framework.GenericEnums.topic_categories()
         ]
       ],
@@ -177,7 +177,7 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Included Programming Languages",
         opts: [
-          class: "form-control campaign-form selectize",
+          class: "selectize",
           choices: Framework.GenericEnums.programming_languages()
         ]
       ],
@@ -185,7 +185,7 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Excluded Topic Categories",
         opts: [
-          class: "form-control campaign-form selectize",
+          class: "selectize",
           choices: Framework.GenericEnums.topic_categories()
         ]
       ],
@@ -193,7 +193,7 @@ defmodule CodeFundWeb.CampaignController do
         type: :multiple_select,
         label: "Excluded Programming Languages",
         opts: [
-          class: "form-control campaign-form selectize",
+          class: "selectize",
           choices: Framework.GenericEnums.programming_languages()
         ]
       ],
@@ -206,7 +206,7 @@ defmodule CodeFundWeb.CampaignController do
             action: "change->campaign-form#generateEstimates",
             key: "included_countries"
           ],
-          class: "form-control campaign-form selectize",
+          class: "selectize",
           choices: Framework.Geolocation.Countries.list(),
           hint: ~s"""
           <div>
