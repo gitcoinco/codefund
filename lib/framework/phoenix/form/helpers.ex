@@ -158,8 +158,8 @@ defmodule Framework.Phoenix.Form.Helpers do
   end
 
   defp render_input_group(
-         {field_name, field_html, [type: :checkbox, label: label, opts: opts]},
-         form
+         {_field_name, field_html, [type: :checkbox, label: label, opts: opts]},
+         _form
        ) do
     field_html
     |> checkbox_input_group(
@@ -168,7 +168,7 @@ defmodule Framework.Phoenix.Form.Helpers do
     )
   end
 
-  defp render_input_group({field_name, field_html, [type: type, label: label, opts: opts]}, form) do
+  defp render_input_group({field_name, field_html, [type: _type, label: label, opts: opts]}, form) do
     field_html
     |> input_group(
       label,
