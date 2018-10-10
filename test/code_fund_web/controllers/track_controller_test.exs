@@ -43,8 +43,8 @@ defmodule CodeFundWeb.TrackControllerTest do
       assert impression.country == "US"
       assert impression.city == "Portland"
       assert impression.region == "Oregon"
-      assert impression.latitude == Decimal.new(45.5171)
-      assert impression.longitude == Decimal.new(-122.6802)
+      assert impression.latitude == Decimal.new(45.5207)
+      assert impression.longitude == Decimal.new(-122.6888)
       assert impression.postal_code == "97205"
     end
   end

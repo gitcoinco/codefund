@@ -30,8 +30,8 @@ defmodule Framework.GeolocationTest do
                 %{
                   city: "Portland",
                   country: "US",
-                  latitude: 45.5171,
-                  longitude: -122.6802,
+                  latitude: 45.5207,
+                  longitude: -122.6888,
                   postal_code: "97205",
                   region: "Oregon",
                   time_zone: "America/Los_Angeles"
