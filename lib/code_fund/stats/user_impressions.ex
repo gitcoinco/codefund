@@ -9,7 +9,11 @@ defmodule CodeFund.Stats.UserImpressions do
                     |> :timer.minutes()
 
   defmodule State do
-    defstruct impression_count: 0, click_count: 0, click_rate: 0.0, distribution_amount: 0.0
+    defstruct impression_count: 0,
+              click_count: 0,
+              click_rate: 0.0,
+              distribution_amount: 0.0,
+              refreshed_at: nil
   end
 
   # Client API
@@ -58,7 +62,8 @@ defmodule CodeFund.Stats.UserImpressions do
       impression_count: impression_count,
       click_count: click_count,
       click_rate: click_rate,
-      distribution_amount: distribution_amount_for_last_thirty_days()
+      distribution_amount: distribution_amount_for_last_thirty_days(),
+      refreshed_at: Timex.now()
     }
   end
 
