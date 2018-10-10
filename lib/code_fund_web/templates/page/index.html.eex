@@ -165,7 +165,7 @@
     <div class="w-md-80 w-lg-50 text-center mx-auto mb-9">
       <span class="u-label u-label--sm u-label--success mb-2">Live Stats</span>
       <h2>How are we doing?</h2>
-      <p>Below you will find real stats for the <strong class="text-codefund-purple">month of September 2018</strong></p>
+      <p>Below you will find real stats for the <strong class="text-codefund-purple">last 30 days</strong></p>
     </div>
     <!-- End Title -->
 
@@ -176,10 +176,12 @@
         <div class="text-center">
           <div class="position-relative">
             <div class="u-indicator-dots">
-              <h4 class="display-4 text-primary mb-0">5.3M</h4>
+              <h4 class="display-4 text-primary mb-0">
+                <%= CodeFund.Stats.UserImpressions.last_thirty_days().impression_count |> Number.Human.number_to_human |> String.slice(0..5) |> String.replace(" ", "") %>
+              </h4>
             </div>
           </div>
-          <p class="mb-0">total ad<br>impression</p>
+          <p class="mb-0">total ad<br>impressions</p>
         </div>
         <!-- End Facts & Figures -->
       </div>
@@ -189,7 +191,9 @@
         <div class="text-center">
           <div class="position-relative">
             <div class="u-indicator-dots">
-              <h4 class="display-4 text-primary mb-0">$6.8K</h4>
+              <h4 class="display-4 text-primary mb-0">
+                <%= CodeFund.Stats.UserImpressions.last_thirty_days().distribution_amount |> Number.Currency.number_to_currency  %>
+              </h4>
             </div>
           </div>
           <p class="mb-0">publisher<br>distributions</p>
@@ -201,7 +205,10 @@
         <!-- Facts & Figures -->
         <div class="text-center">
           <div class="position-relative">
-              <h4 class="display-4 text-primary mb-0">0.26%</h4>
+              <h4 class="display-4 text-primary mb-0">
+                <%= CodeFund.Stats.UserImpressions.last_thirty_days().click_rate * 100 |> Number.Percentage.number_to_percentage(precision: 3) %>
+                <br>
+              </h4>
           </div>
           <p class="mb-0">average click<br>through rate</p>
         </div>
