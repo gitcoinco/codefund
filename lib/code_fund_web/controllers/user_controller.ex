@@ -88,7 +88,7 @@ defmodule CodeFundWeb.UserController do
       roles: [
         type: :multiple_select,
         label: "Roles",
-        opts: [choices: CodeFund.Users.roles(), class: "form-contol selectize"]
+        opts: [choices: CodeFund.Users.roles()]
       ],
       revenue_rate: [
         type: :percentage_input,

@@ -1,7 +1,3 @@
-/**
- * Selectize bootstrap 4
- */
-
 .selectize-control {
   position: relative;
 }
@@ -39,6 +35,25 @@
   -webkit-border-radius: 0rem;
   -moz-border-radius: 0rem;
   border-radius: 0rem;
+
+  input {
+    height: auto !important;
+  }
+}
+
+.selectize-control {
+  &.single .item {
+    max-width: 85% !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  &.multi .item {
+    width: 180px !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 
 .selectize-control.multi .selectize-input.has-items {
@@ -136,6 +151,10 @@
   right: 0;
 }
 
+.selectize-input, .selectize-dropdown {
+  min-width: 250px;
+}
+
 .selectize-dropdown {
   position: absolute;
   z-index: 10;
@@ -209,6 +228,11 @@
   overflow-x: hidden;
   max-height: 200px;
   -webkit-overflow-scrolling: touch;
+
+  .option {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .selectize-control.single .selectize-input,
@@ -426,9 +450,9 @@
 }
 
 .selectize-input.dropdown-active {
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
-  border-radius: 0.25rem;
+  //-webkit-border-radius: 0.25rem;
+  //-moz-border-radius: 0.25rem;
+  //border-radius: 0.25rem;
 }
 
 .selectize-input.dropdown-active::before {
