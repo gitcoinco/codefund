@@ -107,6 +107,10 @@ Please keep in mind that the focus is to create a great platform, so we might no
 
 This product includes GeoLite data created by MaxMind, available from [http://www.maxmind.com](http://www.maxmind.com).
 
+We also use [BrowserStack](https://www.browserstack.com/) to help us ensure that the ethical ad placements are above the fold on different browsers.
+
+<img src="http://codefund.io.s3.amazonaws.com/assets/browserstack-logo.png" width="198" height="43" style="width: 198px; height: 43px;" />
+
 ## Financial Contributions
 
 We also welcome financial contributions in full transparency on our [open collective](https://opencollective.com/codefund).
