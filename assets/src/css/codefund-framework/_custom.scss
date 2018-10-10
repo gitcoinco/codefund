@@ -76,3 +76,9 @@ ul.list-group-kv li.list-group-item {
 .click-option:hover {
   text-decoration: underline;
 }
+
+.page-item {
+  .page-link.active {
+    background-color: #ccecf8;
+  }
+}

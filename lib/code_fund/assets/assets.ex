@@ -60,7 +60,7 @@ defmodule CodeFund.Assets do
   end
 
   def by_user_id(user_id) do
-    from(o in Asset, where: o.user_id == ^user_id)
+    from(o in Asset, where: o.user_id == ^user_id, order_by: fragment("lower(?)", o.name))
     |> CodeFund.Repo.all()
   end
 
@@ -155,7 +155,8 @@ defmodule CodeFund.Assets do
 
   """
   def list_assets do
-    Repo.all(Asset)
+    from(a in Asset, order_by: fragment("lower(?)", a.name))
+    |> Repo.all()
   end
 
   defp filter_config(:assets) do

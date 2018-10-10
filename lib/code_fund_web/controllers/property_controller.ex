@@ -64,7 +64,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Primary Language",
         opts: [
-          class: "form-control",
           choices: Framework.GenericEnums.languages(),
           prompt: "Choose the primary language of the website?"
         ]
@@ -73,7 +72,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :multiple_select,
         label: "Programming Languages",
         opts: [
-          class: "form-control selectize",
           choices: Framework.GenericEnums.programming_languages(),
           hint: "Which programming languages are used or discussed on the website?"
         ]
@@ -82,7 +80,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :multiple_select,
         label: "Topic Categories",
         opts: [
-          class: "form-control selectize",
           choices: Framework.GenericEnums.topic_categories(),
           hint: "Which general topics apply to this website?"
         ]
@@ -91,7 +88,6 @@ defmodule CodeFundWeb.PropertyController do
         type: :multiple_select,
         label: "Advertisers To Exclude",
         opts: [
-          class: "form-control selectize",
           choices: CodeFund.Users.distinct_companies()
         ]
       ],
@@ -127,12 +123,17 @@ defmodule CodeFundWeb.PropertyController do
         type: :select,
         label: "Audience",
         opts: [
-          class: "form-control selectize",
           choices: CodeFund.Audiences.list_audiences() |> FormHelpers.repo_objects_to_options(),
           hint: "Which audience does this property belong to?"
         ]
       ],
-      status: [type: :select, label: "Status", opts: [choices: CodeFund.Properties.statuses()]],
+      status: [
+        type: :select,
+        label: "Status",
+        opts: [
+          choices: CodeFund.Properties.statuses()
+        ]
+      ],
       slug: [type: :text_input, label: "Slug"],
       alexa_site_rank: [type: :number_input, label: "Alexa Ranking"],
       screenshot_url: [
