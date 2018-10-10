@@ -32,15 +32,20 @@ defmodule AdService.ServerTest do
       audience_2 = insert(:audience, name: "wrong one")
 
       property =
-        insert(
-          :property,
-          audience: audience_1
-        )
+        insert(:property, %{
+          programming_languages: ["Ruby", "C"],
+          topic_categories: ["Programming"]
+        })
 
-      insert(
-        :property,
-        audience: audience_2
-      )
+      insert(:property, %{
+        programming_languages: ["Ruby", "C"],
+        topic_categories: ["Development"]
+      })
+
+      insert(:property, %{
+        programming_languages: ["Ruby", "Rust"],
+        topic_categories: ["Programming"]
+      })
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -60,6 +65,10 @@ defmodule AdService.ServerTest do
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
           audience: audience_1,
+          included_programming_languages: ["Ruby"],
+          included_topic_categories: ["Programming"],
+          excluded_programming_languages: ["Rust"],
+          excluded_topic_categories: ["Development"],
           included_countries: ["US"]
         )
 
@@ -73,6 +82,10 @@ defmodule AdService.ServerTest do
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
         audience: audience_2,
+        included_programming_languages: ["Rust"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Ruby", "C"],
+        excluded_topic_categories: ["Development"],
         included_countries: ["US"]
       )
 
@@ -123,19 +136,12 @@ defmodule AdService.ServerTest do
       TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[1985-10-26 11:00:00], "Etc/UTC"))
       creative = insert(:creative, small_image_asset: insert(:asset))
 
-      audience_1 = insert(:audience, name: "right one")
-      audience_2 = insert(:audience, name: "wrong one")
-
       property =
         insert(
           :property,
-          audience: audience_1
+          programming_languages: ["C"],
+          topic_categories: ["Programming"]
         )
-
-      insert(
-        :property,
-        audience: audience_2
-      )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -150,7 +156,10 @@ defmodule AdService.ServerTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience_1,
+          included_programming_languages: ["C"],
+          included_topic_categories: ["Programming"],
+          excluded_programming_languages: ["Ruby"],
+          excluded_topic_categories: ["Development"],
           included_countries: ["US"],
           us_hours_only: false
         )
@@ -164,7 +173,10 @@ defmodule AdService.ServerTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience_1,
+        included_programming_languages: ["C"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Ruby"],
+        excluded_topic_categories: ["Development"],
         included_countries: ["US"],
         us_hours_only: true
       )
@@ -178,8 +190,12 @@ defmodule AdService.ServerTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience_2,
-        included_countries: ["US"]
+        included_programming_languages: ["Ruby"],
+        included_topic_categories: ["Development"],
+        excluded_programming_languages: ["Rust"],
+        excluded_topic_categories: ["Programming"],
+        included_countries: ["US"],
+        us_hours_only: false
       )
 
       advertisement =
@@ -232,7 +248,9 @@ defmodule AdService.ServerTest do
       property =
         insert(
           :property,
-          audience: audience
+          audience: audience,
+          programming_languages: ["C"],
+          topic_categories: ["Programming"]
         )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
@@ -254,6 +272,10 @@ defmodule AdService.ServerTest do
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
           audience: audience,
+          included_programming_languages: ["C"],
+          included_topic_categories: ["Programming"],
+          excluded_programming_languages: ["Ruby"],
+          excluded_topic_categories: ["Development"],
           included_countries: ["US"]
         )
 
@@ -297,19 +319,14 @@ defmodule AdService.ServerTest do
          %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
-      audience_1 = insert(:audience, name: "right one")
-      audience_2 = insert(:audience, name: "wrong one")
-
       property =
         insert(
           :property,
-          audience: audience_1
+          %{
+            programming_languages: ["C"],
+            topic_categories: ["Programming"]
+          }
         )
-
-      insert(
-        :property,
-        audience: audience_2
-      )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -328,7 +345,10 @@ defmodule AdService.ServerTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience_1,
+          included_programming_languages: ["C"],
+          included_topic_categories: ["Programming"],
+          excluded_programming_languages: ["Ruby"],
+          excluded_topic_categories: ["Development"],
           included_countries: ["US"]
         )
 
@@ -341,7 +361,10 @@ defmodule AdService.ServerTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience_2,
+        included_programming_languages: ["Ruby"],
+        included_topic_categories: ["Development"],
+        excluded_programming_languages: ["Rust"],
+        excluded_topic_categories: ["Programming"],
         included_countries: ["US"]
       )
 
@@ -441,12 +464,13 @@ defmodule AdService.ServerTest do
          %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
-      audience = insert(:audience)
-
       property =
         insert(
           :property,
-          audience: audience
+          %{
+            programming_languages: ["C"],
+            topic_categories: ["Programming"]
+          }
         )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
@@ -466,7 +490,10 @@ defmodule AdService.ServerTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience,
+          included_programming_languages: ["C"],
+          included_topic_categories: ["Programming"],
+          excluded_programming_languages: ["Ruby"],
+          excluded_topic_categories: ["Development"],
           included_countries: ["US"]
         )
 
@@ -569,7 +596,11 @@ defmodule AdService.ServerTest do
         insert(:campaign, creative: insert(:creative, small_image_asset: insert(:asset)))
 
       property =
-        insert(:property, audience: insert(:audience, fallback_campaign_id: fallback_campaign.id))
+        insert(:property,
+          programming_languages: ["Ruby", "C"],
+          topic_categories: ["Programming"],
+          audience: insert(:audience, fallback_campaign_id: fallback_campaign.id)
+        )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
 
@@ -697,9 +728,10 @@ defmodule AdService.ServerTest do
              }
     end
 
-    test "returns an error if property is not assigned to an audience", %{
-      conn: conn
-    } do
+    test "returns an error if property has no audience(for fallback) or programming languages or topic categories",
+         %{
+           conn: conn
+         } do
       property = insert(:property)
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
@@ -712,7 +744,7 @@ defmodule AdService.ServerTest do
       assert impression.property_id == property.id
       assert impression.campaign_id == nil
       assert impression.country == "US"
-      assert impression.error_code == AdService.Impression.Errors.fetch_code(:property_inactive)
+      assert impression.error_code == AdService.Impression.Errors.fetch_code(:no_possible_ads)
 
       assert advertisement == %AdService.AdvertisementImpression{
                headline: "",
@@ -724,7 +756,7 @@ defmodule AdService.ServerTest do
                small_image_url: "",
                pixel: "//www.example.com/p/#{impression.id}/pixel.png",
                poweredByLink: "https://codefund.io?utm_content=",
-               reason: "This property is not currently active - code: 0"
+               reason: "CodeFund does not have an advertiser for you at this time - code: 2"
              }
     end
 
