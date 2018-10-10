@@ -13,13 +13,12 @@ defmodule AdService.Server do
     with {:ok, :no_cache_found} <- AdService.Impression.Cache.lookup(conn.remote_ip, property_id),
          {:ok, %{country: client_country}} <-
            Framework.Geolocation.find_by_ip(conn.remote_ip, :city),
-         %Property{status: 1, audience: audience} = property
-         when not is_nil(audience) <-
-           Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user, :audience]),
+         %Property{status: 1} = property <-
+           Properties.get_property!(property_id) |> CodeFund.Repo.preload([:user]),
          :ok <- Framework.Browser.certify_human(conn),
          {:ok, ad_tuple} <-
            AdService.Query.ForDisplay.build(
-             audience,
+             property,
              client_country,
              conn.remote_ip,
              property.excluded_advertisers

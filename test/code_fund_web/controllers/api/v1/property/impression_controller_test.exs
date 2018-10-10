@@ -6,12 +6,13 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionControllerTest do
     {:ok, _pid} = TimeMachinex.ManagedClock.start()
     creative = insert(:creative, wide_image_asset: insert(:asset))
 
-    audience = insert(:audience, name: "right one")
-
     property =
       insert(
         :property,
-        audience: audience
+        %{
+          programming_languages: ["Ruby", "C"],
+          topic_categories: ["Programming"]
+        }
       )
 
     campaign =
@@ -24,7 +25,10 @@ defmodule CodeFundWeb.API.V1.Property.ImpressionControllerTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience,
+        included_programming_languages: ["Ruby"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Rust"],
+        excluded_topic_categories: ["Development"],
         included_countries: ["US"]
       )
 

@@ -29,6 +29,22 @@ defmodule AdService.Query.ForDisplayTest do
       topic_categories: ["Development"]
     })
 
+    property =
+      insert(:property, %{
+        programming_languages: ["Ruby", "C"],
+        topic_categories: ["Programming"]
+      })
+
+    insert(:property, %{
+      programming_languages: ["Ruby", "C"],
+      topic_categories: ["Development"]
+    })
+
+    insert(:property, %{
+      programming_languages: ["Ruby", "Rust"],
+      topic_categories: ["Programming"]
+    })
+
     campaign =
       insert(
         :campaign,
@@ -40,6 +56,10 @@ defmodule AdService.Query.ForDisplayTest do
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
         audience: audience,
+        included_programming_languages: ["Ruby"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Rust"],
+        excluded_topic_categories: ["Development"],
         included_countries: ["US"],
         user: insert(:user, company: "Acme")
       )
@@ -54,6 +74,10 @@ defmodule AdService.Query.ForDisplayTest do
       end_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
       creative: creative,
       audience: audience,
+      included_programming_languages: ["Rust"],
+      included_topic_categories: ["Development"],
+      excluded_programming_languages: ["Ruby"],
+      excluded_topic_categories: ["Programming"],
       included_countries: ["US"]
     )
 
@@ -66,6 +90,10 @@ defmodule AdService.Query.ForDisplayTest do
       end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
       total_spend: Decimal.new(100),
       creative: creative,
+      included_programming_languages: ["Rust"],
+      included_topic_categories: ["Development"],
+      excluded_programming_languages: ["Ruby"],
+      excluded_topic_categories: ["Programming"],
       included_countries: ["IN"],
       audience: insert(:audience, %{programming_languages: ["Java", "Rust"]})
     )
@@ -80,12 +108,23 @@ defmodule AdService.Query.ForDisplayTest do
       end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
       creative: creative,
       audience: audience,
+      included_programming_languages: ["Rust"],
+      included_topic_categories: ["Development"],
+      excluded_programming_languages: ["Ruby"],
+      excluded_topic_categories: ["Programming"],
       included_countries: ["CN"]
     )
 
     [cdn_host: cdn_host] = Application.get_env(:code_fund, Framework.FileStorage)
 
-    {:ok, %{audience: audience, creative: creative, campaign: campaign, cdn_host: cdn_host}}
+    {:ok,
+     %{
+       audience: audience,
+       creative: creative,
+       campaign: campaign,
+       cdn_host: cdn_host,
+       property: property
+     }}
   end
 
   describe "fallback_ad_by_property_id/1" do
@@ -122,13 +161,13 @@ defmodule AdService.Query.ForDisplayTest do
   end
 
   describe "build/1" do
-    test "get_by_property_filters excludes indicated countries", %{audience: audience} do
-      refute AdService.Query.ForDisplay.build(audience, "CN", nil, ["Foobar"])
+    test "get_by_property_filters excludes indicated countries", %{property: property} do
+      refute AdService.Query.ForDisplay.build(property, "CN", nil, ["Foobar"])
              |> CodeFund.Repo.one()
     end
 
     test "it returns advertisements by audience, included country and excluded advertisers", %{
-      audience: audience,
+      property: property,
       campaign: campaign,
       creative: creative
     } do
@@ -141,13 +180,16 @@ defmodule AdService.Query.ForDisplayTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience,
+        included_programming_languages: ["Ruby"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Rust"],
+        excluded_topic_categories: ["Development"],
         included_countries: ["US"],
         user: insert(:user, company: "Foobar")
       )
 
       advertisement =
-        AdService.Query.ForDisplay.build(audience, "US", nil, ["Foobar"])
+        AdService.Query.ForDisplay.build(property, "US", nil, ["Foobar"])
         |> CodeFund.Repo.one()
 
       small_image_asset = CodeFund.Schema.Asset |> Repo.get!(creative.small_image_asset.id)
@@ -178,7 +220,7 @@ defmodule AdService.Query.ForDisplayTest do
     end
 
     test "it excludes campaigns which are not allowed on the weekends when its a weekend", %{
-      audience: audience,
+      property: property,
       creative: creative
     } do
       CodeFund.Schema.Campaign
@@ -195,7 +237,10 @@ defmodule AdService.Query.ForDisplayTest do
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
         weekdays_only: true,
-        audience: audience,
+        included_programming_languages: ["Ruby"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Rust"],
+        excluded_topic_categories: ["Development"],
         included_countries: ["US"],
         user: insert(:user, company: "Acme")
       )
@@ -203,14 +248,14 @@ defmodule AdService.Query.ForDisplayTest do
       TimeMachinex.ManagedClock.set(DateTime.from_naive!(~N[2018-09-22 11:00:00], "Etc/UTC"))
 
       advertisement =
-        AdService.Query.ForDisplay.build(audience, "US", {72, 229, 28, 185}, ["Foobar"])
+        AdService.Query.ForDisplay.build(property, "US", {72, 229, 28, 185}, ["Foobar"])
         |> CodeFund.Repo.one()
 
       refute advertisement
     end
 
     test "it will exclude campaigns that are over their daily budget", %{
-      audience: audience,
+      property: property,
       creative: creative
     } do
       CodeFund.Schema.Campaign
@@ -227,7 +272,10 @@ defmodule AdService.Query.ForDisplayTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience,
+          included_programming_languages: ["Ruby"],
+          included_topic_categories: ["Programming"],
+          excluded_programming_languages: ["Rust"],
+          excluded_topic_categories: ["Development"],
           included_countries: ["US"],
           user: insert(:user, company: "Acme")
         )
@@ -235,7 +283,7 @@ defmodule AdService.Query.ForDisplayTest do
       insert(:impression, campaign: campaign, revenue_amount: Decimal.new(9.5))
 
       advertisement =
-        AdService.Query.ForDisplay.build(audience, "US", nil, ["Foobar"]) |> CodeFund.Repo.one()
+        AdService.Query.ForDisplay.build(property, "US", nil, ["Foobar"]) |> CodeFund.Repo.one()
 
       refute advertisement
     end
