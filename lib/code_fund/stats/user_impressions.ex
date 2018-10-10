@@ -86,7 +86,7 @@ defmodule CodeFund.Stats.UserImpressions do
     from(user_impression in get_last_thirty_days(),
       select: sum(user_impression.distribution_amount)
     )
-    |> Repo.one()
+    |> Repo.one() || 0.0
   end
 
   defp get_last_thirty_days() do
