@@ -177,7 +177,10 @@
           <div class="position-relative">
             <div class="u-indicator-dots">
               <h4 class="display-4 text-primary mb-0">
-                <%= CodeFund.Stats.UserImpressions.last_thirty_days().impression_count |> Number.Human.number_to_human |> String.slice(0..5) |> String.replace(" ", "") %>
+                <%= CodeFund.Stats.UserImpressions.last_thirty_days().impression_count
+                    |> Number.Human.number_to_human
+                    |> String.slice(0..5)
+                    |> String.replace(" ", "") %>
               </h4>
             </div>
           </div>
@@ -192,7 +195,8 @@
           <div class="position-relative">
             <div class="u-indicator-dots">
               <h4 class="display-4 text-primary mb-0">
-                <%= CodeFund.Stats.UserImpressions.last_thirty_days().distribution_amount |> Number.Currency.number_to_currency  %>
+                <%= CodeFund.Stats.UserImpressions.last_thirty_days().distribution_amount
+                    |> Number.Currency.number_to_currency  %>
               </h4>
             </div>
           </div>
@@ -206,7 +210,8 @@
         <div class="text-center">
           <div class="position-relative">
               <h4 class="display-4 text-primary mb-0">
-                <%= CodeFund.Stats.UserImpressions.last_thirty_days().click_rate * 100 |> Number.Percentage.number_to_percentage(precision: 3) %>
+                <%= CodeFund.Stats.UserImpressions.last_thirty_days().click_rate * 100
+                    |> Number.Percentage.number_to_percentage(precision: 3) %>
                 <br>
               </h4>
           </div>
