@@ -35,8 +35,8 @@ defmodule AdService.Impression.Manager do
           error: %AdService.Impression.ErrorStruct{reason_atom: :no_possible_ads}
         } = impression_details
       ) do
-    case impression_details.property.id
-         |> AdService.Query.ForDisplay.fallback_ad_by_property_id() do
+    case impression_details.property.excluded_advertisers
+         |> AdService.Query.ForDisplay.fallback_ad_excluding_advertisers() do
       %UnrenderedAdvertisement{} = advertisement ->
         attempt_to_render_house_ad(impression_details, advertisement)
 
