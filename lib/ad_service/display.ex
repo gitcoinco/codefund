@@ -24,7 +24,7 @@ defmodule AdService.Display do
 
   defp pick_random_ad(possible_ads) do
     ranges = get_ranges([], possible_ads)
-    random_number = :rand.uniform(100)
+    random_number = :rand.uniform(99)
 
     ranges
     |> Enum.find(fn {_campaign_id, range} ->
