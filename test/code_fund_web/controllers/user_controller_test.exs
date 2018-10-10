@@ -73,10 +73,7 @@ defmodule CodeFundWeb.UserControllerTest do
                roles: [
                  type: :multiple_select,
                  label: "Roles",
-                 opts: [
-                   choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"],
-                   class: "form-contol selectize"
-                 ]
+                 opts: [choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"]]
                ],
                revenue_rate: [
                  type: :percentage_input,
@@ -108,10 +105,7 @@ defmodule CodeFundWeb.UserControllerTest do
                roles: [
                  type: :multiple_select,
                  label: "Roles",
-                 opts: [
-                   choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"],
-                   class: "form-contol selectize"
-                 ]
+                 opts: [choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"]]
                ],
                revenue_rate: [
                  type: :percentage_input,
@@ -187,8 +181,11 @@ defmodule CodeFundWeb.UserControllerTest do
                  type: :multiple_select,
                  label: "Roles",
                  opts: [
-                   choices: [Admin: "admin", Developer: "developer", Sponsor: "sponsor"],
-                   class: "form-contol selectize"
+                   choices: [
+                     Admin: "admin",
+                     Developer: "developer",
+                     Sponsor: "sponsor"
+                   ]
                  ]
                ],
                revenue_rate: [
