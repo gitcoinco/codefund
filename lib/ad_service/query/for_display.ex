@@ -55,7 +55,9 @@ defmodule AdService.Query.ForDisplay do
     |> where(
       [_creative, campaign, ...],
       fragment(
-        "? && ?::varchar[]",
+        "? && ?::varchar[] or ? && ?::varchar[]",
+        campaign.included_programming_languages,
+        ^property.programming_languages,
         campaign.included_topic_categories,
         ^property.topic_categories
       )
@@ -63,15 +65,9 @@ defmodule AdService.Query.ForDisplay do
     |> where(
       [_creative, campaign, ...],
       fragment(
-        "not ? && ?::varchar[]",
+        "not ? && ?::varchar[] and not ? && ?::varchar[]",
         campaign.excluded_programming_languages,
-        ^property.programming_languages
-      )
-    )
-    |> where(
-      [_creative, campaign, ...],
-      fragment(
-        "not ? && ?::varchar[]",
+        ^property.programming_languages,
         campaign.excluded_topic_categories,
         ^property.topic_categories
       )

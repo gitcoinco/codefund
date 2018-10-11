@@ -167,7 +167,6 @@ defmodule AdService.Query.ForDisplayTest do
     end
 
     test "it returns advertisements by audience, included country and excluded advertisers", %{
-      property: property,
       campaign: campaign,
       creative: creative
     } do
@@ -187,6 +186,12 @@ defmodule AdService.Query.ForDisplayTest do
         included_countries: ["US"],
         user: insert(:user, company: "Foobar")
       )
+
+      property =
+        insert(:property, %{
+          programming_languages: ["Ruby", "C"],
+          topic_categories: []
+        })
 
       advertisement =
         AdService.Query.ForDisplay.build(property, "US", nil, ["Foobar"])
