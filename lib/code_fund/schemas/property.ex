@@ -41,7 +41,7 @@ defmodule CodeFund.Schema.Property do
     field(:topic_categories, {:array, :string})
     field(:screenshot_url, :string)
     field(:status, :integer, default: 0)
-    field(:excluded_advertisers, {:array, :string})
+    field(:excluded_advertisers, {:array, :string}, default: [])
     timestamps()
   end
 

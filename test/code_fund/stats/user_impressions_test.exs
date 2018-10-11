@@ -1,8 +1,6 @@
 defmodule CodeFund.Stats.UserImpressionsTest do
   use CodeFund.DataCase
   alias CodeFund.Stats.UserImpressions
-  alias CodeFund.Impressions
-  import CodeFund.Factory
 
   test "last_thirty_days initial state" do
     stats = UserImpressions.last_thirty_days()

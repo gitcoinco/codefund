@@ -237,6 +237,7 @@ defmodule CodeFundWeb.CampaignControllerTest do
                :end_date,
                :excluded_programming_languages,
                :excluded_topic_categories,
+               :fallback_campaign,
                :included_countries,
                :included_programming_languages,
                :included_topic_categories,

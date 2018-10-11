@@ -95,10 +95,12 @@ defmodule AdService.Impression.ManagerTest do
     test "it creates an error impression for the fallback ad if there are no possible ads for the property",
          %{conn: conn, cdn_host: cdn_host} do
       fallback_campaign =
-        insert(:campaign, creative: insert(:creative, small_image_asset: insert(:asset)))
+        insert(:campaign,
+          creative: insert(:creative, small_image_asset: insert(:asset)),
+          fallback_campaign: true
+        )
 
-      property =
-        insert(:property, audience: insert(:audience, fallback_campaign_id: fallback_campaign.id))
+      property = insert(:property)
 
       error_response =
         AdService.Impression.Details.new(conn, property, nil)

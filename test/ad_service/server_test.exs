@@ -588,18 +588,20 @@ defmodule AdService.ServerTest do
              }
     end
 
-    test "returns an error if property does not have a campaign but the audience has a fallback ad so it still creates an impression",
+    test "returns an error if property does not have a campaign but there is a fallback ad so it still creates an impression",
          %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
       fallback_campaign =
-        insert(:campaign, creative: insert(:creative, small_image_asset: insert(:asset)))
+        insert(:campaign,
+          creative: insert(:creative, small_image_asset: insert(:asset)),
+          fallback_campaign: true
+        )
 
       property =
         insert(:property,
           programming_languages: ["Ruby", "C"],
-          topic_categories: ["Programming"],
-          audience: insert(:audience, fallback_campaign_id: fallback_campaign.id)
+          topic_categories: ["Programming"]
         )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
@@ -621,9 +623,9 @@ defmodule AdService.ServerTest do
 
       impression = CodeFund.Impressions.list_impressions() |> List.first()
       assert impression.ip == "12.109.12.14"
+      assert impression.campaign_id == fallback_campaign.id
       assert impression.error_code == AdService.Impression.Errors.fetch_code(:no_possible_ads)
       assert impression.property_id == property.id
-      assert impression.campaign_id == fallback_campaign.id
       assert impression.browser_height == 800
       assert impression.browser_width == 1200
       assert impression.country == "US"
@@ -766,7 +768,10 @@ defmodule AdService.ServerTest do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
       fallback_campaign =
-        insert(:campaign, creative: insert(:creative, small_image_asset: insert(:asset)))
+        insert(:campaign,
+          fallback_campaign: true,
+          creative: insert(:creative, small_image_asset: insert(:asset))
+        )
 
       property =
         insert(:property,
