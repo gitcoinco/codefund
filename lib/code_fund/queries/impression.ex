@@ -2,8 +2,9 @@ defmodule CodeFund.Query.Impression do
   @moduledoc """
   Container for all queries on the `impressions` table.
 
-  Public methods in this module should only return `Ecto.Query`.
-  Consumers are responsible for actually fetching data from the `Repo`.
+  - Public methods should only return `Ecto.Query`.
+  - Public methods should be composable... accepting an `Ecto.Query` as an argument.
+  - Consumers are responsible for actually fetching data from the `Repo`.
   """
 
   use CodeFundWeb, :query

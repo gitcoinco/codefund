@@ -2,8 +2,9 @@ defmodule CodeFund.Query.UserImpression do
   @moduledoc """
   Container for all queries on the `user_impressions` table.
 
-  Public methods in this module should only return `Ecto.Query`.
-  Consumers are responsible for actually fetching data from the `Repo`.
+  - Public methods should only return `Ecto.Query`.
+  - Public methods should be composable... accepting an `Ecto.Query` as an argument.
+  - Consumers are responsible for actually fetching data from the `Repo`.
   """
 
   @schema CodeFund.Schema.UserImpression
@@ -48,7 +49,7 @@ defmodule CodeFund.Query.UserImpression do
   end
 
   def paid_impression_count_for_last_thirty_days(query \\ @schema) do
-    paid(query) |> impression_count_for_last_thirty_days()
+    query |> paid() |> impression_count_for_last_thirty_days()
   end
 
   def click_count_for_last_thirty_days(query \\ @schema) do
@@ -61,7 +62,7 @@ defmodule CodeFund.Query.UserImpression do
   end
 
   def paid_click_count_for_last_thirty_days(query \\ @schema) do
-    paid(query) |> click_count_for_last_thirty_days()
+    query |> paid() |> click_count_for_last_thirty_days()
   end
 
   def distribution_amount_for_last_thirty_days(query \\ @schema) do
