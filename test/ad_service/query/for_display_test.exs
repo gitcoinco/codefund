@@ -8,27 +8,6 @@ defmodule AdService.Query.ForDisplayTest do
     creative =
       insert(:creative, headline: "winning advertisement", wide_image_asset: insert(:asset))
 
-    insert(:audience, %{
-      programming_languages: ["Ruby", "C"],
-      topic_categories: ["Programming"]
-    })
-
-    insert(:audience, %{
-      programming_languages: ["Ruby", "C"],
-      topic_categories: ["Development"]
-    })
-
-    audience =
-      insert(:audience, %{
-        programming_languages: ["Ruby", "C"],
-        topic_categories: ["Programming"]
-      })
-
-    insert(:audience, %{
-      programming_languages: ["Java", "Rust"],
-      topic_categories: ["Development"]
-    })
-
     property =
       insert(:property, %{
         programming_languages: ["Ruby", "C"],
@@ -55,7 +34,6 @@ defmodule AdService.Query.ForDisplayTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience,
         included_programming_languages: ["Ruby"],
         included_topic_categories: ["Programming"],
         excluded_programming_languages: ["Rust"],
@@ -73,7 +51,6 @@ defmodule AdService.Query.ForDisplayTest do
       start_date: Timex.now() |> Timex.shift(days: -4) |> DateTime.to_naive(),
       end_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
       creative: creative,
-      audience: audience,
       included_programming_languages: ["Rust"],
       included_topic_categories: ["Development"],
       excluded_programming_languages: ["Ruby"],
@@ -94,8 +71,7 @@ defmodule AdService.Query.ForDisplayTest do
       included_topic_categories: ["Development"],
       excluded_programming_languages: ["Ruby"],
       excluded_topic_categories: ["Programming"],
-      included_countries: ["IN"],
-      audience: insert(:audience, %{programming_languages: ["Java", "Rust"]})
+      included_countries: ["IN"]
     )
 
     insert(
@@ -107,7 +83,6 @@ defmodule AdService.Query.ForDisplayTest do
       start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
       end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
       creative: creative,
-      audience: audience,
       included_programming_languages: ["Rust"],
       included_topic_categories: ["Development"],
       excluded_programming_languages: ["Ruby"],
@@ -119,7 +94,6 @@ defmodule AdService.Query.ForDisplayTest do
 
     {:ok,
      %{
-       audience: audience,
        creative: creative,
        campaign: campaign,
        cdn_host: cdn_host,
@@ -127,8 +101,8 @@ defmodule AdService.Query.ForDisplayTest do
      }}
   end
 
-  describe "fallback_ad_excluding_advertisers/1" do
-    test "it returns advertisements for the fallback ad in the audience the property is associated with",
+  describe "fallback_ad_by_property_id/1" do
+    test "it returns advertisements for the fallback ad from the pool",
          %{cdn_host: cdn_host} do
       fallback_campaign =
         insert(:campaign, fallback_campaign: true, user: insert(:user, company: "Acme"))
@@ -168,7 +142,7 @@ defmodule AdService.Query.ForDisplayTest do
              |> CodeFund.Repo.one()
     end
 
-    test "it returns advertisements by audience, included country and excluded advertisers", %{
+    test "it returns advertisements by tags, included country and excluded advertisers", %{
       campaign: campaign,
       creative: creative
     } do

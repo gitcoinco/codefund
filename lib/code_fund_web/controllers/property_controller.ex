@@ -119,14 +119,6 @@ defmodule CodeFundWeb.PropertyController do
 
   defp admin_fields() do
     [
-      audience_id: [
-        type: :select,
-        label: "Audience",
-        opts: [
-          choices: CodeFund.Audiences.list_audiences() |> FormHelpers.repo_objects_to_options(),
-          hint: "Which audience does this property belong to?"
-        ]
-      ],
       status: [
         type: :select,
         label: "Status",

@@ -95,7 +95,7 @@ defmodule CodeFundWeb.API.AdServeControllerTest do
   end
 
   describe "details" do
-    test "serves an ad if property has a campaign tied to an audience and creates an impression and records distribution and revenue amounts",
+    test "serves an ad if property has a matching campaign and creates an impression and records distribution and revenue amounts",
          %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 

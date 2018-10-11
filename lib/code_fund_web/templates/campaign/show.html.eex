@@ -37,10 +37,6 @@
               </tr>
             <% end %>
             <tr>
-              <td><strong>Audience</strong></td>
-              <td><%= if(not is_nil(@campaign.audience), do: @campaign.audience.name, else: "None") %></td>
-            </tr>
-            <tr>
               <td><strong>Name</strong></td>
               <td><%= @campaign.name %></td>
             </tr>

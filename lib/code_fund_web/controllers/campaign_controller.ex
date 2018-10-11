@@ -89,7 +89,7 @@ defmodule CodeFundWeb.CampaignController do
   end
 
   defp form_fields(is_admin, user) do
-    [audiences: audiences, creatives: creatives] = audiences_and_creatives_by_user(user)
+    [creatives: creatives] = and_creatives_by_user(user)
 
     fields = [
       user_id: [
@@ -121,13 +121,6 @@ defmodule CodeFundWeb.CampaignController do
         label: "Status",
         opts: [
           choices: CodeFund.Campaigns.statuses()
-        ]
-      ],
-      audience_id: [
-        type: :select,
-        label: "Audience",
-        opts: [
-          choices: audiences
         ]
       ],
       creative_id: [
@@ -248,7 +241,6 @@ defmodule CodeFundWeb.CampaignController do
     ]
 
     admin_only_fields = [
-      :audience_id,
       :ecpm,
       :excluded_programming_languages,
       :excluded_topic_categories,
@@ -272,11 +264,8 @@ defmodule CodeFundWeb.CampaignController do
     [fields: fields]
   end
 
-  defp audiences_and_creatives_by_user(user) do
+  defp and_creatives_by_user(user) do
     [
-      audiences:
-        CodeFund.Audiences.list_audiences()
-        |> FormHelpers.repo_objects_to_options(),
       creatives:
         CodeFund.Creatives.by_user_id(user.id)
         |> FormHelpers.repo_objects_to_options()

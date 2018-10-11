@@ -10,7 +10,7 @@ defmodule CodeFund.Campaigns do
 
   @pagination [page_size: 15]
   @pagination_distance 5
-  @default_preloads [:audience, :user, :creative, :budgeted_campaign]
+  @default_preloads [:user, :creative, :budgeted_campaign]
 
   @statuses [Pending: 1, Active: 2, Archived: 3]
   def statuses, do: @statuses
@@ -236,7 +236,6 @@ defmodule CodeFund.Campaigns do
       text(:name)
       text(:redirect_url)
       number(:status)
-      text(:audience_id)
       text(:creative_id)
       text(:description)
       text(:user_id)

@@ -230,7 +230,6 @@ defmodule CodeFundWeb.CampaignControllerTest do
 
       assert conn.assigns.fields |> Keyword.keys() |> Enum.sort() == [
                :active_dates,
-               :audience_id,
                :budget_daily_amount,
                :creative_id,
                :ecpm,

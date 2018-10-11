@@ -145,7 +145,7 @@ defmodule AdService.Impression.ManagerTest do
 
     test "it creates an error impression if there are no possible ads and no fallback campaign",
          %{conn: conn} do
-      property = insert(:property, audience: insert(:audience))
+      property = insert(:property)
 
       error_response =
         AdService.Impression.Details.new(conn, property, nil)
@@ -178,7 +178,7 @@ defmodule AdService.Impression.ManagerTest do
 
     test "it creates an error impression for other errors",
          %{conn: conn} do
-      property = insert(:property, audience: insert(:audience))
+      property = insert(:property)
 
       error_response =
         AdService.Impression.Details.new(conn, property, nil)

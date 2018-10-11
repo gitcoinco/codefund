@@ -22,14 +22,6 @@
               <div class="col-sm-2">
                 <%= select(f, :status, CodeFund.Properties.statuses, prompt: "-- Status --", class: "form-control selectize") %>
               </div>
-              <%= if has_any_role?(@conn, ["admin"]) do %>
-                <div class="col-sm-2">
-                  <%= select(f, :audience_id,
-                    CodeFund.Audiences.list_audiences
-                    |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control selectize")
-                  %>
-                </div>
-              <% end %>
             </div>
             <div class="row">
               <div class="col mt-2">
@@ -47,7 +39,6 @@
                   <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
                   <th></th>
                   <th><%= table_link(@conn, "Name", :name) %></th>
-                  <th><%= table_link(@conn, "Audience", :audience_id) %></th>
                   <%= if has_any_role? @conn, ["admin"] do %>
                     <th><%= table_link(@conn, "Slug", :slug) %></th>
                   <% end %>
@@ -69,7 +60,6 @@
                       <%= property.name %><br/>
                       <%= link truncate(property.url), to: property.url, target: "_blank" %>
                     </td>
-                    <td><%= if property.audience, do: property.audience.name, else: "Not Assigned" %></td>
                     <%= if has_any_role? @conn, ["admin"] do %>
                       <td><%= property.slug %></td>
                     <% end %>

@@ -45,14 +45,6 @@ defmodule CodeFund.Factory do
     }
   end
 
-  def audience_factory do
-    %CodeFund.Schema.Audience{
-      name: "Test Audience",
-      programming_languages: ["Ruby"],
-      topic_categories: ["Programming"]
-    }
-  end
-
   def creative_factory do
     %CodeFund.Schema.Creative{
       name: "Test Creative",

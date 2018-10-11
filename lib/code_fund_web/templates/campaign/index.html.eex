@@ -34,12 +34,6 @@
                 </div>
               <% end %>
               <div class="col-sm-2">
-                <%= select(f, :audience_id,
-                  CodeFund.Audiences.list_audiences
-                  |> Framework.Phoenix.Form.Helpers.repo_objects_to_options, prompt: "-- Audience --", class: "form-control selectize")
-                %>
-              </div>
-              <div class="col-sm-2">
                 <%= if has_any_role?(@conn, ["admin"]) do %>
                   <%= select(f, :creative_id,
                     CodeFund.Creatives.list_creatives
@@ -70,7 +64,6 @@
                 <tr>
                   <th class="text-center"><%= table_link(@conn, "Status", :status) %></th>
                   <th><%= table_link(@conn, "Name", :name) %></th>
-                  <th><%= table_link(@conn, "Audience", :audience_id) %> / <%= table_link(@conn, "Creative", :creative_id) %></th>
                   <th class="text-center">Dates<small class="d-block">(start / end)</small></th>
                   <th class="text-center"><%= table_link(@conn, "eCPM", :ecpm) %><small class="d-block">(actual / target)</small></th>
                   <th class="text-center"><%= table_link(@conn, "Impressions", :impression_count) %><small class="d-block">(actual / estimate)</small></th>
@@ -92,10 +85,6 @@
                           &nbsp;
                         <% end %>
                       </small>
-                    </td>
-                    <td>
-                      <%= if(not is_nil(campaign.audience), do: campaign.audience.name, else: "None") %>
-                      <small class="d-block"><%= if(not is_nil(campaign.creative), do: campaign.creative.name, else: "None") %></small>
                     </td>
                     <td class="text-center">
                       <%= pretty_date campaign.start_date %>
