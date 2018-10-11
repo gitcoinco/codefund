@@ -36,6 +36,7 @@ defmodule CodeFund.Schema.Campaign do
     field(:total_spend, :decimal, default: Decimal.new(0.0))
     field(:start_date, :naive_datetime)
     field(:end_date, :naive_datetime)
+    field(:fallback_campaign, :boolean, default: false)
     field(:us_hours_only, :boolean)
     field(:weekdays_only, :boolean)
 
@@ -53,7 +54,8 @@ defmodule CodeFund.Schema.Campaign do
     :impression_count,
     :budget_daily_amount,
     :total_spend,
-    :user_id
+    :user_id,
+    :fallback_campaign
   ]
 
   def required, do: @required

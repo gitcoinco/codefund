@@ -127,15 +127,17 @@ defmodule AdService.Query.ForDisplayTest do
      }}
   end
 
-  describe "fallback_ad_by_property_id/1" do
+  describe "fallback_ad_excluding_advertisers/1" do
     test "it returns advertisements for the fallback ad in the audience the property is associated with",
          %{cdn_host: cdn_host} do
-      fallback_campaign = insert(:campaign)
+      fallback_campaign =
+        insert(:campaign, fallback_campaign: true, user: insert(:user, company: "Acme"))
 
-      property =
-        insert(:property, audience: insert(:audience, fallback_campaign_id: fallback_campaign.id))
+      insert(:campaign, fallback_campaign: true, user: insert(:user, company: "Foobar"))
 
-      assert AdService.Query.ForDisplay.fallback_ad_by_property_id(property.id) ==
+      insert(:property, excluded_advertisers: ["Foobar"])
+
+      assert AdService.Query.ForDisplay.fallback_ad_excluding_advertisers(["Foobar"]) ==
                %AdService.UnrenderedAdvertisement{
                  body: "This is a Test Creative",
                  campaign_id: fallback_campaign.id,
@@ -167,7 +169,6 @@ defmodule AdService.Query.ForDisplayTest do
     end
 
     test "it returns advertisements by audience, included country and excluded advertisers", %{
-      property: property,
       campaign: campaign,
       creative: creative
     } do
@@ -187,6 +188,12 @@ defmodule AdService.Query.ForDisplayTest do
         included_countries: ["US"],
         user: insert(:user, company: "Foobar")
       )
+
+      property =
+        insert(:property, %{
+          programming_languages: ["Ruby", "C"],
+          topic_categories: []
+        })
 
       advertisement =
         AdService.Query.ForDisplay.build(property, "US", nil, ["Foobar"])

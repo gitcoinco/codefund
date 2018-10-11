@@ -4,16 +4,14 @@ defmodule AdService.Query.ForDisplay do
   alias CodeFund.Campaigns
   alias CodeFund.Schema.{Campaign, Creative, Impression, Property}
 
-  def fallback_ad_by_property_id(property_id) do
-    from(property in Property,
-      join: audience in assoc(property, :audience),
-      join: campaign in Campaign,
-      on: campaign.id == audience.fallback_campaign_id,
+  def fallback_ad_excluding_advertisers(excluded_advertisers \\ []) do
+    from(campaign in Campaign,
       join: creative in assoc(campaign, :creative),
       join: large_image_asset in assoc(creative, :large_image_asset),
       left_join: small_image_asset in assoc(creative, :small_image_asset),
       left_join: wide_image_asset in assoc(creative, :wide_image_asset),
-      where: property.id == ^property_id,
+      where: campaign.fallback_campaign == true,
+      where: campaign.id not in ^Campaigns.list_of_ids_for_companies(excluded_advertisers),
       select: %UnrenderedAdvertisement{
         body: creative.body,
         ecpm: campaign.ecpm,
@@ -47,15 +45,9 @@ defmodule AdService.Query.ForDisplay do
     |> where(
       [_creative, campaign, ...],
       fragment(
-        "? && ?::varchar[]",
+        "? && ?::varchar[] or ? && ?::varchar[]",
         campaign.included_programming_languages,
-        ^property.programming_languages
-      )
-    )
-    |> where(
-      [_creative, campaign, ...],
-      fragment(
-        "? && ?::varchar[]",
+        ^property.programming_languages,
         campaign.included_topic_categories,
         ^property.topic_categories
       )
@@ -63,15 +55,9 @@ defmodule AdService.Query.ForDisplay do
     |> where(
       [_creative, campaign, ...],
       fragment(
-        "not ? && ?::varchar[]",
+        "not ? && ?::varchar[] and not ? && ?::varchar[]",
         campaign.excluded_programming_languages,
-        ^property.programming_languages
-      )
-    )
-    |> where(
-      [_creative, campaign, ...],
-      fragment(
-        "not ? && ?::varchar[]",
+        ^property.programming_languages,
         campaign.excluded_topic_categories,
         ^property.topic_categories
       )

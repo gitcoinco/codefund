@@ -209,6 +209,14 @@ defmodule CodeFundWeb.CampaignController do
           """
         ]
       ],
+      fallback_campaign: [
+        type: :checkbox,
+        label: "Fallback Ad",
+        opts: [
+          hint:
+            "If checked, this campaign will run as a fallback campaign, if no other ads are available for a property."
+        ]
+      ],
       us_hours_only: [
         type: :checkbox,
         label: "US Hours Only",
@@ -244,6 +252,7 @@ defmodule CodeFundWeb.CampaignController do
       :ecpm,
       :excluded_programming_languages,
       :excluded_topic_categories,
+      :fallback_campaign,
       :included_countries,
       :included_programming_languages,
       :included_topic_categories,
