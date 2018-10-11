@@ -1,16 +1,24 @@
 defmodule CodeFund.Stats.UserImpressionsTest do
   use CodeFund.DataCase
-  alias CodeFund.Stats.UserImpressions, as: UserImpressionsStats
+  alias CodeFund.Stats.UserImpressions, as: UserImpressionStats
   alias CodeFund.Impressions
+  alias CodeFund.UserImpressions
   import CodeFund.Factory
 
   setup do
     System.put_env("USER_IMPRESSION_STATS_REFRESH_INTERVAL_IN_MINUTES", "0")
-    :ok
+
+    pid = Process.whereis(UserImpressionStats)
+
+    on_exit(fn ->
+      Process.exit(pid, :kill)
+    end)
+
+    {:ok, pid: pid}
   end
 
-  test "stats update after :refresh message sent to genserver" do
-    assert UserImpressionsStats.last_thirty_days() == %CodeFund.Stats.UserImpressions.State{
+  test "stats update after :refresh message sent to genserver", state do
+    assert UserImpressionStats.last_thirty_days() == %UserImpressionStats.State{
              click_count: 0,
              click_rate: 0.0,
              distribution_amount: 0.0,
@@ -39,19 +47,18 @@ defmodule CodeFund.Stats.UserImpressionsTest do
       timeout: :infinity
     )
 
-    pid = Process.whereis(UserImpressionsStats)
-    Process.send(pid, :refresh, [])
+    Process.send(state.pid, :refresh, [])
 
-    assert Enum.count(Impressions.list_impressions()) == 2
-    assert CodeFund.Schema.UserImpression |> CodeFund.Repo.all() |> length == 2
+    assert Impressions.count() == 2
+    assert UserImpressions.count() == 2
 
-    assert %CodeFund.Stats.UserImpressions.State{
+    assert %UserImpressionStats.State{
              click_count: 1,
              click_rate: 0.5,
              distribution_amount: distribution_amount,
              impression_count: 2,
              refreshed_at: date
-           } = UserImpressionsStats.last_thirty_days()
+           } = UserImpressionStats.last_thirty_days()
 
     assert date
     assert distribution_amount == Decimal.new("0.100000000000")

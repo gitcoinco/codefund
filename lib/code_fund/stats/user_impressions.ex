@@ -57,28 +57,23 @@ defmodule CodeFund.Stats.UserImpressions do
     click_count = click_count_for_last_thirty_days()
     paid_click_count = paid_click_count_for_last_thirty_days()
 
-    click_rate =
-      case click_count do
-        0 -> 0.0
-        _ -> click_count / impression_count
-      end
-
-    paid_click_rate =
-      case paid_click_count do
-        0 -> 0.0
-        _ -> paid_click_count / paid_impression_count
-      end
-
     %State{
       impression_count: impression_count,
       click_count: click_count,
-      click_rate: click_rate,
+      click_rate: click_rate(impression_count, click_count),
       paid_impression_count: paid_impression_count,
       paid_click_count: paid_click_count,
-      paid_click_rate: paid_click_rate,
+      paid_click_rate: click_rate(paid_impression_count, paid_click_count),
       distribution_amount: distribution_amount_for_last_thirty_days(),
       refreshed_at: Timex.now()
     }
+  end
+
+  defp click_rate(impression_count, click_count) do
+    case click_count do
+      0 -> 0.0
+      _ -> click_count / impression_count
+    end
   end
 
   defp impression_count_for_last_thirty_days() do

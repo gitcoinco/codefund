@@ -6,21 +6,33 @@ defmodule CodeFund.Query.UserImpression do
   Consumers are responsible for actually fetching data from the `Repo`.
   """
 
-  use CodeFundWeb, :query
   @schema CodeFund.Schema.UserImpression
+  use CodeFundWeb, :query
+
+  @doc """
+  Appends a count select to the passed query.
+
+  ## Examples
+
+    iex>CodeFund.Repo.to_sql :all, CodeFund.Query.UserImpression.count()
+    {"SELECT count(u0.\"id\") FROM \"user_impressions\" AS u0", []}
+  """
+  def count(query \\ @schema) do
+    from(record in query, select: count(record.id))
+  end
 
   def paid(query \\ @schema) do
-    from(user_impression in query,
-      where: user_impression.house_ad == false
+    from(record in query,
+      where: record.house_ad == false
     )
   end
 
   def last_thirty_days(query \\ @schema) do
-    from(user_impression in query,
+    from(record in query,
       where:
         fragment(
           "?::date between ?::date and ?::date",
-          user_impression.inserted_at,
+          record.inserted_at,
           ^thirty_days_ago_as_date(),
           ^now_as_date()
         )
@@ -30,8 +42,8 @@ defmodule CodeFund.Query.UserImpression do
   def impression_count_for_last_thirty_days(query \\ @schema) do
     query = query |> last_thirty_days()
 
-    from(user_impression in query,
-      select: count(user_impression.id)
+    from(record in query,
+      select: count(record.id)
     )
   end
 
@@ -42,9 +54,9 @@ defmodule CodeFund.Query.UserImpression do
   def click_count_for_last_thirty_days(query \\ @schema) do
     query = query |> last_thirty_days()
 
-    from(user_impression in query,
-      where: not is_nil(user_impression.redirected_at),
-      select: count(user_impression.id)
+    from(record in query,
+      where: not is_nil(record.redirected_at),
+      select: count(record.id)
     )
   end
 
@@ -55,8 +67,8 @@ defmodule CodeFund.Query.UserImpression do
   def distribution_amount_for_last_thirty_days(query \\ @schema) do
     query = query |> paid() |> last_thirty_days()
 
-    from(user_impression in query,
-      select: sum(user_impression.distribution_amount)
+    from(record in query,
+      select: sum(record.distribution_amount)
     )
   end
 
