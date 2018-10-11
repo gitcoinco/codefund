@@ -7,15 +7,15 @@ defmodule CodeFund.Query.UserImpression do
   """
 
   use CodeFundWeb, :query
-  alias CodeFund.Schema.UserImpression
+  @schema CodeFund.Schema.UserImpression
 
-  def paid(query \\ UserImpression) do
+  def paid(query \\ @schema) do
     from(user_impression in query,
       where: user_impression.house_ad == false
     )
   end
 
-  def last_thirty_days(query \\ UserImpression) do
+  def last_thirty_days(query \\ @schema) do
     from(user_impression in query,
       where:
         fragment(
@@ -27,7 +27,7 @@ defmodule CodeFund.Query.UserImpression do
     )
   end
 
-  def impression_count_for_last_thirty_days(query \\ UserImpression) do
+  def impression_count_for_last_thirty_days(query \\ @schema) do
     query = query |> last_thirty_days()
 
     from(user_impression in query,
@@ -35,11 +35,11 @@ defmodule CodeFund.Query.UserImpression do
     )
   end
 
-  def paid_impression_count_for_last_thirty_days(query \\ UserImpression) do
+  def paid_impression_count_for_last_thirty_days(query \\ @schema) do
     paid(query) |> impression_count_for_last_thirty_days()
   end
 
-  def click_count_for_last_thirty_days(query \\ UserImpression) do
+  def click_count_for_last_thirty_days(query \\ @schema) do
     query = query |> last_thirty_days()
 
     from(user_impression in query,
@@ -48,11 +48,11 @@ defmodule CodeFund.Query.UserImpression do
     )
   end
 
-  def paid_click_count_for_last_thirty_days(query \\ UserImpression) do
+  def paid_click_count_for_last_thirty_days(query \\ @schema) do
     paid(query) |> click_count_for_last_thirty_days()
   end
 
-  def distribution_amount_for_last_thirty_days(query \\ UserImpression) do
+  def distribution_amount_for_last_thirty_days(query \\ @schema) do
     query = query |> paid() |> last_thirty_days()
 
     from(user_impression in query,
