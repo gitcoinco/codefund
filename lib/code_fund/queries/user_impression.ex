@@ -36,7 +36,7 @@ defmodule CodeFund.Query.UserImpression do
   end
 
   def paid_impression_count_for_last_thirty_days(query \\ UserImpression) do
-    paid(query) |> last_thirty_days()
+    paid(query) |> impression_count_for_last_thirty_days()
   end
 
   def click_count_for_last_thirty_days(query \\ UserImpression) do
