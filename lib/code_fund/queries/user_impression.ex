@@ -1,4 +1,11 @@
 defmodule CodeFund.Query.UserImpression do
+  @moduledoc """
+  Container for all queries on the `user_impressions` table.
+
+  Public methods in this module should only return `Ecto.Query`.
+  Consumers are responsible for actually fetching data from the `Repo`.
+  """
+
   use CodeFundWeb, :query
   alias CodeFund.Schema.UserImpression
 
