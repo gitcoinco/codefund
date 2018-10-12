@@ -2,34 +2,32 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
   logEvent(event) {
-    const category = this.element.dataset.gaEventCategory;
-    const action = this.element.dataset.gaEventAction;
-    const label = this.element.dataset.gaEventLabel;
-    const value = this.element.dataset.gaEventValue;
+    const {
+      gaEventCategory,
+      gaEventAction,
+      gaEventLabel,
+      gaEventValue,
+    } = this.element.dataset;
+
+    const gaEventOptions = {
+      hitType: 'event',
+      eventCategory: gaEventCategory,
+      eventAction: gaEventAction,
+      eventLabel: gaEventLabel,
+      eventValue: gaEventValue,
+    };
 
     if (window.debugCodeFund) {
       event.preventDefault();
       event.stopPropagation();
-      console.log('Emitting GA event', category, action, label, value);
+      console.log('Emitting GA event', gaEventOptions);
     }
 
     try {
-      window.ga('send', 'event', {
-        eventCategory: category,
-        eventAction: action,
-        eventLabel: label,
-        eventValue: value,
-      });
+      window.ga('send', gaEventOptions);
     } catch (ex) {
       if (window.debugCodeFund) {
-        console.log(
-          'Failed to emit GA event',
-          category,
-          action,
-          label,
-          value,
-          ex.message
-        );
+        console.log('Failed to emit GA event', gaEventOptions, ex.message);
       }
     }
   }
