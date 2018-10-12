@@ -191,6 +191,24 @@ defmodule AdService.Query.ForDisplayTest do
         user: insert(:user, company: "Foobar")
       )
 
+      insert(
+        :campaign,
+        status: 2,
+        ecpm: Decimal.new("1.00"),
+        budget_daily_amount: Decimal.new(1),
+        total_spend: Decimal.new("100.00"),
+        start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
+        end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
+        creative: creative,
+        fallback_campaign: true,
+        included_programming_languages: ["Ruby"],
+        included_topic_categories: ["Programming"],
+        excluded_programming_languages: ["Rust"],
+        excluded_topic_categories: ["Development"],
+        included_countries: ["US"],
+        user: insert(:user, company: "Acme")
+      )
+
       property =
         insert(:property, %{
           programming_languages: ["Ruby", "C"],

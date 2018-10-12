@@ -67,6 +67,7 @@ defmodule AdService.Query.ForDisplay do
       [_creative, campaign, ...],
       campaign.id not in ^Campaigns.list_of_ids_for_companies(excluded_advertisers)
     )
+    |> where([_creative, campaign, ...], campaign.fallback_campaign == false)
     |> where([_creative, campaign, ...], campaign.status == 2)
     |> where([_creative, campaign, ...], campaign.start_date <= fragment("current_timestamp"))
     |> where([_creative, campaign, ...], campaign.end_date >= fragment("current_timestamp"))
