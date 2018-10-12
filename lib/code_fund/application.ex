@@ -16,7 +16,7 @@ defmodule CodeFund.Application do
       # worker(CodeFund.Worker, [arg1, arg2, arg3]),
       worker(CodeFundWeb.Notificator, [], restart: :transient),
       worker(AdService.Tracking.AnalyticsManager, [], restart: :transient),
-      worker(CodeFund.Stats.UserImpressions, [], restart: :transient),
+      worker(CodeFund.Stats.UserImpressions, [], restart: :permanent),
       :poolboy.child_spec(:worker, Application.get_env(:redix, :pool), restart: :transient)
     ]
 

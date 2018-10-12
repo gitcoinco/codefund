@@ -4,8 +4,8 @@ defmodule CodeFund.Impressions do
   """
 
   use CodeFundWeb, :query
-
   alias CodeFund.Schema.Impression
+  alias CodeFund.Query.Impression, as: Query
   import Framework.Ecto.Date
 
   @pagination [page_size: 15]
@@ -151,6 +151,10 @@ defmodule CodeFund.Impressions do
       "impression_count" => count(i.id)
     })
     |> CodeFund.Repo.one()
+  end
+
+  def count() do
+    Query.count() |> Repo.one()
   end
 
   defp filter_config(:impressions) do

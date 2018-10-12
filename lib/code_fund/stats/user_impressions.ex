@@ -1,7 +1,7 @@
 defmodule CodeFund.Stats.UserImpressions do
   use GenServer
-  use CodeFundWeb, :query
-  alias CodeFund.Schema.UserImpression
+  alias CodeFund.Query.UserImpression, as: Query
+  alias CodeFund.Repo
 
   @refresh_interval (System.get_env("USER_IMPRESSION_STATS_REFRESH_INTERVAL_IN_MINUTES") || 60)
                     |> to_string
@@ -12,6 +12,9 @@ defmodule CodeFund.Stats.UserImpressions do
     defstruct impression_count: 0,
               click_count: 0,
               click_rate: 0.0,
+              paid_impression_count: 0,
+              paid_click_count: 0,
+              paid_click_rate: 0.0,
               distribution_amount: 0.0,
               refreshed_at: nil
   end
@@ -50,62 +53,46 @@ defmodule CodeFund.Stats.UserImpressions do
 
   defp fetch_stats do
     impression_count = impression_count_for_last_thirty_days()
+    paid_impression_count = paid_impression_count_for_last_thirty_days()
     click_count = click_count_for_last_thirty_days()
-
-    click_rate =
-      case click_count do
-        0 -> 0.0
-        _ -> click_count / impression_count
-      end
+    paid_click_count = paid_click_count_for_last_thirty_days()
 
     %State{
       impression_count: impression_count,
       click_count: click_count,
-      click_rate: click_rate,
+      click_rate: click_rate(impression_count, click_count),
+      paid_impression_count: paid_impression_count,
+      paid_click_count: paid_click_count,
+      paid_click_rate: click_rate(paid_impression_count, paid_click_count),
       distribution_amount: distribution_amount_for_last_thirty_days(),
       refreshed_at: Timex.now()
     }
   end
 
+  defp click_rate(impression_count, click_count) do
+    case click_count do
+      0 -> 0.0
+      _ -> click_count / impression_count
+    end
+  end
+
   defp impression_count_for_last_thirty_days() do
-    from(user_impression in get_last_thirty_days(),
-      select: count(user_impression.id)
-    )
-    |> Repo.one()
+    Query.impression_count_for_last_thirty_days() |> Repo.one() || 0
+  end
+
+  defp paid_impression_count_for_last_thirty_days() do
+    Query.paid_impression_count_for_last_thirty_days() |> Repo.one() || 0
   end
 
   defp click_count_for_last_thirty_days do
-    from(user_impression in get_last_thirty_days(),
-      where: not is_nil(user_impression.redirected_at),
-      select: count(user_impression.id)
-    )
-    |> Repo.one()
+    Query.click_count_for_last_thirty_days() |> Repo.one() || 0
+  end
+
+  defp paid_click_count_for_last_thirty_days do
+    Query.paid_click_count_for_last_thirty_days() |> Repo.one() || 0
   end
 
   defp distribution_amount_for_last_thirty_days do
-    from(user_impression in get_last_thirty_days(),
-      select: sum(user_impression.distribution_amount)
-    )
-    |> Repo.one() || 0.0
-  end
-
-  defp get_last_thirty_days() do
-    from(user_impression in UserImpression,
-      where:
-        fragment(
-          "?::date between ?::date and ?::date",
-          user_impression.inserted_at,
-          ^start_date(),
-          ^now_as_date()
-        )
-    )
-  end
-
-  defp start_date() do
-    Timex.now() |> Timex.to_date() |> Timex.shift(days: -30) |> Timex.to_date()
-  end
-
-  defp now_as_date() do
-    Timex.now() |> Timex.to_date()
+    Query.distribution_amount_for_last_thirty_days() |> Repo.one() || 0.0
   end
 end
