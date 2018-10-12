@@ -12,6 +12,7 @@ defmodule AdService.Query.ForDisplay do
       left_join: wide_image_asset in assoc(creative, :wide_image_asset),
       where: campaign.fallback_campaign == true,
       where: campaign.id not in ^Campaigns.list_of_ids_for_companies(excluded_advertisers),
+      where: campaign.status == 2,
       select: %UnrenderedAdvertisement{
         body: creative.body,
         ecpm: campaign.ecpm,

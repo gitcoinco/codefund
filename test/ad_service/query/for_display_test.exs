@@ -130,10 +130,12 @@ defmodule AdService.Query.ForDisplayTest do
   describe "fallback_ad_excluding_advertisers/1" do
     test "it returns advertisements for the fallback ad in the audience the property is associated with",
          %{cdn_host: cdn_host} do
-      fallback_campaign =
-        insert(:campaign, fallback_campaign: true, user: insert(:user, company: "Acme"))
+      acme_user = insert(:user, company: "Acme")
+      fallback_campaign = insert(:campaign, fallback_campaign: true, user: acme_user)
 
-      insert(:campaign, fallback_campaign: true, user: insert(:user, company: "Foobar"))
+      insert(:campaign, fallback_campaign: true, status: 2, user: insert(:user, company: "Foobar"))
+
+      insert(:campaign, fallback_campaign: true, status: 3, user: acme_user)
 
       insert(:property, excluded_advertisers: ["Foobar"])
 
