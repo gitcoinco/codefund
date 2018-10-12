@@ -9,25 +9,28 @@ export default class extends Controller {
       gaEventValue,
     } = this.element.dataset;
 
-    const gaEventOptions = {
-      hitType: 'event',
-      eventCategory: gaEventCategory,
-      eventAction: gaEventAction,
-      eventLabel: gaEventLabel,
-      eventValue: gaEventValue,
+    const options = {
+      event_category: gaEventCategory,
+      event_label: gaEventLabel,
+      value: gaEventValue,
     };
 
     if (window.debugCodeFund) {
       event.preventDefault();
       event.stopPropagation();
-      console.log('Emitting GA event', gaEventOptions);
+      console.log('Emitting GA event', gaEventAction, options);
     }
 
     try {
-      window.ga('send', gaEventOptions);
+      window.gtag('event', gaEventAction, options);
     } catch (ex) {
       if (window.debugCodeFund) {
-        console.log('Failed to emit GA event', gaEventOptions, ex.message);
+        console.log(
+          'Failed to emit GA event',
+          gaEventAction,
+          options,
+          ex.message
+        );
       }
     }
   }
