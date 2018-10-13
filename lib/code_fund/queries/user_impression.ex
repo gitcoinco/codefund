@@ -10,14 +10,6 @@ defmodule CodeFund.Query.UserImpression do
   @schema CodeFund.Schema.UserImpression
   use CodeFundWeb, :query
 
-  @doc """
-  Appends a count select to the passed query.
-
-  ## Examples
-
-    iex>CodeFund.Repo.to_sql :all, CodeFund.Query.UserImpression.count()
-    {"SELECT count(u0.\"id\") FROM \"user_impressions\" AS u0", []}
-  """
   def count(query \\ @schema) do
     from(record in query, select: count(record.id))
   end

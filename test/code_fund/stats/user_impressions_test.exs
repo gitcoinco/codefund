@@ -5,27 +5,23 @@ defmodule CodeFund.Stats.UserImpressionsTest do
   alias CodeFund.UserImpressions
   import CodeFund.Factory
 
-  setup do
-    System.put_env("USER_IMPRESSION_STATS_REFRESH_INTERVAL_IN_MINUTES", "0")
+  test "stats initial state" do
+    Process.exit(Process.whereis(UserImpressionStats), :kill)
+    :timer.sleep(100)
 
-    pid = Process.whereis(UserImpressionStats)
-
-    on_exit(fn ->
-      Process.exit(pid, :kill)
-    end)
-
-    {:ok, pid: pid}
-  end
-
-  test "stats update after :refresh message sent to genserver", state do
     assert UserImpressionStats.last_thirty_days() == %UserImpressionStats.State{
+             impression_count: 0,
              click_count: 0,
              click_rate: 0.0,
+             paid_impression_count: 0,
+             paid_click_count: 0,
+             paid_click_rate: 0.0,
              distribution_amount: 0.0,
-             impression_count: 0,
              refreshed_at: nil
            }
+  end
 
+  test "stats update after :refresh message sent to genserver" do
     redirected_at = Timex.now()
     audience = insert(:audience)
     campaign = insert(:campaign, audience: audience, user: insert(:user, company: "Company Name"))
@@ -47,7 +43,7 @@ defmodule CodeFund.Stats.UserImpressionsTest do
       timeout: :infinity
     )
 
-    Process.send(state.pid, :refresh, [])
+    Process.send(Process.whereis(UserImpressionStats), :refresh, [])
 
     assert Impressions.count() == 2
     assert UserImpressions.count() == 2
