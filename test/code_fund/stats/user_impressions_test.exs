@@ -8,6 +8,7 @@ defmodule CodeFund.Stats.UserImpressionsTest do
   test "stats initial state" do
     Process.exit(Process.whereis(UserImpressionStats), :kill)
     :timer.sleep(100)
+
     assert UserImpressionStats.last_thirty_days() == %UserImpressionStats.State{
              impression_count: 0,
              click_count: 0,
