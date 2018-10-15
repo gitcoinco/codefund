@@ -16,39 +16,41 @@
     <div class="card-body">
 
       <section>
-        <%= if length(@users) > 0 do %>
-          <table class="table table-responsive-sm table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Company</th>
-                <th>Email</th>
-                <th class="text-center"># Properties</th>
-                <th>Roles</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <%= for user <- @users do %>
+        <div class="table-responsive">
+          <%= if length(@users) > 0 do %>
+            <table class="table table-responsive-sm table-striped">
+              <thead>
                 <tr>
-                  <td><%= "#{user.first_name} #{user.last_name}" %></td>
-                  <td><%= user.company %></td>
-                  <td><%= user.email %></td>
-                  <td class="text-center"><%= user.properties |> Enum.count %></td>
-                  <td><%= Enum.join user.roles, "," %></td>
-                  <td class="text-right p-2">
-                    <%= if(CodeFund.Users.has_role?(user.roles, ["developer"]), do: link("Make Distributions", to: user_distribution_path(@conn, :search, user), class: "btn btn-outline-info btn-sm"))%>
-                    <%= link "Masquerade", to: user_path(@conn, :masquerade, user), class: "btn btn-outline-warning btn-sm" %>
-                    <%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-outline-info btn-sm" %>
-                    <%= link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-outline-primary btn-sm" %>
-                  </td>
+                  <th>Name</th>
+                  <th>Company</th>
+                  <th>Email</th>
+                  <th class="text-center"># Properties</th>
+                  <th>Roles</th>
+                  <th></th>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% else %>
-          <p>No data matches your search</p>
-        <% end %>
+              </thead>
+              <tbody>
+                <%= for user <- @users do %>
+                  <tr>
+                    <td><%= "#{user.first_name} #{user.last_name}" %></td>
+                    <td><%= user.company %></td>
+                    <td><%= user.email %></td>
+                    <td class="text-center"><%= user.properties |> Enum.count %></td>
+                    <td><%= Enum.join user.roles, "," %></td>
+                    <td class="text-right p-2">
+                      <%= if(CodeFund.Users.has_role?(user.roles, ["developer"]), do: link("Make Distributions", to: user_distribution_path(@conn, :search, user), class: "btn btn-outline-info btn-sm"))%>
+                      <%= link "Masquerade", to: user_path(@conn, :masquerade, user), class: "btn btn-outline-warning btn-sm" %>
+                      <%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-outline-info btn-sm" %>
+                      <%= link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-outline-primary btn-sm" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <p>No data matches your search</p>
+          <% end %>
+        </div>
       </section>
     </div>
   </div>

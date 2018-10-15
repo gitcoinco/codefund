@@ -213,6 +213,12 @@
               <li class="nav-item"><a href="https://medium.com/codefund" target="_blank" class="nav-link u-header__nav-link">Blog</a></li>
               <%= active_link(@conn, "FAQ", to: page_path(@conn, :help), active: :exact, wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item"]) %>
 
+              <%= if Coherence.logged_in?(@conn) do %>
+                <%= active_link(@conn, "Dashboard", to: dashboard_path(@conn, :index), wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item d-md-none"]) %>
+              <% else %>
+                <%= active_link(@conn, "Login", to: session_path(@conn, :new), wrap_tag: :li, class: "nav-link u-header__nav-link", wrap_tag_opts: [class: "nav-item d-md-none"]) %>
+              <% end %>
+
               <!-- Button -->
               <li class="nav-item d-none d-md-inline-block pl-3 pr-0">
                 <%= if Coherence.logged_in?(@conn) do %>
