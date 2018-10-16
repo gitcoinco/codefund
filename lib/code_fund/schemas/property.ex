@@ -37,8 +37,8 @@ defmodule CodeFund.Schema.Property do
     field(:estimated_monthly_visitors, :integer)
     field(:alexa_site_rank, :integer)
     field(:language, :string)
-    field(:programming_languages, {:array, :string})
-    field(:topic_categories, {:array, :string})
+    field(:programming_languages, {:array, :string}, default: [])
+    field(:topic_categories, {:array, :string}, default: [])
     field(:screenshot_url, :string)
     field(:status, :integer, default: 0)
     field(:excluded_advertisers, {:array, :string}, default: [])
@@ -49,6 +49,9 @@ defmodule CodeFund.Schema.Property do
 
   @doc false
   def changeset(%Property{} = property, params) do
+    params =
+      params |> set_defaults_for_array_fields(["programming_languages", "topic_categories"])
+
     property
     |> cast(params, __MODULE__.__schema__(:fields) |> List.delete(:id))
     |> update_slug()
@@ -56,6 +59,21 @@ defmodule CodeFund.Schema.Property do
     |> unique_constraint(:slug)
     |> validate_url(:url)
     |> validate_url(:screenshot_url)
+  end
+
+  defp set_defaults_for_array_fields(params, fields) do
+    string_params =
+      for {key, val} <- params, into: %{} do
+        case is_atom(key) do
+          true -> {to_string(key), val}
+          false -> {key, val}
+        end
+      end
+
+    for field <- fields, into: %{} do
+      {field, ""}
+    end
+    |> Map.merge(string_params)
   end
 
   defp update_slug(%Ecto.Changeset{changes: %{name: name}} = changeset) do
