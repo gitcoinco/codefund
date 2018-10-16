@@ -31,7 +31,10 @@ defmodule CodeFund.Stats.UserImpressions do
 
   # Inside the spawned GenServer process
   def init(state) do
-    schedule_refresh(:timer.seconds(5))
+    60
+    |> :timer.seconds()
+    |> schedule_refresh()
+
     {:ok, state}
   end
 

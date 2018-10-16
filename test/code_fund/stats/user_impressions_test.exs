@@ -5,7 +5,7 @@ defmodule CodeFund.Stats.UserImpressionsTest do
   alias CodeFund.UserImpressions
   import CodeFund.Factory
 
-  test "stats initial state" do
+  setup do
     Process.exit(Process.whereis(UserImpressionStats), :kill)
     :timer.sleep(100)
 
@@ -19,9 +19,7 @@ defmodule CodeFund.Stats.UserImpressionsTest do
              distribution_amount: 0.0,
              refreshed_at: nil
            }
-  end
 
-  test "stats update after :refresh message sent to genserver" do
     redirected_at = Timex.now()
     audience = insert(:audience)
     campaign = insert(:campaign, audience: audience, user: insert(:user, company: "Company Name"))
@@ -43,6 +41,10 @@ defmodule CodeFund.Stats.UserImpressionsTest do
       timeout: :infinity
     )
 
+    :ok
+  end
+
+  test "stats update after :refresh message sent to genserver" do
     Process.send(Process.whereis(UserImpressionStats), :refresh, [])
 
     assert Impressions.count() == 2
