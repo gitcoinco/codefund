@@ -42,31 +42,30 @@ defmodule AdService.Server do
         details
 
       %Property{} = property ->
-        ImpressionDetails.new(conn, property, nil)
-        |> ImpressionDetails.put_request_origin(opts["request_origin"])
-        |> ImpressionDetails.put_error(:property_inactive)
-        |> ImpressionDetails.put_browser_details(
-          opts["height"],
-          opts["width"],
-          opts["user_agent"]
-        )
-        |> AdService.Impression.Manager.create_error_impression()
+        create_error_impression(conn, property, :property_inactive, opts)
 
       {:error, :is_bot} ->
         AdService.AdvertisementImpression.new({:error, :is_bot})
 
       {:error, reason_atom} ->
         property = CodeFund.Properties.get_property!(property_id)
+        create_error_impression(conn, property, reason_atom, opts)
 
-        ImpressionDetails.new(conn, property, nil)
-        |> ImpressionDetails.put_request_origin(opts["request_origin"])
-        |> ImpressionDetails.put_error(reason_atom)
-        |> ImpressionDetails.put_browser_details(
-          opts["height"],
-          opts["width"],
-          opts["user_agent"]
-        )
-        |> AdService.Impression.Manager.create_error_impression()
+      _ ->
+        property = CodeFund.Properties.get_property!(property_id)
+        create_error_impression(conn, property, :no_possible_ads, opts)
     end
+  end
+
+  defp create_error_impression(conn, property, reason_atom, opts) do
+    ImpressionDetails.new(conn, property, nil)
+    |> ImpressionDetails.put_request_origin(opts["request_origin"])
+    |> ImpressionDetails.put_error(reason_atom)
+    |> ImpressionDetails.put_browser_details(
+      opts["height"],
+      opts["width"],
+      opts["user_agent"]
+    )
+    |> AdService.Impression.Manager.create_error_impression()
   end
 end
