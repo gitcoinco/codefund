@@ -3,8 +3,7 @@ defmodule CodeFund.Stats.UserImpressions do
   alias CodeFund.Query.UserImpression, as: Query
   alias CodeFund.Repo
 
-  @refresh_interval (System.get_env("USER_IMPRESSION_STATS_REFRESH_INTERVAL_IN_MINUTES") || 60)
-                    |> to_string
+  @refresh_interval (System.get_env("USER_IMPRESSION_STATS_REFRESH_INTERVAL_IN_MINUTES") || "60")
                     |> String.to_integer()
                     |> :timer.minutes()
 
@@ -77,22 +76,22 @@ defmodule CodeFund.Stats.UserImpressions do
   end
 
   defp impression_count_for_last_thirty_days() do
-    Query.impression_count_for_last_thirty_days() |> Repo.one() || 0
+    Query.impression_count_for_last_thirty_days() |> Repo.one(timeout: :infinity) || 0
   end
 
   defp paid_impression_count_for_last_thirty_days() do
-    Query.paid_impression_count_for_last_thirty_days() |> Repo.one() || 0
+    Query.paid_impression_count_for_last_thirty_days() |> Repo.one(timeout: :infinity) || 0
   end
 
   defp click_count_for_last_thirty_days do
-    Query.click_count_for_last_thirty_days() |> Repo.one() || 0
+    Query.click_count_for_last_thirty_days() |> Repo.one(timeout: :infinity) || 0
   end
 
   defp paid_click_count_for_last_thirty_days do
-    Query.paid_click_count_for_last_thirty_days() |> Repo.one() || 0
+    Query.paid_click_count_for_last_thirty_days() |> Repo.one(timeout: :infinity) || 0
   end
 
   defp distribution_amount_for_last_thirty_days do
-    Query.distribution_amount_for_last_thirty_days() |> Repo.one() || 0.0
+    Query.distribution_amount_for_last_thirty_days() |> Repo.one(timeout: :infinity) || 0.0
   end
 end
