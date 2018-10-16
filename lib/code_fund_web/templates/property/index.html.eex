@@ -20,6 +20,12 @@
           <%= form_for @conn, property_path(@conn, :index), [as: :property, method: :get], fn f -> %>
             <div class="row">
               <div class="col-sm-2">
+                <%= text_input(f, :name, class: "form-control", placeholder: "Name") %>
+              </div>
+              <div class="col-sm-2">
+                <%= text_input(f, :slug, class: "form-control", placeholder: "Slug") %>
+              </div>
+              <div class="col-sm-2">
                 <%= select(f, :status, CodeFund.Properties.statuses, prompt: "-- Status --", class: "form-control selectize") %>
               </div>
               <%= if has_any_role?(@conn, ["admin"]) do %>
