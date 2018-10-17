@@ -42,6 +42,7 @@ defmodule CodeFund.Schema.Property do
     field(:screenshot_url, :string)
     field(:status, :integer, default: 0)
     field(:excluded_advertisers, {:array, :string}, default: [])
+    field(:css_override, :string)
     timestamps()
   end
 

@@ -122,6 +122,10 @@
                     <td><%= @property.no_api_house_ads %></td>
                   </tr>
                   <tr>
+                    <td><strong>CSS Override/strong></td>
+                    <td><%= @property.css_override %></td>
+                  </tr>
+                  <tr>
                     <td><strong>Preview</strong></td>
                     <td><%= if @property.screenshot_url, do: img_tag(@property.screenshot_url, height: "200px") %></td>
                   </tr>

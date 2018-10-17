@@ -97,6 +97,11 @@ defmodule CodeFundWeb.PropertyController do
         opts: [
           hint: "If this is checked, house ads will not display when serving ads via API."
         ]
+      ],
+      css_override: [
+        type: :textarea,
+        label: "CSS Override",
+        opts: [rows: 4, hint: "CSS entered here will override what is in the ad's theme."]
       ]
     ]
 

@@ -1,10 +1,12 @@
-if (!window.hasOwnProperty('_codefund_theme')) {
-  window._codefund_theme = '<%= @theme.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
+var safeSetProperty = function(property, value){
+  if (!window.hasOwnProperty(property)) {
+    window[property] = value;
+  }
 }
 
-if (!window.hasOwnProperty('_codefund_template')) {
-  window._codefund_template = '<%= @template.body |> String.replace("\r", "") |> String.replace("\n", "") %>';
-}
+safeSetProperty('_codefund_theme', '<%= @theme.body |> strip_white_space() %>');
+safeSetProperty('_codefund_template', '<%= @template.body |> strip_white_space() %>');
+safeSetProperty('_codefund_property_css', '<%= @property_css_override |> strip_white_space() %>');
 
 var buildJsonUrl = function(url){
     browserWidth = window.innerWidth;
@@ -43,7 +45,7 @@ var _codefund = {
   },
 
   addTheme: function() {
-    var css = this.decodeHtml(window._codefund_theme);
+    var css = this.decodeHtml(window._codefund_theme) + this.decodeHtml(window._codefund_property_css);
     var head = document.getElementsByTagName('head')[0];
     var s = document.createElement('style');
     s.setAttribute('type', 'text/css');

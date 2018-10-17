@@ -1,13 +1,15 @@
 defmodule CodeFundWeb.API.AdServeController do
   use CodeFundWeb, :controller
 
-  alias CodeFund.{Templates, Themes}
+  alias CodeFund.{Properties, Templates, Themes}
   alias CodeFund.Schema.{Theme, Template}
 
   def embed(conn, %{"property_id" => property_id} = params) do
     template_slug = Templates.slug_for_property_id(property_id, params["template"])
     theme_slug = params["theme"] || "light"
     target_id = params["target"] || "codefund_ad"
+
+    property = Properties.get_property!(property_id)
 
     with %Theme{template: %Template{}} = theme <-
            Themes.get_template_or_theme_by_slugs(theme_slug, template_slug),
@@ -19,7 +21,8 @@ defmodule CodeFundWeb.API.AdServeController do
         template: theme.template,
         targetId: target_id,
         theme: theme,
-        details_url: details_url
+        details_url: details_url,
+        property_css_override: property.css_override
       )
     else
       %Template{} = template ->
