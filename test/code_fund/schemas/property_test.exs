@@ -31,5 +31,20 @@ defmodule CodeFund.Schema.PropertyTest do
       SharedExample.ModelTests.url_validation_test(Property, :url, valid_attrs)
       SharedExample.ModelTests.url_validation_test(Property, :screenshot_url, valid_attrs)
     end
+
+    test "if nothing is passed in the params for a list column, it will set it to empty list", %{
+      valid_attrs: valid_attrs
+    } do
+      assert Property.changeset(%Property{}, %{}) |> get_field(:programming_languages) == []
+      assert Property.changeset(%Property{}, %{}) |> get_field(:topic_categories) == []
+
+      {:ok, property} = CodeFund.Properties.create_property(valid_attrs)
+
+      assert Property.changeset(property, %{topic_categories: ["Frontend Frameworks & Tools"]})
+             |> get_field(:programming_languages) == []
+
+      assert Property.changeset(property, %{programming_languages: ["Ruby"]})
+             |> get_field(:topic_categories) == []
+    end
   end
 end
