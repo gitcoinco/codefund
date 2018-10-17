@@ -258,6 +258,7 @@ defmodule CodeFund.Properties do
   defp filter_config(:properties) do
     defconfig do
       text(:name)
+      text(:slug)
       text(:url)
       text(:description)
       number(:status)
