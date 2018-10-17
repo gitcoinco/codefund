@@ -126,6 +126,12 @@
                     <td><%= if @property.screenshot_url, do: img_tag(@property.screenshot_url, height: "200px") %></td>
                   </tr>
                 <% end %>
+                <%= if has_any_role? @conn, ["admin"] do %>
+                  <tr>
+                    <td><%= link "Masquerade", to: user_path(@conn, :masquerade, @property.user ), class: "btn btn-outline-warning btn-sm" %></td>
+                    <td><%= link "Show", to: user_path(@conn, :show, @property.user ), class: "btn btn-outline-info btn-sm" %></td>
+                  </tr>
+                <% end %>
               </tbody>
             </table>
           </div>
