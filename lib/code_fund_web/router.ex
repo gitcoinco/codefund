@@ -6,6 +6,7 @@ defmodule CodeFundWeb.Router do
   end
 
   pipeline :browser do
+    use NewRelic.Transaction
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug(:fetch_flash)
@@ -15,6 +16,7 @@ defmodule CodeFundWeb.Router do
   end
 
   pipeline :protected do
+    use NewRelic.Transaction
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug(:fetch_flash)
@@ -25,6 +27,7 @@ defmodule CodeFundWeb.Router do
   end
 
   pipeline :protected_partials do
+    use NewRelic.Transaction
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug(:put_secure_browser_headers)
@@ -33,6 +36,8 @@ defmodule CodeFundWeb.Router do
   end
 
   pipeline :api do
+    use NewRelic.Transaction
+
     plug(
       Corsica,
       max_age: 600,
@@ -46,6 +51,7 @@ defmodule CodeFundWeb.Router do
   end
 
   pipeline :api_protected do
+    use NewRelic.Transaction
     plug(CodeFundWeb.Plugs.RequireAPIAccess)
   end
 
