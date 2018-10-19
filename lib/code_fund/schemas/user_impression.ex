@@ -9,7 +9,6 @@ defmodule CodeFund.Schema.UserImpression do
     field(:campaign_user_id, :binary_id)
     field(:property_user_id, :binary_id)
     field(:advertiser_company_name, :string)
-    field(:audience_name, :string)
     field(:campaign_name, :string)
     field(:country, :string)
     field(:distribution_amount, :decimal)

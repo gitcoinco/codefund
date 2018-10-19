@@ -20,7 +20,6 @@ defmodule CodeFund.Schema.BudgetedCampaign do
     field(:distribution_amount, :decimal)
     field(:total_impressions, :integer)
     field(:advertiser_company_name, :string)
-    field(:audience_name, :string)
     field(:creative_name, :string)
     field(:balance, :decimal)
     field(:actual_ecpm, :decimal)

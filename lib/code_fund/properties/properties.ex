@@ -67,14 +67,14 @@ defmodule CodeFund.Properties do
     case Enum.member?(user.roles, "admin") do
       true ->
         Property
-        |> preload([:user, :audience, :template])
+        |> preload([:user, :template])
         |> Filtrex.query(filter)
         |> order_by(^sort(params))
         |> paginate(Repo, params, @pagination)
 
       false ->
         Property
-        |> preload([:user, :audience, :template])
+        |> preload([:user, :template])
         |> Filtrex.query(filter)
         |> where([p], p.user_id == ^user.id)
         |> order_by(^sort(params))
@@ -125,27 +125,25 @@ defmodule CodeFund.Properties do
     try do
       case Ecto.UUID.cast(id) do
         {:ok, _} ->
-          Repo.get!(Property, id) |> Repo.preload([:user, :audience, :template])
+          Repo.get!(Property, id) |> Repo.preload([:user, :template])
 
         :error ->
-          Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :audience, :template])
+          Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :template])
       end
     rescue
       Ecto.NoResultsError ->
-        Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :audience, :template])
+        Repo.get_by!(Property, legacy_id: id) |> Repo.preload([:user, :template])
     end
   end
 
   def get_property_by_name!(name),
-    do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :audience, :template])
+    do: Repo.get_by!(Property, name: name) |> Repo.preload([:user, :template])
 
   def get_all_display_rates(%Property{} = property) do
     AdService.Query.ForDisplay.build(property, nil, nil)
     |> CodeFund.Repo.all()
     |> AdService.Math.Basic.get_all_display_rates()
   end
-
-  def get_all_display_rates(%Property{audience: nil}), do: []
 
   @doc """
   Creates a property.
@@ -262,7 +260,6 @@ defmodule CodeFund.Properties do
       text(:url)
       text(:description)
       number(:status)
-      text(:audience_id)
     end
   end
 end

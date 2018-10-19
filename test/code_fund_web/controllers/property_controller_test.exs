@@ -74,7 +74,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
       conn = get(conn, property_path(conn, :new))
 
       assert conn.assigns.fields |> Keyword.keys() == [
-               :audience_id,
                :status,
                :slug,
                :alexa_site_rank,
@@ -136,7 +135,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
                "Oops, something went wrong! Please check the errors below."
 
       assert conn.assigns.fields |> Keyword.keys() == [
-               :audience_id,
                :status,
                :slug,
                :alexa_site_rank,
@@ -190,7 +188,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
       assert html_response(conn, 200) =~ property.name
 
       assert conn.assigns.fields |> Keyword.keys() == [
-               :audience_id,
                :status,
                :slug,
                :alexa_site_rank,
@@ -264,7 +261,6 @@ defmodule CodeFundWeb.PropertyControllerTest do
                "Oops, something went wrong! Please check the errors below."
 
       assert conn.assigns.fields |> Keyword.keys() == [
-               :audience_id,
                :status,
                :slug,
                :alexa_site_rank,

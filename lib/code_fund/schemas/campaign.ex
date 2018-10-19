@@ -4,7 +4,6 @@ defmodule CodeFund.Schema.Campaign do
   import Framework.Ecto.Changeset.Date
 
   alias CodeFund.Schema.{
-    Audience,
     BudgetedCampaign,
     Campaign,
     Creative,
@@ -18,7 +17,6 @@ defmodule CodeFund.Schema.Campaign do
     has_many(:impressions, Impression)
     has_one(:campaign, Campaign, foreign_key: :fallback_campaign_id)
     has_one(:budgeted_campaign, BudgetedCampaign)
-    belongs_to(:audience, Audience)
     belongs_to(:creative, Creative)
     belongs_to(:user, User)
 

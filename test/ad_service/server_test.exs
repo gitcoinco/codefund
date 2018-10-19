@@ -28,9 +28,6 @@ defmodule AdService.ServerTest do
     } do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
-      audience_1 = insert(:audience, name: "right one")
-      audience_2 = insert(:audience, name: "wrong one")
-
       property =
         insert(:property, %{
           programming_languages: ["Ruby", "C"],
@@ -64,7 +61,6 @@ defmodule AdService.ServerTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience_1,
           included_programming_languages: ["Ruby"],
           included_topic_categories: ["Programming"],
           excluded_programming_languages: ["Rust"],
@@ -81,7 +77,6 @@ defmodule AdService.ServerTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience_2,
         included_programming_languages: ["Rust"],
         included_topic_categories: ["Programming"],
         excluded_programming_languages: ["Ruby", "C"],
@@ -239,16 +234,13 @@ defmodule AdService.ServerTest do
       assert advertisement == payload
     end
 
-    test "serves an ad if property has a campaign tied to an audience but has exceeded impression_count so it records an impression with an error",
+    test "serves an ad if property has a matching campaign but has exceeded impression_count so it records an impression with an error",
          %{conn: conn} do
       creative = insert(:creative, small_image_asset: insert(:asset))
-
-      audience = insert(:audience, name: "right one")
 
       property =
         insert(
           :property,
-          audience: audience,
           programming_languages: ["C"],
           topic_categories: ["Programming"]
         )
@@ -271,7 +263,6 @@ defmodule AdService.ServerTest do
           start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
           end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
           creative: creative,
-          audience: audience,
           included_programming_languages: ["C"],
           included_topic_categories: ["Programming"],
           excluded_programming_languages: ["Ruby"],
@@ -315,7 +306,7 @@ defmodule AdService.ServerTest do
       assert advertisement == payload
     end
 
-    test "serves an ad if property has a campaign tied to an audience and creates an impression without height and width",
+    test "serves an ad if property has a matching campaign and creates an impression without height and width",
          %{conn: conn, cdn_host: cdn_host} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
@@ -413,13 +404,7 @@ defmodule AdService.ServerTest do
          %{conn: conn} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
-      audience_1 = insert(:audience, name: "right one")
-
-      property =
-        insert(
-          :property,
-          audience: audience_1
-        )
+      property = insert(:property)
 
       insert(
         :campaign,
@@ -430,7 +415,6 @@ defmodule AdService.ServerTest do
         start_date: Timex.now() |> Timex.shift(days: -1) |> DateTime.to_naive(),
         end_date: Timex.now() |> Timex.shift(days: 1) |> DateTime.to_naive(),
         creative: creative,
-        audience: audience_1,
         included_countries: ["US"]
       )
 
@@ -545,8 +529,7 @@ defmodule AdService.ServerTest do
     test "returns an error if property does not have a campaign but still creates an impression",
          %{conn: conn} do
       creative = insert(:creative)
-      property = insert(:property, audience: insert(:audience))
-      audience = insert(:audience)
+      property = insert(:property)
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
 
@@ -556,8 +539,7 @@ defmodule AdService.ServerTest do
         ecpm: Decimal.new(1),
         budget_daily_amount: Decimal.new(1),
         total_spend: Decimal.new(1),
-        creative: creative,
-        audience: audience
+        creative: creative
       )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -612,8 +594,7 @@ defmodule AdService.ServerTest do
         ecpm: Decimal.new(1),
         budget_daily_amount: Decimal.new(1),
         total_spend: Decimal.new(1),
-        creative: creative,
-        audience: property.audience
+        creative: creative
       )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
@@ -668,7 +649,7 @@ defmodule AdService.ServerTest do
     test "returns an error if property is not active but still creates an impression", %{
       conn: conn
     } do
-      property = insert(:property, %{status: 0, audience: insert(:audience)})
+      property = insert(:property, %{status: 0})
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
 
@@ -700,7 +681,7 @@ defmodule AdService.ServerTest do
 
     test "returns an error if viewer is from a blocked country but still creates an impression",
          %{conn: conn} do
-      property = insert(:property, audience: insert(:audience))
+      property = insert(:property)
       conn = conn |> Map.put(:remote_ip, {163, 177, 112, 32})
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
@@ -730,7 +711,7 @@ defmodule AdService.ServerTest do
              }
     end
 
-    test "returns an error if property has no audience(for fallback) or programming languages or topic categories",
+    test "returns an error if property has no matching fallback ads or programming languages or topic categories",
          %{
            conn: conn
          } do
@@ -763,20 +744,18 @@ defmodule AdService.ServerTest do
     end
 
     test "returns an error and does not create impression if property does not have a campaign,
-      the audience has a fallback ad, but the property requests no house ads and the request is over api",
+      there is a fallback ad, but the property requests no house ads and the request is over api",
          %{conn: conn} do
       creative = insert(:creative, small_image_asset: insert(:asset))
 
-      fallback_campaign =
-        insert(:campaign,
-          fallback_campaign: true,
-          creative: insert(:creative, small_image_asset: insert(:asset))
-        )
+      insert(:campaign,
+        fallback_campaign: true,
+        creative: insert(:creative, small_image_asset: insert(:asset))
+      )
 
       property =
         insert(:property,
-          no_api_house_ads: true,
-          audience: insert(:audience, fallback_campaign_id: fallback_campaign.id)
+          no_api_house_ads: true
         )
 
       assert CodeFund.Impressions.list_impressions() |> Enum.count() == 0
@@ -787,8 +766,7 @@ defmodule AdService.ServerTest do
         ecpm: Decimal.new(1),
         budget_daily_amount: Decimal.new(1),
         total_spend: Decimal.new(1),
-        creative: creative,
-        audience: property.audience
+        creative: creative
       )
 
       conn = conn |> Map.put(:remote_ip, {12, 109, 12, 14})

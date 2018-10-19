@@ -94,7 +94,6 @@ defmodule CodeFundWeb.Router do
     get("/publisher_dashboard", DashboardController, :publisher_dashboard)
     get("/campaigns/:id/generate_fraud_check_url", CampaignController, :generate_fraud_check_url)
     resources("/assets", AssetController)
-    resources("/audiences", AudienceController)
 
     resources("/campaigns", CampaignController) do
       post("/duplicate", CampaignController, :duplicate)
@@ -135,7 +134,6 @@ defmodule CodeFundWeb.Router do
     get("/scripts/:property_id/embed.js", AdServeController, :embed)
     get("/t/s/:property_id/details.json", AdServeController, :details)
 
-    resources("/audience_metrics", AudienceMetricsController, only: [:index])
     get("/users/:user_id/creatives/index.json", User.CreativeController, :index)
 
     scope "/api/v1", V1 do
