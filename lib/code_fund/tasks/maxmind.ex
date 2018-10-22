@@ -3,12 +3,16 @@ defmodule Mix.Tasks.Maxmind.Setup do
 
   @shortdoc "Installs a geolocation database for development"
   def run(_) do
-    (System.get_env("MMDB_COUNTRY_LOCATION") ||
-       "http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz")
+    "MMDB_COUNTRY_LOCATION"
+    |> fallback_to_default(
+      "http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz"
+    )
     |> install_max_mind(:country)
 
-    (System.get_env("MMDB_CITY_LOCATION") ||
-       "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz")
+    "MMDB_CITY_LOCATION"
+    |> fallback_to_default(
+      "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
+    )
     |> install_max_mind(:city)
   end
 
@@ -46,5 +50,17 @@ defmodule Mix.Tasks.Maxmind.Setup do
 
     "rm"
     |> System.cmd(["-rf", tmp_dir <> "/" <> (file_name |> String.split("/") |> List.first())])
+  end
+
+  defp fallback_to_default(attribute, default) do
+    location =
+      attribute
+      |> System.get_env()
+      |> to_string
+
+    case location do
+      "" -> default
+      _ -> location
+    end
   end
 end
