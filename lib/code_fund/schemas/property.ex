@@ -14,7 +14,8 @@ defmodule CodeFund.Schema.Property do
     :property_type,
     :status,
     :user_id,
-    :slug
+    :slug,
+    :language
   ]
 
   @primary_key {:id, :binary_id, autogenerate: true}
