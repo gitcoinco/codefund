@@ -1,7 +1,7 @@
 defmodule CodeFund.Stats.UserImpressions do
   use GenServer
-  #alias CodeFund.Query.UserImpression, as: Query
-  #alias CodeFund.Repo
+  # alias CodeFund.Query.UserImpression, as: Query
+  # alias CodeFund.Repo
 
   @refresh_interval (System.get_env("USER_IMPRESSION_STATS_REFRESH_INTERVAL_IN_MINUTES") || "60")
                     |> String.to_integer()
@@ -54,12 +54,12 @@ defmodule CodeFund.Stats.UserImpressions do
   end
 
   defp fetch_stats do
-    #impression_count = impression_count_for_last_thirty_days()
-    #paid_impression_count = paid_impression_count_for_last_thirty_days()
-    #click_count = click_count_for_last_thirty_days()
-    #paid_click_count = paid_click_count_for_last_thirty_days()
+    # impression_count = impression_count_for_last_thirty_days()
+    # paid_impression_count = paid_impression_count_for_last_thirty_days()
+    # click_count = click_count_for_last_thirty_days()
+    # paid_click_count = paid_click_count_for_last_thirty_days()
 
-    #%State{
+    # %State{
     #  impression_count: impression_count,
     #  click_count: click_count,
     #  click_rate: click_rate(impression_count, click_count),
@@ -68,7 +68,7 @@ defmodule CodeFund.Stats.UserImpressions do
     #  paid_click_rate: click_rate(paid_impression_count, paid_click_count),
     #  distribution_amount: distribution_amount_for_last_thirty_days(),
     #  refreshed_at: Timex.now()
-    #}
+    # }
 
     %State{
       impression_count: 6_109_820,
@@ -82,30 +82,30 @@ defmodule CodeFund.Stats.UserImpressions do
     }
   end
 
-  #defp click_rate(impression_count, click_count) do
-    #case click_count do
-      #0 -> 0.0
-      #_ -> click_count / impression_count
-    #end
-  #end
+  # defp click_rate(impression_count, click_count) do
+  # case click_count do
+  # 0 -> 0.0
+  # _ -> click_count / impression_count
+  # end
+  # end
 
-  #defp impression_count_for_last_thirty_days() do
-    #Query.impression_count_for_last_thirty_days() |> Repo.one() || 0
-  #end
+  # defp impression_count_for_last_thirty_days() do
+  # Query.impression_count_for_last_thirty_days() |> Repo.one() || 0
+  # end
 
-  #defp paid_impression_count_for_last_thirty_days() do
-    #Query.paid_impression_count_for_last_thirty_days() |> Repo.one() || 0
-  #end
+  # defp paid_impression_count_for_last_thirty_days() do
+  # Query.paid_impression_count_for_last_thirty_days() |> Repo.one() || 0
+  # end
 
-  #defp click_count_for_last_thirty_days do
-    #Query.click_count_for_last_thirty_days() |> Repo.one() || 0
-  #end
+  # defp click_count_for_last_thirty_days do
+  # Query.click_count_for_last_thirty_days() |> Repo.one() || 0
+  # end
 
-  #defp paid_click_count_for_last_thirty_days do
-    #Query.paid_click_count_for_last_thirty_days() |> Repo.one() || 0
-  #end
+  # defp paid_click_count_for_last_thirty_days do
+  # Query.paid_click_count_for_last_thirty_days() |> Repo.one() || 0
+  # end
 
-  #defp distribution_amount_for_last_thirty_days do
-    #Query.distribution_amount_for_last_thirty_days() |> Repo.one() || 0.0
-  #end
+  # defp distribution_amount_for_last_thirty_days do
+  # Query.distribution_amount_for_last_thirty_days() |> Repo.one() || 0.0
+  # end
 end
