@@ -177,10 +177,7 @@
           <div class="position-relative">
             <div class="u-indicator-dots">
               <h4 class="display-4 text-primary mb-0">
-                <%= CodeFund.Stats.UserImpressions.last_thirty_days().paid_impression_count
-                    |> Number.Human.number_to_human()
-                    |> String.slice(0..5)
-                    |> String.replace(" ", "") %>
+                4.03M
               </h4>
             </div>
           </div>
@@ -195,8 +192,7 @@
           <div class="position-relative">
             <div class="u-indicator-dots">
               <h4 class="display-4 text-primary mb-0">
-                <%= CodeFund.Stats.UserImpressions.last_thirty_days().distribution_amount
-                    |> Number.Currency.number_to_currency(precision: 0)  %>
+                $6,153
               </h4>
             </div>
           </div>
@@ -210,9 +206,7 @@
         <div class="text-center">
           <div class="position-relative">
               <h4 class="display-4 text-primary mb-0">
-                <%= CodeFund.Stats.UserImpressions.last_thirty_days().paid_click_rate * 100
-                    |> Number.Percentage.number_to_percentage(precision: 2) %>
-                <br>
+                0.24%
               </h4>
           </div>
           <p class="mb-0">average paid<br>click through rate</p>
