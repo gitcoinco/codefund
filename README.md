@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/gitcoinco/codefund.svg?branch=master)](https://travis-ci.org/codesponsor/web)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codefund.io](https://codefund.io/t/s/76674f2b-a37b-4bf7-8e20-25d3913f0012/)
+CodeFund is an sponsorship platform to help fund open source projects and developers. Learn more at [https://codefund.io](https://codefund.io)
 
 <img src="https://codefund.io/t/p/76674f2b-a37b-4bf7-8e20-25d3913f0012/pixel.png" width="1" height="1" style="width: 1px; height: 1px;" />
 
